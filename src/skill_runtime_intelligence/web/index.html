@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Skill Run Panorama</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">LOCAL RUNTIME INTELLIGENCE</p>
+        <h1>Skill Run Panorama</h1>
+      </div>
+      <div class="privacy"><span></span> Local · Read-only</div>
+    </header>
+
+    <main>
+      <section class="runs-panel">
+        <div class="section-heading">
+          <div>
+            <h2>Runs</h2>
+            <p id="run-count">Loading local sessions…</p>
+          </div>
+          <input id="run-filter" type="search" placeholder="Filter runs, projects, Skills">
+        </div>
+        <div id="runs" class="run-list"></div>
+      </section>
+
+      <section id="empty-detail" class="empty-detail">
+        <div class="empty-mark">◎</div>
+        <h2>Select a run</h2>
+        <p>Inspect its Skill lifecycle, trusted timeline, and source evidence.</p>
+      </section>
+
+      <section id="run-detail" class="run-detail hidden">
+        <div class="detail-header">
+          <div>
+            <p id="detail-meta" class="eyebrow"></p>
+            <h2 id="detail-title"></h2>
+            <p id="narrative" class="narrative"></p>
+          </div>
+          <div id="detail-status"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">
+            <h3>Skill lifecycle</h3>
+            <p>Missing evidence is shown as not observed, never as failure.</p>
+          </div>
+          <div id="panorama" class="panorama"></div>
+        </div>
+
+        <div class="detail-grid">
+          <div class="panel">
+            <div class="panel-title">
+              <h3>Trusted timeline</h3>
+              <p>Chronological normalized events</p>
+            </div>
+            <div id="timeline" class="timeline"></div>
+          </div>
+          <aside class="panel inspector">
+            <div class="panel-title">
+              <h3>Evidence inspector</h3>
+              <p>Select an event to inspect its basis.</p>
+            </div>
+            <div id="inspector" class="inspector-body muted">No event selected.</div>
+          </aside>
+        </div>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

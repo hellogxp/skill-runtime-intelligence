@@ -1,0 +1,19 @@
+"""Compatibility packaging for Python environments with pre-PEP 660 pip."""
+
+from setuptools import find_packages, setup
+
+
+setup(
+    name="skill-runtime-intelligence",
+    version="0.1.0",
+    description="Local-first, evidence-graded Agent Skill runtime intelligence",
+    python_requires=">=3.9",
+    package_dir={"": "src"},
+    packages=find_packages("src"),
+    package_data={"skill_runtime_intelligence": ["web/*"]},
+    entry_points={
+        "console_scripts": [
+            "skill-panorama=skill_runtime_intelligence.cli:main",
+        ]
+    },
+)
