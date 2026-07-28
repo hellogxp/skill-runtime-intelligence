@@ -12,12 +12,40 @@ from .storage import Storage
 
 
 class PanoramaHandler(BaseHTTPRequestHandler):
-    server_version = "SkillPanorama/0.1"
+    server_version = "SkillRuntime/0.1"
 
     def do_GET(self) -> None:  # noqa: N802 - stdlib handler API
         path = urlparse(self.path).path
         if path == "/api/health":
-            self._json({"ok": True, "local": True})
+            self._with_storage(
+                lambda storage: self._json(
+                    {"ok": True, "local": True, "counts": storage.counts()}
+                )
+            )
+            return
+        if path == "/api/skill-runs":
+            self._with_storage(
+                lambda storage: self._json(
+                    {"skill_runs": storage.list_skill_runs()}
+                )
+            )
+            return
+        if path.startswith("/api/skill-runs/"):
+            skill_run_id = unquote(path[len("/api/skill-runs/"):])
+
+            def get_skill_run(storage: Storage) -> None:
+                run = storage.get_skill_run(skill_run_id)
+                if run is None:
+                    self._json({"error": "SkillRun not found"}, HTTPStatus.NOT_FOUND)
+                else:
+                    self._json(run)
+
+            self._with_storage(get_skill_run)
+            return
+        if path == "/api/sources":
+            self._with_storage(
+                lambda storage: self._json({"sources": storage.list_sources()})
+            )
             return
         if path == "/api/runs":
             self._with_storage(lambda storage: self._json({"runs": storage.list_runs()}))
@@ -85,7 +113,7 @@ class PanoramaHandler(BaseHTTPRequestHandler):
 def serve(database: Path, host: str = "127.0.0.1", port: int = 4317) -> None:
     server = ThreadingHTTPServer((host, port), PanoramaHandler)
     server.database_path = database.expanduser().resolve()  # type: ignore[attr-defined]
-    print(f"Skill Run Panorama: http://{host}:{port}")
+    print(f"Skill Runtime Intelligence: http://{host}:{port}")
     print(f"Database: {server.database_path}")
     print("Local-only server. Press Ctrl-C to stop.")
     try:

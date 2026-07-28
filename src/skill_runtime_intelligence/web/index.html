@@ -3,72 +3,167 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Skill Run Panorama</title>
+    <meta name="color-scheme" content="dark">
+    <title>Skill Runtime Intelligence</title>
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
+    <div class="ambient ambient-a"></div>
+    <div class="ambient ambient-b"></div>
     <header class="topbar">
-      <div>
-        <p class="eyebrow">LOCAL RUNTIME INTELLIGENCE</p>
-        <h1>Skill Run Panorama</h1>
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <i></i><i></i><i></i>
+        </span>
+        <span>
+          <strong>Skill Runtime</strong>
+          <small>Evidence intelligence</small>
+        </span>
       </div>
-      <div class="privacy"><span></span> Local · Read-only</div>
+      <div class="top-actions">
+        <div id="source-summary" class="source-summary">Reading adapters…</div>
+        <span class="connection"><i></i> Local · Read-only</span>
+        <button id="refresh" class="icon-button" type="button" aria-label="Refresh index view" title="Refresh">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>
+        </button>
+      </div>
     </header>
 
-    <main>
-      <section class="runs-panel">
-        <div class="section-heading">
-          <div>
-            <h2>Runs</h2>
-            <p id="run-count">Loading local sessions…</p>
+    <main class="workspace">
+      <aside class="run-pane">
+        <div class="pane-head">
+          <p class="eyebrow">RUNTIME INDEX</p>
+          <div class="pane-title">
+            <h1>SkillRuns</h1>
+            <span id="run-count" class="count">—</span>
           </div>
-          <input id="run-filter" type="search" placeholder="Filter runs, projects, Skills">
+          <p class="pane-copy">Skill execution is primary. Agent sessions remain context.</p>
+          <label class="search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+            <input id="run-filter" type="search" placeholder="Filter Skill, project, adapter">
+          </label>
+          <div class="filters" role="group" aria-label="Run status filter">
+            <button class="filter active" type="button" data-filter="all">All</button>
+            <button class="filter" type="button" data-filter="completed">Completed</button>
+            <button class="filter" type="button" data-filter="incomplete">Incomplete</button>
+            <button class="filter" type="button" data-filter="failed">Failed</button>
+          </div>
         </div>
-        <div id="runs" class="run-list"></div>
-      </section>
+        <div id="runs" class="run-list" aria-live="polite"></div>
+      </aside>
 
       <section id="empty-detail" class="empty-detail">
-        <div class="empty-mark">◎</div>
-        <h2>Select a run</h2>
-        <p>Inspect its Skill lifecycle, trusted timeline, and source evidence.</p>
+        <div class="empty-orbit"><span></span></div>
+        <p class="eyebrow">SKILL RUNTIME PANORAMA</p>
+        <h2>Select a SkillRun</h2>
+        <p>Follow its lifecycle from request context through observable outcome.</p>
+        <div class="evidence-legend">
+          <span><i class="shape observed"></i>Observed</span>
+          <span><i class="shape derived"></i>Derived</span>
+          <span><i class="shape inferred"></i>Inferred</span>
+          <span><i class="shape experimental"></i>Experimental</span>
+        </div>
       </section>
 
       <section id="run-detail" class="run-detail hidden">
-        <div class="detail-header">
-          <div>
-            <p id="detail-meta" class="eyebrow"></p>
-            <h2 id="detail-title"></h2>
-            <p id="narrative" class="narrative"></p>
-          </div>
-          <div id="detail-status"></div>
-        </div>
+        <div class="detail-scroll">
+          <header class="detail-head">
+            <div>
+              <p id="detail-context" class="eyebrow"></p>
+              <div class="title-row">
+                <h2 id="detail-title"></h2>
+                <span id="detail-status"></span>
+              </div>
+              <p id="detail-description" class="detail-description"></p>
+            </div>
+          </header>
 
-        <div class="panel">
-          <div class="panel-title">
-            <h3>Skill lifecycle</h3>
-            <p>Missing evidence is shown as not observed, never as failure.</p>
-          </div>
-          <div id="panorama" class="panorama"></div>
-        </div>
+          <section class="metrics" aria-label="SkillRun summary">
+            <article class="metric">
+              <span>Evidence coverage</span>
+              <strong id="metric-coverage">—</strong>
+              <div class="coverage-track"><i id="coverage-fill"></i></div>
+            </article>
+            <article class="metric">
+              <span>Activation mode</span>
+              <strong id="metric-activation">—</strong>
+              <small id="metric-activation-grade">—</small>
+            </article>
+            <article class="metric">
+              <span>Attributed events</span>
+              <strong id="metric-events">—</strong>
+              <small id="metric-relationships">—</small>
+            </article>
+            <article class="metric">
+              <span>First evidence gap</span>
+              <strong id="metric-gap">—</strong>
+              <small>absence is not failure</small>
+            </article>
+          </section>
 
-        <div class="detail-grid">
-          <div class="panel">
-            <div class="panel-title">
-              <h3>Trusted timeline</h3>
-              <p>Chronological normalized events</p>
+          <section class="panel panorama-panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">LIFECYCLE GRAPH</p>
+                <h3>Skill Runtime Panorama</h3>
+              </div>
+              <div class="evidence-legend compact">
+                <span><i class="shape observed"></i>Observed</span>
+                <span><i class="shape derived"></i>Derived</span>
+                <span><i class="shape inferred"></i>Inferred</span>
+              </div>
+            </div>
+            <div class="dag-shell">
+              <div id="panorama" class="panorama"></div>
+            </div>
+          </section>
+
+          <section class="panel narrative-panel">
+            <div class="narrative-mark">∴</div>
+            <div>
+              <p class="eyebrow">EVIDENCE-BACKED RECONSTRUCTION</p>
+              <p id="narrative" class="narrative"></p>
+            </div>
+          </section>
+
+          <section class="panel timeline-panel">
+            <div class="section-head timeline-head">
+              <div>
+                <p class="eyebrow">TRUSTED CHRONOLOGY</p>
+                <h3>Runtime evidence</h3>
+              </div>
+              <select id="event-filter" aria-label="Filter timeline by lifecycle stage">
+                <option value="all">All stages</option>
+                <option value="request">Request</option>
+                <option value="activation">Activation</option>
+                <option value="instructions">Instructions</option>
+                <option value="resources">Resources</option>
+                <option value="execution">Execution</option>
+                <option value="artifacts">Artifacts</option>
+                <option value="outcome">Outcome</option>
+              </select>
             </div>
             <div id="timeline" class="timeline"></div>
-          </div>
-          <aside class="panel inspector">
-            <div class="panel-title">
-              <h3>Evidence inspector</h3>
-              <p>Select an event to inspect its basis.</p>
-            </div>
-            <div id="inspector" class="inspector-body muted">No event selected.</div>
-          </aside>
+          </section>
         </div>
+
+        <aside class="inspector-pane">
+          <div class="inspector-head">
+            <div>
+              <p class="eyebrow">EVIDENCE INSPECTOR</p>
+              <h3>Why this is attributed</h3>
+            </div>
+            <span id="inspector-grade"></span>
+          </div>
+          <div id="inspector" class="inspector empty-inspector">
+            <div class="inspector-orbit"></div>
+            <p>Select a lifecycle node or timeline event.</p>
+            <small>Source facts and attribution are shown separately.</small>
+          </div>
+          <div id="capabilities" class="capabilities"></div>
+        </aside>
       </section>
     </main>
-    <script src="/app.js"></script>
+    <script src="/app.js" defer></script>
   </body>
 </html>

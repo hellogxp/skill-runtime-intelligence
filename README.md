@@ -85,7 +85,7 @@ The MVP supports Claude Code and Codex and provides:
 
 The MVP does **not** include a marketplace, universal agent runtime, security enforcement, enterprise governance, or causal-effect claims.
 
-## Try the current vertical slice
+## Try the SkillRun-first runtime
 
 The baseline implementation has no runtime dependencies beyond Python 3.9+.
 From the repository root:
@@ -109,7 +109,8 @@ This command:
 1. scans user, project, and cached-plugin Skill locations;
 2. reads existing Codex JSONL sessions without modifying them;
 3. writes a local SQLite index to `.sri/panorama.db`;
-4. serves the Runs list, lifecycle panorama, timeline, and evidence inspector.
+4. reconstructs independent SkillRuns and their evidence relationships;
+5. serves the SkillRun list, lifecycle panorama, timeline, and attribution inspector.
 
 To index and serve separately:
 
@@ -117,6 +118,19 @@ To index and serve separately:
 PYTHONPATH=src python3 -m skill_runtime_intelligence index
 PYTHONPATH=src python3 -m skill_runtime_intelligence serve
 ```
+
+Import an existing trace export from a mainstream observability system:
+
+```bash
+PYTHONPATH=src python3 -m skill_runtime_intelligence import \
+  ./trace-export.json \
+  --format auto
+```
+
+The versioned import profiles currently recognize OTLP/Phoenix, Langfuse,
+LangSmith, W&B Weave, and Datadog JSON shapes. They only create a SkillRun when
+the source carries explicit Skill semantics; generic span names are not treated
+as activation evidence.
 
 The server binds to `127.0.0.1` by default. Full transcript messages and tool
 payloads are not copied into the index. Common secret patterns are redacted
@@ -135,6 +149,7 @@ PYTHONPATH=src python3 -m unittest discover -s tests -v
 - [Runtime event model](docs/runtime-event-model.md)
 - [UI information architecture](docs/ui-information-architecture.md)
 - [Adapter capability matrix](docs/adapter-capability-matrix.md)
+- [Observability interoperability](docs/observability-interoperability.md)
 - [Research and competitive landscape](docs/research-and-competitive-landscape.md)
 - [Research paper agenda](docs/research-paper-agenda.md)
 
@@ -146,7 +161,10 @@ PYTHONPATH=src python3 -m unittest discover -s tests -v
 
 ## Project status
 
-An initial Codex vertical slice is runnable: Skill discovery, passive session
-indexing, redaction, evidence-graded normalized events, SQLite storage, a local
-API, and the Skill Run Panorama UI. Claude Code ingestion, artifact attribution,
-subagent reconstruction, and controlled evaluation remain planned work.
+A SkillRun-first Codex runtime is runnable: Skill discovery, passive session
+indexing, active-scope attribution, exact patch artifact evidence, redaction,
+separate source/relationship evidence, SQLite storage, a local API, and the
+Skill Runtime Panorama UI. A vendor-neutral JSON import layer supports
+OTLP/Phoenix, Langfuse, LangSmith, W&B Weave, and Datadog profiles. Claude Code
+ingestion, richer non-patch artifact attribution, live local hooks, and
+controlled evaluation remain planned work.

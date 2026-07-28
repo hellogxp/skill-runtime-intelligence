@@ -7,7 +7,8 @@ from pathlib import Path
 from typing import List
 
 from .discovery import default_skill_roots
-from .indexer import index_local
+from .adapters import SUPPORTED_PROFILES
+from .indexer import import_observability, index_local, watch_local
 from .server import serve
 
 
@@ -65,6 +66,26 @@ def build_parser() -> argparse.ArgumentParser:
     _index_args(dev_parser)
     dev_parser.add_argument("--host", default="127.0.0.1")
     dev_parser.add_argument("--port", type=int, default=4317)
+    dev_parser.add_argument(
+        "--watch-interval",
+        type=float,
+        default=2.0,
+        help="Seconds between incremental transcript checks (default: 2)",
+    )
+
+    import_parser = subparsers.add_parser(
+        "import", help="Import Skill runtime evidence from an observability export"
+    )
+    import_parser.add_argument("source", type=_path, help="JSON export path")
+    import_parser.add_argument(
+        "--format",
+        choices=("auto",) + SUPPORTED_PROFILES,
+        default="auto",
+        help="Source profile; auto detects common export shapes",
+    )
+    import_parser.add_argument(
+        "--database", type=_path, default=Path(".sri/panorama.db")
+    )
     return parser
 
 
@@ -76,4 +97,19 @@ def main(argv=None) -> None:
         serve(args.database, args.host, args.port)
     elif args.command == "dev":
         _run_index(args)
+        watcher = threading.Thread(
+            target=watch_local,
+            args=(
+                args.database,
+                args.codex_sessions,
+                _roots(args),
+                args.watch_interval,
+            ),
+            daemon=True,
+            name="skill-runtime-watch",
+        )
+        watcher.start()
         serve(args.database, args.host, args.port)
+    elif args.command == "import":
+        result = import_observability(args.database, args.source, args.format)
+        print(json.dumps(result, ensure_ascii=False, indent=2))

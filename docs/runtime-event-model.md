@@ -56,6 +56,7 @@ AgentInstallation
 ### SkillRun
 
 - Skill identity and digest;
+- independent occurrence identity within a turn;
 - activation mode: explicit tool, slash command, automatic, inferred, unknown;
 - activation and end events;
 - evidence grade;
@@ -90,6 +91,10 @@ Every normalized event should support:
 ```
 
 Raw source content should not be duplicated into every normalized event. Store an opaque locator and a redacted summary.
+
+An event's existence and its relationship to a SkillRun are separate claims.
+For example, a tool call can be Observed while the active-scope relationship
+connecting it to a SkillRun is Derived.
 
 ## 5. Event types
 
@@ -232,5 +237,10 @@ inferences
 experimental_results
 ```
 
-This separation allows re-normalization when an adapter changes without contaminating source evidence.
+The initial relationship vocabulary includes:
 
+- `source_parent` — deterministic source parent or call ID;
+- `skill_scope` — direct Skill evidence or active Skill scope;
+- `runtime_context` — request/outcome sharing the SkillRun turn boundary.
+
+This separation allows re-normalization when an adapter changes without contaminating source evidence.

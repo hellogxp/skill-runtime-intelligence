@@ -2,7 +2,7 @@
 
 Status: implemented baseline
 Adapter: Codex JSONL
-Adapter version: `0.1.0`
+Adapter version: `0.2.0`
 
 This matrix records what the current adapter can establish from observed local
 records. An unsupported signal remains absent; it is never silently inferred.
@@ -19,7 +19,7 @@ records. An unsupported signal remains absent; it is never silently inferred.
 | Other Skill resource access | Observed at Skill-directory scope | exact directory path in tool input |
 | Skill activation from instruction loading | Unsupported | loading does not prove activation mode |
 | Candidate Skill matching | Unsupported | current source does not expose candidates |
-| Files and artifacts | Unsupported in baseline | planned exact-path attribution |
+| Files and artifacts | Partial | exact `patch_apply_end.changes` paths |
 | Subagents | Unsupported in baseline | planned source-event mapping |
 | Token and cost totals | Unsupported in baseline | source schema investigation pending |
 | Outcome verification | Unsupported | agent completion is only a reported outcome |
@@ -41,3 +41,14 @@ records. An unsupported signal remains absent; it is never silently inferred.
   matching completion record.
 - The source format is not a public stability contract. Sanitized fixtures and
   the adapter version must be updated together when it changes.
+
+## Skill scope attribution
+
+The adapter creates one SkillRun per `(session, turn, Skill)` rather than one
+per agent session. An exact Skill path or explicit invocation opens the Skill
+scope. Subsequent tool events in the same turn are connected to that SkillRun
+with a Derived `skill_scope` relationship. The source tool event remains
+Observed; its Skill attribution has an independent evidence grade.
+
+Request and outcome events in the same turn are connected as Derived
+`runtime_context`. They are not presented as actions caused by the Skill.
