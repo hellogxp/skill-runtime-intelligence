@@ -48,3 +48,32 @@ identifiers: sharing reports can reveal that two reports used the same
 snapshot. They contain no row-level fields and cannot reconstruct source rows,
 but they do not replace retaining an access-controlled immutable snapshot when
 independent re-analysis is required.
+
+Pilot dataset cut policies on three consecutive privacy-safe snapshots:
+
+```bash
+PYTHONPATH=src python3 \
+  experiments/real_corpus_audit/cut_policy_benchmark.py \
+  --database .sri/panorama.db \
+  --interval-seconds 2 \
+  --watermark-seconds 30
+```
+
+The middle snapshot selects runs using all-observed, terminal-status,
+event-watermark, and observed-quiescence policies. The third snapshot measures
+which selected private run fingerprints changed. Only aggregate counts and
+rates are emitted. This is an observational pilot: a stable fingerprint does
+not prove source completeness, and one time series cannot establish a causal
+policy advantage.
+
+Aggregate two or more privacy-safe pilot reports:
+
+```bash
+PYTHONPATH=src python3 \
+  experiments/real_corpus_audit/summarize_cut_policy_reports.py \
+  --inputs experiments/real_corpus_audit/results/dataset-cut-policy-*.json
+```
+
+The summary reports pooled counts plus across-trial means and ranges. Pooled
+run observations are not treated as independent participants, and the output
+does not estimate a causal policy effect.

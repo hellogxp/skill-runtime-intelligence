@@ -290,11 +290,7 @@ def _hook_command(
             INTEGRATION_MARKER,
         )
     )
-    socket_path = (
-        (state_root / "run" / "hook.sock")
-        if state_root is not None
-        else default_hook_socket()
-    )
+    socket_path = default_hook_socket(state_root)
     native_sender = native_hook_sender_path(state_root)
     header = json.dumps({"agent": agent, "event": event}, separators=(",", ":"))
     nc_branch = ""

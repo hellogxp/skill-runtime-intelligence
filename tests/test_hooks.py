@@ -17,7 +17,11 @@ from skill_runtime_intelligence.hook_adapter import (
     build_claude_hook_envelopes,
     build_codex_hook_envelopes,
 )
-from skill_runtime_intelligence.hook_bridge import HookBridge
+from skill_runtime_intelligence.hook_bridge import (
+    SAFE_UNIX_SOCKET_PATH_BYTES,
+    HookBridge,
+    default_hook_socket,
+)
 from skill_runtime_intelligence.integrations import (
     MANAGED_CLAUDE_EVENTS,
     MANAGED_CODEX_EVENTS,
@@ -36,6 +40,26 @@ from skill_runtime_intelligence.storage import Storage
 
 
 class HookAdapterTests(unittest.TestCase):
+    def test_long_state_root_uses_a_short_stable_socket_path(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / ("nested-" + "x" * 120)
+            first = default_hook_socket(root)
+            second = default_hook_socket(root)
+            self.assertEqual(first, second)
+            self.assertLessEqual(
+                len(os.fsencode(str(first))),
+                SAFE_UNIX_SOCKET_PATH_BYTES,
+            )
+            self.assertNotEqual(first, root / "run" / "hook.sock")
+            bridge = HookBridge(
+                Path(directory) / "panorama.db",
+                socket_path=first,
+            ).start()
+            self.assertTrue(first.is_socket())
+            bridge.close()
+            self.assertFalse(first.exists())
+            self.assertFalse(first.parent.exists())
+
     def test_native_sender_install_prewarms_against_a_missing_socket(self):
         with tempfile.TemporaryDirectory() as directory:
             result = install_native_hook_sender(

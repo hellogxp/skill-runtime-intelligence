@@ -56,11 +56,7 @@ def diagnose_runtime(
         if state_root is not None
         else default_event_queue()
     )
-    hook_socket = (
-        root / "run" / "hook.sock"
-        if state_root is not None
-        else default_hook_socket()
-    )
+    hook_socket = default_hook_socket(root)
 
     checks = []
     try:

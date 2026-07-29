@@ -6,6 +6,7 @@ back to the standalone fail-open queue writer when the socket is unavailable.
 Raw hook payloads are never written to disk by this bridge.
 """
 
+import hashlib
 import json
 import os
 import socket
@@ -28,10 +29,40 @@ from .storage import Storage
 
 MAX_HOOK_INPUT_BYTES = 1024 * 1024
 MAX_HEADER_BYTES = 512
+SAFE_UNIX_SOCKET_PATH_BYTES = 96
 
 
-def default_hook_socket() -> Path:
-    return default_state_root() / "run" / "hook.sock"
+def default_hook_socket(state_root: Optional[Path] = None) -> Path:
+    """Return a stable per-installation socket path within Unix limits.
+
+    Darwin's ``sockaddr_un.sun_path`` is shorter than Linux's. Long home or
+    temporary-directory paths can therefore make an otherwise valid install
+    impossible to start. Keep the socket inside the state directory when it
+    fits; otherwise use a deterministic, per-user directory under the short
+    ``/tmp`` spelling. The bridge applies 0700/0600 permissions before use.
+    """
+    root = (state_root or default_state_root()).expanduser().resolve()
+    preferred = root / "run" / "hook.sock"
+    if len(os.fsencode(str(preferred))) <= SAFE_UNIX_SOCKET_PATH_BYTES:
+        return preferred
+    identity = hashlib.sha256(os.fsencode(str(root))).hexdigest()[:16]
+    user_id = os.getuid() if hasattr(os, "getuid") else 0
+    temporary_root = Path("/tmp") if Path("/tmp").is_dir() else Path("/var/tmp")
+    return temporary_root / f"skill-runtime-{user_id}-{identity}" / "hook.sock"
+
+
+def _remove_empty_fallback_parent(socket_path: Path) -> None:
+    """Remove only an empty per-user fallback directory created by this module."""
+    parent = socket_path.parent
+    user_id = os.getuid() if hasattr(os, "getuid") else 0
+    if not parent.name.startswith(f"skill-runtime-{user_id}-"):
+        return
+    allowed_roots = {Path("/tmp").resolve(), Path("/var/tmp").resolve()}
+    try:
+        if parent.parent.resolve() in allowed_roots:
+            parent.rmdir()
+    except OSError:
+        pass
 
 
 class HookBridge:
@@ -86,6 +117,7 @@ class HookBridge:
             listener.close()
             if self.socket_path.exists():
                 self.socket_path.unlink()
+            _remove_empty_fallback_parent(self.socket_path)
             raise
         self._socket = listener
         self._socket_inode = self.socket_path.lstat().st_ino
@@ -125,6 +157,7 @@ class HookBridge:
                 self.socket_path.unlink()
         except FileNotFoundError:
             pass
+        _remove_empty_fallback_parent(self.socket_path)
 
     def _serve(self) -> None:
         while not self._stop.is_set():

@@ -31,6 +31,7 @@ outcome across general tasks.
 | E4 export-profile equivalence | 6/6 profiles exact; comparable-field coverage 1.0; zero dangling parents after fix | equivalent synthetic export fixtures |
 | E5 diagnosis representation ablation | rules exact 1.0/F1 1.0; lexical retrieval exact 0.214/F1 0.414; lifecycle-feature retrieval exact 0.071/F1 0.080; ordered relational templates exact 0.929/F1 0.963 | leave-one-out synthetic corpus; retrieval outputs Inferred |
 | Real-run corpus readiness audit | privacy-safe aggregate gate passed in four audits; snapshots contained 97, 75, 77, and 77 SkillRuns and every audit passed only 1/7 readiness criteria; v3 added integrity-checked snapshot/schema/aggregate fingerprints | query-only consistent snapshots of one local Codex database; Derived aggregate, zero row-level records |
+| Dataset cut-policy pilot | across three three-snapshot trials, pooled next-window stability was 222/240 all-observed, 205/216 terminal-status, 215/230 30-second watermark, and 188/206 prior-quiescence selections | one local live database; Experimental observational time series, non-independent run observations |
 | Packaged product lifecycle | 5/5 post-fix isolated wheel runs completed install/start/status/doctor/stop/uninstall; latest 2/2 also verified native prewarm; project and Agent configs unchanged; state fully removed | five local packaged-product runs; Experimental |
 | Live Codex reconstruction | 3/3 verified outcomes, unchanged workspaces, sessions, SkillRuns, instruction events, and resource events | real Codex 0.145.0 / GPT-5.6-sol, deterministic task |
 
@@ -38,8 +39,9 @@ The latest low-load-window reproducibility suite passed 7/7 selected local
 experiment gates. Across all eight comparable transport runs, however, the
 performance gate passed only 7/8; the Wilson 95% interval for the run-level
 pass rate is 0.529–0.978. The latest expanded product unit/integration suite
-passed 63/63 tests, including eight privacy-safe real-corpus audit and drift
-tests, lifecycle ownership safeguards, 15-locale catalog integrity, hooks,
+passed 70/70 tests, including 11 privacy-safe real-corpus audit, drift,
+cut-policy, and summary tests, lifecycle ownership safeguards, 15-locale
+catalog integrity, hooks,
 Collector, OTLP export, storage, comparison, and deterministic diagnosis.
 A local source distribution and wheel also built successfully; the
 installed-wheel smoke test found all required native-source and web assets.
@@ -280,6 +282,35 @@ accruing events. Dataset export therefore needs an explicit cut policy
 snapshot, and a manifest. The pair does not estimate a general drift rate, and
 the fingerprints do not replace retaining an access-controlled snapshot for
 independent re-analysis.
+
+## Dataset cut policy: terminal is not immutable
+
+Three repeated pilots took snapshots A, B, and C approximately 2.2 seconds
+apart. Snapshot B selected runs under four policies; snapshot C measured
+whether the selected private run fingerprints changed. Reports emitted only
+aggregate counts and rates, and all three privacy/integrity gates passed.
+
+| B selection policy | Pooled selected | Stable at C | Changed at C | Stable fraction |
+|---|---:|---:|---:|---:|
+| all observed | 240 | 222 | 18 | 92.5% |
+| terminal status | 216 | 205 | 11 | 94.9% |
+| 30-second event watermark | 230 | 215 | 15 | 93.5% |
+| unchanged from A to B | 206 | 188 | 18 | 91.3% |
+
+Terminal status had the highest pooled short-window stability in this pilot,
+but 11 of 216 selected observations still changed. Prior two-second
+quiescence retained fewer observations and did not improve pooled stability;
+in one trial all 80 B runs had been unchanged from A, yet 16 changed by C.
+This is a useful negative result: `completed`, `failed`, or `interrupted`
+describes reconstructed run state, not an immutable research-data boundary,
+and a brief quiet interval does not reliably predict the next quiet interval.
+
+These pooled observations are repeated views of one local database, not
+independent participants. The policies were deterministic rather than
+randomized, and the experiment does not estimate causal policy effects or
+source completeness. Product export should keep runtime status separate from
+dataset freeze state, require an adapter collection checkpoint plus immutable
+snapshot manifest, and expose late-arrival revisions explicitly.
 
 ## New exploratory direction: Skill catalog footprint
 
