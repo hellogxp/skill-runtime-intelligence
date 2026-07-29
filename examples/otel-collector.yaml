@@ -1,0 +1,25 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 127.0.0.1:4318
+
+processors:
+  batch:
+    timeout: 2s
+    send_batch_size: 256
+
+exporters:
+  otlphttp/downstream:
+    endpoint: ${env:OTLP_DESTINATION}
+    headers:
+      Authorization: ${env:OTLP_AUTHORIZATION}
+  debug:
+    verbosity: basic
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlphttp/downstream, debug]

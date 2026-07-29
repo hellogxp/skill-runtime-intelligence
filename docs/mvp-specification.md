@@ -86,7 +86,7 @@ Reconstruct, when evidence exists:
 ### F6. Privacy
 
 - Operate locally without an account.
-- Make network export opt-in and absent from the MVP.
+- Keep network export disabled by default and require an explicit OTLP endpoint.
 - Redact common credential patterns before persistence.
 - Allow users to exclude projects and paths.
 - Allow deletion of indexed run data without touching source transcripts.
@@ -121,7 +121,8 @@ Stages with no evidence are shown as “not observed,” not “failed.”
 ## 7. Non-functional requirements
 
 - Indexing must not modify source agent files.
-- The collector must not delay or block agent execution.
+- Collection must be fail-open, bounded, and measured; failures must not block
+  agent execution.
 - Adapter parsing errors must not crash ingestion of other sessions.
 - Raw, normalized, and inferred records must remain separable.
 - UI rendering must remain usable for runs with thousands of events.
@@ -156,11 +157,14 @@ Given a tool payload containing a common secret pattern, the persisted normalize
 
 ## 9. Explicitly deferred
 
-- Why-not-triggered diagnosis.
-- Skill conflict matrices.
-- Skill version comparison.
+- Model-internal why-not-triggered explanations when candidate signals are not
+  emitted by the Agent.
 - With-Skill/without-Skill paired evaluation.
 - Static quality scoring.
 - Security vulnerability scanning.
 - Hosted collaboration and organizational dashboards.
 
+The implemented local product may show evidence-bounded “not observed”
+explanations, inferred description-overlap candidates, and direct static
+definition comparison. None of these are presented as proof of model intent or
+runtime conflict.

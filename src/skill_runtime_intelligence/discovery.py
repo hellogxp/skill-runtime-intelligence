@@ -4,7 +4,9 @@ import hashlib
 import re
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Iterable, List, Optional
+from typing import Any, Dict, Iterable, List, Optional, Tuple
+
+from .config import path_is_excluded
 
 
 FRONTMATTER = re.compile(r"\A---\s*\n(.*?)\n---\s*(?:\n|\Z)", re.DOTALL)
@@ -20,6 +22,9 @@ class SkillDefinition:
     digest: str
     valid: bool
     validation_message: str
+    version: str = ""
+    compatibility: str = ""
+    resources: Tuple[Dict[str, Any], ...] = ()
 
     def to_dict(self):
         return asdict(self)
@@ -39,6 +44,29 @@ def _source_kind(path: Path) -> str:
     if ".codex" in parts or ".agents" in parts:
         return "user"
     return "project"
+
+
+def _resources(skill_file: Path) -> Tuple[Dict[str, Any], ...]:
+    result = []
+    skill_dir = skill_file.parent
+    for directory, kind in (
+        ("scripts", "script"),
+        ("references", "reference"),
+        ("assets", "asset"),
+    ):
+        resource_root = skill_dir / directory
+        if not resource_root.is_dir() or resource_root.is_symlink():
+            continue
+        for path in sorted(resource_root.rglob("*")):
+            if not path.is_file() or path.is_symlink():
+                continue
+            try:
+                size = path.stat().st_size
+                relative = str(path.relative_to(skill_dir))
+            except OSError:
+                continue
+            result.append({"path": relative, "kind": kind, "bytes": size})
+    return tuple(result)
 
 
 def parse_skill(skill_file: Path) -> SkillDefinition:
@@ -67,6 +95,8 @@ def parse_skill(skill_file: Path) -> SkillDefinition:
     metadata = match.group(1) if match else ""
     name = _frontmatter_value(metadata, "name") or skill_file.parent.name
     description = _frontmatter_value(metadata, "description")
+    version = _frontmatter_value(metadata, "version")
+    compatibility = _frontmatter_value(metadata, "compatibility")
     errors = []
     if not match:
         errors.append("Missing YAML frontmatter")
@@ -81,10 +111,15 @@ def parse_skill(skill_file: Path) -> SkillDefinition:
         digest,
         not errors,
         "; ".join(errors),
+        version,
+        compatibility,
+        _resources(skill_file),
     )
 
 
-def discover_skills(roots: Iterable[Path]) -> List[SkillDefinition]:
+def discover_skills(
+    roots: Iterable[Path], exclusions: Iterable[Path] = ()
+) -> List[SkillDefinition]:
     seen = set()
     skills = []
     for root in roots:
@@ -92,6 +127,8 @@ def discover_skills(roots: Iterable[Path]) -> List[SkillDefinition]:
         if not root.is_dir():
             continue
         for skill_file in root.rglob("SKILL.md"):
+            if path_is_excluded(skill_file, exclusions):
+                continue
             try:
                 resolved = str(skill_file.resolve())
             except OSError:

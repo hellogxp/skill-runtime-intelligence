@@ -375,6 +375,23 @@ class ObservabilityAdapter:
 
         source_string = str(self.source_path)
         session_id = _stable_id("session", profile, trace_id, source_string)
+        start_event_types = {}
+        for span in spans:
+            span_id = str(span.get("id") or f"span-{span['_index']}")
+            name, attribution_grade = inherited_skill(span)
+            explicit_event = _flatten_attributes(span.get("attributes", {})).get(
+                "skill.runtime.event"
+            )
+            if explicit_event:
+                start_event_types[span_id] = str(explicit_event)
+            elif name and attribution_grade == "observed":
+                start_event_types[span_id] = "skill.activated"
+            else:
+                start_event_types[span_id] = (
+                    "tool.started"
+                    if str(span.get("kind") or "").casefold() == "tool"
+                    else "runtime.span.started"
+                )
         raw = []
         events = []
         runs: Dict[str, Dict[str, Any]] = {}
@@ -463,22 +480,32 @@ class ObservabilityAdapter:
                 "skill.runtime.event"
             )
             if explicit_event:
-                event_type = str(explicit_event)
+                event_type = start_event_types[span_id]
                 stage = str(
                     _flatten_attributes(span.get("attributes", {})).get(
                         "skill.runtime.stage", "execution"
                     )
                 )
             elif attribution_grade == "observed":
-                event_type = "skill.activated"
+                event_type = start_event_types[span_id]
                 stage = "activation"
             else:
-                event_type = (
-                    "tool.started"
-                    if str(span.get("kind") or "").casefold() == "tool"
-                    else "runtime.span.started"
-                )
+                event_type = start_event_types[span_id]
                 stage = "execution"
+            parent_span_id = str(span.get("parent_id") or "")
+            parent_event_id = (
+                _stable_id(
+                    "evt",
+                    session_id,
+                    parent_span_id,
+                    start_event_types.get(
+                        parent_span_id, "runtime.span.started"
+                    ),
+                )
+                if parent_span_id
+                else None
+            )
+            start_event_id = _stable_id("evt", session_id, span_id, event_type)
             events.append(
                 self._event(
                     session_id,
@@ -486,7 +513,7 @@ class ObservabilityAdapter:
                     run_id,
                     definition.skill_id,
                     span_id,
-                    span.get("parent_id"),
+                    parent_event_id,
                     span.get("start"),
                     event_type,
                     stage,
@@ -504,7 +531,7 @@ class ObservabilityAdapter:
                     run_id,
                     definition.skill_id,
                     span_id + ":end",
-                    span_id,
+                    start_event_id,
                     span.get("end"),
                     (
                         "tool.completed"
@@ -553,7 +580,7 @@ class ObservabilityAdapter:
         skill_run_id: str,
         skill_id: str,
         span_id: str,
-        parent_span_id: Any,
+        parent_event_id: Optional[str],
         occurred_at: Optional[str],
         event_type: str,
         stage: str,
@@ -569,11 +596,7 @@ class ObservabilityAdapter:
             "turn_id": turn_id,
             "skill_id": skill_id,
             "skill_run_id": skill_run_id,
-            "parent_event_id": (
-                _stable_id("evt", session_id, parent_span_id, "runtime.span.started")
-                if parent_span_id
-                else None
-            ),
+            "parent_event_id": parent_event_id,
             "occurred_at": occurred_at,
             "event_type": event_type,
             "stage": stage if stage in {

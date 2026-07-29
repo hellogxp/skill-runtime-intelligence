@@ -1,6 +1,6 @@
 # Observability interoperability
 
-Status: implemented foundation  
+Status: import and opt-in OTLP export implemented
 Adapter family version: `0.1.0`  
 Snapshot date: 2026-07-28
 
@@ -124,15 +124,34 @@ Remote reporting is a secondary adapter boundary:
 ```text
 Skill Runtime database
       ├── local UI
-      ├── OTLP exporter (planned)
-      ├── rapid-dashboard exporter (planned)
+      ├── OTLP/HTTP traces exporter (implemented)
+      ├── product-specific exporters (outside the core)
       └── research dataset exporter (explicit opt-in, planned)
 ```
 
 An exporter must never become required for local reconstruction. It must keep
-evidence grades, stable source IDs, and privacy policy intact. `rapid-tele` is
-the preferred transport for a future rapid-dashboard adapter because it
-already owns hook installation, durable queuing, retry, and delivery.
+evidence grades, stable source IDs, and privacy policy intact.
+
+Start continuous export:
+
+```bash
+skill-runtime start \
+  --otlp-endpoint https://collector.example/v1/traces \
+  --otlp-header Authorization='Bearer …'
+```
+
+The exporter uses OTLP/HTTP JSON and appends `/v1/traces` when needed. Each
+normalized event becomes a span with stable trace/span identity and
+`skill.runtime.*` attributes for event type, stage, run ID, evidence grade,
+confidence, status, source adapter, and source session. Checkpoints advance
+only after a successful response; failures remain pending for retry. Headers
+are runtime-only and are not stored in SQLite.
+
+Export is explicitly disabled without an endpoint. Raw prompts, raw tool
+inputs/outputs, Skill resource contents, secrets, and source configuration are
+not exported. Product-specific destinations can either ingest this standard
+OTLP stream or implement a separate exporter without changing the local
+evidence model.
 
 ## Research basis
 

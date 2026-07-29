@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "codex/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Python ${{ matrix.python }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: "3.9"
+          - os: ubuntu-latest
+            python: "3.11"
+          - os: ubuntu-latest
+            python: "3.13"
+          - os: macos-latest
+            python: "3.13"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Install
+        run: python -m pip install -e .
+      - name: Unit and integration tests
+        run: python -m unittest discover -s tests -v
+      - name: Validate browser JavaScript
+        run: |
+          node --check src/skill_runtime_intelligence/web/app.js
+          node --check src/skill_runtime_intelligence/web/i18n.js
+          node --check src/skill_runtime_intelligence/web/locale-packs.js
+      - name: Build native hook sender
+        shell: bash
+        run: |
+          mkdir -p build/native
+          cc -O2 -std=c99 src/skill_runtime_intelligence/native/hook_sender.c \
+            -o build/native/skill-runtime-hook-native
+          test -x build/native/skill-runtime-hook-native
+
+  lifecycle-smoke:
+    name: Install / start / doctor / stop / uninstall
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Exercise lifecycle
+        shell: bash
+        env:
+          SKILL_RUNTIME_HOME: ${{ runner.temp }}/skill-runtime-home
+        run: |
+          mkdir -p "${RUNNER_TEMP}/fixture-project"
+          skill-runtime install --no-hooks --project "${RUNNER_TEMP}/fixture-project"
+          skill-runtime start --no-open --port 14317
+          skill-runtime status --port 14317
+          curl --fail --silent http://127.0.0.1:14317/api/health
+          skill-runtime doctor --port 14317 || test "$?" -eq 1
+          skill-runtime stop --port 14317
+          skill-runtime uninstall --yes
+          test ! -e "${SKILL_RUNTIME_HOME}"
+
+  standalone-smoke:
+    name: Standalone zipapp
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Build and exercise standalone CLI
+        shell: bash
+        env:
+          SKILL_RUNTIME_HOME: ${{ runner.temp }}/skill-runtime-standalone
+        run: |
+          python scripts/build_zipapp.py
+          dist/skill-runtime.pyz --help
+          mkdir -p "${RUNNER_TEMP}/standalone-project"
+          dist/skill-runtime.pyz install --no-hooks \
+            --project "${RUNNER_TEMP}/standalone-project"
+          dist/skill-runtime.pyz start --no-open --port 24317
+          curl --fail --silent http://127.0.0.1:24317/api/health
+          dist/skill-runtime.pyz stop --port 24317
+          dist/skill-runtime.pyz uninstall --yes

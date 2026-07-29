@@ -1,5 +1,6 @@
 import tempfile
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
 
 from skill_runtime_intelligence.discovery import parse_skill
@@ -97,6 +98,200 @@ class StorageTests(unittest.TestCase):
                 self.assertEqual(detail["events"][0]["event_id"], "event-1")
                 self.assertEqual(
                     detail["relationships"][0]["relationship_type"], "skill_scope"
+                )
+                self.assertEqual(
+                    [finding["code"] for finding in detail["findings"]],
+                    ["lifecycle_evidence_gap"],
+                )
+                self.assertEqual(detail["findings"][0]["stage"], "request")
+            finally:
+                storage.close()
+
+    def test_inventory_records_resource_metadata_without_contents(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            skill_dir = root / "skills" / "demo"
+            (skill_dir / "scripts").mkdir(parents=True)
+            (skill_dir / "references").mkdir()
+            (skill_dir / "assets").mkdir()
+            (skill_dir / "scripts" / "run.py").write_text(
+                "secret-script-body", encoding="utf-8"
+            )
+            (skill_dir / "references" / "guide.md").write_text(
+                "reference-body", encoding="utf-8"
+            )
+            (skill_dir / "assets" / "template.bin").write_bytes(b"\x00\x01")
+            skill_file = skill_dir / "SKILL.md"
+            skill_file.write_text(
+                "---\n"
+                "name: demo\n"
+                "description: Demo runtime\n"
+                "version: 2.1.0\n"
+                "compatibility: codex, claude-code\n"
+                "---\n",
+                encoding="utf-8",
+            )
+            skill = parse_skill(skill_file)
+            storage = Storage(root / "panorama.db")
+            try:
+                storage.replace_skills([skill.to_dict()])
+                inventory = storage.list_skills()[0]
+                self.assertEqual(inventory["version"], "2.1.0")
+                self.assertEqual(inventory["resource_counts"]["script"], 1)
+                self.assertEqual(inventory["resource_counts"]["reference"], 1)
+                self.assertEqual(inventory["resource_counts"]["asset"], 1)
+                self.assertNotIn(
+                    "secret-script-body", str(inventory["resources"])
+                )
+            finally:
+                storage.close()
+
+    def test_delete_skill_run_removes_only_indexed_data(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "source.jsonl"
+            source.write_text("authoritative source", encoding="utf-8")
+            database = root / "panorama.db"
+            storage = Storage(database)
+            skill_dir = root / "skills" / "demo"
+            skill_dir.mkdir(parents=True)
+            skill_file = skill_dir / "SKILL.md"
+            skill_file.write_text(
+                "---\nname: demo\ndescription: demo\n---\n", encoding="utf-8"
+            )
+            skill = parse_skill(skill_file)
+            session = {
+                "session_id": "delete-session",
+                "adapter": "codex",
+                "adapter_version": "0.2.0",
+                "source_path": str(source),
+                "source_format_version": "fixture",
+                "title": "Delete fixture",
+                "cwd": str(root),
+                "model": "",
+                "agent_version": "",
+                "started_at": "2026-07-28T00:00:00Z",
+                "ended_at": None,
+                "duration_ms": None,
+                "status": "incomplete",
+                "completeness": "partial",
+                "event_count": 0,
+            }
+            run = {
+                "skill_run_id": "delete-run",
+                "session_id": "delete-session",
+                "turn_id": "turn-1",
+                "skill_id": skill.skill_id,
+                "activation_mode": "explicit_tool",
+                "evidence_grade": "observed",
+                "status": "incomplete",
+                "started_at": "2026-07-28T00:00:00Z",
+                "ended_at": None,
+                "basis": "fixture",
+            }
+            try:
+                storage.replace_skills([skill.to_dict()])
+                storage.replace_session(session, [], [], [run])
+                result = storage.delete_skill_run("delete-run")
+                self.assertTrue(result["session_deleted"])
+                self.assertFalse(result["source_transcript_deleted"])
+                self.assertEqual(storage.counts()["skill_runs"], 0)
+                self.assertEqual(source.read_text(encoding="utf-8"), "authoritative source")
+            finally:
+                storage.close()
+
+    def test_definition_comparison_reports_static_changes_only(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            definitions = []
+            for folder, version, resource in (
+                ("left", "1.0.0", "old.py"),
+                ("right", "2.0.0", "new.py"),
+            ):
+                skill_dir = root / folder / "demo"
+                (skill_dir / "scripts").mkdir(parents=True)
+                (skill_dir / "scripts" / resource).write_text(
+                    "print('metadata only')", encoding="utf-8"
+                )
+                skill_file = skill_dir / "SKILL.md"
+                skill_file.write_text(
+                    "---\n"
+                    "name: demo\n"
+                    f"description: Demo version {version}\n"
+                    f"version: {version}\n"
+                    "---\n",
+                    encoding="utf-8",
+                )
+                definitions.append(parse_skill(skill_file))
+            storage = Storage(root / "panorama.db")
+            try:
+                storage.replace_skills(
+                    [definition.to_dict() for definition in definitions]
+                )
+                result = storage.compare_skill_definitions(
+                    definitions[0].skill_id,
+                    definitions[1].skill_id,
+                )
+                self.assertTrue(result["same_name"])
+                self.assertFalse(result["same_digest"])
+                self.assertIn("version", result["changed_fields"])
+                self.assertEqual(
+                    result["resources_added"][0]["path"],
+                    "scripts/new.py",
+                )
+                self.assertEqual(result["evidence_grade"], "observed")
+                self.assertNotIn("metadata only", str(result))
+            finally:
+                storage.close()
+
+    def test_retention_removes_index_only_and_preserves_source(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "old-session.jsonl"
+            source.write_text("authoritative source", encoding="utf-8")
+            skill_dir = root / "skills" / "demo"
+            skill_dir.mkdir(parents=True)
+            skill_file = skill_dir / "SKILL.md"
+            skill_file.write_text(
+                "---\nname: demo\ndescription: demo\n---\n",
+                encoding="utf-8",
+            )
+            skill = parse_skill(skill_file)
+            storage = Storage(root / "panorama.db")
+            try:
+                storage.replace_skills([skill.to_dict()])
+                storage.replace_session(
+                    {
+                        "session_id": "old-session",
+                        "adapter": "codex",
+                        "adapter_version": "0.2.0",
+                        "source_path": str(source),
+                        "source_format_version": "fixture",
+                        "title": "Old",
+                        "cwd": str(root),
+                        "model": "",
+                        "agent_version": "",
+                        "started_at": "2026-01-01T00:00:00+00:00",
+                        "ended_at": "2026-01-01T00:01:00+00:00",
+                        "duration_ms": 60000,
+                        "status": "completed",
+                        "completeness": "complete",
+                        "event_count": 0,
+                    },
+                    [],
+                    [],
+                    [],
+                )
+                result = storage.purge_expired(
+                    30,
+                    now=datetime(2026, 7, 29, tzinfo=timezone.utc),
+                )
+                self.assertEqual(result["sessions_deleted"], 1)
+                self.assertFalse(result["source_transcripts_deleted"])
+                self.assertEqual(storage.counts()["sessions"], 0)
+                self.assertEqual(
+                    source.read_text(encoding="utf-8"),
+                    "authoritative source",
                 )
             finally:
                 storage.close()

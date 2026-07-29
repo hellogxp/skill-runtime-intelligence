@@ -27,7 +27,8 @@ Read these documents before changing product behavior:
 
 The MVP is not a Skill marketplace, registry, security gate, universal runtime, or general LLM observability platform. New features must strengthen the Skill-specific run panorama or diagnosis workflow.
 
-## UI
+## Verification and UI
 
-The StateSeal project may be inspected as a visual reference only. Do not copy its product semantics, broker model, verification contracts, or agent-control behavior into this repository.
-
+- Do not use, inspect, invoke, or depend on StateSeal in this repository.
+- Do not require StateSeal receipts or StateSeal verification for development,
+  experiments, delivery, or release reporting.

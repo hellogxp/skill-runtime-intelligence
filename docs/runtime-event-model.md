@@ -103,6 +103,8 @@ connecting it to a SkillRun is Derived.
 - `session.started`
 - `session.ended`
 - `session.compacted`
+- `context.compaction_started`
+- `context.compaction_completed`
 - `turn.started`
 - `turn.completed`
 - `turn.failed`

@@ -10,10 +10,12 @@ setup(
     python_requires=">=3.9",
     package_dir={"": "src"},
     packages=find_packages("src"),
-    package_data={"skill_runtime_intelligence": ["web/*"]},
+    package_data={"skill_runtime_intelligence": ["web/*", "native/*"]},
     entry_points={
         "console_scripts": [
+            "skill-runtime=skill_runtime_intelligence.cli:main",
             "skill-panorama=skill_runtime_intelligence.cli:main",
+            "skill-runtime-hook=skill_runtime_intelligence.hook_cli:main",
         ]
     },
 )

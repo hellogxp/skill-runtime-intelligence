@@ -103,6 +103,311 @@ class CodexAdapterTests(unittest.TestCase):
             ]
             self.assertEqual(len(attributed_tools), 1)
 
+    def test_does_not_attribute_a_path_prefix_collision(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            skill_dir = root / "skills" / "pdf"
+            skill_dir.mkdir(parents=True)
+            skill_file = skill_dir / "SKILL.md"
+            skill_file.write_text(
+                "---\nname: pdf\ndescription: Inspect PDFs\n---\nInstructions.\n",
+                encoding="utf-8",
+            )
+            session_file = root / "session.jsonl"
+            collision = root / "skills" / "pdf-backup" / "scripts" / "render.py"
+            records = [
+                {
+                    "timestamp": "2026-07-28T01:00:00Z",
+                    "type": "session_meta",
+                    "payload": {"id": "session-collision", "cwd": str(root)},
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:01Z",
+                    "type": "event_msg",
+                    "payload": {"type": "task_started", "turn_id": "turn-1"},
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:02Z",
+                    "type": "response_item",
+                    "payload": {
+                        "type": "function_call",
+                        "name": "exec_command",
+                        "call_id": "call-1",
+                        "input": {"cmd": f"python {collision}"},
+                    },
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:03Z",
+                    "type": "event_msg",
+                    "payload": {"type": "task_complete", "turn_id": "turn-1"},
+                },
+            ]
+            session_file.write_text(
+                "".join(json.dumps(record) + "\n" for record in records),
+                encoding="utf-8",
+            )
+
+            skill = parse_skill(skill_file)
+            _, _, events, skill_runs = CodexAdapter(root).parse(session_file, [skill])
+
+            self.assertEqual(skill_runs, [])
+            self.assertFalse(any(event.get("skill_run_id") for event in events))
+
+    def test_does_not_activate_a_shorter_skill_name(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            skill_dir = root / "skills" / "pdf"
+            skill_dir.mkdir(parents=True)
+            skill_file = skill_dir / "SKILL.md"
+            skill_file.write_text(
+                "---\nname: pdf\ndescription: Inspect PDFs\n---\nInstructions.\n",
+                encoding="utf-8",
+            )
+            session_file = root / "session.jsonl"
+            records = [
+                {
+                    "timestamp": "2026-07-28T01:00:00Z",
+                    "type": "session_meta",
+                    "payload": {"id": "session-name-collision", "cwd": str(root)},
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:01Z",
+                    "type": "event_msg",
+                    "payload": {"type": "task_started", "turn_id": "turn-1"},
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:02Z",
+                    "type": "response_item",
+                    "payload": {
+                        "type": "function_call",
+                        "name": "skill",
+                        "call_id": "call-1",
+                        "input": {"name": "pdf-backup"},
+                    },
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:03Z",
+                    "type": "event_msg",
+                    "payload": {"type": "task_complete", "turn_id": "turn-1"},
+                },
+            ]
+            session_file.write_text(
+                "".join(json.dumps(record) + "\n" for record in records),
+                encoding="utf-8",
+            )
+
+            skill = parse_skill(skill_file)
+            _, _, events, skill_runs = CodexAdapter(root).parse(session_file, [skill])
+
+            self.assertEqual(skill_runs, [])
+            self.assertFalse(any(event.get("skill_run_id") for event in events))
+
+    def test_resolves_skill_resources_relative_to_session_cwd(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            skill_dir = root / ".agents" / "skills" / "pdf"
+            skill_dir.mkdir(parents=True)
+            skill_file = skill_dir / "SKILL.md"
+            skill_file.write_text(
+                "---\nname: pdf\ndescription: Inspect PDFs\n---\nInstructions.\n",
+                encoding="utf-8",
+            )
+            session_file = root / "session.jsonl"
+            records = [
+                {
+                    "timestamp": "2026-07-28T01:00:00Z",
+                    "type": "session_meta",
+                    "payload": {"id": "session-relative", "cwd": str(root)},
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:01Z",
+                    "type": "event_msg",
+                    "payload": {"type": "task_started", "turn_id": "turn-1"},
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:02Z",
+                    "type": "response_item",
+                    "payload": {
+                        "type": "function_call",
+                        "name": "exec_command",
+                        "call_id": "call-1",
+                        "input": {
+                            "cmd": "python3 .agents/skills/pdf/scripts/render.py"
+                        },
+                    },
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:03Z",
+                    "type": "event_msg",
+                    "payload": {"type": "task_complete", "turn_id": "turn-1"},
+                },
+            ]
+            session_file.write_text(
+                "".join(json.dumps(record) + "\n" for record in records),
+                encoding="utf-8",
+            )
+
+            skill = parse_skill(skill_file)
+            _, _, events, skill_runs = CodexAdapter(root).parse(session_file, [skill])
+
+            self.assertEqual(len(skill_runs), 1)
+            resource = [
+                event
+                for event in events
+                if event["event_type"] == "resource.executed"
+            ]
+            self.assertEqual(len(resource), 1)
+            self.assertEqual(resource[0]["payload"]["resource_kind"], "script")
+
+    def test_derives_exact_artifact_from_completed_file_tool(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            skill_dir = root / "skills" / "pdf"
+            skill_dir.mkdir(parents=True)
+            skill_file = skill_dir / "SKILL.md"
+            skill_file.write_text(
+                "---\nname: pdf\ndescription: Inspect PDFs\n---\nInstructions.\n",
+                encoding="utf-8",
+            )
+            session_file = root / "session.jsonl"
+            records = [
+                {
+                    "timestamp": "2026-07-28T01:00:00Z",
+                    "type": "session_meta",
+                    "payload": {"id": "artifact-session", "cwd": str(root)},
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:01Z",
+                    "type": "event_msg",
+                    "payload": {"type": "task_started", "turn_id": "turn-1"},
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:02Z",
+                    "type": "response_item",
+                    "payload": {
+                        "type": "function_call",
+                        "name": "skill",
+                        "call_id": "skill-call",
+                        "input": {"name": "pdf"},
+                    },
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:03Z",
+                    "type": "response_item",
+                    "payload": {
+                        "type": "function_call",
+                        "name": "write_file",
+                        "call_id": "write-call",
+                        "input": {"path": "output/report.md", "content": "secret"},
+                    },
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:04Z",
+                    "type": "response_item",
+                    "payload": {
+                        "type": "function_call_output",
+                        "call_id": "write-call",
+                        "output": "ok",
+                    },
+                },
+            ]
+            session_file.write_text(
+                "".join(json.dumps(record) + "\n" for record in records),
+                encoding="utf-8",
+            )
+
+            skill = parse_skill(skill_file)
+            _, _, events, runs = CodexAdapter(root).parse(session_file, [skill])
+            artifacts = [
+                event for event in events
+                if event["event_type"] == "artifact.produced"
+            ]
+            self.assertEqual(len(artifacts), 1)
+            self.assertEqual(artifacts[0]["evidence_grade"], "derived")
+            self.assertEqual(
+                artifacts[0]["payload"]["path"],
+                str((root / "output" / "report.md").resolve()),
+            )
+            self.assertEqual(artifacts[0]["skill_run_id"], runs[0]["skill_run_id"])
+            self.assertFalse(artifacts[0]["payload"]["independent_file_event"])
+
+    def test_extracts_apply_patch_paths_without_copying_patch_content(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            skill_dir = root / "skills" / "pdf"
+            skill_dir.mkdir(parents=True)
+            skill_file = skill_dir / "SKILL.md"
+            skill_file.write_text(
+                "---\nname: pdf\ndescription: Inspect PDFs\n---\nInstructions.\n",
+                encoding="utf-8",
+            )
+            session_file = root / "session.jsonl"
+            patch = (
+                "*** Begin Patch\n"
+                "*** Add File: generated/new.md\n"
+                "+credential=must-not-copy\n"
+                "*** Update File: existing.md\n"
+                "@@\n"
+                "-old\n"
+                "+new\n"
+                "*** End Patch\n"
+            )
+            records = [
+                {
+                    "timestamp": "2026-07-28T01:00:00Z",
+                    "type": "session_meta",
+                    "payload": {"id": "patch-session", "cwd": str(root)},
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:01Z",
+                    "type": "event_msg",
+                    "payload": {"type": "task_started", "turn_id": "turn-1"},
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:02Z",
+                    "type": "response_item",
+                    "payload": {
+                        "type": "function_call",
+                        "name": "skill",
+                        "call_id": "skill-call",
+                        "input": {"name": "pdf"},
+                    },
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:03Z",
+                    "type": "response_item",
+                    "payload": {
+                        "type": "custom_tool_call",
+                        "name": "apply_patch",
+                        "call_id": "patch-call",
+                        "input": patch,
+                    },
+                },
+                {
+                    "timestamp": "2026-07-28T01:00:04Z",
+                    "type": "response_item",
+                    "payload": {
+                        "type": "custom_tool_call_output",
+                        "call_id": "patch-call",
+                        "output": "Done!",
+                    },
+                },
+            ]
+            session_file.write_text(
+                "".join(json.dumps(record) + "\n" for record in records),
+                encoding="utf-8",
+            )
+
+            skill = parse_skill(skill_file)
+            _, _, events, _ = CodexAdapter(root).parse(session_file, [skill])
+            artifacts = [event for event in events if event["stage"] == "artifacts"]
+            self.assertEqual(
+                {event["event_type"] for event in artifacts},
+                {"file.created", "file.modified"},
+            )
+            serialized = json.dumps(artifacts)
+            self.assertNotIn("must-not-copy", serialized)
+
     def test_imports_otel_skill_attribute_and_inherits_scope(self):
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "otel.json"
@@ -168,6 +473,14 @@ class CodexAdapterTests(unittest.TestCase):
             ]
             self.assertEqual(len(inherited), 1)
             self.assertEqual(inherited[0]["skill_run_id"], runs[0]["skill_run_id"])
+            event_ids = {event["event_id"] for event in events}
+            self.assertTrue(
+                all(
+                    not event.get("parent_event_id")
+                    or event["parent_event_id"] in event_ids
+                    for event in events
+                )
+            )
 
 
 if __name__ == "__main__":

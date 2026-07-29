@@ -159,8 +159,6 @@ Do not rely on color alone. Use shape, text, and accessible labels.
 
 ## 9. Visual direction
 
-Reuse the strengths of the StateSeal UI as visual reference:
-
 - dark, restrained control-plane aesthetic;
 - professional DAG canvas;
 - compact timeline;
@@ -168,13 +166,9 @@ Reuse the strengths of the StateSeal UI as visual reference:
 - subtle animation for live events;
 - clear detail panels.
 
-Do not carry over:
-
-- admission/broker semantics;
-- verified checkpoint language;
-- delivery gates;
-- enforcement controls;
-- user approval actions.
+The visual design must follow this product's observational, evidence-graded
+semantics and must not introduce admission gates, enforcement controls, or
+verification language unsupported by runtime evidence.
 
 ## 10. First-run experience
 
@@ -195,4 +189,3 @@ Good empty states are part of product credibility:
 - “This session appears incomplete.”
 - “Token usage is unavailable from this source.”
 - “A relationship is possible but cannot be established from current evidence.”
-

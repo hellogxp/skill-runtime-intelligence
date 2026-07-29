@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Optional
 
 from .adapters import CodexAdapter, ObservabilityAdapter
+from .config import path_is_excluded
 from .discovery import SkillDefinition, discover_skills
 from .storage import Storage
 
@@ -14,8 +15,10 @@ def index_local(
     database: Path,
     codex_sessions: Path,
     skill_roots: Iterable[Path],
+    exclusions: Iterable[Path] = (),
 ) -> Dict[str, int]:
-    skills: List[SkillDefinition] = discover_skills(skill_roots)
+    excluded = list(exclusions)
+    skills: List[SkillDefinition] = discover_skills(skill_roots, excluded)
     storage = Storage(database)
     try:
         storage.replace_skills(skill.to_dict() for skill in skills)
@@ -23,6 +26,9 @@ def index_local(
         imported = 0
         failed = 0
         for source_path in adapter.session_files():
+            cwd = adapter.peek_cwd(source_path)
+            if cwd and path_is_excluded(Path(cwd), excluded):
+                continue
             try:
                 session, raw, events, skill_runs = adapter.parse(source_path, skills)
                 storage.replace_session(session, raw, events, skill_runs)
@@ -81,6 +87,7 @@ def watch_local(
     codex_sessions: Path,
     skill_roots: Iterable[Path],
     interval_seconds: float = 2.0,
+    exclusions: Iterable[Path] = (),
 ) -> None:
     """Continuously re-index only changed Codex session files.
 
@@ -89,6 +96,7 @@ def watch_local(
     half-updated normalized graph.
     """
     roots = list(skill_roots)
+    excluded = list(exclusions)
     adapter = CodexAdapter(codex_sessions)
     known_mtimes: Dict[Path, int] = {}
     for path in adapter.session_files():
@@ -103,7 +111,7 @@ def watch_local(
     while True:
         now = time.monotonic()
         if not skills or now - last_skill_scan >= 30:
-            discovered = discover_skills(roots)
+            discovered = discover_skills(roots, excluded)
             last_skill_scan = now
             next_signature = hashlib.sha256(
                 "\0".join(
@@ -122,6 +130,10 @@ def watch_local(
         changed = []
         current_paths = set(adapter.session_files())
         for path in current_paths:
+            cwd = adapter.peek_cwd(path)
+            if cwd and path_is_excluded(Path(cwd), excluded):
+                known_mtimes.pop(path, None)
+                continue
             try:
                 mtime = path.stat().st_mtime_ns
             except OSError:

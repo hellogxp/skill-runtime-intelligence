@@ -7,9 +7,13 @@ entity; an agent session is only its runtime context.
 
 import hashlib
 import json
+import re
 import sqlite3
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
+
+from .diagnostics import diagnose_skill_run
 
 
 STAGES = (
@@ -33,6 +37,16 @@ ADAPTER_CAPABILITIES = {
         "execution": "observed",
         "artifacts": "partial",
         "outcome": "partial",
+    },
+    "claude-code": {
+        "request": "observed",
+        "discovery": "unsupported",
+        "activation": "observed",
+        "instructions": "partial",
+        "resources": "partial",
+        "execution": "observed",
+        "artifacts": "partial",
+        "outcome": "observed",
     },
     "otel": {
         "request": "partial",
@@ -109,6 +123,9 @@ CREATE TABLE IF NOT EXISTS skills (
     digest TEXT NOT NULL,
     valid INTEGER NOT NULL,
     validation_message TEXT NOT NULL,
+    version TEXT NOT NULL DEFAULT '',
+    compatibility TEXT NOT NULL DEFAULT '',
+    resources_json TEXT NOT NULL DEFAULT '[]',
     indexed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -118,6 +135,12 @@ CREATE TABLE IF NOT EXISTS sessions (
     adapter_version TEXT NOT NULL,
     source_path TEXT NOT NULL UNIQUE,
     source_format_version TEXT NOT NULL,
+    source_session_id TEXT NOT NULL DEFAULT '',
+    correlation_key TEXT NOT NULL DEFAULT '',
+    collection_mode TEXT NOT NULL DEFAULT 'unknown',
+    transport TEXT NOT NULL DEFAULT 'unknown',
+    source_health TEXT NOT NULL DEFAULT 'unknown',
+    last_event_at TEXT,
     title TEXT NOT NULL,
     cwd TEXT NOT NULL,
     model TEXT NOT NULL,
@@ -218,6 +241,14 @@ CREATE TABLE IF NOT EXISTS imports (
     event_count INTEGER NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS runtime_state (
+    key TEXT PRIMARY KEY,
+    value TEXT NOT NULL,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT OR IGNORE INTO runtime_state (key, value) VALUES ('revision', '0');
+
 CREATE INDEX IF NOT EXISTS idx_events_session_time
     ON normalized_events(session_id, occurred_at, event_id);
 CREATE INDEX IF NOT EXISTS idx_events_type ON normalized_events(event_type);
@@ -240,11 +271,69 @@ class Storage:
         self.connection = sqlite3.connect(str(self.path))
         self.connection.row_factory = sqlite3.Row
         self.connection.execute("PRAGMA foreign_keys = ON")
+        self.connection.execute("PRAGMA busy_timeout = 5000")
+        self.connection.execute("PRAGMA journal_mode = WAL")
         self.connection.executescript(SCHEMA)
         self._migrate_legacy_schema()
 
     def _migrate_legacy_schema(self) -> None:
         """Apply additive migrations and remove the old one-run-per-skill limit."""
+        skill_columns = {
+            row["name"] for row in self.connection.execute("PRAGMA table_info(skills)")
+        }
+        skill_additions = {
+            "version": "TEXT NOT NULL DEFAULT ''",
+            "compatibility": "TEXT NOT NULL DEFAULT ''",
+            "resources_json": "TEXT NOT NULL DEFAULT '[]'",
+        }
+        for column, declaration in skill_additions.items():
+            if column not in skill_columns:
+                self.connection.execute(
+                    f"ALTER TABLE skills ADD COLUMN {column} {declaration}"
+                )
+        session_columns = {
+            row["name"] for row in self.connection.execute("PRAGMA table_info(sessions)")
+        }
+        session_additions = {
+            "source_session_id": "TEXT NOT NULL DEFAULT ''",
+            "correlation_key": "TEXT NOT NULL DEFAULT ''",
+            "collection_mode": "TEXT NOT NULL DEFAULT 'unknown'",
+            "transport": "TEXT NOT NULL DEFAULT 'unknown'",
+            "source_health": "TEXT NOT NULL DEFAULT 'unknown'",
+            "last_event_at": "TEXT",
+        }
+        for column, declaration in session_additions.items():
+            if column not in session_columns:
+                self.connection.execute(
+                    f"ALTER TABLE sessions ADD COLUMN {column} {declaration}"
+                )
+        self.connection.execute(
+            """
+            UPDATE sessions
+            SET source_session_id = CASE
+                    WHEN source_session_id = '' THEN session_id
+                    ELSE source_session_id
+                END,
+                correlation_key = CASE
+                    WHEN correlation_key = '' THEN adapter || ':' || session_id
+                    ELSE correlation_key
+                END,
+                collection_mode = CASE
+                    WHEN adapter = 'codex' THEN 'transcript_fallback'
+                    ELSE 'observability_import'
+                END,
+                transport = CASE
+                    WHEN adapter = 'codex' THEN 'filesystem_watch'
+                    ELSE 'file_import'
+                END,
+                source_health = CASE
+                    WHEN adapter = 'codex' THEN 'active'
+                    ELSE 'imported'
+                END,
+                last_event_at = COALESCE(last_event_at, ended_at, started_at, indexed_at)
+            WHERE collection_mode = 'unknown'
+            """
+        )
         event_columns = {
             row["name"]
             for row in self.connection.execute("PRAGMA table_info(normalized_events)")
@@ -315,6 +404,87 @@ class Storage:
             )
         self.connection.commit()
 
+    @staticmethod
+    def _source_defaults(session: Dict[str, Any]) -> Dict[str, str]:
+        adapter = str(session.get("adapter") or "unknown")
+        if adapter == "codex":
+            return {
+                "collection_mode": "transcript_fallback",
+                "transport": "filesystem_watch",
+                "source_health": "active",
+            }
+        return {
+            "collection_mode": "observability_import",
+            "transport": "file_import",
+            "source_health": "imported",
+        }
+
+    def _bump_revision(self) -> int:
+        self.connection.execute(
+            """
+            UPDATE runtime_state
+            SET value = CAST(value AS INTEGER) + 1,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE key = 'revision'
+            """
+        )
+        return self.revision()
+
+    def revision(self) -> int:
+        row = self.connection.execute(
+            "SELECT value FROM runtime_state WHERE key = 'revision'"
+        ).fetchone()
+        return int(row["value"] if row else 0)
+
+    def runtime_state(self, key: str, default: str = "") -> str:
+        row = self.connection.execute(
+            "SELECT value FROM runtime_state WHERE key = ?", (key,)
+        ).fetchone()
+        return str(row["value"]) if row else default
+
+    def set_runtime_state(self, key: str, value: str) -> None:
+        with self.connection:
+            self.connection.execute(
+                """
+                INSERT INTO runtime_state (key, value, updated_at)
+                VALUES (?, ?, CURRENT_TIMESTAMP)
+                ON CONFLICT(key) DO UPDATE SET
+                    value=excluded.value,
+                    updated_at=CURRENT_TIMESTAMP
+                """,
+                (key, value),
+            )
+
+    def list_runtime_state(self, prefix: str) -> List[Dict[str, str]]:
+        rows = self.connection.execute(
+            """
+            SELECT key, value, updated_at FROM runtime_state
+            WHERE key LIKE ?
+            ORDER BY key
+            """,
+            (f"{prefix}%",),
+        ).fetchall()
+        return [dict(row) for row in rows]
+
+    def export_events_after(
+        self, row_id: int = 0, limit: int = 200
+    ) -> List[Dict[str, Any]]:
+        rows = self.connection.execute(
+            """
+            SELECT e.rowid AS export_row_id, e.*, s.adapter, s.adapter_version,
+                   s.source_session_id, s.model, s.agent_version, s.cwd,
+                   sk.name AS skill_name
+            FROM normalized_events e
+            JOIN sessions s ON s.session_id = e.session_id
+            LEFT JOIN skills sk ON sk.skill_id = e.skill_id
+            WHERE e.rowid > ?
+            ORDER BY e.rowid
+            LIMIT ?
+            """,
+            (max(0, int(row_id)), max(1, min(int(limit), 2000))),
+        ).fetchall()
+        return [dict(row) for row in rows]
+
     def close(self) -> None:
         self.connection.close()
 
@@ -325,8 +495,9 @@ class Storage:
                     """
                     INSERT INTO skills (
                         skill_id, name, description, source_kind, source_path,
-                        digest, valid, validation_message
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                        digest, valid, validation_message, version, compatibility,
+                        resources_json
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON CONFLICT(source_path) DO UPDATE SET
                         skill_id=excluded.skill_id,
                         name=excluded.name,
@@ -335,6 +506,9 @@ class Storage:
                         digest=excluded.digest,
                         valid=excluded.valid,
                         validation_message=excluded.validation_message,
+                        version=excluded.version,
+                        compatibility=excluded.compatibility,
+                        resources_json=excluded.resources_json,
                         indexed_at=CURRENT_TIMESTAMP
                     """,
                     (
@@ -346,8 +520,12 @@ class Storage:
                         skill["digest"],
                         int(skill["valid"]),
                         skill["validation_message"],
+                        skill.get("version", ""),
+                        skill.get("compatibility", ""),
+                        json.dumps(skill.get("resources", []), ensure_ascii=False),
                     ),
                 )
+            self._bump_revision()
 
     def replace_session(
         self,
@@ -356,6 +534,18 @@ class Storage:
         events: List[Dict[str, Any]],
         skill_runs: List[Dict[str, Any]],
     ) -> None:
+        session = dict(session)
+        source_defaults = self._source_defaults(session)
+        for key, value in source_defaults.items():
+            session.setdefault(key, value)
+        session.setdefault("source_session_id", session["session_id"])
+        session.setdefault(
+            "correlation_key",
+            f"{session['adapter']}:{session['source_session_id']}",
+        )
+        session.setdefault(
+            "last_event_at", session.get("ended_at") or session.get("started_at")
+        )
         with self.connection:
             self.connection.execute(
                 "DELETE FROM sessions WHERE session_id = ? OR source_path = ?",
@@ -367,6 +557,12 @@ class Storage:
                 "adapter_version",
                 "source_path",
                 "source_format_version",
+                "source_session_id",
+                "correlation_key",
+                "collection_mode",
+                "transport",
+                "source_health",
+                "last_event_at",
                 "title",
                 "cwd",
                 "model",
@@ -458,6 +654,288 @@ class Storage:
                     ),
                 )
             self._build_relationships(session["session_id"], events, skill_runs)
+            self._bump_revision()
+
+    def append_collector_events(
+        self, bundles: List[Dict[str, Any]]
+    ) -> Dict[str, int]:
+        """Append immutable live events from native telemetry, hooks, or an SDK.
+
+        The caller provides validated, redacted bundles. Event IDs make the
+        operation idempotent, and relationships are rebuilt from all evidence
+        for each affected session after the append completes.
+        """
+        accepted = 0
+        duplicates = 0
+        affected_sessions = set()
+        with self.connection:
+            for bundle in bundles:
+                session = bundle["session"]
+                event = dict(bundle["event"])
+                raw = bundle["raw"]
+                skill = bundle.get("skill")
+                run = bundle.get("skill_run")
+
+                if skill:
+                    self.connection.execute(
+                        """
+                        INSERT INTO skills (
+                            skill_id, name, description, source_kind, source_path,
+                            digest, valid, validation_message, version,
+                            compatibility, resources_json
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        ON CONFLICT(source_path) DO UPDATE SET
+                            name=excluded.name,
+                            description=CASE
+                                WHEN excluded.description = '' THEN skills.description
+                                ELSE excluded.description
+                            END,
+                            digest=excluded.digest,
+                            version=CASE
+                                WHEN excluded.version = '' THEN skills.version
+                                ELSE excluded.version
+                            END,
+                            compatibility=CASE
+                                WHEN excluded.compatibility = '' THEN skills.compatibility
+                                ELSE excluded.compatibility
+                            END,
+                            resources_json=CASE
+                                WHEN excluded.resources_json = '[]' THEN skills.resources_json
+                                ELSE excluded.resources_json
+                            END,
+                            indexed_at=CURRENT_TIMESTAMP
+                        """,
+                        (
+                            skill["skill_id"],
+                            skill["name"],
+                            skill.get("description", ""),
+                            skill.get("source_kind", "runtime"),
+                            skill["source_path"],
+                            skill["digest"],
+                            int(skill.get("valid", True)),
+                            skill.get("validation_message", ""),
+                            skill.get("version", ""),
+                            skill.get("compatibility", ""),
+                            json.dumps(skill.get("resources", []), ensure_ascii=False),
+                        ),
+                    )
+
+                existing_session = self.connection.execute(
+                    "SELECT session_id FROM sessions WHERE session_id = ?",
+                    (session["session_id"],),
+                ).fetchone()
+                if existing_session:
+                    self.connection.execute(
+                        """
+                        UPDATE sessions
+                        SET adapter = ?, adapter_version = ?,
+                            collection_mode = ?, transport = ?,
+                            source_health = ?, last_event_at = ?,
+                            status = CASE
+                                WHEN ? IN ('completed', 'failed', 'interrupted')
+                                    THEN ?
+                                ELSE status
+                            END,
+                            completeness = CASE
+                                WHEN ? = 'complete' THEN 'complete'
+                                ELSE completeness
+                            END,
+                            ended_at = COALESCE(?, ended_at),
+                            title = CASE WHEN title = '' THEN ? ELSE title END,
+                            cwd = CASE WHEN cwd = '' THEN ? ELSE cwd END,
+                            model = CASE WHEN model = '' THEN ? ELSE model END,
+                            agent_version = CASE
+                                WHEN agent_version = '' THEN ? ELSE agent_version
+                            END
+                        WHERE session_id = ?
+                        """,
+                        (
+                            session["adapter"],
+                            session["adapter_version"],
+                            session["collection_mode"],
+                            session["transport"],
+                            session["source_health"],
+                            event.get("occurred_at"),
+                            session["status"],
+                            session["status"],
+                            session["completeness"],
+                            session.get("ended_at"),
+                            session["title"],
+                            session["cwd"],
+                            session["model"],
+                            session["agent_version"],
+                            session["session_id"],
+                        ),
+                    )
+                else:
+                    columns = (
+                        "session_id",
+                        "adapter",
+                        "adapter_version",
+                        "source_path",
+                        "source_format_version",
+                        "source_session_id",
+                        "correlation_key",
+                        "collection_mode",
+                        "transport",
+                        "source_health",
+                        "last_event_at",
+                        "title",
+                        "cwd",
+                        "model",
+                        "agent_version",
+                        "started_at",
+                        "ended_at",
+                        "duration_ms",
+                        "status",
+                        "completeness",
+                        "event_count",
+                    )
+                    self.connection.execute(
+                        f"INSERT INTO sessions ({','.join(columns)}) "
+                        f"VALUES ({','.join('?' for _ in columns)})",
+                        tuple(session.get(column) for column in columns),
+                    )
+
+                if run:
+                    self.connection.execute(
+                        """
+                        INSERT INTO skill_runs (
+                            skill_run_id, session_id, turn_id, skill_id, run_index,
+                            activation_mode, evidence_grade, confidence, status,
+                            started_at, ended_at, basis, source_adapter
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        ON CONFLICT(skill_run_id) DO UPDATE SET
+                            status = CASE
+                                WHEN excluded.status IN ('failed', 'completed', 'interrupted')
+                                    THEN excluded.status
+                                ELSE skill_runs.status
+                            END,
+                            ended_at = COALESCE(excluded.ended_at, skill_runs.ended_at),
+                            evidence_grade = CASE
+                                WHEN skill_runs.evidence_grade = 'observed'
+                                    THEN skill_runs.evidence_grade
+                                ELSE excluded.evidence_grade
+                            END,
+                            confidence = MAX(skill_runs.confidence, excluded.confidence)
+                        """,
+                        (
+                            run["skill_run_id"],
+                            run["session_id"],
+                            run.get("turn_id"),
+                            run["skill_id"],
+                            run.get("run_index", 1),
+                            run["activation_mode"],
+                            run["evidence_grade"],
+                            run.get("confidence", 1.0),
+                            run["status"],
+                            run.get("started_at"),
+                            run.get("ended_at"),
+                            run["basis"],
+                            run.get("source_adapter", session["adapter"]),
+                        ),
+                    )
+                elif event.get("skill_run_id") and not event.get("skill_id"):
+                    run_row = self.connection.execute(
+                        "SELECT skill_id FROM skill_runs WHERE skill_run_id = ?",
+                        (event["skill_run_id"],),
+                    ).fetchone()
+                    if run_row:
+                        event["skill_id"] = run_row["skill_id"]
+
+                raw_result = self.connection.execute(
+                    """
+                    INSERT OR IGNORE INTO raw_source_records (
+                        raw_id, session_id, adapter, source_path, line_number,
+                        record_hash, occurred_at, record_type, redacted_envelope_json
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        raw["raw_id"],
+                        raw["session_id"],
+                        raw["adapter"],
+                        raw["source_path"],
+                        raw["line_number"],
+                        raw["record_hash"],
+                        raw.get("occurred_at"),
+                        raw["record_type"],
+                        raw["redacted_envelope_json"],
+                    ),
+                )
+                event_result = self.connection.execute(
+                    """
+                    INSERT OR IGNORE INTO normalized_events (
+                        event_id, session_id, turn_id, skill_id, skill_run_id,
+                        parent_event_id, occurred_at, event_type, stage, status,
+                        evidence_grade, confidence, basis, summary, source_locator,
+                        payload_json
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        event["event_id"],
+                        event["session_id"],
+                        event.get("turn_id"),
+                        event.get("skill_id"),
+                        event.get("skill_run_id"),
+                        event.get("parent_event_id"),
+                        event.get("occurred_at"),
+                        event["event_type"],
+                        event["stage"],
+                        event["status"],
+                        event["evidence_grade"],
+                        event["confidence"],
+                        event["basis"],
+                        event["summary"],
+                        event["source_locator"],
+                        json.dumps(event.get("payload", {}), ensure_ascii=False),
+                    ),
+                )
+                if event_result.rowcount:
+                    accepted += 1
+                else:
+                    duplicates += 1
+                if not raw_result.rowcount and event_result.rowcount:
+                    raise RuntimeError("collector raw/event idempotency diverged")
+                affected_sessions.add(session["session_id"])
+
+            for session_id in affected_sessions:
+                self.connection.execute(
+                    """
+                    UPDATE sessions
+                    SET event_count = (
+                            SELECT COUNT(*) FROM normalized_events
+                            WHERE session_id = ?
+                        ),
+                        started_at = COALESCE(
+                            started_at,
+                            (SELECT MIN(occurred_at) FROM normalized_events
+                             WHERE session_id = ?)
+                        )
+                    WHERE session_id = ?
+                    """,
+                    (session_id, session_id, session_id),
+                )
+                self._rebuild_session_relationships(session_id)
+            if accepted:
+                self._bump_revision()
+        return {"accepted": accepted, "duplicates": duplicates}
+
+    def _rebuild_session_relationships(self, session_id: str) -> None:
+        events = []
+        for row in self.connection.execute(
+            "SELECT * FROM normalized_events WHERE session_id = ?",
+            (session_id,),
+        ).fetchall():
+            event = dict(row)
+            event["payload"] = json.loads(event.pop("payload_json"))
+            events.append(event)
+        runs = [
+            dict(row)
+            for row in self.connection.execute(
+                "SELECT * FROM skill_runs WHERE session_id = ?", (session_id,)
+            ).fetchall()
+        ]
+        self._build_relationships(session_id, events, runs)
 
     def _build_relationships(
         self,
@@ -588,6 +1066,7 @@ class Storage:
                     event_count,
                 ),
             )
+            self._bump_revision()
 
     def list_runs(self, limit: int = 200) -> List[Dict[str, Any]]:
         """Compatibility session list. The main UI uses list_skill_runs."""
@@ -641,6 +1120,111 @@ class Storage:
             item["first_gap"] = self._first_gap(stage_summary)
             result.append(item)
         return result
+
+    def compare_skill_runs(
+        self, left_skill_run_id: str, right_skill_run_id: str
+    ) -> Optional[Dict[str, Any]]:
+        left = self.get_skill_run(left_skill_run_id)
+        right = self.get_skill_run(right_skill_run_id)
+        if left is None or right is None:
+            return None
+
+        left_stages = {item["stage"]: item for item in left["stage_summary"]}
+        right_stages = {item["stage"]: item for item in right["stage_summary"]}
+        stages = []
+        for stage in STAGES:
+            left_stage = left_stages[stage]
+            right_stage = right_stages[stage]
+            left_capability = left["adapter_capabilities"].get(stage, "unsupported")
+            right_capability = right["adapter_capabilities"].get(stage, "unsupported")
+            if "unsupported" in {left_capability, right_capability}:
+                comparability = "unsupported"
+                changed = None
+                reason = "At least one adapter cannot observe this stage."
+            elif left_capability != right_capability:
+                comparability = "capability_limited"
+                changed = None
+                reason = "Adapter capability differs; absence is not a behavioral difference."
+            else:
+                comparability = "comparable"
+                changed = (
+                    left_stage["status"] != right_stage["status"]
+                    or left_stage["event_count"] != right_stage["event_count"]
+                )
+                reason = (
+                    "Comparable normalized evidence differs."
+                    if changed
+                    else "Comparable normalized evidence agrees."
+                )
+            stages.append(
+                {
+                    "stage": stage,
+                    "comparability": comparability,
+                    "changed": changed,
+                    "reason": reason,
+                    "left": left_stage,
+                    "right": right_stage,
+                }
+            )
+
+        def event_type_counts(run: Dict[str, Any]) -> Dict[str, int]:
+            result: Dict[str, int] = {}
+            for event in run["events"]:
+                event_type = event["event_type"]
+                result[event_type] = result.get(event_type, 0) + 1
+            return result
+
+        left_counts = event_type_counts(left)
+        right_counts = event_type_counts(right)
+        event_types = []
+        for event_type in sorted(set(left_counts) | set(right_counts)):
+            left_count = left_counts.get(event_type, 0)
+            right_count = right_counts.get(event_type, 0)
+            event_types.append(
+                {
+                    "event_type": event_type,
+                    "left_count": left_count,
+                    "right_count": right_count,
+                    "delta": right_count - left_count,
+                }
+            )
+
+        def summary(run: Dict[str, Any]) -> Dict[str, Any]:
+            return {
+                "skill_run_id": run["skill_run_id"],
+                "skill": run["name"],
+                "skill_digest": run["digest"],
+                "agent": run["adapter"],
+                "agent_version": run["agent_version"],
+                "model": run["model"],
+                "status": run["status"],
+                "activation_mode": run["activation_mode"],
+                "evidence_grade": run["evidence_grade"],
+                "evidence_completeness": run["evidence_completeness"],
+                "first_gap": run["first_gap"],
+                "started_at": run["started_at"],
+                "duration_ms": run["session_duration_ms"],
+            }
+
+        comparable = [stage for stage in stages if stage["comparability"] == "comparable"]
+        changed = [stage for stage in comparable if stage["changed"]]
+        limited = [stage for stage in stages if stage["comparability"] != "comparable"]
+        return {
+            "left": summary(left),
+            "right": summary(right),
+            "same_skill_name": left["name"] == right["name"],
+            "same_skill_digest": left["digest"] == right["digest"],
+            "comparable_stage_count": len(comparable),
+            "changed_stage_count": len(changed),
+            "limited_stage_count": len(limited),
+            "first_changed_stage": changed[0]["stage"] if changed else None,
+            "stages": stages,
+            "event_types": event_types,
+            "discipline": (
+                "Only stages with equivalent adapter capability are classified "
+                "as behavioral differences."
+            ),
+        }
 
     def get_skill_run(self, skill_run_id: str) -> Optional[Dict[str, Any]]:
         row = self.connection.execute(
@@ -713,6 +1297,7 @@ class Storage:
         result["first_gap"] = self._first_gap(result["stage_summary"])
         result["narrative"] = self._narrative(result)
         result["adapter_capabilities"] = self.capabilities_for(result["adapter"])
+        result["findings"] = diagnose_skill_run(result)
         return result
 
     def get_run(self, session_id: str) -> Optional[Dict[str, Any]]:
@@ -853,11 +1438,14 @@ class Storage:
     def list_sources(self) -> List[Dict[str, Any]]:
         rows = self.connection.execute(
             """
-            SELECT adapter, adapter_version, COUNT(*) AS session_count,
+            SELECT adapter, adapter_version, collection_mode, transport,
+                   source_health, COUNT(*) AS session_count,
                    SUM(event_count) AS event_count,
-                   MAX(indexed_at) AS last_indexed_at
+                   MAX(indexed_at) AS last_indexed_at,
+                   MAX(last_event_at) AS last_event_at
             FROM sessions
-            GROUP BY adapter, adapter_version
+            GROUP BY adapter, adapter_version, collection_mode, transport,
+                     source_health
             ORDER BY session_count DESC, adapter
             """
         ).fetchall()
@@ -865,20 +1453,312 @@ class Storage:
         for row in rows:
             item = dict(row)
             item["capabilities"] = self.capabilities_for(item["adapter"])
+            item["live"] = item["collection_mode"] in {
+                "native_telemetry",
+                "official_hook",
+                "lightweight_hook",
+                "sdk",
+                "transcript_fallback",
+            }
+            item["role"] = (
+                "fallback"
+                if item["collection_mode"] == "transcript_fallback"
+                else (
+                    "import"
+                    if item["collection_mode"] == "observability_import"
+                    else "primary"
+                )
+            )
             result.append(item)
         return result
 
     def list_skills(self) -> List[Dict[str, Any]]:
         rows = self.connection.execute(
             """
-            SELECT sk.*, COUNT(sr.skill_run_id) AS observed_runs
+            SELECT sk.*, COUNT(sr.skill_run_id) AS observed_runs,
+                   COUNT(DISTINCT s.adapter) AS observed_agent_count,
+                   GROUP_CONCAT(DISTINCT s.adapter) AS observed_agents,
+                   MAX(sr.started_at) AS last_observed_at,
+                   SUM(CASE WHEN sr.status = 'failed' THEN 1 ELSE 0 END)
+                       AS failed_runs
             FROM skills sk
             LEFT JOIN skill_runs sr ON sr.skill_id = sk.skill_id
+            LEFT JOIN sessions s ON s.session_id = sr.session_id
             GROUP BY sk.skill_id
             ORDER BY sk.name COLLATE NOCASE, sk.source_path
             """
         ).fetchall()
-        return [dict(row) for row in rows]
+        result = []
+        for row in rows:
+            item = dict(row)
+            try:
+                item["resources"] = json.loads(item.pop("resources_json"))
+            except (TypeError, json.JSONDecodeError):
+                item["resources"] = []
+            item["observed_agents"] = [
+                value for value in str(item["observed_agents"] or "").split(",")
+                if value
+            ]
+            item["resource_counts"] = {
+                kind: sum(
+                    resource.get("kind") == kind
+                    for resource in item["resources"]
+                    if isinstance(resource, dict)
+                )
+                for kind in ("script", "reference", "asset")
+            }
+            item["activation_observation"] = (
+                "observed" if item["observed_runs"] else "not_observed"
+            )
+            result.append(item)
+        return result
+
+    def get_skill(self, skill_id: str) -> Optional[Dict[str, Any]]:
+        skill = next(
+            (item for item in self.list_skills() if item["skill_id"] == skill_id),
+            None,
+        )
+        if skill is None:
+            return None
+        skill["recent_runs"] = [
+            dict(row)
+            for row in self.connection.execute(
+                """
+                SELECT sr.skill_run_id, sr.status, sr.activation_mode,
+                       sr.started_at, sr.evidence_grade, s.adapter, s.model,
+                       s.cwd, s.title AS session_title
+                FROM skill_runs sr
+                JOIN sessions s ON s.session_id = sr.session_id
+                WHERE sr.skill_id = ?
+                ORDER BY COALESCE(sr.started_at, s.started_at) DESC
+                LIMIT 30
+                """,
+                (skill_id,),
+            ).fetchall()
+        ]
+        return skill
+
+    def compare_skill_definitions(
+        self, left_skill_id: str, right_skill_id: str
+    ) -> Optional[Dict[str, Any]]:
+        """Compare two installed definitions without implying runtime causality."""
+        left = next(
+            (
+                item
+                for item in self.list_skills()
+                if item["skill_id"] == left_skill_id
+            ),
+            None,
+        )
+        right = next(
+            (
+                item
+                for item in self.list_skills()
+                if item["skill_id"] == right_skill_id
+            ),
+            None,
+        )
+        if left is None or right is None:
+            return None
+
+        def resource_identity(resource: Dict[str, Any]) -> tuple:
+            return (
+                str(resource.get("kind") or ""),
+                str(resource.get("path") or ""),
+                int(resource.get("bytes") or 0),
+            )
+
+        left_resources = {
+            resource_identity(resource)
+            for resource in left.get("resources", [])
+            if isinstance(resource, dict)
+        }
+        right_resources = {
+            resource_identity(resource)
+            for resource in right.get("resources", [])
+            if isinstance(resource, dict)
+        }
+
+        def resource_dict(identity: tuple) -> Dict[str, Any]:
+            kind, path, size = identity
+            return {"kind": kind, "path": path, "bytes": size}
+
+        fields = {}
+        for field in (
+            "name",
+            "description",
+            "version",
+            "compatibility",
+            "digest",
+            "source_kind",
+            "source_path",
+            "valid",
+        ):
+            fields[field] = {
+                "left": left.get(field),
+                "right": right.get(field),
+                "changed": left.get(field) != right.get(field),
+            }
+        changed_fields = [
+            field for field, values in fields.items() if values["changed"]
+        ]
+        resources_added = [
+            resource_dict(item) for item in sorted(right_resources - left_resources)
+        ]
+        resources_removed = [
+            resource_dict(item) for item in sorted(left_resources - right_resources)
+        ]
+        return {
+            "left": {
+                "skill_id": left_skill_id,
+                "name": left["name"],
+                "version": left["version"],
+                "digest": left["digest"],
+            },
+            "right": {
+                "skill_id": right_skill_id,
+                "name": right["name"],
+                "version": right["version"],
+                "digest": right["digest"],
+            },
+            "same_name": left["name"].casefold() == right["name"].casefold(),
+            "same_digest": left["digest"] == right["digest"],
+            "changed_fields": changed_fields,
+            "fields": fields,
+            "resources_added": resources_added,
+            "resources_removed": resources_removed,
+            "evidence_grade": "observed",
+            "basis": (
+                "Direct comparison of indexed Skill definition metadata and "
+                "resource identities; resource contents are not stored."
+            ),
+        }
+
+    def skill_conflicts(self, minimum_overlap: float = 0.25) -> List[Dict[str, Any]]:
+        """Return description-overlap candidates as explicitly inferred evidence."""
+        stopwords = {
+            "the", "and", "for", "with", "from", "this", "that", "when",
+            "use", "using", "skill", "agent", "user", "to", "of", "a", "an",
+            "or", "in", "on", "is", "are",
+        }
+        skills = self.list_skills()
+        tokens = {}
+        for skill in skills:
+            values = {
+                token.casefold()
+                for token in re.findall(r"[\w-]{3,}", skill["description"])
+                if token.casefold() not in stopwords
+            }
+            tokens[skill["skill_id"]] = values
+        result = []
+        for left_index, left in enumerate(skills):
+            for right in skills[left_index + 1:]:
+                if left["name"].casefold() == right["name"].casefold():
+                    continue
+                union = tokens[left["skill_id"]] | tokens[right["skill_id"]]
+                overlap = tokens[left["skill_id"]] & tokens[right["skill_id"]]
+                score = len(overlap) / len(union) if union else 0.0
+                if score < minimum_overlap:
+                    continue
+                result.append(
+                    {
+                        "left": {
+                            "skill_id": left["skill_id"],
+                            "name": left["name"],
+                        },
+                        "right": {
+                            "skill_id": right["skill_id"],
+                            "name": right["name"],
+                        },
+                        "overlap": round(score, 3),
+                        "shared_terms": sorted(overlap)[:12],
+                        "evidence_grade": "inferred",
+                        "confidence": round(min(0.85, 0.45 + score / 2), 3),
+                        "basis": (
+                            "Installed Skill descriptions share trigger-like terms; "
+                            "candidate matching is not exposed by the Agent."
+                        ),
+                    }
+                )
+        return sorted(result, key=lambda item: item["overlap"], reverse=True)
+
+    def delete_skill_run(self, skill_run_id: str) -> Optional[Dict[str, Any]]:
+        row = self.connection.execute(
+            "SELECT session_id FROM skill_runs WHERE skill_run_id = ?",
+            (skill_run_id,),
+        ).fetchone()
+        if row is None:
+            return None
+        session_id = row["session_id"]
+        with self.connection:
+            self.connection.execute(
+                "DELETE FROM inferences WHERE skill_run_id = ?", (skill_run_id,)
+            )
+            self.connection.execute(
+                "DELETE FROM derived_relationships WHERE skill_run_id = ?",
+                (skill_run_id,),
+            )
+            self.connection.execute(
+                "DELETE FROM normalized_events WHERE skill_run_id = ?",
+                (skill_run_id,),
+            )
+            self.connection.execute(
+                "DELETE FROM skill_runs WHERE skill_run_id = ?", (skill_run_id,)
+            )
+            remaining = self.connection.execute(
+                "SELECT COUNT(*) FROM skill_runs WHERE session_id = ?",
+                (session_id,),
+            ).fetchone()[0]
+            session_deleted = remaining == 0
+            if session_deleted:
+                self.connection.execute(
+                    "DELETE FROM sessions WHERE session_id = ?", (session_id,)
+                )
+            self._bump_revision()
+        return {
+            "skill_run_id": skill_run_id,
+            "session_id": session_id,
+            "session_deleted": session_deleted,
+            "source_transcript_deleted": False,
+        }
+
+    def purge_expired(
+        self,
+        retention_days: int,
+        now: Optional[datetime] = None,
+    ) -> Dict[str, Any]:
+        """Apply the local retention policy to indexed records only."""
+        days = int(retention_days)
+        if days < 1:
+            raise ValueError("retention_days must be at least 1")
+        reference = now or datetime.now(timezone.utc)
+        if reference.tzinfo is None:
+            reference = reference.replace(tzinfo=timezone.utc)
+        cutoff = (reference.astimezone(timezone.utc) - timedelta(days=days)).isoformat()
+        rows = self.connection.execute(
+            """
+            SELECT session_id
+            FROM sessions
+            WHERE julianday(
+                COALESCE(ended_at, last_event_at, started_at, indexed_at)
+            ) < julianday(?)
+            """,
+            (cutoff,),
+        ).fetchall()
+        session_ids = [row["session_id"] for row in rows]
+        if session_ids:
+            with self.connection:
+                self.connection.executemany(
+                    "DELETE FROM sessions WHERE session_id = ?",
+                    [(session_id,) for session_id in session_ids],
+                )
+                self._bump_revision()
+        return {
+            "retention_days": days,
+            "cutoff": cutoff,
+            "sessions_deleted": len(session_ids),
+            "source_transcripts_deleted": False,
+        }
 
     def counts(self) -> Dict[str, int]:
         return {

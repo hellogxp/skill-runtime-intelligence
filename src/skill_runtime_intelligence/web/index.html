@@ -20,16 +20,41 @@
           <small>Evidence intelligence</small>
         </span>
       </div>
+      <nav class="primary-nav" aria-label="Product navigation">
+        <button class="nav-item active" type="button" data-view="runs">Runs</button>
+        <button class="nav-item" type="button" data-view="skills">Skills</button>
+        <button class="nav-item" type="button" data-view="settings">Settings</button>
+      </nav>
       <div class="top-actions">
+        <label class="locale-control" aria-label="Interface language">
+          <span>Language</span>
+          <select id="locale-select">
+            <option value="en">English</option>
+            <option value="zh-CN">简体中文</option>
+            <option value="zh-TW">繁體中文</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+            <option value="es">Español</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+            <option value="ru">Русский</option>
+            <option value="pt-BR">Português (Brasil)</option>
+            <option value="tr">Türkçe</option>
+            <option value="pl">Polski</option>
+            <option value="cs">Čeština</option>
+            <option value="hu">Magyar</option>
+          </select>
+        </label>
         <div id="source-summary" class="source-summary">Reading adapters…</div>
-        <span class="connection"><i></i> Local · Read-only</span>
+        <span id="connection-state" class="connection"><i></i><span>Local · connecting</span></span>
         <button id="refresh" class="icon-button" type="button" aria-label="Refresh index view" title="Refresh">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>
         </button>
       </div>
     </header>
 
-    <main class="workspace">
+    <main id="runs-view" class="workspace">
       <aside class="run-pane">
         <div class="pane-head">
           <p class="eyebrow">RUNTIME INDEX</p>
@@ -48,6 +73,17 @@
             <button class="filter" type="button" data-filter="incomplete">Incomplete</button>
             <button class="filter" type="button" data-filter="failed">Failed</button>
           </div>
+          <details class="advanced-filter-panel">
+            <summary>More filters</summary>
+            <div class="advanced-filters">
+              <label>Agent<select id="run-agent-filter"><option value="">All Agents</option></select></label>
+              <label>Project<select id="run-project-filter"><option value="">All projects</option></select></label>
+              <label>Skill<select id="run-skill-filter"><option value="">All Skills</option></select></label>
+              <label>Evidence<select id="run-grade-filter"><option value="">All grades</option></select></label>
+              <label>Date<input id="run-date-filter" type="date"></label>
+              <label class="error-filter"><input id="run-error-filter" type="checkbox">Has errors</label>
+            </div>
+          </details>
         </div>
         <div id="runs" class="run-list" aria-live="polite"></div>
       </aside>
@@ -68,11 +104,17 @@
       <section id="run-detail" class="run-detail hidden">
         <div class="detail-scroll">
           <header class="detail-head">
+            <button id="back-to-runs" class="back-button" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h11"/></svg>
+              SkillRuns
+            </button>
             <div>
               <p id="detail-context" class="eyebrow"></p>
               <div class="title-row">
                 <h2 id="detail-title"></h2>
                 <span id="detail-status"></span>
+                <button id="compare-toggle" class="compare-toggle" type="button">Compare</button>
+                <button id="delete-run" class="delete-run" type="button">Delete index</button>
               </div>
               <p id="detail-description" class="detail-description"></p>
             </div>
@@ -101,6 +143,31 @@
             </article>
           </section>
 
+          <section id="compare-panel" class="panel compare-panel hidden">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">EVIDENCE-AWARE COMPARE</p>
+                <h3>Run and adapter differences</h3>
+              </div>
+              <div class="compare-controls">
+                <select id="compare-target" aria-label="Select a SkillRun to compare"></select>
+                <button id="compare-run" type="button">Compare runs</button>
+              </div>
+            </div>
+            <div id="comparison" class="comparison"></div>
+          </section>
+
+          <section class="panel diagnostics-panel">
+            <div class="section-head diagnostics-head">
+              <div>
+                <p class="eyebrow">DIAGNOSTICS</p>
+                <h3>Evidence-graded findings</h3>
+              </div>
+              <span id="finding-count" class="count">—</span>
+            </div>
+            <div id="findings" class="findings"></div>
+          </section>
+
           <section class="panel panorama-panel">
             <div class="section-head">
               <div>
@@ -111,10 +178,26 @@
                 <span><i class="shape observed"></i>Observed</span>
                 <span><i class="shape derived"></i>Derived</span>
                 <span><i class="shape inferred"></i>Inferred</span>
+                <span class="edge-key solid">Source fact</span>
+                <span class="edge-key dashed">Lifecycle</span>
               </div>
             </div>
             <div class="dag-shell">
-              <div id="panorama" class="panorama"></div>
+              <div class="dag-toolbar">
+                <span id="motion-status" class="motion-status">Live · semantic motion</span>
+                <div class="dag-toolbar-actions">
+                  <div class="motion-controls" role="group" aria-label="Graph motion mode">
+                    <button class="motion-mode active" type="button" data-motion="live">Live</button>
+                    <button class="motion-mode" type="button" data-motion="replay">Replay</button>
+                    <button class="motion-mode" type="button" data-motion="static">Static</button>
+                  </div>
+                  <button id="dag-reset" type="button">Fit start</button>
+                </div>
+              </div>
+              <div id="dag-scroll" class="dag-scroll">
+                <svg id="panorama" class="panorama" role="img"
+                     aria-label="Skill runtime evidence graph"></svg>
+              </div>
             </div>
           </section>
 
@@ -126,44 +209,150 @@
             </div>
           </section>
 
-          <section class="panel timeline-panel">
-            <div class="section-head timeline-head">
-              <div>
-                <p class="eyebrow">TRUSTED CHRONOLOGY</p>
-                <h3>Runtime evidence</h3>
+          <div class="evidence-workbench">
+            <section class="panel timeline-panel">
+              <div class="section-head timeline-head">
+                <div>
+                  <p class="eyebrow">TRUSTED CHRONOLOGY</p>
+                  <h3>Runtime evidence</h3>
+                </div>
+                <div class="timeline-filters">
+                  <select id="event-filter" aria-label="Filter timeline by lifecycle stage">
+                    <option value="all">All stages</option>
+                    <option value="request">Request</option>
+                    <option value="discovery">Discovery</option>
+                    <option value="activation">Activation</option>
+                    <option value="instructions">Instructions</option>
+                    <option value="resources">Resources</option>
+                    <option value="execution">Execution</option>
+                    <option value="artifacts">Artifacts</option>
+                    <option value="outcome">Outcome</option>
+                  </select>
+                  <select id="event-type-filter" aria-label="Filter timeline by event type">
+                    <option value="">All event types</option>
+                  </select>
+                  <select id="event-skill-filter" aria-label="Filter timeline by Skill">
+                    <option value="">All Skills</option>
+                  </select>
+                  <select id="event-grade-filter" aria-label="Filter timeline by evidence grade">
+                    <option value="">All grades</option>
+                  </select>
+                </div>
               </div>
-              <select id="event-filter" aria-label="Filter timeline by lifecycle stage">
-                <option value="all">All stages</option>
-                <option value="request">Request</option>
-                <option value="activation">Activation</option>
-                <option value="instructions">Instructions</option>
-                <option value="resources">Resources</option>
-                <option value="execution">Execution</option>
-                <option value="artifacts">Artifacts</option>
-                <option value="outcome">Outcome</option>
-              </select>
-            </div>
-            <div id="timeline" class="timeline"></div>
-          </section>
-        </div>
+              <div id="timeline" class="timeline"></div>
+            </section>
 
-        <aside class="inspector-pane">
-          <div class="inspector-head">
-            <div>
-              <p class="eyebrow">EVIDENCE INSPECTOR</p>
-              <h3>Why this is attributed</h3>
-            </div>
-            <span id="inspector-grade"></span>
+            <aside class="panel inspector-pane">
+              <div class="inspector-head">
+                <div>
+                  <p class="eyebrow">EVIDENCE INSPECTOR</p>
+                  <h3>Why this is attributed</h3>
+                </div>
+                <span id="inspector-grade"></span>
+              </div>
+              <div id="inspector" class="inspector empty-inspector">
+                <div class="inspector-orbit"></div>
+                <p>Select a lifecycle node or timeline event.</p>
+                <small>Source facts and attribution are shown separately.</small>
+              </div>
+              <div id="capabilities" class="capabilities"></div>
+            </aside>
           </div>
-          <div id="inspector" class="inspector empty-inspector">
-            <div class="inspector-orbit"></div>
-            <p>Select a lifecycle node or timeline event.</p>
-            <small>Source facts and attribution are shown separately.</small>
-          </div>
-          <div id="capabilities" class="capabilities"></div>
-        </aside>
+        </div>
       </section>
     </main>
+
+    <main id="skills-view" class="product-view hidden">
+      <header class="view-hero">
+        <div>
+          <p class="eyebrow">STATIC DEFINITION × RUNTIME EVIDENCE</p>
+          <h1>Skill Inventory</h1>
+          <p>What each Agent can discover, what is installed, and what has actually run.</p>
+        </div>
+        <span id="skill-count" class="hero-count">— Skills</span>
+      </header>
+      <section id="skill-metrics" class="overview-metrics"></section>
+      <div class="inventory-layout">
+        <section class="panel inventory-panel">
+          <div class="inventory-toolbar">
+            <label class="search inventory-search">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+              <input id="skill-filter" type="search" placeholder="Filter name, source, description">
+            </label>
+            <div class="evidence-legend compact">
+              <span><i class="shape observed"></i>Observed use</span>
+              <span><i class="shape inferred"></i>Not observed</span>
+            </div>
+          </div>
+          <div id="skill-list" class="skill-list"></div>
+        </section>
+        <aside class="panel skill-inspector-panel">
+          <div id="skill-inspector" class="skill-inspector empty-inspector">
+            <div class="inspector-orbit"></div>
+            <p>Select a Skill definition.</p>
+            <small>Static inventory and runtime evidence remain distinct.</small>
+          </div>
+        </aside>
+      </div>
+      <section class="panel conflicts-panel">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">POTENTIAL TRIGGER OVERLAP</p>
+            <h3>Conflict candidates</h3>
+          </div>
+          <span class="grade-pill inferred">Inferred</span>
+        </div>
+        <p class="panel-note">Description overlap is a review aid, not proof that an Agent considered or confused two Skills.</p>
+        <div id="conflicts" class="conflict-list"></div>
+      </section>
+    </main>
+
+    <main id="settings-view" class="product-view hidden">
+      <header class="view-hero">
+        <div>
+          <p class="eyebrow">COLLECTION, PRIVACY & INTEROPERABILITY</p>
+          <h1>Runtime Settings</h1>
+          <p>See exactly what is connected, read, stored, and exported.</p>
+        </div>
+        <span class="local-badge">Local control plane</span>
+      </header>
+      <section class="settings-grid">
+        <article class="panel settings-card">
+          <div class="settings-card-head">
+            <div><p class="eyebrow">AGENT ADAPTERS</p><h3>Collection health</h3></div>
+          </div>
+          <div id="integration-list" class="integration-list"></div>
+        </article>
+        <article class="panel settings-card">
+          <div class="settings-card-head">
+            <div><p class="eyebrow">LOCAL EVIDENCE STORE</p><h3>Data & privacy</h3></div>
+          </div>
+          <div id="data-settings" class="settings-body"></div>
+        </article>
+        <article class="panel settings-card settings-wide">
+          <div class="settings-card-head">
+            <div><p class="eyebrow">PROJECT BOUNDARIES</p><h3>Included and excluded paths</h3></div>
+            <button id="save-settings" type="button">Save settings</button>
+          </div>
+          <div class="path-settings">
+            <label>Included projects<textarea id="included-projects" spellcheck="false"></textarea></label>
+            <label>Never read or index<textarea id="excluded-paths" spellcheck="false"></textarea></label>
+            <label>Retention days (blank = unlimited)<input id="retention-days" type="number" min="1" max="3650" inputmode="numeric"></label>
+          </div>
+          <p id="settings-save-state" class="panel-note">Changes apply after restart. Retention removes only expired local index records, never Agent source files.</p>
+        </article>
+        <article class="panel settings-card settings-wide">
+          <div class="settings-card-head">
+            <div><p class="eyebrow">OBSERVABILITY EXPORT</p><h3>OTLP/HTTP destinations</h3></div>
+            <span class="grade-pill observed">Opt-in</span>
+          </div>
+          <div id="exporter-list" class="integration-list"></div>
+          <p class="panel-note">Exports contain normalized Skill evidence and categorical metadata, never raw prompts or tool payloads.</p>
+        </article>
+      </section>
+    </main>
+    <script src="/locale-packs.js" defer></script>
+    <script src="/i18n.js" defer></script>
     <script src="/app.js" defer></script>
   </body>
 </html>

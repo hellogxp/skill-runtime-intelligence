@@ -1,0 +1,98 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Build wheel and source distribution
+        run: |
+          python -m pip install build
+          python -m build
+          python scripts/build_zipapp.py
+          cp scripts/install.sh dist/install.sh
+          chmod 755 dist/install.sh dist/skill-runtime.pyz
+          cd dist
+          sha256sum * > python-assets.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-packages
+          path: dist/*
+
+  native-linux:
+    strategy:
+      matrix:
+        include:
+          - runner: ubuntu-latest
+            arch: x86_64
+          - runner: ubuntu-24.04-arm
+            arch: arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build native sender
+        shell: bash
+        run: |
+          asset="skill-runtime-hook-native-linux-${{ matrix.arch }}"
+          cc -O2 -std=c99 src/skill_runtime_intelligence/native/hook_sender.c -o "${asset}"
+          chmod 700 "${asset}"
+          sha256sum "${asset}" > "${asset}.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native-linux-${{ matrix.arch }}
+          path: skill-runtime-hook-native-*
+
+  native-macos:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build universal sender and architecture-specific release assets
+        shell: bash
+        run: |
+          cc -O2 -std=c99 -arch x86_64 -arch arm64 \
+            src/skill_runtime_intelligence/native/hook_sender.c \
+            -o skill-runtime-hook-native-darwin-universal2
+          for arch in x86_64 arm64; do
+            asset="skill-runtime-hook-native-darwin-${arch}"
+            cp skill-runtime-hook-native-darwin-universal2 "${asset}"
+            chmod 700 "${asset}"
+            shasum -a 256 "${asset}" > "${asset}.sha256"
+          done
+          rm skill-runtime-hook-native-darwin-universal2
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native-macos
+          path: skill-runtime-hook-native-*
+
+  publish:
+    needs: [python, native-linux, native-macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+      - name: Validate release payload
+        shell: bash
+        run: |
+          find release-assets -maxdepth 1 -type f -print
+          test -f release-assets/skill-runtime-hook-native-linux-x86_64
+          test -f release-assets/skill-runtime-hook-native-linux-arm64
+          test -f release-assets/skill-runtime-hook-native-darwin-x86_64
+          test -f release-assets/skill-runtime-hook-native-darwin-arm64
+          test -f release-assets/skill-runtime.pyz
+          test -f release-assets/install.sh
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: release-assets/*
+          generate_release_notes: true

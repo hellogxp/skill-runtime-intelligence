@@ -11,6 +11,8 @@ SkillRun using the precedence defined by the runtime event model:
 
 import hashlib
 import json
+import re
+from functools import lru_cache
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
@@ -67,19 +69,148 @@ def _path_in_text(path: str, text: str) -> bool:
         variants.add(path[len("/private"):])
     elif path.startswith("/var/"):
         variants.add("/private" + path)
-    return any(candidate in text for candidate in variants)
+    for candidate in variants:
+        start = 0
+        while True:
+            index = text.find(candidate, start)
+            if index < 0:
+                break
+            before = text[index - 1] if index else ""
+            end = index + len(candidate)
+            after = text[end] if end < len(text) else ""
+            before_is_path = bool(before) and (
+                before.isalnum() or before in "._~/-"
+            )
+            after_extends_same_segment = bool(after) and (
+                after.isalnum() or after in "._~-"
+            )
+            if not before_is_path and not after_extends_same_segment:
+                return True
+            start = index + 1
+    return False
 
 
-def _resource_kind(skill_file: str, input_text: str) -> str:
+def _identifier_in_text(identifier: str, text: str) -> bool:
+    """Match an identifier without accepting a longer dashed/underscored name."""
+    candidate = identifier.casefold()
+    haystack = text.casefold()
+    start = 0
+    while True:
+        index = haystack.find(candidate, start)
+        if index < 0:
+            return False
+        before = haystack[index - 1] if index else ""
+        end = index + len(candidate)
+        after = haystack[end] if end < len(haystack) else ""
+        before_is_identifier = bool(before) and (
+            before.isalnum() or before in "._-"
+        )
+        after_is_identifier = bool(after) and (
+            after.isalnum() or after in "._-"
+        )
+        if not before_is_identifier and not after_is_identifier:
+            return True
+        start = index + 1
+
+
+@lru_cache(maxsize=4096)
+def _relative_path(path: str, cwd: str) -> Optional[str]:
+    if not cwd:
+        return None
+    try:
+        return str(Path(path).resolve().relative_to(Path(cwd).resolve()))
+    except (OSError, ValueError):
+        return None
+
+
+def _path_or_relative_in_text(path: str, text: str, cwd: str) -> bool:
+    if _path_in_text(path, text):
+        return True
+    relative = _relative_path(path, cwd)
+    return bool(relative and _path_in_text(relative, text))
+
+
+def _resource_kind(skill_file: str, input_text: str, cwd: str = "") -> str:
     skill_dir = Path(skill_file).parent
     for directory, kind in (
         ("scripts", "script"),
         ("references", "reference"),
         ("assets", "asset"),
     ):
-        if _path_in_text(str(skill_dir / directory), input_text):
+        if _path_or_relative_in_text(
+            str(skill_dir / directory), input_text, cwd
+        ):
             return kind
     return "other"
+
+
+def _resolve_artifact_path(value: Any, cwd: str) -> str:
+    path = str(value or "").strip()
+    if not path or "\n" in path or "\r" in path:
+        return ""
+    candidate = Path(path).expanduser()
+    if not candidate.is_absolute() and cwd:
+        candidate = Path(cwd) / candidate
+    try:
+        return str(candidate.resolve())
+    except OSError:
+        return str(candidate)
+
+
+def _artifact_candidates(
+    tool_name: str, payload: Dict[str, Any], cwd: str
+) -> List[Dict[str, str]]:
+    """Extract only exact paths carried by file-changing tool inputs."""
+    lower_tool = tool_name.lower().rsplit(".", 1)[-1]
+    value = payload.get("input", payload.get("arguments", {}))
+    result: List[Dict[str, str]] = []
+    if isinstance(value, dict):
+        path = value.get("path") or value.get("file_path") or value.get("filename")
+        resolved = _resolve_artifact_path(path, cwd)
+        if resolved and lower_tool in {
+            "write",
+            "write_file",
+            "edit",
+            "edit_file",
+            "create_file",
+        }:
+            result.append(
+                {
+                    "path": resolved,
+                    "event_type": (
+                        "file.modified"
+                        if lower_tool in {"edit", "edit_file"}
+                        else "artifact.produced"
+                    ),
+                    "change_type": lower_tool,
+                }
+            )
+    if lower_tool in {"apply_patch", "patch"}:
+        text = value if isinstance(value, str) else json.dumps(value, ensure_ascii=False)
+        for change_type, path in re.findall(
+            r"^\*\*\* (Add File|Update File|Delete File|Move to): (.+)$",
+            text,
+            flags=re.MULTILINE,
+        ):
+            event_type = {
+                "Add File": "file.created",
+                "Delete File": "file.deleted",
+                "Update File": "file.modified",
+                "Move to": "file.modified",
+            }[change_type]
+            resolved = _resolve_artifact_path(path, cwd)
+            if resolved:
+                result.append(
+                    {
+                        "path": resolved,
+                        "event_type": event_type,
+                        "change_type": change_type.lower().replace(" ", "_"),
+                    }
+                )
+    unique = {}
+    for candidate in result:
+        unique[(candidate["path"], candidate["event_type"])] = candidate
+    return list(unique.values())
 
 
 class CodexAdapter:
@@ -93,6 +224,28 @@ class CodexAdapter:
         if not self.sessions_root.is_dir():
             return []
         return sorted(self.sessions_root.rglob("*.jsonl"))
+
+    def peek_cwd(self, source_path: Path) -> str:
+        """Read only enough metadata to apply project exclusions before parsing."""
+        try:
+            with source_path.open(
+                "r", encoding="utf-8", errors="replace"
+            ) as handle:
+                for index, line in enumerate(handle):
+                    if index >= 20:
+                        break
+                    try:
+                        record = json.loads(line)
+                    except json.JSONDecodeError:
+                        continue
+                    if record.get("type") != "session_meta":
+                        continue
+                    payload = record.get("payload")
+                    if isinstance(payload, dict):
+                        return str(payload.get("cwd") or "")
+        except OSError:
+            return ""
+        return ""
 
     def parse(
         self, source_path: Path, skills: List[SkillDefinition]
@@ -126,6 +279,7 @@ class CodexAdapter:
         events: List[Dict[str, Any]] = []
         skill_runs_by_id: Dict[str, Dict[str, Any]] = {}
         tool_calls: Dict[str, Dict[str, Any]] = {}
+        candidate_artifacts: List[Dict[str, Any]] = []
         active_run_by_turn: Dict[str, str] = {}
         active_turn: Optional[str] = None
         open_turns = set()
@@ -399,6 +553,7 @@ class CodexAdapter:
                     event["event_id"],
                     events,
                     skill_runs_by_id,
+                    str(meta_payload.get("cwd") or ""),
                 )
                 if detected_run_ids:
                     current_run = detected_run_ids[-1]
@@ -408,6 +563,9 @@ class CodexAdapter:
                     "event_id": event["event_id"],
                     "name": name,
                     "skill_run_id": current_run,
+                    "artifact_candidates": _artifact_candidates(
+                        name, payload, str(meta_payload.get("cwd") or "")
+                    ),
                 }
                 continue
 
@@ -419,8 +577,7 @@ class CodexAdapter:
                 call_id = str(payload.get("call_id") or payload.get("id") or "")
                 parent = tool_calls.get(call_id, {})
                 name = parent.get("name", "unknown")
-                events.append(
-                    self._event(
+                completed_event = self._event(
                         session_id,
                         line_number,
                         timestamp,
@@ -436,7 +593,65 @@ class CodexAdapter:
                         parent_event_id=parent.get("event_id"),
                         payload={"tool_name": name, "call_id": call_id},
                     )
+                events.append(completed_event)
+                for candidate in parent.get("artifact_candidates", []):
+                    candidate_artifacts.append(
+                        {
+                            **candidate,
+                            "line_number": line_number,
+                            "timestamp": timestamp,
+                            "turn_id": active_turn,
+                            "skill_run_id": parent.get("skill_run_id"),
+                            "parent_event_id": parent.get("event_id"),
+                            "tool_name": name,
+                            "call_id": call_id,
+                        }
+                    )
+
+        existing_artifacts = {
+            (
+                event.get("parent_event_id"),
+                str((event.get("payload") or {}).get("path") or ""),
+            )
+            for event in events
+            if event.get("stage") == "artifacts"
+        }
+        for artifact_index, artifact in enumerate(candidate_artifacts):
+            key = (artifact["parent_event_id"], artifact["path"])
+            if key in existing_artifacts:
+                continue
+            event_type = artifact["event_type"]
+            events.append(
+                self._event(
+                    session_id,
+                    artifact["line_number"],
+                    artifact["timestamp"],
+                    event_type,
+                    "artifacts",
+                    "derived",
+                    (
+                        "Exact file path from a completed file-changing tool; "
+                        "the source does not expose an independent filesystem event"
+                    ),
+                    f"{event_type.replace('.', ' ').title()}: "
+                    f"{Path(artifact['path']).name}",
+                    source_resolved,
+                    artifact["turn_id"],
+                    status="completed",
+                    confidence=1.0,
+                    skill_run_id=artifact["skill_run_id"],
+                    parent_event_id=artifact["parent_event_id"],
+                    payload={
+                        "path": artifact["path"],
+                        "change_type": artifact["change_type"],
+                        "tool_name": artifact["tool_name"],
+                        "call_id": artifact["call_id"],
+                        "independent_file_event": False,
+                    },
+                    suffix=f"artifact-{artifact_index}",
                 )
+            )
+            existing_artifacts.add(key)
 
         ended_at = last_timestamp if saw_completion and not open_turns else None
         status = "completed" if saw_completion and not open_turns else "incomplete"
@@ -478,6 +693,7 @@ class CodexAdapter:
         parent_event_id: str,
         events: List[Dict[str, Any]],
         skill_runs: Dict[str, Dict[str, Any]],
+        cwd: str,
     ) -> List[str]:
         matched_runs = []
         lower_tool = tool_name.lower().rsplit(".", 1)[-1]
@@ -487,11 +703,14 @@ class CodexAdapter:
             skill_dir = str(Path(skill_file).parent)
             explicit = (
                 lower_tool in {"skill", "use_skill", "activate_skill"}
-                and skill.name.casefold() in input_text.casefold()
+                and _identifier_in_text(skill.name, input_text)
             )
-            instruction_loaded = _path_in_text(skill_file, input_text)
+            instruction_loaded = _path_or_relative_in_text(
+                skill_file, input_text, cwd
+            )
             resource_accessed = (
-                _path_in_text(skill_dir, input_text) and not instruction_loaded
+                _path_or_relative_in_text(skill_dir, input_text, cwd)
+                and not instruction_loaded
             )
             if not (explicit or instruction_loaded or resource_accessed):
                 continue
@@ -547,7 +766,7 @@ class CodexAdapter:
                 )
                 stage = "resources"
                 basis = "Observed tool input contains the exact Skill directory path"
-                resource_kind = _resource_kind(skill_file, input_text)
+                resource_kind = _resource_kind(skill_file, input_text, cwd)
                 summary = f"`{skill.name}` {resource_kind} accessed"
 
             events.append(
