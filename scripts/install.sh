@@ -44,6 +44,44 @@ case ":${PATH}:" in
 esac
 
 if [ "$binary_only" -eq 0 ]; then
+  native_os=""
+  native_arch=""
+  case "$(uname -s 2>/dev/null || true)" in
+    Darwin) native_os="darwin" ;;
+    Linux) native_os="linux" ;;
+  esac
+  case "$(uname -m 2>/dev/null || true)" in
+    x86_64|amd64) native_arch="x86_64" ;;
+    arm64|aarch64) native_arch="arm64" ;;
+  esac
+  if [ -n "$native_os" ] && [ -n "$native_arch" ]; then
+    native_asset="skill-runtime-hook-native-${native_os}-${native_arch}"
+    # shellcheck disable=SC2086
+    gh release download $release_args \
+      --pattern "$native_asset" \
+      --pattern "$native_asset.sha256" \
+      --dir "$installer_tmp"
+    checksum_ok=0
+    if command -v sha256sum >/dev/null 2>&1; then
+      (
+        cd "$installer_tmp"
+        sha256sum -c "$native_asset.sha256"
+      ) >/dev/null && checksum_ok=1
+    elif command -v shasum >/dev/null 2>&1; then
+      (
+        cd "$installer_tmp"
+        shasum -a 256 -c "$native_asset.sha256"
+      ) >/dev/null && checksum_ok=1
+    fi
+    if [ "$checksum_ok" -ne 1 ]; then
+      echo "Native sender checksum verification failed." >&2
+      exit 1
+    fi
+    state_root="${SKILL_RUNTIME_HOME:-${HOME}/.skill-runtime}"
+    mkdir -p "$state_root/bin"
+    install -m 700 "$installer_tmp/$native_asset" \
+      "$state_root/bin/skill-runtime-hook-native"
+  fi
   "$install_dir/skill-runtime" install
   echo "Next: skill-runtime start"
 fi
