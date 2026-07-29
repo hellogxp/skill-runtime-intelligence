@@ -17,14 +17,10 @@ Agent Skill Runtime Intelligence是一個針對代理技能的唯讀運行時證
 
 ## 快速啟動
 
-使用經過驗證的私有儲存庫安裝獨立版本Git中心 CLI：
+在 macOS 或 Linux 上安裝最新獨立版本：
 
 ```bash
-install_tmp="$(mktemp -d)"
-gh release download --repo hellogxp/skill-runtime-intelligence \
-  --pattern install.sh --dir "$install_tmp"
-sh "$install_tmp/install.sh"
-skill-runtime start
+curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
 或直接從源結帳運行：

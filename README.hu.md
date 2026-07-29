@@ -17,14 +17,10 @@ Agent Skill Runtime Intelligenceegy csak olvasható futásidejű bizonyíték- �
 
 ## Gyors kezdés
 
-Telepítse az önálló kiadást a privát lerakatból hitelesített verzióvalGitHub CLI:
+Telepítse a legújabb önálló kiadást macOS vagy Linux rendszerre:
 
 ```bash
-install_tmp="$(mktemp -d)"
-gh release download --repo hellogxp/skill-runtime-intelligence \
-  --pattern install.sh --dir "$install_tmp"
-sh "$install_tmp/install.sh"
-skill-runtime start
+curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
 Vagy futtassa közvetlenül a forráspénztárból:

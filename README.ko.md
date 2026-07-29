@@ -17,14 +17,10 @@ Agent Skill Runtime Intelligence에이전트 스킬에 대한 읽기 전용 런�
 
 ## 빠른 시작
 
-인증된 개인 저장소에서 독립 실행형 릴리스를 설치합니다.Git허브 CLI:
+macOS 또는 Linux에 최신 독립 실행형 릴리스를 설치합니다.
 
 ```bash
-install_tmp="$(mktemp -d)"
-gh release download --repo hellogxp/skill-runtime-intelligence \
-  --pattern install.sh --dir "$install_tmp"
-sh "$install_tmp/install.sh"
-skill-runtime start
+curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
 또는 소스 체크아웃에서 직접 실행하십시오.

@@ -17,14 +17,10 @@ Agent Skill Runtime Intelligenceje runtime evidence a diagnostický systém pro 
 
 ## Rychlý start
 
-Nainstalujte samostatné vydání ze soukromého úložiště s ověřenýmGitHub CLI:
+Nainstalujte nejnovější samostatnou verzi pro macOS nebo Linux:
 
 ```bash
-install_tmp="$(mktemp -d)"
-gh release download --repo hellogxp/skill-runtime-intelligence \
-  --pattern install.sh --dir "$install_tmp"
-sh "$install_tmp/install.sh"
-skill-runtime start
+curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
 Nebo spusťte přímo z pokladny zdroje:

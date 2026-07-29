@@ -17,14 +17,10 @@ Agent Skill Runtime IntelligenceAgent Skills için salt okunur bir çalışma za
 
 ## Hızlı başlangıç
 
-Kimliği doğrulanmış bir sürümle özel depodan bağımsız sürümü yükleyin.GitMerkez CLI'si:
+macOS veya Linux için en son bağımsız sürümü yükleyin:
 
 ```bash
-install_tmp="$(mktemp -d)"
-gh release download --repo hellogxp/skill-runtime-intelligence \
-  --pattern install.sh --dir "$install_tmp"
-sh "$install_tmp/install.sh"
-skill-runtime start
+curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
 Veya doğrudan kaynak ödemesinden çalıştırın:

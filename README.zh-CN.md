@@ -1,5 +1,10 @@
 # Agent Skill Runtime Intelligence
 
+[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-intelligence/releases/latest)
+[![License](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
+
 <!-- locale-switcher:start -->
 [English](README.md) · **简体中文** · [繁體中文](README.zh-TW.md) ·
 [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) ·
@@ -19,15 +24,18 @@ Agent Skill Runtime Intelligence 是面向 Agent Skills 的只读运行时证据
 
 ## 快速开始
 
-使用已登录的 GitHub CLI，从私有仓库安装独立发行版：
+在 macOS 或 Linux 上安装最新独立发行版：
 
 ```bash
-install_tmp="$(mktemp -d)"
-gh release download --repo hellogxp/skill-runtime-intelligence \
-  --pattern install.sh --dir "$install_tmp"
-sh "$install_tmp/install.sh"
-skill-runtime start
+curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
+
+不需要克隆仓库、GitHub 账号、`sudo` 或 GitHub CLI。安装器会自动下载与当前平台
+匹配的正式发行产物、校验 SHA-256，并在启用 fail-open Agent Hook 前只询问一次；
+所有运行数据默认保存在 `~/.skill-runtime`。安装完成后会启动本地 Runtime，并打开
+[http://127.0.0.1:4317](http://127.0.0.1:4317)。
+
+运行前可以先[检查安装脚本](scripts/install.sh)。
 
 或者从源码运行：
 
@@ -42,7 +50,7 @@ python3 -m venv .venv
 `/hooks` 中核对并信任由 Skill Runtime 管理的命令，开始一个新的 Agent 回合，然后执行：
 
 ```bash
-.venv/bin/skill-runtime doctor
+skill-runtime doctor
 ```
 
 只有收到真实的官方 Hook 事件后，集成状态才会变为 **Verified**。仅完成 Hook 配置时

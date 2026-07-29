@@ -17,14 +17,10 @@ Agent Skill Runtime Intelligence— это доступная только дл�
 
 ## Быстрый старт
 
-Установите автономный выпуск из частного репозитория с проверенным пользователем.GitИнтерфейс командной строки концентратора:
+Установите последнюю автономную версию для macOS или Linux:
 
 ```bash
-install_tmp="$(mktemp -d)"
-gh release download --repo hellogxp/skill-runtime-intelligence \
-  --pattern install.sh --dir "$install_tmp"
-sh "$install_tmp/install.sh"
-skill-runtime start
+curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
 Или запустите непосредственно из исходного кода:

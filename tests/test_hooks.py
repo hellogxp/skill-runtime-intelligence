@@ -62,8 +62,13 @@ class HookAdapterTests(unittest.TestCase):
 
     def test_native_sender_install_prewarms_against_a_missing_socket(self):
         with tempfile.TemporaryDirectory() as directory:
+            state_root = (
+                Path(directory)
+                / ("state-" + ("long-" * 24))
+                / ("nested-" + ("path-" * 12))
+            )
             result = install_native_hook_sender(
-                Path(directory),
+                state_root,
                 download_first=False,
             )
             if not result["available"]:

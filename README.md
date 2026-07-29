@@ -1,5 +1,10 @@
 # Agent Skill Runtime Intelligence
 
+[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-intelligence/releases/latest)
+[![License](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
+
 <!-- locale-switcher:start -->
 **English** · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) ·
 [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) ·
@@ -21,16 +26,19 @@ into an evidence-graded Skill Run Panorama.
 
 ## Quick start
 
-Install the standalone release from the private repository with an authenticated
-GitHub CLI:
+Install the latest standalone release on macOS or Linux:
 
 ```bash
-install_tmp="$(mktemp -d)"
-gh release download --repo hellogxp/skill-runtime-intelligence \
-  --pattern install.sh --dir "$install_tmp"
-sh "$install_tmp/install.sh"
-skill-runtime start
+curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
+
+No clone, GitHub account, `sudo`, or GitHub CLI is required. The installer
+downloads the matching signed-release payload, verifies SHA-256 checksums,
+asks once before enabling fail-open Agent hooks, and stores all runtime data
+under `~/.skill-runtime`. It then starts the local runtime and opens
+[http://127.0.0.1:4317](http://127.0.0.1:4317).
+
+You can [inspect the installer](scripts/install.sh) before running it.
 
 Or run directly from a source checkout:
 
@@ -45,7 +53,7 @@ Open [http://127.0.0.1:4317](http://127.0.0.1:4317). For Codex, review and
 trust the managed commands in `/hooks`, start one new Agent turn, then verify:
 
 ```bash
-.venv/bin/skill-runtime doctor
+skill-runtime doctor
 ```
 
 The integration becomes **Verified** only after a real official-hook event is

@@ -101,28 +101,28 @@ jobs:
     needs: publish
     runs-on: ubuntu-latest
     env:
-      GH_TOKEN: ${{ github.token }}
       SKILL_RUNTIME_VERSION: ${{ github.ref_name }}
     steps:
-      - name: Download authenticated installer
+      - name: Download public installer
         shell: bash
         run: |
           mkdir -p "${RUNNER_TEMP}/installer"
-          gh release download "${GITHUB_REF_NAME}" \
-            --repo "${GITHUB_REPOSITORY}" \
-            --pattern install.sh \
-            --dir "${RUNNER_TEMP}/installer"
+          curl --fail --silent --show-error --location --retry 3 \
+            --output "${RUNNER_TEMP}/installer/install.sh" \
+            "https://github.com/${GITHUB_REPOSITORY}/releases/download/${GITHUB_REF_NAME}/install.sh"
       - name: Exercise published release
         shell: bash
         run: |
           export SKILL_RUNTIME_INSTALL_DIR="${RUNNER_TEMP}/skill-runtime-bin"
           export SKILL_RUNTIME_HOME="${RUNNER_TEMP}/skill-runtime-state-with-a-deliberately-long-path-for-socket-validation"
-          sh "${RUNNER_TEMP}/installer/install.sh"
+          export SKILL_RUNTIME_NO_MODIFY_PATH=1
+          sh "${RUNNER_TEMP}/installer/install.sh" --start \
+            | tee "${RUNNER_TEMP}/install-output.log"
+          grep -F '"reason": "expected_missing_socket"' \
+            "${RUNNER_TEMP}/install-output.log"
           test -x "${SKILL_RUNTIME_HOME}/bin/skill-runtime-hook-native"
-          "${SKILL_RUNTIME_INSTALL_DIR}/skill-runtime" start \
-            --no-open --port 34317
-          curl --fail --silent http://127.0.0.1:34317/api/health
-          "${SKILL_RUNTIME_INSTALL_DIR}/skill-runtime" status --port 34317
-          "${SKILL_RUNTIME_INSTALL_DIR}/skill-runtime" stop --port 34317
+          curl --fail --silent http://127.0.0.1:4317/api/health
+          "${SKILL_RUNTIME_INSTALL_DIR}/skill-runtime" status
+          "${SKILL_RUNTIME_INSTALL_DIR}/skill-runtime" stop
           "${SKILL_RUNTIME_INSTALL_DIR}/skill-runtime" uninstall --yes
           test ! -e "${SKILL_RUNTIME_HOME}"

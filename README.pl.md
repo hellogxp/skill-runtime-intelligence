@@ -17,14 +17,10 @@ Agent Skill Runtime Intelligenceto system dowodowy i diagnostyczny w trybie tylk
 
 ## Szybki start
 
-Zainstaluj wersję autonomiczną z prywatnego repozytorium z uwierzytelnionym plikiemGitInterfejs wiersza polecenia koncentratora:
+Zainstaluj najnowszą samodzielną wersję dla macOS lub Linux:
 
 ```bash
-install_tmp="$(mktemp -d)"
-gh release download --repo hellogxp/skill-runtime-intelligence \
-  --pattern install.sh --dir "$install_tmp"
-sh "$install_tmp/install.sh"
-skill-runtime start
+curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
 Lub uruchom bezpośrednio z kasy źródłowej:

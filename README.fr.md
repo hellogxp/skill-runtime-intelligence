@@ -17,14 +17,10 @@ Agent Skill Runtime Intelligenceest un système de preuve d'exécution et de dia
 
 ## Démarrage rapide
 
-Installez la version autonome à partir du référentiel privé avec unGitCLI du hub :
+Installez la dernière version autonome pour macOS ou Linux :
 
 ```bash
-install_tmp="$(mktemp -d)"
-gh release download --repo hellogxp/skill-runtime-intelligence \
-  --pattern install.sh --dir "$install_tmp"
-sh "$install_tmp/install.sh"
-skill-runtime start
+curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
 Ou exécutez directement à partir d'une extraction source :

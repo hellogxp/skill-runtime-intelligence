@@ -201,13 +201,19 @@ def prewarm_native_hook_sender(
             "passed": False,
             "reason": "sender_unavailable",
         }
-    missing_socket = output.parent / ".prewarm.sock"
-    if missing_socket.exists() or missing_socket.is_symlink():
+    try:
+        prewarm_root = Path(
+            tempfile.mkdtemp(prefix="skill-runtime-prewarm-", dir="/tmp")
+        )
+        prewarm_root.chmod(0o700)
+    except OSError as exc:
         return {
             "attempted": False,
             "passed": False,
-            "reason": "prewarm_path_occupied",
+            "reason": "prewarm_path_unavailable",
+            "detail": str(exc)[:500],
         }
+    missing_socket = prewarm_root / "missing.sock"
     started = time.perf_counter_ns()
     try:
         process = subprocess.run(
@@ -248,6 +254,11 @@ def prewarm_native_hook_sender(
             "detail": str(exc)[:500],
             "wall_ms": (time.perf_counter_ns() - started) / 1e6,
         }
+    finally:
+        try:
+            prewarm_root.rmdir()
+        except OSError:
+            pass
 
 
 def install_native_hook_sender(
