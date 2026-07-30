@@ -26,7 +26,22 @@ Runs
 
 The default route is the runs list, not a command input.
 
-## 3. Runs list
+## 3. Runtime overview
+
+The default Runs route pairs the SkillRun index with a boundary-first overview:
+
+- aggregate the first observable boundary across SkillRuns;
+- elevate a boundary shared by most runs as an adapter or telemetry coverage
+  signal instead of duplicating it as hundreds of per-run alerts;
+- rank the remaining attention queue by earliest observable boundary, then
+  explicit failure and recency;
+- keep every aggregate statement labeled as Derived;
+- state that missing evidence is not proof that a Skill step failed.
+
+This view answers “what deserves investigation now?” without turning the
+product into a session dashboard or severity-only alert queue.
+
+## 4. Runs list
 
 Each row shows:
 
@@ -49,7 +64,7 @@ Filters:
 - has errors;
 - evidence grade.
 
-## 4. Run overview
+## 5. Run overview
 
 ### Header
 
@@ -68,7 +83,14 @@ Example:
 
 Every sentence is assembled from evidence-backed facts and links to the corresponding nodes.
 
-## 5. Skill Run Panorama
+## 6. First Observable Boundary
+
+Each SkillRun exposes the first lifecycle stage at which evidence becomes
+unavailable before later activity. The boundary is a diagnostic starting
+point, not a causal attribution. A system-wide concentration at one boundary
+is reported separately from run-specific failures.
+
+## 7. Skill Run Panorama
 
 Primary stages:
 
@@ -108,7 +130,7 @@ Large runs must not produce unreadable graphs:
 
 Edges must explain their basis on hover or selection.
 
-## 6. Timeline
+## 8. Timeline
 
 The timeline is the authoritative chronological view:
 
@@ -129,7 +151,7 @@ Capabilities:
 - highlight failures, retries, and long spans;
 - show “not observed” and “unsupported” without treating them as failures.
 
-## 7. Evidence inspector
+## 9. Evidence inspector
 
 Selecting any node opens a side panel with:
 
@@ -146,7 +168,34 @@ Selecting any node opens a side panel with:
 
 Raw JSON is available behind an explicit expansion control.
 
-## 8. Evidence visual language
+## 10. Compare and comparability mask
+
+Comparison is available for same-Agent runs, cross-Agent runs, and explicit
+Skill-version changes. Before showing a behavioral difference, the UI decides
+comparability independently for:
+
+- ordered lifecycle behavior;
+- terminal outcome evidence;
+- absolute time.
+
+Task alignment, Skill definition, activation entrypoint, adapter capability,
+terminal-state availability, and timestamp provenance can mask a dimension.
+Masked dimensions remain visible for side-by-side evidence inspection, but do
+not produce behavioral difference claims. Comparison never enables causal
+attribution.
+
+## 11. Inferred analysis
+
+Inferred Analysis is a separate, visibly uncertain surface. It may explain a
+finding or recommend the next investigation, but it:
+
+- never changes normalized events, relationships, or deterministic findings;
+- cites the evidence and missing signals that bounded the suggestion;
+- labels confidence and the Inferred grade;
+- abstains when no evidence-bounded suggestion is available;
+- never claims that a Skill caused an outcome.
+
+## 12. Evidence visual language
 
 ```text
 ● Observed      direct source evidence
@@ -157,7 +206,7 @@ Raw JSON is available behind an explicit expansion control.
 
 Do not rely on color alone. Use shape, text, and accessible labels.
 
-## 9. Visual direction
+## 13. Visual direction
 
 - dark, restrained control-plane aesthetic;
 - professional DAG canvas;
@@ -170,7 +219,7 @@ The visual design must follow this product's observational, evidence-graded
 semantics and must not introduce admission gates, enforcement controls, or
 verification language unsupported by runtime evidence.
 
-## 10. First-run experience
+## 14. First-run experience
 
 1. Detect supported agents.
 2. Explain exactly which local paths will be read.
@@ -180,7 +229,7 @@ verification language unsupported by runtime evidence.
 
 No account, cloud connection, or task wrapper is required.
 
-## 11. Empty and uncertainty states
+## 15. Empty and uncertainty states
 
 Good empty states are part of product credibility:
 

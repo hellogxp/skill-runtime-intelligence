@@ -7,7 +7,10 @@ from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-from skill_runtime_intelligence.collector import normalize_collector_payload
+from skill_runtime_intelligence.collector import (
+    CollectorValidationError,
+    normalize_collector_payload,
+)
 from skill_runtime_intelligence.config import load_config
 from skill_runtime_intelligence.discovery import parse_skill
 from skill_runtime_intelligence.server import create_server
@@ -47,6 +50,19 @@ def fixture_event(event_id="evt-fixture"):
 
 
 class CollectorTests(unittest.TestCase):
+    def test_timestamp_fallback_is_labeled_and_uncertainty_is_bounded(self):
+        event = fixture_event("evt-fallback")
+        event.pop("occurred_at")
+        normalized = normalize_collector_payload(event)[0]["event"]
+        self.assertEqual(normalized["timestamp_origin"], "collector_fallback")
+        self.assertTrue(normalized["occurred_at"].endswith("Z"))
+        self.assertTrue(normalized["ingested_at"].endswith("Z"))
+
+        invalid = fixture_event("evt-invalid-uncertainty")
+        invalid["clock_uncertainty_ms"] = -1
+        with self.assertRaises(CollectorValidationError):
+            normalize_collector_payload(invalid)
+
     def test_live_event_is_redacted_idempotent_and_primary(self):
         with tempfile.TemporaryDirectory() as directory:
             database = Path(directory) / "panorama.db"
@@ -103,6 +119,12 @@ class CollectorTests(unittest.TestCase):
 
                 skill_run = storage.list_skill_runs()[0]
                 detail = storage.get_skill_run(skill_run["skill_run_id"])
+                event = detail["events"][0]
+                self.assertEqual(event["timestamp_origin"], "source")
+                self.assertTrue(event["ingested_at"].endswith("Z"))
+                self.assertEqual(event["clock_domain"], "unknown")
+                self.assertIsNone(event["clock_uncertainty_ms"])
+                self.assertEqual(event["timestamp_precision"], "unknown")
                 persisted = json.dumps(detail, ensure_ascii=False)
                 self.assertNotIn("should-never-be-persisted", persisted)
                 self.assertIn("[REDACTED]", persisted)

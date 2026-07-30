@@ -14,6 +14,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 
+from .comparison import build_comparison
 from .diagnostics import diagnose_skill_run
 
 
@@ -217,6 +218,11 @@ CREATE TABLE IF NOT EXISTS normalized_events (
     skill_run_id TEXT,
     parent_event_id TEXT,
     occurred_at TEXT,
+    timestamp_origin TEXT NOT NULL DEFAULT 'unknown',
+    ingested_at TEXT,
+    clock_domain TEXT NOT NULL DEFAULT 'unknown',
+    clock_uncertainty_ms REAL,
+    timestamp_precision TEXT NOT NULL DEFAULT 'unknown',
     event_type TEXT NOT NULL,
     stage TEXT NOT NULL,
     status TEXT NOT NULL,
@@ -372,10 +378,19 @@ class Storage:
             row["name"]
             for row in self.connection.execute("PRAGMA table_info(normalized_events)")
         }
-        if "skill_run_id" not in event_columns:
-            self.connection.execute(
-                "ALTER TABLE normalized_events ADD COLUMN skill_run_id TEXT"
-            )
+        event_additions = {
+            "skill_run_id": "TEXT",
+            "timestamp_origin": "TEXT NOT NULL DEFAULT 'unknown'",
+            "ingested_at": "TEXT",
+            "clock_domain": "TEXT NOT NULL DEFAULT 'unknown'",
+            "clock_uncertainty_ms": "REAL",
+            "timestamp_precision": "TEXT NOT NULL DEFAULT 'unknown'",
+        }
+        for column, declaration in event_additions.items():
+            if column not in event_columns:
+                self.connection.execute(
+                    f"ALTER TABLE normalized_events ADD COLUMN {column} {declaration}"
+                )
         self.connection.execute(
             "CREATE INDEX IF NOT EXISTS idx_events_skill_run "
             "ON normalized_events(skill_run_id, occurred_at, event_id)"
@@ -748,10 +763,12 @@ class Storage:
                     """
                     INSERT INTO normalized_events (
                         event_id, session_id, turn_id, skill_id, skill_run_id,
-                        parent_event_id, occurred_at, event_type, stage, status,
+                        parent_event_id, occurred_at, timestamp_origin, ingested_at,
+                        clock_domain, clock_uncertainty_ms, timestamp_precision,
+                        event_type, stage, status,
                         evidence_grade, confidence, basis, summary, source_locator,
                         payload_json
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """,
                     (
                         event["event_id"],
@@ -761,6 +778,11 @@ class Storage:
                         event.get("skill_run_id"),
                         event.get("parent_event_id"),
                         event.get("occurred_at"),
+                        event.get("timestamp_origin", "unknown"),
+                        event.get("ingested_at"),
+                        event.get("clock_domain", "unknown"),
+                        event.get("clock_uncertainty_ms"),
+                        event.get("timestamp_precision", "unknown"),
                         event["event_type"],
                         event["stage"],
                         event["status"],
@@ -985,10 +1007,12 @@ class Storage:
                     """
                     INSERT OR IGNORE INTO normalized_events (
                         event_id, session_id, turn_id, skill_id, skill_run_id,
-                        parent_event_id, occurred_at, event_type, stage, status,
+                        parent_event_id, occurred_at, timestamp_origin, ingested_at,
+                        clock_domain, clock_uncertainty_ms, timestamp_precision,
+                        event_type, stage, status,
                         evidence_grade, confidence, basis, summary, source_locator,
                         payload_json
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """,
                     (
                         event["event_id"],
@@ -998,6 +1022,11 @@ class Storage:
                         event.get("skill_run_id"),
                         event.get("parent_event_id"),
                         event.get("occurred_at"),
+                        event.get("timestamp_origin", "unknown"),
+                        event.get("ingested_at"),
+                        event.get("clock_domain", "unknown"),
+                        event.get("clock_uncertainty_ms"),
+                        event.get("timestamp_precision", "unknown"),
                         event["event_type"],
                         event["stage"],
                         event["status"],
@@ -1245,50 +1274,25 @@ class Storage:
         return result
 
     def compare_skill_runs(
-        self, left_skill_run_id: str, right_skill_run_id: str
+        self,
+        left_skill_run_id: str,
+        right_skill_run_id: str,
+        *,
+        axis: str = "same_skill",
+        task_aligned: Optional[bool] = None,
     ) -> Optional[Dict[str, Any]]:
         left = self.get_skill_run(left_skill_run_id)
         right = self.get_skill_run(right_skill_run_id)
         if left is None or right is None:
             return None
 
-        left_stages = {item["stage"]: item for item in left["stage_summary"]}
-        right_stages = {item["stage"]: item for item in right["stage_summary"]}
-        stages = []
-        for stage in STAGES:
-            left_stage = left_stages[stage]
-            right_stage = right_stages[stage]
-            left_capability = left["adapter_capabilities"].get(stage, "unsupported")
-            right_capability = right["adapter_capabilities"].get(stage, "unsupported")
-            if "unsupported" in {left_capability, right_capability}:
-                comparability = "unsupported"
-                changed = None
-                reason = "At least one adapter cannot observe this stage."
-            elif left_capability != right_capability:
-                comparability = "capability_limited"
-                changed = None
-                reason = "Adapter capability differs; absence is not a behavioral difference."
-            else:
-                comparability = "comparable"
-                changed = (
-                    left_stage["status"] != right_stage["status"]
-                    or left_stage["event_count"] != right_stage["event_count"]
-                )
-                reason = (
-                    "Comparable normalized evidence differs."
-                    if changed
-                    else "Comparable normalized evidence agrees."
-                )
-            stages.append(
-                {
-                    "stage": stage,
-                    "comparability": comparability,
-                    "changed": changed,
-                    "reason": reason,
-                    "left": left_stage,
-                    "right": right_stage,
-                }
-            )
+        comparison = build_comparison(
+            left,
+            right,
+            axis=axis,
+            task_aligned=task_aligned,
+        )
+        stages = comparison["stages"]
 
         def event_type_counts(run: Dict[str, Any]) -> Dict[str, int]:
             result: Dict[str, int] = {}
@@ -1332,11 +1336,9 @@ class Storage:
         comparable = [stage for stage in stages if stage["comparability"] == "comparable"]
         changed = [stage for stage in comparable if stage["changed"]]
         limited = [stage for stage in stages if stage["comparability"] != "comparable"]
-        return {
+        comparison.update({
             "left": summary(left),
             "right": summary(right),
-            "same_skill_name": left["name"] == right["name"],
-            "same_skill_digest": left["digest"] == right["digest"],
             "comparable_stage_count": len(comparable),
             "changed_stage_count": len(changed),
             "limited_stage_count": len(limited),
@@ -1345,16 +1347,20 @@ class Storage:
             "event_types": event_types,
             "discipline": (
                 "Only stages with equivalent adapter capability are classified "
-                "as behavioral differences."
+                "as behavioral differences. Masked dimensions remain available "
+                "for side-by-side evidence inspection only."
             ),
-        }
+        })
+        return comparison
 
     def get_skill_run(self, skill_run_id: str) -> Optional[Dict[str, Any]]:
         row = self.connection.execute(
             """
             SELECT sr.*, sk.name, sk.description, sk.source_path, sk.digest,
-                   sk.source_kind, s.title AS session_title, s.cwd, s.model,
-                   s.agent_version, s.adapter, s.adapter_version, s.source_path
+                   sk.source_kind, sk.version AS skill_version,
+                   s.title AS session_title, s.cwd, s.model,
+                   s.agent_version, s.adapter, s.adapter_version,
+                   s.source_session_id, s.correlation_key, s.source_path
                        AS session_source_path,
                    s.duration_ms AS session_duration_ms, s.completeness
                        AS session_completeness

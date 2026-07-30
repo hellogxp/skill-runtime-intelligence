@@ -1,6 +1,7 @@
 import tempfile
 import threading
 import unittest
+import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -10,6 +11,75 @@ from skill_runtime_intelligence.storage import Storage
 
 
 class StorageTests(unittest.TestCase):
+    def test_timestamp_provenance_migration_preserves_unknown_legacy_state(self):
+        with tempfile.TemporaryDirectory() as directory:
+            database = Path(directory) / "panorama.db"
+            connection = sqlite3.connect(database)
+            connection.execute(
+                """
+                CREATE TABLE normalized_events (
+                    event_id TEXT PRIMARY KEY,
+                    session_id TEXT NOT NULL,
+                    turn_id TEXT,
+                    skill_id TEXT,
+                    parent_event_id TEXT,
+                    occurred_at TEXT,
+                    event_type TEXT NOT NULL,
+                    stage TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    evidence_grade TEXT NOT NULL,
+                    confidence REAL NOT NULL,
+                    basis TEXT NOT NULL,
+                    summary TEXT NOT NULL,
+                    source_locator TEXT NOT NULL,
+                    payload_json TEXT NOT NULL
+                )
+                """
+            )
+            connection.execute(
+                """
+                INSERT INTO normalized_events (
+                    event_id, session_id, occurred_at, event_type, stage, status,
+                    evidence_grade, confidence, basis, summary, source_locator,
+                    payload_json
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    "legacy-event",
+                    "legacy-session",
+                    "2026-07-28T00:00:00Z",
+                    "session.started",
+                    "request",
+                    "observed",
+                    "observed",
+                    1.0,
+                    "legacy fixture",
+                    "Legacy event",
+                    "legacy:1",
+                    "{}",
+                ),
+            )
+            connection.commit()
+            connection.close()
+
+            storage = Storage(database)
+            try:
+                row = storage.connection.execute(
+                    """
+                    SELECT timestamp_origin, ingested_at, clock_domain,
+                           clock_uncertainty_ms, timestamp_precision
+                    FROM normalized_events
+                    WHERE event_id = 'legacy-event'
+                    """
+                ).fetchone()
+                self.assertEqual(row["timestamp_origin"], "unknown")
+                self.assertIsNone(row["ingested_at"])
+                self.assertEqual(row["clock_domain"], "unknown")
+                self.assertIsNone(row["clock_uncertainty_ms"])
+                self.assertEqual(row["timestamp_precision"], "unknown")
+            finally:
+                storage.close()
+
     def test_concurrent_fresh_database_initialization_is_serialized(self):
         with tempfile.TemporaryDirectory() as directory:
             database = Path(directory) / "panorama.db"

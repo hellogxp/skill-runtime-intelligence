@@ -106,7 +106,177 @@ const reviewedOverrides = {
   },
 };
 
+const productIntelligenceOverrides = {
+  "zh-TW": {
+    "RUNTIME OVERVIEW": "執行階段總覽",
+    "Boundary-first attention": "邊界優先關注",
+    "FIRST OBSERVABLE BOUNDARY": "首個可觀察邊界",
+    "ATTENTION QUEUE": "關注佇列",
+    "INFERRED ANALYSIS": "推論分析",
+    "Evidence-bounded investigation candidates": "受證據邊界約束的調查候選",
+    "Same Skill behavior": "相同 Skill 行為",
+    "Skill version change": "Skill 版本變更",
+    "Same evaluation task": "相同評估任務",
+    "COMPARABILITY MASK": "可比較性遮罩",
+  },
+  fr: {
+    "RUNTIME OVERVIEW": "VUE D’ENSEMBLE DE L’EXÉCUTION",
+    "Boundary-first attention": "Priorité aux frontières",
+    "FIRST OBSERVABLE BOUNDARY": "PREMIÈRE FRONTIÈRE OBSERVABLE",
+    "ATTENTION QUEUE": "FILE D’ATTENTION",
+    "INFERRED ANALYSIS": "ANALYSE INFÉRÉE",
+    "Evidence-bounded investigation candidates": "Pistes d’investigation limitées par les preuves",
+    "Same Skill behavior": "Comportement du même Skill",
+    "Skill version change": "Changement de version du Skill",
+    "Same evaluation task": "Même tâche d’évaluation",
+    "COMPARABILITY MASK": "MASQUE DE COMPARABILITÉ",
+  },
+  de: {
+    "RUNTIME OVERVIEW": "LAUFZEITÜBERSICHT",
+    "Boundary-first attention": "Grenzen zuerst beachten",
+    "FIRST OBSERVABLE BOUNDARY": "ERSTE BEOBACHTBARE GRENZE",
+    "ATTENTION QUEUE": "PRÜFWARTESCHLANGE",
+    "INFERRED ANALYSIS": "ABGELEITETE ANALYSE",
+    "Evidence-bounded investigation candidates": "Evidenzbegrenzte Untersuchungshinweise",
+    "Same Skill behavior": "Verhalten desselben Skills",
+    "Skill version change": "Änderung der Skill-Version",
+    "Same evaluation task": "Gleiche Evaluierungsaufgabe",
+    "COMPARABILITY MASK": "VERGLEICHBARKEITSMASKE",
+  },
+  it: {
+    "RUNTIME OVERVIEW": "PANORAMICA RUNTIME",
+    "Boundary-first attention": "Priorità al primo confine",
+    "FIRST OBSERVABLE BOUNDARY": "PRIMO CONFINE OSSERVABILE",
+    "ATTENTION QUEUE": "CODA DI ATTENZIONE",
+    "INFERRED ANALYSIS": "ANALISI INFERITA",
+    "Evidence-bounded investigation candidates": "Ipotesi d’indagine limitate dalle evidenze",
+    "Same Skill behavior": "Comportamento dello stesso Skill",
+    "Skill version change": "Cambio di versione dello Skill",
+    "Same evaluation task": "Stesso compito di valutazione",
+    "COMPARABILITY MASK": "MASCHERA DI COMPARABILITÀ",
+  },
+  es: {
+    "RUNTIME OVERVIEW": "RESUMEN DE EJECUCIÓN",
+    "Boundary-first attention": "Atención primero al límite",
+    "FIRST OBSERVABLE BOUNDARY": "PRIMER LÍMITE OBSERVABLE",
+    "ATTENTION QUEUE": "COLA DE ATENCIÓN",
+    "INFERRED ANALYSIS": "ANÁLISIS INFERIDO",
+    "Evidence-bounded investigation candidates": "Candidatos de investigación acotados por evidencia",
+    "Same Skill behavior": "Comportamiento del mismo Skill",
+    "Skill version change": "Cambio de versión del Skill",
+    "Same evaluation task": "Misma tarea de evaluación",
+    "COMPARABILITY MASK": "MÁSCARA DE COMPARABILIDAD",
+  },
+  ja: {
+    "RUNTIME OVERVIEW": "ランタイム概要",
+    "Boundary-first attention": "境界を優先して確認",
+    "FIRST OBSERVABLE BOUNDARY": "最初の観測可能な境界",
+    "ATTENTION QUEUE": "確認キュー",
+    "INFERRED ANALYSIS": "推論分析",
+    "Evidence-bounded investigation candidates": "エビデンスに制約された調査候補",
+    "Same Skill behavior": "同一 Skill の動作",
+    "Skill version change": "Skill バージョン変更",
+    "Same evaluation task": "同一の評価タスク",
+    "COMPARABILITY MASK": "比較可能性マスク",
+  },
+  ko: {
+    "RUNTIME OVERVIEW": "런타임 개요",
+    "Boundary-first attention": "경계를 우선 확인",
+    "FIRST OBSERVABLE BOUNDARY": "최초 관측 가능 경계",
+    "ATTENTION QUEUE": "확인 대기열",
+    "INFERRED ANALYSIS": "추론 분석",
+    "Evidence-bounded investigation candidates": "증거로 제한된 조사 후보",
+    "Same Skill behavior": "동일 Skill 동작",
+    "Skill version change": "Skill 버전 변경",
+    "Same evaluation task": "동일 평가 작업",
+    "COMPARABILITY MASK": "비교 가능성 마스크",
+  },
+  ru: {
+    "RUNTIME OVERVIEW": "ОБЗОР ВЫПОЛНЕНИЯ",
+    "Boundary-first attention": "Сначала граница наблюдения",
+    "FIRST OBSERVABLE BOUNDARY": "ПЕРВАЯ НАБЛЮДАЕМАЯ ГРАНИЦА",
+    "ATTENTION QUEUE": "ОЧЕРЕДЬ ПРОВЕРКИ",
+    "INFERRED ANALYSIS": "АНАЛИЗ ПРЕДПОЛОЖЕНИЙ",
+    "Evidence-bounded investigation candidates": "Направления проверки, ограниченные доказательствами",
+    "Same Skill behavior": "Поведение одного Skill",
+    "Skill version change": "Изменение версии Skill",
+    "Same evaluation task": "Одна задача оценки",
+    "COMPARABILITY MASK": "МАСКА СОПОСТАВИМОСТИ",
+  },
+  "pt-BR": {
+    "RUNTIME OVERVIEW": "VISÃO GERAL DA EXECUÇÃO",
+    "Boundary-first attention": "Atenção primeiro ao limite",
+    "FIRST OBSERVABLE BOUNDARY": "PRIMEIRO LIMITE OBSERVÁVEL",
+    "ATTENTION QUEUE": "FILA DE ATENÇÃO",
+    "INFERRED ANALYSIS": "ANÁLISE INFERIDA",
+    "Evidence-bounded investigation candidates": "Candidatos de investigação limitados por evidências",
+    "Same Skill behavior": "Comportamento do mesmo Skill",
+    "Skill version change": "Mudança de versão do Skill",
+    "Same evaluation task": "Mesma tarefa de avaliação",
+    "COMPARABILITY MASK": "MÁSCARA DE COMPARABILIDADE",
+  },
+  tr: {
+    "RUNTIME OVERVIEW": "ÇALIŞMA ZAMANI ÖZETİ",
+    "Boundary-first attention": "Önce sınıra odaklan",
+    "FIRST OBSERVABLE BOUNDARY": "İLK GÖZLEMLENEBİLİR SINIR",
+    "ATTENTION QUEUE": "İNCELEME KUYRUĞU",
+    "INFERRED ANALYSIS": "ÇIKARIMSAL ANALİZ",
+    "Evidence-bounded investigation candidates": "Kanıtla sınırlandırılmış inceleme adayları",
+    "Same Skill behavior": "Aynı Skill davranışı",
+    "Skill version change": "Skill sürümü değişikliği",
+    "Same evaluation task": "Aynı değerlendirme görevi",
+    "COMPARABILITY MASK": "KARŞILAŞTIRILABİLİRLİK MASKESİ",
+  },
+  pl: {
+    "RUNTIME OVERVIEW": "PRZEGLĄD DZIAŁANIA",
+    "Boundary-first attention": "Najpierw granica obserwacji",
+    "FIRST OBSERVABLE BOUNDARY": "PIERWSZA OBSERWOWALNA GRANICA",
+    "ATTENTION QUEUE": "KOLEJKA UWAGI",
+    "INFERRED ANALYSIS": "ANALIZA WNIOSKOWANA",
+    "Evidence-bounded investigation candidates": "Kierunki badania ograniczone dowodami",
+    "Same Skill behavior": "Zachowanie tego samego Skill",
+    "Skill version change": "Zmiana wersji Skill",
+    "Same evaluation task": "To samo zadanie oceny",
+    "COMPARABILITY MASK": "MASKA PORÓWNYWALNOŚCI",
+  },
+  cs: {
+    "RUNTIME OVERVIEW": "PŘEHLED BĚHU",
+    "Boundary-first attention": "Nejprve hranice pozorování",
+    "FIRST OBSERVABLE BOUNDARY": "PRVNÍ POZOROVATELNÁ HRANICE",
+    "ATTENTION QUEUE": "FRONTA K PROVĚŘENÍ",
+    "INFERRED ANALYSIS": "ODVOZENÁ ANALÝZA",
+    "Evidence-bounded investigation candidates": "Směry šetření omezené důkazy",
+    "Same Skill behavior": "Chování stejného Skill",
+    "Skill version change": "Změna verze Skill",
+    "Same evaluation task": "Stejná evaluační úloha",
+    "COMPARABILITY MASK": "MASKA POROVNATELNOSTI",
+  },
+  hu: {
+    "RUNTIME OVERVIEW": "FUTÁSI ÁTTEKINTÉS",
+    "Boundary-first attention": "Először a megfigyelési határ",
+    "FIRST OBSERVABLE BOUNDARY": "ELSŐ MEGFIGYELHETŐ HATÁR",
+    "ATTENTION QUEUE": "VIZSGÁLATI SOR",
+    "INFERRED ANALYSIS": "KÖVETKEZTETETT ELEMZÉS",
+    "Evidence-bounded investigation candidates": "Bizonyítékokkal korlátozott vizsgálati irányok",
+    "Same Skill behavior": "Azonos Skill viselkedése",
+    "Skill version change": "Skill-verzió változása",
+    "Same evaluation task": "Azonos értékelési feladat",
+    "COMPARABILITY MASK": "ÖSSZEHASONLÍTHATÓSÁGI MASZK",
+  },
+};
+
 const source = fs.readFileSync(sourcePath, "utf8");
+let existingCatalogs = {};
+if (fs.existsSync(outputPath)) {
+  const existingSource = fs.readFileSync(outputPath, "utf8");
+  const prefix = "window.SkillRuntimeLocalePacks = ";
+  const start = existingSource.indexOf(prefix);
+  if (start >= 0) {
+    existingCatalogs = JSON.parse(
+      existingSource.slice(start + prefix.length).trim().replace(/;$/, "")
+    );
+  }
+}
 const dictionaryStart = source.indexOf("const zh = {");
 const dictionaryEnd = source.indexOf("\n  };", dictionaryStart);
 if (dictionaryStart < 0 || dictionaryEnd < 0) {
@@ -155,6 +325,7 @@ const protectedPattern = new RegExp(
     .join("|"),
   "g",
 );
+let translationUnavailable = false;
 
 function protect(value) {
   return value.replace(
@@ -164,6 +335,7 @@ function protect(value) {
 }
 
 async function translateOne(value, target, attempt = 0) {
+  if (translationUnavailable) return value;
   const url = new URL("https://translate.googleapis.com/translate_a/single");
   url.searchParams.set("client", "gtx");
   url.searchParams.set("sl", "en");
@@ -179,7 +351,11 @@ async function translateOne(value, target, attempt = 0) {
       await new Promise((resolve) => setTimeout(resolve, 500 * (2 ** attempt)));
       return translateOne(value, target, attempt + 1);
     }
-    throw new Error(`Translation request failed: ${response.status}`);
+    process.stderr.write(
+      `Translation unavailable (${response.status}); preserving English fallback.\n`
+    );
+    translationUnavailable = true;
+    return value;
   }
   const payload = await response.json();
   if (!Array.isArray(payload[0])) return value;
@@ -194,25 +370,38 @@ async function translateBatch(values, target) {
   return Promise.all(values.map((value) => translateOne(value, target)));
 }
 
-async function translateCatalog(target) {
-  const values = [...keys, ...Object.values(patternTemplates)];
-  const translated = [];
-  for (let index = 0; index < values.length; index += 16) {
-    translated.push(...await translateBatch(values.slice(index, index + 16), target));
-  }
-  const messages = Object.fromEntries(keys.map((key, index) => [key, translated[index]]));
-  const patternValues = translated.slice(keys.length);
-  const patterns = Object.fromEntries(
-    Object.keys(patternTemplates).map((key, index) => [key, patternValues[index]])
+async function translateCatalog(locale, target) {
+  const existing = existingCatalogs[locale] || {messages: {}, patterns: {}};
+  const missingKeys = keys.filter((key) => !Object.hasOwn(existing.messages, key));
+  const missingPatternKeys = Object.keys(patternTemplates).filter(
+    (key) => !Object.hasOwn(existing.patterns, key)
   );
+  const values = [
+    ...missingKeys,
+    ...missingPatternKeys.map((key) => patternTemplates[key]),
+  ];
+  const translated = [];
+  for (let index = 0; index < values.length; index += 4) {
+    translated.push(...await translateBatch(values.slice(index, index + 4), target));
+  }
+  const messages = {...existing.messages};
+  missingKeys.forEach((key, index) => {
+    messages[key] = translated[index];
+  });
+  const patterns = {...existing.patterns};
+  const patternValues = translated.slice(missingKeys.length);
+  missingPatternKeys.forEach((key, index) => {
+    patterns[key] = patternValues[index];
+  });
   return {messages, patterns};
 }
 
 const catalogs = {};
 for (const [locale, target] of Object.entries(localeTargets)) {
   process.stdout.write(`Generating ${locale}…\n`);
-  catalogs[locale] = await translateCatalog(target);
+  catalogs[locale] = await translateCatalog(locale, target);
   Object.assign(catalogs[locale].messages, reviewedOverrides[locale]);
+  Object.assign(catalogs[locale].messages, productIntelligenceOverrides[locale]);
 }
 const banner = [
   "/* Generated by scripts/generate_ui_locales.mjs.",

@@ -93,11 +93,40 @@ def _stable_id(prefix: str, *parts: Any) -> str:
     return prefix + hashlib.sha256(value.encode("utf-8")).hexdigest()[:24]
 
 
-def _timestamp(payload: Dict[str, Any]) -> str:
+def _timestamp_metadata(payload: Dict[str, Any]) -> Dict[str, Any]:
     value = _get(payload, "timestamp", "occurred_at", "created_at")
-    if value:
-        return compact_text(value, 80)
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    occurred_at = (
+        compact_text(value, 80)
+        if value
+        else datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    )
+    timestamp_origin = "source" if value else "adapter_fallback"
+    clock_domain = compact_text(_get(payload, "clock_domain", "clockDomain"), 120)
+    if not clock_domain:
+        clock_domain = "source_reported" if value else "adapter_host"
+    precision = "unknown"
+    timestamp_text = str(occurred_at)
+    if "." not in timestamp_text:
+        precision = "seconds"
+    else:
+        fraction = timestamp_text.split(".", 1)[1].rstrip("Z")
+        fraction = fraction.split("+", 1)[0].split("-", 1)[0]
+        precision = {
+            3: "milliseconds",
+            6: "microseconds",
+            9: "nanoseconds",
+        }.get(len(fraction), "subsecond")
+    return {
+        "occurred_at": occurred_at,
+        "timestamp_origin": timestamp_origin,
+        "clock_domain": clock_domain,
+        "clock_uncertainty_ms": _get(
+            payload,
+            "clock_uncertainty_ms",
+            "clockUncertaintyMs",
+        ),
+        "timestamp_precision": precision,
+    }
 
 
 def _tool_name(payload: Dict[str, Any]) -> str:
@@ -410,7 +439,8 @@ def build_agent_hook_envelopes(
     if not session_id:
         return []
 
-    occurred_at = _timestamp(payload)
+    timestamp_metadata = _timestamp_metadata(payload)
+    occurred_at = timestamp_metadata["occurred_at"]
     turn_id = compact_text(
         _get(payload, "turn_id", "turnId", "turn.id", "payload.turn_id"), 256
     )
@@ -486,6 +516,10 @@ def build_agent_hook_envelopes(
         "event_id": event_id,
         "event_type": event_type,
         "occurred_at": occurred_at,
+        "timestamp_origin": timestamp_metadata["timestamp_origin"],
+        "clock_domain": timestamp_metadata["clock_domain"],
+        "clock_uncertainty_ms": timestamp_metadata["clock_uncertainty_ms"],
+        "timestamp_precision": timestamp_metadata["timestamp_precision"],
         "session_id": session_id,
         "turn_id": turn_id or None,
         "parent_event_id": parent_event_id,

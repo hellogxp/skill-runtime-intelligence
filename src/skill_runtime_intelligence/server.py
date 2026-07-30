@@ -147,6 +147,10 @@ class PanoramaHandler(BaseHTTPRequestHandler):
             parameters = parse_qs(urlparse(self.path).query)
             left = (parameters.get("left") or [""])[0]
             right = (parameters.get("right") or [""])[0]
+            axis = (parameters.get("axis") or ["same_skill"])[0]
+            task_aligned = (
+                (parameters.get("aligned") or ["false"])[0].lower() == "true"
+            )
             if not left or not right:
                 self._json(
                     {"error": "left and right SkillRun IDs are required"},
@@ -155,7 +159,12 @@ class PanoramaHandler(BaseHTTPRequestHandler):
                 return
 
             def compare(storage: Storage) -> None:
-                result = storage.compare_skill_runs(left, right)
+                result = storage.compare_skill_runs(
+                    left,
+                    right,
+                    axis=axis,
+                    task_aligned=task_aligned,
+                )
                 if result is None:
                     self._json(
                         {"error": "SkillRun not found"}, HTTPStatus.NOT_FOUND
@@ -466,7 +475,7 @@ class PanoramaHandler(BaseHTTPRequestHandler):
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", f"{content_type}; charset=utf-8")
         self.send_header("Content-Length", str(len(content)))
-        self.send_header("Cache-Control", "no-cache")
+        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Content-Security-Policy", "default-src 'self'; style-src 'self'")
         self.end_headers()

@@ -88,16 +88,43 @@
         <div id="runs" class="run-list" aria-live="polite"></div>
       </aside>
 
-      <section id="empty-detail" class="empty-detail">
-        <div class="empty-orbit"><span></span></div>
-        <p class="eyebrow">SKILL RUNTIME PANORAMA</p>
-        <h2>Select a SkillRun</h2>
-        <p>Follow its lifecycle from request context through observable outcome.</p>
-        <div class="evidence-legend">
-          <span><i class="shape observed"></i>Observed</span>
-          <span><i class="shape derived"></i>Derived</span>
-          <span><i class="shape inferred"></i>Inferred</span>
-          <span><i class="shape experimental"></i>Experimental</span>
+      <section id="empty-detail" class="empty-detail runtime-overview">
+        <header class="overview-head">
+          <div>
+            <p class="eyebrow">RUNTIME OVERVIEW</p>
+            <h2>Boundary-first attention</h2>
+            <p>Start with the earliest observable gap, then inspect the supporting evidence.</p>
+          </div>
+          <div class="evidence-legend compact">
+            <span><i class="shape observed"></i>Observed</span>
+            <span><i class="shape derived"></i>Derived</span>
+            <span><i class="shape inferred"></i>Inferred</span>
+            <span><i class="shape experimental"></i>Experimental</span>
+          </div>
+        </header>
+        <div id="overview-metrics" class="overview-metrics"></div>
+        <div class="overview-grid">
+          <section class="panel overview-boundaries">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">FIRST OBSERVABLE BOUNDARY</p>
+                <h3>Where evidence first becomes unavailable</h3>
+              </div>
+              <span class="grade-pill derived">Derived</span>
+            </div>
+            <div id="boundary-distribution" class="boundary-distribution"></div>
+            <p class="overview-discipline">A missing signal is an observability boundary, not proof that the Skill failed.</p>
+          </section>
+          <section class="panel attention-panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">ATTENTION QUEUE</p>
+                <h3>SkillRuns to inspect first</h3>
+              </div>
+              <span id="attention-count" class="count">—</span>
+            </div>
+            <div id="attention-queue" class="attention-queue"></div>
+          </section>
         </div>
       </section>
 
@@ -150,7 +177,15 @@
                 <h3>Run and adapter differences</h3>
               </div>
               <div class="compare-controls">
+                <select id="compare-axis" aria-label="Comparison axis">
+                  <option value="same_skill">Same Skill behavior</option>
+                  <option value="skill_version">Skill version change</option>
+                </select>
                 <select id="compare-target" aria-label="Select a SkillRun to compare"></select>
+                <label class="alignment-confirm">
+                  <input id="compare-aligned" type="checkbox">
+                  Same evaluation task
+                </label>
                 <button id="compare-run" type="button">Compare runs</button>
               </div>
             </div>
@@ -166,6 +201,18 @@
               <span id="finding-count" class="count">—</span>
             </div>
             <div id="findings" class="findings"></div>
+          </section>
+
+          <section class="panel inferred-panel">
+            <div class="section-head inferred-head">
+              <div>
+                <p class="eyebrow">INFERRED ANALYSIS</p>
+                <h3>Evidence-bounded investigation candidates</h3>
+              </div>
+              <span class="grade-pill inferred">Inferred</span>
+            </div>
+            <p class="inferred-discipline">These suggestions never overwrite runtime facts and never claim root cause.</p>
+            <div id="inferred-analysis" class="inferred-analysis"></div>
           </section>
 
           <section class="panel panorama-panel">

@@ -79,6 +79,11 @@ Every normalized event should support:
   "event_id": "evt_local_unique",
   "event_type": "tool.completed",
   "occurred_at": "2026-07-28T12:00:00.000Z",
+  "timestamp_origin": "source",
+  "ingested_at": "2026-07-28T12:00:00.031Z",
+  "clock_domain": "source_reported",
+  "clock_uncertainty_ms": null,
+  "timestamp_precision": "milliseconds",
   "session_id": "session_source_id",
   "turn_id": "turn_source_id",
   "skill_run_id": "optional_skill_run_id",
@@ -99,6 +104,22 @@ Every normalized event should support:
 ```
 
 Raw source content should not be duplicated into every normalized event. Store an opaque locator and a redacted summary.
+
+`occurred_at` is not automatically a synchronized cross-source clock. Time
+provenance is recorded separately:
+
+- `timestamp_origin`: `source`, `adapter_fallback`, `collector_fallback`,
+  `derived`, or `unknown`;
+- `ingested_at`: local collector receipt/normalization time;
+- `clock_domain`: the clock namespace when known, otherwise `unknown`;
+- `clock_uncertainty_ms`: an uncertainty bound only when a source or measured
+  clock-health signal supports it;
+- `timestamp_precision`: reported or mechanically observable timestamp
+  precision, otherwise `unknown`.
+
+Legacy events retain `unknown` provenance rather than receiving fabricated
+clock metadata. Cross-Agent absolute-time comparison requires compatible clock
+domains and supported uncertainty; event presence alone is insufficient.
 
 An event's existence and its relationship to a SkillRun are separate claims.
 For example, a tool call can be Observed while the active-scope relationship

@@ -54,6 +54,13 @@ VALID_COLLECTION_MODES = {
     "lightweight_hook",
     "sdk",
 }
+VALID_TIMESTAMP_ORIGINS = {
+    "source",
+    "adapter_fallback",
+    "collector_fallback",
+    "derived",
+    "unknown",
+}
 TERMINAL_SESSION_EVENTS = {"session.ended"}
 TERMINAL_SKILL_EVENTS = {
     "skill.activation_completed",
@@ -87,6 +94,18 @@ def _timestamp(value: Any) -> str:
         datetime.fromisoformat(result.replace("Z", "+00:00"))
     except ValueError as exc:
         raise CollectorValidationError("occurred_at must be an ISO-8601 timestamp") from exc
+    return result
+
+
+def _optional_non_negative_float(value: Any, field: str) -> Any:
+    if value in (None, ""):
+        return None
+    try:
+        result = float(value)
+    except (TypeError, ValueError) as exc:
+        raise CollectorValidationError(f"{field} must be numeric") from exc
+    if result < 0:
+        raise CollectorValidationError(f"{field} must be >= 0")
     return result
 
 
@@ -164,7 +183,33 @@ def normalize_collector_envelope(envelope: Dict[str, Any]) -> Dict[str, Any]:
     )
     if event_type not in EVENT_STAGES:
         raise CollectorValidationError(f"unsupported event_type: {event_type}")
+    supplied_timestamp = envelope.get("occurred_at") not in (None, "")
     occurred_at = _timestamp(envelope.get("occurred_at"))
+    timestamp_origin = _identifier(
+        envelope.get("timestamp_origin")
+        or ("source" if supplied_timestamp else "collector_fallback"),
+        "timestamp_origin",
+        required=True,
+    ).lower()
+    if timestamp_origin not in VALID_TIMESTAMP_ORIGINS:
+        raise CollectorValidationError(
+            f"unsupported timestamp_origin: {timestamp_origin}"
+        )
+    ingested_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    clock_domain = _identifier(
+        envelope.get("clock_domain") or "unknown",
+        "clock_domain",
+        required=True,
+    )
+    timestamp_precision = _identifier(
+        envelope.get("timestamp_precision") or "unknown",
+        "timestamp_precision",
+        required=True,
+    )
+    clock_uncertainty_ms = _optional_non_negative_float(
+        envelope.get("clock_uncertainty_ms"),
+        "clock_uncertainty_ms",
+    )
     status = _event_status(event_type, envelope.get("status"))
 
     evidence = envelope.get("evidence") or {}
@@ -333,6 +378,11 @@ def normalize_collector_envelope(envelope: Dict[str, Any]) -> Dict[str, Any]:
         "skill_run_id": skill_run_id,
         "parent_event_id": parent_event_id or None,
         "occurred_at": occurred_at,
+        "timestamp_origin": timestamp_origin,
+        "ingested_at": ingested_at,
+        "clock_domain": clock_domain,
+        "clock_uncertainty_ms": clock_uncertainty_ms,
+        "timestamp_precision": timestamp_precision,
         "event_type": event_type,
         "stage": EVENT_STAGES[event_type],
         "status": status,

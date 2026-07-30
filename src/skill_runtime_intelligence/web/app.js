@@ -8,6 +8,7 @@ const stageLabels = {
   artifacts: "Artifacts",
   outcome: "Outcome",
 };
+const stageOrder = Object.keys(stageLabels);
 
 let skillRuns = [];
 let selectedRunId = null;
@@ -49,6 +50,10 @@ const formatTime = (value, includeDate = true) => {
 };
 
 const pretty = (value) => String(value || "unknown").replaceAll("_", " ");
+const percentBucket = (value) => Math.max(
+  0,
+  Math.min(100, Math.round((Number(value) || 0) / 10) * 10),
+);
 
 async function getJSON(path) {
   const response = await fetch(path, {cache: "no-store"});
@@ -85,6 +90,7 @@ async function loadIndex(isBackground = false) {
   populateRunFilters();
   renderSourceSummary();
   renderRuns();
+  renderRuntimeOverview();
   renderSkills();
   renderSettings();
   if (!selectedRunId && location.hash.startsWith("#/runs/")) {
@@ -265,7 +271,7 @@ function renderRuns() {
       <p class="card-task">${esc(run.session_title || "Untitled runtime context")}</p>
       <div class="card-foot">
         <div class="mini-coverage" title="Evidence coverage ${esc(run.evidence_completeness)}%">
-          <i style="width:${Number(run.evidence_completeness) || 0}%"></i>
+          <i class="fill-pct-${percentBucket(run.evidence_completeness)}"></i>
         </div>
         <span>${esc(run.evidence_completeness)}% · ${esc(run.event_count)} events</span>
       </div>
@@ -273,6 +279,100 @@ function renderRuns() {
   `).join("") || `<div class="empty-inspector"><p>No matching SkillRuns.</p><small>Sessions without Skill evidence are intentionally excluded.</small></div>`;
   document.querySelectorAll(".run-card").forEach((button) => {
     button.addEventListener("click", () => loadSkillRun(button.dataset.run, true));
+  });
+}
+
+function renderRuntimeOverview() {
+  const metrics = document.querySelector("#overview-metrics");
+  if (!metrics) return;
+  const boundaryCounts = Object.fromEntries(stageOrder.map((stage) => [stage, 0]));
+  for (const run of skillRuns) {
+    if (run.first_gap && Object.hasOwn(boundaryCounts, run.first_gap)) {
+      boundaryCounts[run.first_gap] += 1;
+    }
+  }
+  const dominant = Object.entries(boundaryCounts)
+    .sort((left, right) => right[1] - left[1])[0] || [null, 0];
+  const runsWithBoundary = Object.values(boundaryCounts).reduce((sum, count) => sum + count, 0);
+  const dominantShare = runsWithBoundary
+    ? Math.round((dominant[1] / runsWithBoundary) * 100)
+    : 0;
+  const systemicBoundary = dominant[1] >= 5 && dominantShare >= 80
+    ? dominant[0]
+    : null;
+  const attention = skillRuns.filter((run) => (
+    Number(run.error_count) > 0
+    || ["failed", "incomplete", "interrupted"].includes(run.status)
+    || (run.first_gap && run.first_gap !== systemicBoundary)
+  ));
+  attention.sort((left, right) => {
+    const leftBoundary = left.first_gap ? stageOrder.indexOf(left.first_gap) : stageOrder.length;
+    const rightBoundary = right.first_gap ? stageOrder.indexOf(right.first_gap) : stageOrder.length;
+    if (leftBoundary !== rightBoundary) return leftBoundary - rightBoundary;
+    if (Number(right.error_count) !== Number(left.error_count)) {
+      return Number(right.error_count) - Number(left.error_count);
+    }
+    return String(right.started_at || "").localeCompare(String(left.started_at || ""));
+  });
+  const liveSources = runtimeIntegrations.filter(
+    (item) => item.connection_status === "verified" || item.live_evidence_seen
+  ).length;
+  metrics.innerHTML = [
+    ["Indexed SkillRuns", skillRuns.length, "Observed and derived runtime records"],
+    ["Need attention", attention.length, "Boundary-first, not severity-first"],
+    [
+      "Coverage concentration",
+      dominant[1] ? `${dominantShare}% ${stageLabels[dominant[0]]}` : "No systemic gap",
+      dominant[1] ? "Derived across runs; not a root-cause claim" : "No repeated boundary in the current index",
+    ],
+    ["Verified runtime sources", liveSources, `${runtimeIntegrations.length} integrations detected`],
+  ].map(([label, value, note]) => `
+    <article>
+      <span>${esc(label)}</span>
+      <strong>${esc(value)}</strong>
+      <small>${esc(note)}</small>
+    </article>
+  `).join("");
+
+  const maxBoundary = Math.max(1, ...Object.values(boundaryCounts));
+  document.querySelector("#boundary-distribution").innerHTML = stageOrder.map((stage) => {
+    const count = boundaryCounts[stage];
+    const width = Math.round((count / maxBoundary) * 100);
+    const widthBucket = percentBucket(width);
+    return `
+      <div class="boundary-row">
+        <span>${esc(stageLabels[stage])}</span>
+        <div class="boundary-track"><i class="fill-pct-${widthBucket}"></i></div>
+        <strong>${count}</strong>
+      </div>`;
+  }).join("");
+
+  const queue = attention.slice(0, 8);
+  document.querySelector("#attention-count").textContent = attention.length;
+  document.querySelector("#attention-queue").innerHTML = queue.length
+    ? queue.map((run) => `
+      <button type="button" class="attention-item" data-overview-run="${esc(run.skill_run_id)}">
+        <span class="attention-boundary">
+          ${esc(run.first_gap ? stageLabels[run.first_gap] : pretty(run.status))}
+        </span>
+        <span class="attention-copy">
+          <strong>${esc(run.name)}</strong>
+          <small>${esc(run.adapter)} · ${esc(run.session_title || "Runtime context")}</small>
+        </span>
+        <span class="attention-evidence">
+          ${esc(run.evidence_completeness)}%
+          <small>${esc(formatTime(run.started_at))}</small>
+        </span>
+      </button>
+    `).join("")
+    : `
+      <div class="overview-clear">
+        <span class="healthy-dot"></span>
+        <div><strong>No SkillRun currently needs attention</strong>
+        <small>The system abstains when no evidence-bounded concern is available.</small></div>
+      </div>`;
+  document.querySelectorAll("[data-overview-run]").forEach((button) => {
+    button.addEventListener("click", () => loadSkillRun(button.dataset.overviewRun, true));
   });
 }
 
@@ -468,7 +568,7 @@ function renderConflicts() {
   document.querySelector("#conflicts").innerHTML = skillConflicts.slice(0, 30).map((item) => `
     <article class="conflict-row">
       <strong>${esc(item.left.name)}</strong>
-      <span class="conflict-link"><i style="width:${Math.round(item.overlap * 100)}%"></i></span>
+      <span class="conflict-link"><i class="fill-pct-${percentBucket(item.overlap * 100)}"></i></span>
       <strong>${esc(item.right.name)}</strong>
       <span>${Math.round(item.overlap * 100)}% term overlap</span>
       <small>${esc(item.shared_terms.join(", "))}</small>
@@ -598,6 +698,7 @@ function showRunIndex(navigate = false) {
   document.querySelector("#run-detail").classList.add("hidden");
   document.querySelector("#empty-detail").classList.remove("hidden");
   renderRuns();
+  renderRuntimeOverview();
   window.scrollTo({top: 0, behavior: "smooth"});
 }
 
@@ -637,6 +738,7 @@ function renderDetail(run) {
     "All grades",
   );
   renderFindings(run);
+  renderInferredAnalysis(run);
   renderComparePicker(run);
   renderPanorama(run);
   renderTimeline(run);
@@ -645,8 +747,10 @@ function renderDetail(run) {
 }
 
 function renderComparePicker(run) {
+  const axis = document.querySelector("#compare-axis").value;
   const candidates = skillRuns.filter((candidate) =>
-    candidate.skill_run_id !== run.skill_run_id && candidate.name === run.name
+    candidate.skill_run_id !== run.skill_run_id
+    && (axis === "skill_version" ? candidate.name === run.name : candidate.name === run.name)
   );
   const target = document.querySelector("#compare-target");
   target.innerHTML = candidates.map((candidate) => `
@@ -667,8 +771,11 @@ async function loadComparison() {
   const right = document.querySelector("#compare-target").value;
   if (!selectedRunId || !right) return;
   selectedComparisonId = right;
+  const axis = document.querySelector("#compare-axis").value;
+  const aligned = document.querySelector("#compare-aligned").checked ? "true" : "false";
   const comparison = await getJSON(
     `/api/compare?left=${encodeURIComponent(selectedRunId)}&right=${encodeURIComponent(right)}`
+    + `&axis=${encodeURIComponent(axis)}&aligned=${aligned}`
   );
   renderComparison(comparison);
 }
@@ -677,7 +784,25 @@ function renderComparison(comparison) {
   const changedLabel = comparison.first_changed_stage
     ? stageLabels[comparison.first_changed_stage] || pretty(comparison.first_changed_stage)
     : "No comparable difference";
+  const mask = comparison.comparability_mask || {};
+  const maskEntries = ["lifecycle", "outcome", "absolute_time"].map((dimension) => {
+    const item = mask[dimension] || {status: "masked", reason: "No comparability decision available."};
+    return `
+      <article class="mask-card ${esc(item.status)}">
+        <span>${esc(pretty(dimension))}</span>
+        <strong>${esc(pretty(item.status))}</strong>
+        <small>${esc(item.reason)}</small>
+      </article>`;
+  }).join("");
   document.querySelector("#comparison").innerHTML = `
+    <div class="comparability-banner ${esc(comparison.decision || "not_comparable")}">
+      <div>
+        <span>COMPARABILITY MASK</span>
+        <strong>${esc(pretty(comparison.decision || "not_comparable"))}</strong>
+      </div>
+      <p>${esc(comparison.alignment_basis || "No shared evaluation-task evidence was observed.")}</p>
+    </div>
+    <div class="comparability-mask">${maskEntries}</div>
     <div class="compare-summary">
       <article><span>First comparable difference</span><strong>${esc(changedLabel)}</strong></article>
       <article><span>Comparable stages</span><strong>${esc(comparison.comparable_stage_count)}</strong></article>
@@ -699,7 +824,75 @@ function renderComparison(comparison) {
         </div>
       `).join("")}
     </div>
-    <p class="compare-discipline">${esc(comparison.discipline)}</p>`;
+    <p class="compare-discipline">${esc(comparison.discipline)}</p>
+    <p class="compare-causality">Causal attribution: not allowed. Differences describe evidence, adapter capability, or aligned behavior only.</p>`;
+}
+
+function renderInferredAnalysis(run) {
+  const persisted = (run.inferences || []).map((inference) => ({
+    title: pretty(inference.inference_type || "Recorded inference"),
+    claim: inference.payload?.claim || inference.payload?.summary
+      || inference.payload?.description || "A source-provided inference is available.",
+    confidence: inference.confidence,
+    basis: [inference.basis].filter(Boolean),
+  }));
+  const candidates = [...persisted];
+  for (const finding of (run.findings || [])) {
+    if (finding.code === "lifecycle_evidence_gap") {
+      candidates.push({
+        title: "Telemetry coverage may explain the boundary",
+        claim: `Investigate adapter coverage before concluding that ${stageLabels[finding.stage] || pretty(finding.stage)} did not occur.`,
+        confidence: 0.55,
+        basis: [...(finding.basis || []), ...(finding.missing_signals || [])],
+      });
+    } else if (finding.code === "runtime_failure") {
+      candidates.push({
+        title: "Inspect the earliest failed relationship",
+        claim: "The earliest observed failure is a useful investigation boundary, but the Skill is not established as its cause.",
+        confidence: 0.65,
+        basis: finding.basis || [],
+      });
+    } else if (finding.code === "run_incomplete") {
+      candidates.push({
+        title: "Later lifecycle evidence may arrive",
+        claim: "Treat outcome and artifact absence as unresolved until the source finishes or is re-indexed.",
+        confidence: 0.7,
+        basis: finding.basis || [],
+      });
+    } else if (finding.code === "outcome_unverified") {
+      candidates.push({
+        title: "Outcome quality remains unknown",
+        claim: "A reported completion cannot answer whether the generated result is correct without deterministic verification.",
+        confidence: 0.8,
+        basis: finding.basis || [],
+      });
+    }
+  }
+  const unique = candidates.filter((candidate, index, all) =>
+    all.findIndex((item) => item.title === candidate.title) === index
+  ).slice(0, 5);
+  document.querySelector("#inferred-analysis").innerHTML = unique.length
+    ? unique.map((candidate) => `
+      <article class="inference-card">
+        <div class="inference-title">
+          <i class="shape inferred"></i>
+          <strong>${esc(candidate.title)}</strong>
+          <span>${esc(Math.round(Number(candidate.confidence || 0) * 100))}%</span>
+        </div>
+        <p>${esc(candidate.claim)}</p>
+        <details>
+          <summary>Why this is suggested</summary>
+          <ul>${(candidate.basis || []).map((basis) => `<li>${esc(basis)}</li>`).join("")}</ul>
+        </details>
+        <small>Investigation candidate · not a runtime fact · not a causal claim</small>
+      </article>
+    `).join("")
+    : `
+      <div class="inference-abstention">
+        <i class="shape inferred"></i>
+        <div><strong>No evidence-bounded inference</strong>
+        <small>The system abstains instead of completing an unsupported story.</small></div>
+      </div>`;
 }
 
 function renderFindings(run) {
@@ -1386,6 +1579,9 @@ document.querySelector("#compare-toggle").addEventListener("click", () => {
 });
 document.querySelector("#compare-target").addEventListener("change", (event) => {
   selectedComparisonId = event.target.value;
+});
+document.querySelector("#compare-axis").addEventListener("change", () => {
+  if (selectedRun) renderComparePicker(selectedRun);
 });
 document.querySelector("#compare-run").addEventListener("click", () => {
   loadComparison().catch(showLoadError);
