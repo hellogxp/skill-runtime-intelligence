@@ -1,4 +1,5 @@
 import tempfile
+import threading
 import unittest
 from datetime import datetime, timezone
 from pathlib import Path
@@ -9,6 +10,38 @@ from skill_runtime_intelligence.storage import Storage
 
 
 class StorageTests(unittest.TestCase):
+    def test_concurrent_fresh_database_initialization_is_serialized(self):
+        with tempfile.TemporaryDirectory() as directory:
+            database = Path(directory) / "panorama.db"
+            barrier = threading.Barrier(12)
+            failures = []
+            failures_lock = threading.Lock()
+
+            def initialize():
+                try:
+                    barrier.wait(timeout=2)
+                    storage = Storage(database)
+                    storage.close()
+                except Exception as exc:
+                    with failures_lock:
+                        failures.append(exc)
+
+            workers = [
+                threading.Thread(target=initialize, daemon=True)
+                for _ in range(12)
+            ]
+            for worker in workers:
+                worker.start()
+            for worker in workers:
+                worker.join(timeout=8)
+            self.assertFalse(failures)
+            self.assertTrue(all(not worker.is_alive() for worker in workers))
+            storage = Storage(database)
+            try:
+                self.assertEqual(storage.counts()["sessions"], 0)
+            finally:
+                storage.close()
+
     def test_empty_index_is_queryable(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

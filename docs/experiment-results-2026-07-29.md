@@ -30,6 +30,7 @@ outcome across general tasks.
 | E3 study readiness | 11 cases, 24 balanced participant slots, 264 assignments; first-visible-boundary and evidence-citation audits 1.0 | study-material audit; zero human responses |
 | E4 export-profile equivalence | 6/6 profiles exact; comparable-field coverage 1.0; zero dangling parents after fix | equivalent synthetic export fixtures |
 | Cross-Agent source-instance contract | 8/8 trials kept Qoder, OpenCode, and Claude Code as three Agent-scoped sessions despite identical upstream session/turn/call labels; same-Agent append remained in one stream; zero event-ID collisions or cross-source causal edges | production hook builders, Collector, and storage over synthetic hook payloads; Experimental mechanism evidence |
+| Cross-Agent alignment manifest | 9/9 conflict cases exactly classified: 5 comparable, 2 partially comparable, 2 not comparable; zero cases authorized causal attribution | synthetic field-level alignment contract corpus; Experimental engineering evidence |
 | E5 diagnosis representation ablation | rules exact 1.0/F1 1.0; lexical retrieval exact 0.214/F1 0.414; lifecycle-feature retrieval exact 0.071/F1 0.080; ordered relational templates exact 0.929/F1 0.963 | leave-one-out synthetic corpus; retrieval outputs Inferred |
 | Real-run corpus readiness audit | privacy-safe aggregate gate passed in four audits; snapshots contained 97, 75, 77, and 77 SkillRuns and every audit passed only 1/7 readiness criteria; v3 added integrity-checked snapshot/schema/aggregate fingerprints | query-only consistent snapshots of one local Codex database; Derived aggregate, zero row-level records |
 | Dataset cut-policy pilot | across three three-snapshot trials, pooled next-window stability was 222/240 all-observed, 205/216 terminal-status, 215/230 30-second watermark, and 188/206 prior-quiescence selections | one local live database; Experimental observational time series, non-independent run observations |
@@ -41,11 +42,11 @@ outcome across general tasks.
 | Packaged product lifecycle | 6/6 post-fix isolated wheel runs completed install/start/status/doctor/stop/uninstall; latest 3/3 also verified native prewarm; project and Agent configs unchanged; state fully removed | six local packaged-product runs; Experimental |
 | Live Codex reconstruction | 3/3 verified outcomes, unchanged workspaces, sessions, SkillRuns, instruction events, and resource events | real Codex 0.145.0 / GPT-5.6-sol, deterministic task |
 
-The latest low-load-window reproducibility suite passed 7/7 selected local
+The latest clean-commit reproducibility suite passed 9/9 selected local
 experiment gates. Across all eight comparable transport runs, however, the
 performance gate passed only 7/8; the Wilson 95% interval for the run-level
 pass rate is 0.529–0.978. The latest expanded product unit/integration suite
-passed 111/111 tests, including privacy-safe real-corpus audit, drift,
+passed 115/115 tests, including privacy-safe real-corpus audit, drift,
 cut-policy, curve-summary, collection-epoch, and capability-audit tests,
 lifecycle ownership safeguards, 15-locale catalog integrity, hooks,
 Collector, OTLP export, storage, comparison, and deterministic diagnosis.
@@ -588,6 +589,27 @@ The trials use synthetic payloads and repeat deterministic code paths, so they
 are Experimental mechanism evidence rather than independent Agent workloads or
 live schema validation. Zero implicit cross-source edges is a safety result;
 the product still needs a non-causal correlation/alignment view.
+
+### Alignment manifests need a comparability vector, not one boolean
+
+A nine-case synthetic contract corpus exercised an explicit Cross-Agent
+alignment manifest. All 9/9 expected classifications were exact: five cases
+were comparable, two partially comparable, and two not comparable. No case
+authorized causal attribution.
+
+The contract kept lifecycle, outcome, and absolute-time comparability
+independent. A 90-second clock offset masked absolute-time comparison while
+retaining lifecycle and outcome comparison. Missing terminal evidence or an
+unsupported outcome capability produced a partial comparison rather than a
+failure. Task mismatch and uncontrolled Skill-digest mismatch blocked the
+comparison. Conflicting reported outcomes remained comparable evidence with a
+warning; conflicting independently verified outcomes were marked as a
+verified difference, without attributing the cause to the Skill or Agent.
+
+This is Experimental engineering evidence from synthetic cases. The
+five-second clock tolerance is a chosen test policy, not an estimated optimal
+threshold. The fixtures assume the validity of their verification labels and
+do not establish real cross-Agent alignment accuracy or user usefulness.
 
 ## New exploratory direction: Skill catalog footprint
 

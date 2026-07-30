@@ -9,11 +9,15 @@ import hashlib
 import json
 import re
 import sqlite3
+import threading
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 
 from .diagnostics import diagnose_skill_run
+
+
+_STORAGE_INIT_LOCK = threading.Lock()
 
 
 STAGES = (
@@ -290,11 +294,21 @@ class Storage:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.connection = sqlite3.connect(str(self.path))
         self.connection.row_factory = sqlite3.Row
-        self.connection.execute("PRAGMA foreign_keys = ON")
-        self.connection.execute("PRAGMA busy_timeout = 5000")
-        self.connection.execute("PRAGMA journal_mode = WAL")
-        self.connection.executescript(SCHEMA)
-        self._migrate_legacy_schema()
+        try:
+            self.connection.execute("PRAGMA foreign_keys = ON")
+            self.connection.execute("PRAGMA busy_timeout = 5000")
+            # Runtime startup intentionally initializes the live index and Hook
+            # bridge in parallel. SQLite's journal-mode transition can fail
+            # immediately when two fresh connections race, even with a busy
+            # timeout. Serialize only schema/journal initialization; normal
+            # reads and writes remain concurrent under WAL.
+            with _STORAGE_INIT_LOCK:
+                self.connection.execute("PRAGMA journal_mode = WAL")
+                self.connection.executescript(SCHEMA)
+                self._migrate_legacy_schema()
+        except Exception:
+            self.connection.close()
+            raise
 
     def _migrate_legacy_schema(self) -> None:
         """Apply additive migrations and remove the old one-run-per-skill limit."""

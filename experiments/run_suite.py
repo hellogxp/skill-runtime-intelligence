@@ -26,6 +26,10 @@ LOCAL_EXPERIMENTS = (
         "E4-source-contract",
         "cross_agent/source_instance_contract_benchmark.py",
     ),
+    (
+        "E4-alignment-contract",
+        "cross_agent/alignment_manifest_benchmark.py",
+    ),
     ("E5", "semantic_diagnosis/run_benchmark.py"),
 )
 

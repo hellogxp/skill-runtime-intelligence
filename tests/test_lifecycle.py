@@ -112,7 +112,7 @@ class RuntimeLifecycleTests(unittest.TestCase):
             return_value={
                 "ok": True,
                 "product": "skill-runtime-intelligence",
-                "version": "0.1.5",
+                "version": "0.1.6",
             },
         ):
             status = runtime_status(port=4317)

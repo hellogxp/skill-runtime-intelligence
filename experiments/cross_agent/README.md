@@ -24,3 +24,18 @@ collisions, that a later event from the same Agent appends to its existing
 stream, and that no cross-source causal relationship is invented. Payloads are
 synthetic and the report is aggregate-only; this is a mechanism test, not a
 live cross-Agent behavior comparison.
+
+Audit field-level comparability decisions for an explicit alignment manifest:
+
+```bash
+PYTHONPATH=src python3 \
+  experiments/cross_agent/alignment_manifest_benchmark.py
+```
+
+Nine synthetic contract cases cover equivalent runs, clock skew, task and
+Skill-digest mismatch, missing terminal evidence, outcome capability masks,
+reported outcome conflict, verified outcome difference, and an explicit
+Skill-version comparison axis. The evaluator returns separate lifecycle,
+outcome, and absolute-time comparability dimensions. It never authorizes
+causal attribution. The five-second clock tolerance is a test policy rather
+than an empirically optimized threshold.
