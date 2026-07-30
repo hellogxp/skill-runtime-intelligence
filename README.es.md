@@ -7,29 +7,45 @@
 [Polski](README.pl.md) · [Čeština](README.cs.md) · [Magyar](README.hu.md)
 <!-- locale-switcher:end -->
 
-[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-inteligencia/acciones/flujos de trabajo/ci.yml)[![Liberar](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-inteligencia/lanzamientos/últimos)[![Licencia](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)](LICENCIA)[![Pitón](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
+[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-intelligence/releases/latest)
+[![License](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
 
 
 > Diagnosticar dónde divergió por primera vez una ejecución de habilidad del agente e inspeccionar la evidencia
 > detrás de cada conclusión.
 
-Agent Skill Runtime Intelligencees un sistema de diagnóstico y evidencia en tiempo de ejecución de solo lectura para Agent Skills. Combina definiciones de habilidades, eventos oficiales de tiempo de ejecución del agente, seguimientos importados, respaldo de sesiones y resultados observables del espacio de trabajo en un sistema calificado por evidencia.Skill Run Panorama.
+Agent Skill Runtime Intelligence es un sistema de diagnóstico y evidencia en tiempo de ejecución de solo lectura para Agent Skills. Combina definiciones de habilidades, eventos oficiales de tiempo de ejecución del agente, seguimientos importados, respaldo de sesión y resultados observables del espacio de trabajo en una Skill Run Panorama calificada por evidencia.
 
 ![Skill Run Panorama](docs/assets/skill-run-panorama.png)
 
 ## Inicio rápido
 
-Instale la última versión independiente en macOS o Linux:
+Instale e inicie la última versión en macOS o Linux:
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
-Sin clon,Gitcuenta central,`sudo`, oGitSe requiere la CLI del concentrador. El instalador descarga la carga útil correspondiente de la versión firmada, verifica las sumas de verificación SHA-256, pregunta una vez antes de habilitar los enlaces del Agente de apertura fallida y almacena todos los datos del tiempo de ejecución en`~/.skill-runtime`. Luego inicia el tiempo de ejecución local y abre[http://127.0.0.1:4317](http://127.0.0.1:4317).
+No se requiere ningún clon, cuenta, `sudo` o GitHub CLI. El instalador verifica la suma de verificación de la versión, detecta agentes y habilidades admitidos, explica cada ruta que leerá, pregunta una vez antes de habilitar los enlaces de solo observación y abre la UI local en [http://127.0.0.1:4317](http://127.0.0.1:4317). Los datos de tiempo de ejecución permanecen en `~/.skill-runtime` a menos que configure explícitamente una exportación.
 
-Puede[inspeccionar el instalador](scripts/install.sh)antes de ejecutarlo.
+Puedes [inspeccionar el instalador](scripts/install.sh) antes de ejecutarlo.
 
-O ejecútelo directamente desde una fuente de pago:
+### Mira tu primer directo SkillRun
+
+1. Acepte la configuración opcional de apertura fallida Hook cuando el instalador lo solicite.
+2. Reinicie el Agente y comience una nueva tarea. En Codex, revise primero los comandos administrados en `/hooks`; Las tareas existentes no cargan en caliente nuevas Hook.
+3. Usa una Skill normalmente, luego confirma la integración y abre el UI:
+
+```bash
+skill-runtime doctor
+skill-runtime status
+```
+
+Una integración está **activa** solo después de que el recopilador recibe un evento de ejecución real. Un Hook configurado pero no observado está **Pendiente** y nunca se presenta como evidencia real. Abra [http://127.0.0.1:4317](http://127.0.0.1:4317) o consulte [Guía de introducción](docs/getting-started.md) para obtener instrucciones específicas del agente y solución de problemas.
+
+Para ejecutar directamente desde un pago de origen:
 
 ```bash
 python3 -m venv .venv
@@ -38,22 +54,41 @@ python3 -m venv .venv
 .venv/bin/skill-runtime start
 ```
 
-Abierto[http://127.0.0.1:4317](http://127.0.0.1:4317). ParaCodex, revise y confíe en los comandos administrados en`/hooks`, comienza un nuevo turno de Agente, luego verifica:
-
-```bash
-skill-runtime doctor
-```
-
-La integración se vuelve **Verificada** solo después de recibir un evento oficial real. Un enlace configurado se muestra como **Pendiente**, nunca como evidencia real.
-
 | Superficie del producto | lo que responde |
 |---|---|
-| Descripción general del tiempo de ejecución | CualSkillRuns¿Necesitas atención? |
-| Primer límite observable | ¿Dónde faltaron o fallaron las pruebas por primera vez? |
+| Runtime Overview | ¿Cuáles SkillRuns necesitan atención? |
+| First Observable Boundary | ¿Dónde faltaron o fallaron las pruebas por primera vez? |
 | Skill Run Panorama | ¿Cómo se conectaron la solicitud, la activación, los recursos, las herramientas, los artefactos y el resultado? |
-| inspector de pruebas | ¿Qué fuente, grado, base y capacidad del adaptador respaldan esta afirmación? |
+| Evidence Inspector | ¿Qué fuente, grado, base y capacidad del adaptador respaldan esta afirmación? |
 | Comparar | ¿Es una diferencia de comportamiento o sólo una diferencia de observabilidad? |
+| Inferred Analysis | ¿Qué explicación basada en evidencia o qué próxima investigación es plausible? |
 | Configuración / Médico | ¿Qué se lee, almacena, exporta, pendiente y verifica? |
+
+## como funciona
+
+![Runtime architecture](docs/assets/runtime-architecture.svg)
+
+Skill Runtime observa el flujo de trabajo que ya utiliza. Los adaptadores versionados convierten los eventos nativos del agente en un ciclo de vida de habilidad estable, mientras que los sobres de origen sin procesar, los eventos normalizados, las relaciones y las inferencias permanecen separados. El motor de diagnóstico identifica primero el límite más temprano donde faltan o fallan pruebas; no inventa la intención del modelo ni la eficacia causal.
+
+| fuente de datos | Role | Frescura | UI etiqueta |
+|---|---|---|---|
+| Ganchos/complementos oficiales del agente/eventos SDK | Ciclo de vida primario, herramienta, subagente y evidencia terminal | Vivir | `Official hook` / `Native telemetry` |
+| Archivos de habilidades y resultados observables en el espacio de trabajo | Definición, recurso, archivo, artefacto y evidencia de prueba. | Instantánea en vivo / indexada | `Observed` |
+| Transcripciones de sesiones | Respaldo de compatibilidad cuando el Agente no muestra suficiente tiempo de ejecución API | Casi vivo o histórico | `Transcript fallback` |
+| OTLP y exportaciones de seguimiento admitidas | Interoperabilidad e importación histórica | Exportación en vivo/importación por lotes | Se muestra el perfil de origen |
+| Correlación determinista | Conecta eventos a SkillRun sin cambiar los datos fuente | En caso de ingestión | `Derived` |
+| asistencia semántica | Sólo explicaciones y sugerencias de investigación. | Bajo demanda | `Inferred` |
+
+Los adaptadores propios admitidos tienen versiones independientes:
+
+| Agente | Integración primaria | Retroceder | Visibilidad de activación |
+|---|---|---|---|
+| Codex | Comando oficial Hooks | Importación de sesión | Activación explícita cuando se expone por el evento Hook |
+| Claude Code | Oficial Hooks | Importación de sesión | Herramienta de habilidad explícita y evidencia de comando de corte donde se expusieron |
+| Qoder | Comando oficial Hooks | Registros locales | Activación explícita cuando se expone por su herramienta de habilidad. |
+| OpenCode | Complemento global solo de observación | Registros locales | Devoluciones de llamadas de herramientas de habilidades donde quedaron expuestas |
+
+Los límites de capacidad exactos están documentados en [matriz de capacidad del adaptador](docs/adapter-capability-matrix.md). Las etapas no soportadas y no observadas permanecen visibles en lugar de convertirse en fallas.
 
 ## el problema
 
@@ -64,13 +99,13 @@ Hoy en día, estos fracasos suelen guardar silencio. Los desarrolladores se qued
 - ¿Estaba la habilidad disponible para este agente?
 - ¿Se activó para esta solicitud?
 - ¿Qué instrucciones, referencias, guiones y recursos se cargaron?
-- ¿Qué herramientas,MCP¿Estuvieron involucrados llamadas, subagentes, archivos y artefactos?
+- ¿Qué herramientas, llamadas MCP, subagentes, archivos y artefactos estuvieron involucrados?
 - ¿Dónde falló la ejecución, se reintentó o se perdió contexto?
 - ¿La habilidad ayudó o solo agregó costo y latencia?
 
-## Dirección del producto
+## Diagnóstico específico de habilidades
 
-El primer producto es un **Skill Run Panorama**:
+El objeto de diagnóstico principal es un `SkillRun`, no una sesión completa del Agente:
 
 ```text
 User request
@@ -90,19 +125,11 @@ Files and artifacts produced
 Observable outcome
 ```
 
-El panorama se construye a partir de señales reales, no de modelos de autoinforme:
-
-| Fuente | Ejemplos | Evidencia |
-|---|---|---|
-| Archivos de habilidades | metadatos, instrucciones, scripts, referencias, activos | Observado |
-| Eventos de tiempo de ejecución | Llamadas de habilidades, llamadas de herramientas, subagentes, fallas, duración | Observado |
-| Transcripciones de sesiones | indicaciones, mensajes, entradas y salidas de herramientas, pedidos | Observado |
-| Resultados del espacio de trabajo | cambios de archivos,Gitdiff, informes, artefactos generados | Observado |
-| Correlación | Relaciones entre eventos, recursos y resultados. | Derivado o Inferido |
+El UI mantiene el ciclo de vida ordenado, escrito y calificado por evidencia. La telemetría de activación faltante significa "no observado" o "no admitido"; Esto no significa que el Agente definitivamente se haya saltado la Habilidad.
 
 ## Disciplina de evidencia
 
-ElUInunca debe presentar una inferencia como un hecho en tiempo de ejecución:
+El UI nunca debe presentar una inferencia como un hecho en tiempo de ejecución:
 
 - **Observado**: presente explícitamente en un evento o archivo de origen.
 - **Derivado**: conectado deterministamente a partir de evidencia observada.
@@ -121,22 +148,28 @@ Un único seguimiento puede respaldar la atribución de ejecución. No puede pro
 - Divulgación progresiva: narrativa simple primero, eventos crudos a pedido.
 - Soporte basado en adaptador para cambiar los formatos de transcripción de agentes.
 
-## Alcance inicial
+## Alcance actual
 
-El tiempo de ejecución admiteCodex,Claude Code,Qoder, yOpenCodea través de adaptadores versionados independientes y proporciona:
+El tiempo de ejecución admite Codex, Claude Code, Qoder y OpenCode a través de adaptadores versionados independientes y proporciona:
 
 - instalado Descubrimiento y validación de habilidades;
-- importación de sesiones y observación local en vivo cuando sea compatible;
+- colección oficial Hook/plugin en tiempo real más reserva de sesión etiquetada;
 - Activación de habilidades, carga de recursos y cronogramas de uso de herramientas;
-- subagente,MCPrelaciones entre archivos, artefactos y archivos;
+- relaciones de subagente, MCP, archivo y artefacto;
 - resúmenes de duración, token, error, reintento y estado cuando estén disponibles;
-- una lista de ejecuciones, DAG panorámico, línea de tiempo de eventos e inspector de nodos.
+- Runtime Overview y diagnóstico de primer límite;
+- un DAG panorámico, una cronología de eventos y un inspector de pruebas;
+- comparación entre agentes y entre agentes con reconocimiento de capacidades;
+- una superficie Inferred Analysis separada que no puede reescribir hechos en tiempo de ejecución;
+- opt-in OTLP/HTTP exportación e importación de seguimiento de observabilidad admitida.
 
 El MVP **no** incluye un mercado, tiempo de ejecución de agente universal, aplicación de seguridad, gobernanza empresarial ni afirmaciones de efectos causales.
 
 ## Instalación detallada
 
-La implementación básica no tiene dependencias de tiempo de ejecución más alláPython3,9+. Desde la raíz del repositorio:
+Para conocer la ruta más corta admitida, utilice el instalador de versión de una línea en [Inicio rápido](#quick-start). El flujo completo de primera ejecución, los pasos de confianza/reinicio específicos del agente, el comportamiento de privacidad y la solución de problemas se encuentran en la [Guía de introducción](docs/getting-started.md).
+
+Para el desarrollo, la implementación básica no tiene dependencias de tiempo de ejecución más allá de Python 3.9+. Desde la raíz del repositorio:
 
 ```bash
 python3 -m venv .venv
@@ -145,25 +178,25 @@ python3 -m venv .venv
 .venv/bin/skill-runtime start
 ```
 
-Luego abre[http://127.0.0.1:4317](http://127.0.0.1:4317).
+Luego abra [http://127.0.0.1:4317](http://127.0.0.1:4317).
 
-la única vez`install`dominio:
+El comando único `install`:
 
 1. escanea ubicaciones de Skill de usuarios, proyectos y complementos almacenados en caché;
-2. detectaCodex,Claude Code,Qoder, yOpenCodesin cambiar su configuración;
+2. detecta Codex, Claude Code, Qoder y OpenCode sin cambiar su configuración;
 3. muestra qué rutas de Agente y Habilidad se leerán;
-4. descarga un remitente nativo de bajo inicio verificado con suma de verificación para la plataforma actual, recurriendo a una compilación C local y finalmente elPythonremitente y precalienta un binario nativo nuevo una vez durante la instalación;
-5. crea`~/.skill-runtime/config.json`y los localesSQLiteíndice.
+4. descarga un remitente nativo de bajo inicio verificado con suma de verificación para la plataforma actual, recurriendo a una compilación C local y finalmente al remitente Python, y precalienta un binario nativo nuevo una vez durante la instalación;
+5. crea `~/.skill-runtime/config.json` y el índice local SQLite.
 
-Cuando se ejecuta de forma interactiva, pregunta una vez antes de agregar enlaces de agente de apertura fallida.`--no-hooks`mantiene la importación de transcripciones como reserva etiquetada, mientras`--enable-hooks`registra el consentimiento explícito e instala solo entradas administradas. ParaCodex, abierto`/hooks`Después de la instalación, revise los comandos administrados exactos y confíe en ellos.Codexrequiere intencionalmente esta revisión explícita de los enlaces agregados fuera de la configuración empresarial administrada. Inicie un nuevo turno de Agente, luego ejecute:
+Cuando se ejecuta de forma interactiva, pregunta una vez antes de agregar enlaces de agente de apertura fallida. `--no-hooks` mantiene la importación de transcripciones como respaldo etiquetado, mientras que `--enable-hooks` registra el consentimiento explícito e instala solo entradas administradas. Para Codex, abra `/hooks` después de la instalación, revise los comandos administrados exactos y confíe en ellos. Codex requiere intencionalmente esta revisión explícita de los enlaces agregados fuera de la configuración empresarial administrada. Inicie una nueva tarea/sesión Codex después de confiar en los Hook, luego ejecute:
 
 ```bash
 .venv/bin/skill-runtime doctor
 ```
 
-Qodercarga la configuración de Hook al inicio, así que reinicieQoderdespués de la primera instalación.OpenCodedescubre el complemento administrado de solo observación desde su directorio global de complementos; ReanudarOpenCodesi el proceso actual es anterior a la instalación. Ninguna integración lee ni cambia las solicitudes de modelo.
+Qoder carga la configuración Hook al inicio, así que reinicie Qoder después de la primera instalación. OpenCode descubre el complemento administrado de solo observación desde su directorio global de complementos; reinicie OpenCode si el proceso actual es anterior a la instalación. Ninguna integración lee ni cambia las solicitudes de modelo.
 
-La integración se vuelve **activa** solo después de que la base de datos reciba una notificación real.`official_hook`evento. Simplemente escribiendo`~/.codex/hooks.json`se muestra como **Pendiente**, nunca Conectado.`start`lanza el recopilador, el observador de reserva de transcripciones, el trabajador de retención,SQLitealmacenar y vivirUIcomo un proceso en segundo plano administrado. No se representa ninguna solicitud de modelo.
+La integración se vuelve **activa** solo después de que la base de datos reciba un evento `official_hook` real. Simplemente escribir `~/.codex/hooks.json` se muestra como **Pendiente**, nunca Conectado. `start` inicia el recopilador, el observador de respaldo de transcripciones, el trabajador de retención, el almacén SQLite y activa UI como un proceso en segundo plano administrado. No se representa ninguna solicitud de modelo.
 
 Comandos del ciclo de vida:
 
@@ -178,7 +211,7 @@ skill-runtime config --set network_export.enabled=true
 skill-runtime uninstall --keep-data
 ```
 
-`uninstall`elimina solo las entradas de Hook administradas ySkill Runtime-archivos de propiedad. Sin`--keep-data`, requiere confirmación interactiva (o`--yes`) antes de retirar`~/.skill-runtime`; Las sesiones de agentes y las fuentes de habilidades nunca se eliminan.
+`uninstall` elimina solo las entradas administradas de Hook y los archivos de propiedad de Skill Runtime. Sin `--keep-data`, requiere confirmación interactiva (o `--yes`) antes de eliminar `~/.skill-runtime`; Las sesiones de agentes y las fuentes de habilidades nunca se eliminan.
 
 Para indexar y publicar por separado:
 
@@ -195,9 +228,9 @@ PYTHONPATH=src python3 -m skill_runtime_intelligence import \
   --format auto
 ```
 
-Los perfiles de importación versionados actualmente reconocen OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, yDatadog JSONformas. Sólo crean unSkillRuncuando la fuente contiene una semántica de Habilidad explícita; Los nombres de intervalo genéricos no se tratan como evidencia de activación.
+Los perfiles de importación versionados actualmente reconocen las formas OTLP/Phoenix, Langfuse, LangSmith, W&B Weave y Datadog JSON. Solo crean un SkillRun cuando la fuente contiene una semántica de Habilidad explícita; Los nombres de intervalo genéricos no se tratan como evidencia de activación.
 
-Exporte evidencia de tiempo de ejecución normalizada y específica de habilidades a cualquierOTLP/HTTPpunto final de seguimiento:
+Exporte evidencia de tiempo de ejecución normalizada y específica de la habilidad a cualquier punto final de seguimiento OTLP/HTTP:
 
 ```bash
 .venv/bin/skill-runtime start \
@@ -205,11 +238,11 @@ Exporte evidencia de tiempo de ejecución normalizada y específica de habilidad
   --otlp-header Authorization='Bearer …'
 ```
 
-La exportación está deshabilitada a menos que se configure explícitamente un punto final. Los puntos de control, el estado de reintento y el estado del destino se muestran en Configuración. Las indicaciones sin procesar, las cargas útiles de las herramientas, las credenciales y el contenido de los recursos de habilidades no se exportan. Para exportación en segundo plano autenticada, proporcione estándar`OTEL_EXPORTER_OTLP_HEADERS`en el ambiente antes`skill-runtime start`; los encabezados nunca se escribenSkill Runtimeargumentos de configuración o proceso.
+La exportación está deshabilitada a menos que se configure explícitamente un punto final. Los puntos de control, el estado de reintento y el estado del destino se muestran en Configuración. Las indicaciones sin procesar, las cargas útiles de las herramientas, las credenciales y el contenido de los recursos de habilidades no se exportan. Para exportación en segundo plano autenticada, proporcione el estándar `OTEL_EXPORTER_OTLP_HEADERS` en el entorno antes de `skill-runtime start`; los encabezados nunca se escriben en los argumentos de configuración o proceso de Skill Runtime.
 
 ## Enviar evidencia en tiempo de ejecución en vivo
 
-`skill-runtime start`Incluye un coleccionista local. Adaptadores de telemetría nativos, ganchos oficiales, ganchos livianos de apertura por falla ySDKLas integraciones pueden agregar un solo evento o un lote limitado a`POST /api/events`:
+`skill-runtime start` incluye un coleccionista local. Los adaptadores de telemetría nativos, los enlaces oficiales, los enlaces ligeros de apertura por error y las integraciones SDK pueden agregar un solo evento o un lote limitado a `POST /api/events`:
 
 ```bash
 curl -X POST http://127.0.0.1:4317/api/events \
@@ -237,9 +270,9 @@ curl -X POST http://127.0.0.1:4317/api/events \
   }'
 ```
 
-El punto final redacta las credenciales comunes antes de la persistencia, deduplica mediante`event_id`, conserva un sobre sin formato redactado por separado y devuelve el resultado`skill_run_ids`.`GET /api/collector/schema`expone el vocabulario de eventos admitidos y los modos de recopilación. ElUIescucha`/api/stream`usando SSE, con sondeo solo como alternativa de reconexión.
+El punto final redacta las credenciales comunes antes de la persistencia, deduplica mediante `event_id`, conserva un sobre sin editar redactado por separado y devuelve el `skill_run_ids` resultante. `GET /api/collector/schema` expone el vocabulario de eventos admitidos y los modos de recopilación. El UI escucha a `/api/stream` usando SSE, con sondeo solo como alternativa de reconexión.
 
-El indicador de origen distingue la evidencia de tiempo de ejecución primaria de`Transcript fallback`y rastros importados. Un punto final de Collector por sí solo no reclama telemetría nativa: cada productor debe declarar si su evento provino de telemetría nativa, un gancho oficial, un gancho liviano o unSDK.
+El indicador de origen distingue la evidencia de tiempo de ejecución primaria de `Transcript fallback` y los rastros importados. Un punto final de Collector por sí solo no reclama telemetría nativa: cada productor debe declarar si su evento provino de telemetría nativa, un gancho oficial, un gancho liviano o un SDK.
 
 ### Ganchos de agente opcionales
 
@@ -249,16 +282,16 @@ Inspeccione primero los caminos y eventos exactos. Este comando es de sólo lect
 .venv/bin/skill-runtime setup
 ```
 
-La instalación del gancho requiere una bandera explícita:
+La instalación de Hook requiere una bandera explícita:
 
 ```bash
 .venv/bin/skill-runtime setup --enable-codex-hooks
 .venv/bin/skill-runtime setup --enable-claude-hooks
 ```
 
-El instalador realiza una copia de seguridad de la configuración del Agente, conserva los enlaces existentes y agrega solo entradas que llevan unSkill Runtimemarcador de gestión. El adaptador de gancho almacena campos mínimos del ciclo de vida en lugar de indicaciones completas o cargas útiles de herramientas. Mientras el tiempo de ejecución está activo, un permiso restringidoUnixsocket es el camino rápido; un remitente nativo opcional evitaPythonpuesta en marcha. Cuando el tiempo de ejecución no está activo, la ruta independiente de apertura por error agrega evidencia redactada a`~/.skill-runtime/queue/events.jsonl`.`skill-runtime start`reproduce esa cola con deduplicación de ID de evento.
+El instalador realiza una copia de seguridad de la configuración del Agente, conserva los enlaces existentes y agrega solo entradas que llevan un marcador de administración Skill Runtime. El adaptador de gancho almacena campos mínimos del ciclo de vida en lugar de indicaciones completas o cargas útiles de herramientas. Para las llamadas a herramientas completas, extrae solo `SKILL.md` exacto, el recurso de habilidad estándar y las rutas de archivos modificados en la memoria; Los comandos sin formato, los cuerpos de los parches, los mensajes y las salidas de las herramientas se descartan antes de la persistencia. Mientras el tiempo de ejecución está activo, un socket Unix con permisos restringidos es la ruta rápida; un remitente nativo opcional evita el inicio de Python. Cuando el tiempo de ejecución no está activo, la ruta independiente de falla de apertura agrega evidencia redactada a `~/.skill-runtime/queue/events.jsonl`. `skill-runtime start` reproduce esa cola con deduplicación de ID de evento.
 
-CodexLos eventos utilizan su gancho oficial.API(`SessionStart`,`SessionEnd`,`UserPromptSubmit`,`PreToolUse`,`PostToolUse`,`PreCompact`,`PostCompact`,`SubagentStart`,`SubagentStop`, y`Stop`).Codexactualmente ejecuta enlaces de comando sincrónicamente, por lo queSkill Runtimeusa un localUnixsocket/remitente nativo con un tiempo de espera limitado. Cualquier error en la entrega se traga y se pone en cola; nunca cambia la decisión de un Agente. Ver el[documentación oficial del Codex Hook](https://developers.openai.com/codex/config-advanced#hooks).
+Los eventos Codex utilizan su Hook API oficial (`SessionStart`, `SessionEnd`, `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `PreCompact`, `PostCompact`, `SubagentStart`, `SubagentStop` y `Stop`). Codex actualmente ejecuta enlaces de comando de forma sincrónica, por lo que Skill Runtime usa un socket Unix local/remitente nativo con un tiempo de espera limitado. Cualquier error en la entrega se traga y se pone en cola; nunca cambia la decisión de un Agente. Vea el [documentación oficial del Codex Hook](https://developers.openai.com/codex/config-advanced#hooks).
 
 Elimine solo las entradas administradas con:
 
@@ -267,7 +300,7 @@ Elimine solo las entradas administradas con:
 .venv/bin/skill-runtime setup --remove-claude-hooks
 ```
 
-El servidor se une a`127.0.0.1`por defecto. Los mensajes de transcripción completa y las cargas útiles de las herramientas no se copian en el índice. Los patrones secretos comunes se redactan antes de que persistan los resúmenes normalizados.
+El servidor se vincula a `127.0.0.1` de forma predeterminada. Los mensajes de transcripción completa y las cargas útiles de las herramientas no se copian en el índice. Los patrones secretos comunes se redactan antes de que persistan los resúmenes normalizados.
 
 Ejecute el conjunto de pruebas sin dependencia con:
 
@@ -277,7 +310,7 @@ PYTHONPATH=src python3 -m unittest discover -s tests -v
 
 ## Ingeniería de lanzamiento
 
-GitSe ejecutan acciones del concentradorPython3.9–3.13 pruebas, validación de JavaScript, compilación del remitente nativo y una prueba de humo real de instalación/inicio/doctor/detener/desinstalar. A`v*`tag crea paquetes wheel/sdist además de remitentes nativos de Linux y macOS protegidos con suma de comprobación. El instalador de CLI descarga el activo de la versión correspondiente, por lo que los usuarios finales no necesitan un compilador.
+GitHub Ejecuciones de acciones Python pruebas 3.9–3.13, validación de JavaScript, compilación del remitente nativo y una prueba de humo real de instalación/inicio/doctor/detención/desinstalación. Una etiqueta `v*` crea paquetes wheel/sdist más remitentes nativos Linux y macOS protegidos por suma de comprobación. El instalador de CLI descarga el activo de la versión correspondiente, por lo que los usuarios finales no necesitan un compilador.
 
 Ejecute el primer experimento de diagnóstico vinculado al producto:
 
@@ -285,7 +318,7 @@ Ejecute el primer experimento de diagnóstico vinculado al producto:
 python3 experiments/runtime_diagnostics/run_benchmark.py
 ```
 
-Inyecta fallas en la evidencia del ciclo de vida, fallas explícitas, ejecuciones incompletas y resultados no verificados, luego evalúa el mismo motor de diagnóstico determinista utilizado por elAPIyUI. Ver el[Plan de experimento PAI-DSW](docs/pai-dsw-experiment-plan.md)para la escalera experimental, pruebas de no interferencia y contrato de reproducibilidad.
+Inyecta fallas en la evidencia del ciclo de vida, fallas explícitas, ejecuciones incompletas y resultados no verificados, luego evalúa el mismo motor de diagnóstico determinista utilizado por API y UI. Consulte [Plan de experimento PAI-DSW](docs/pai-dsw-experiment-plan.md) para conocer la escala de experimentos, las pruebas de no interferencia y el contrato de reproducibilidad.
 
 Después de construir la rueda, ejecute el humo del ciclo de vida empaquetado aislado con:
 
@@ -297,7 +330,7 @@ Se instala en un entorno virtual temporal y en un hogar temporal, ejerce el cicl
 
 ## Diseño de producto basado en experimentos
 
-El comportamiento del producto está limitado por la[Filosofía de producto basada en experimentos.](docs/experiment-driven-product-philosophy.md): evidencia antes que conclusiones, el primer límite observable antes que la severidad, relaciones tipificadas antes que los registros planos y reconstrucción determinista antes de la asistencia probabilística.
+El comportamiento del producto está limitado por [Filosofía de producto basada en experimentos.](docs/experiment-driven-product-philosophy.md): evidencia antes que conclusiones, el primer límite observable antes que la severidad, relaciones tipificadas antes que los registros planos y reconstrucción determinista antes de la asistencia probabilística.
 
 La evidencia local reproducible actual incluye:
 
@@ -309,29 +342,29 @@ La evidencia local reproducible actual incluye:
 
 Estos resultados validan los mecanismos y las opciones de representación, no la generalización de la implementación o el beneficio humano. Los estudios reales de segundos agentes, la latencia de cola multiplataforma, la calibración de fallas reales y los estudios de diagnóstico de participantes siguen teniendo lagunas en la evidencia.
 
-La dirección de la investigación también se basa en trabajos primarios adyacentes:[SkillsBench](https://arxiv.org/abs/2602.12670)y[SWE-Skills-Bench](https://arxiv.org/abs/2603.15401)motivar el diagnóstico porque los efectos de las habilidades varían y pueden retroceder;[Harness-Bench](https://arxiv.org/abs/2605.27922)motiva la comparación entre agentes consciente de la capacidad; y el[encuesta de procedencia de ejecución](https://arxiv.org/abs/2606.04990)motiva las relaciones de evidencia mecanografiada, el seguimiento de la procedencia y la infraestructura de auditoría consciente de la privacidad.
+La dirección de la investigación también se basa en trabajos primarios adyacentes: [SkillsBench](https://arxiv.org/abs/2602.12670) y [SWE-Skills-Bench](https://arxiv.org/abs/2603.15401) motivan el diagnóstico porque los efectos de las habilidades varían y pueden retroceder; [Harness-Bench](https://arxiv.org/abs/2605.27922) motiva la comparación entre agentes consciente de la capacidad; y el [encuesta de procedencia de ejecución](https://arxiv.org/abs/2606.04990) motiva las relaciones de evidencia mecanografiada, el seguimiento de la procedencia y la infraestructura de auditoría consciente de la privacidad.
 
 ## Documentación
 
-- [Definición de producto](docs/product-definition.md)
-- [especificación MVP](docs/mvp-specification.md)
-- [Modelo de evento en tiempo de ejecución](docs/runtime-event-model.md)
-- [Arquitectura de información de la interfaz de usuario](docs/ui-information-architecture.md)
-- [Matriz de capacidades del adaptador](docs/adapter-capability-matrix.md)
-- [Interoperabilidad de observabilidad](docs/observability-interoperability.md)
-- [Configuración de la plataforma de observabilidad.](docs/observability-platform-setup.md)
-- [Investigación y panorama competitivo](docs/research-and-competitive-landscape.md)
-- [Agenda de trabajos de investigación](docs/research-paper-agenda.md)
-- [Filosofía de producto basada en experimentos](docs/experiment-driven-product-philosophy.md)
-- [Resultados del experimento](docs/experiment-results-2026-07-29.md)
-- [Plan de experimento PAI-DSW](docs/pai-dsw-experiment-plan.md)
+| Empieza aquí | Objetivo |
+|---|---|
+| [Getting Started](docs/getting-started.md) | Instalar, conectar un agente, verificar evidencia en vivo y solucionar problemas |
+| [Arquitectura](docs/architecture.md) | Canal de recopilación, límites de almacenamiento, motor de evidencia y modelo de confianza |
+| [Matriz de capacidades del adaptador](docs/adapter-capability-matrix.md) | Señales exactas y limitaciones por agente/versión |
+| [Configuración de la plataforma de observabilidad.](docs/observability-platform-setup.md) | Conecte plataformas compatibles con OTLP e importe seguimientos compatibles |
+| [Modelo de evento en tiempo de ejecución](docs/runtime-event-model.md) | Vocabulario estable de eventos, procedencia, relaciones y grados de evidencia. |
+| [Arquitectura de información de la interfaz de usuario](docs/ui-information-architecture.md) | Descripción general, primer límite, Panorama, Inspector, Comparar y Inferred Analysis |
+
+Referencias de productos e investigaciones: [definición de producto](docs/product-definition.md), [especificación MVP](docs/mvp-specification.md), [interoperabilidad de observabilidad](docs/observability-interoperability.md), [Filosofía de producto basada en experimentos.](docs/experiment-driven-product-philosophy.md), [resultados del experimento](docs/experiment-results-2026-07-29.md) y [agenda de investigación](docs/research-paper-agenda.md).
 
 ## Hoja de ruta
 
-1. **v0.1 — Diagnóstico y evidencia en tiempo de ejecución:** recopilación en vivo,Skill Run Panorama, diagnóstico de primer límite, inspección de evidencia, comparación e interoperabilidad OTLP.
-2. **v0.2: estudios de diagnóstico y refuerzo de adaptadores:** versiones adicionales del agente, experimentos reales entre agentes y evaluación de participantes.
-3. **v0.3 — Evaluación de efectos:** evaluación emparejada controlada con habilidad/sin habilidad, mantenida separada del diagnóstico de ejecución única.
+1. **v0.2.0: disponible ahora:** recopilación activa de fallos de apertura, cuatro adaptadores de agente versionados, Runtime Overview, diagnóstico de primer límite, panorama, Evidence Inspector, comparación con reconocimiento de capacidad, Inferred Analysis e interoperabilidad OTLP.
+2. **Siguiente: Adaptador y refuerzo de diagnóstico:** cobertura más amplia de agente/versión, calibración de fallas reales, validación de latencia de cola multiplataforma y estudios de diagnóstico de participantes.
+3. **Más tarde: evaluación del efecto:** evaluación emparejada controlada con habilidad/sin habilidad, mantenida explícitamente separada del diagnóstico de ejecución única.
 
 ## Estado del proyecto
 
-ASkillRun-el primer tiempo de ejecución es ejecutable: inventario de definición instalada,Codexrespaldo de transcripción, adaptadores de gancho oficiales basados ​​en el consentimiento paraCodex,Claude Code, yQoder, una observación sóloOpenCodeadaptador de complemento, atribución de alcance activo, rutas exactas de archivos/artefactos, redacción, capas separadas de fuente/relación/inferencia,SQLitealmacenamiento, retención, comparación entre ejecuciones y agentes, diagnóstico determinista y panorama en vivoUI. OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, yDatadoglas exportaciones pueden importarse; La evidencia normalizada se puede exportar en vivo mediante suscripción voluntaria.OTLP/HTTP. El descubrimiento de candidatos, las razones de selección interna del modelo, la efectividad semántica y las afirmaciones de resultados causales siguen sin estar explícitamente respaldadas.
+Se publica la versión `v0.2.0`. El tiempo de ejecución incluye inventario de definiciones instaladas, adaptadores Hook oficiales basados en consentimiento para Codex, Claude Code y Qoder, un complemento OpenCode de solo observación, reserva de transcripción etiquetada, atribución de alcance activo, rutas exactas de archivos/artefactos, redacción, capas separadas de fuente/relación/inferencia, SQLite almacenamiento, retención, diagnóstico determinista, UI en vivo y comparación entre ejecuciones y agentes cruzados. Se pueden importar las exportaciones OTLP/Phoenix, Langfuse, LangSmith, W&B Weave y Datadog; La evidencia normalizada se puede exportar en vivo a través de la opción OTLP/HTTP.
+
+El descubrimiento de candidatos dentro del modelo, las razones de selección internas del modelo, la efectividad semántica y las afirmaciones de resultados causales siguen sin estar explícitamente respaldadas a menos que una fuente o un experimento controlado proporcione esa evidencia.

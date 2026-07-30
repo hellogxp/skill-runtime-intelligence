@@ -24,20 +24,37 @@ Agent Skill Runtime Intelligence 是面向 Agent Skills 的只读运行时证据
 
 ## 快速开始
 
-在 macOS 或 Linux 上安装最新独立发行版：
+在 macOS 或 Linux 上安装并启动最新发行版：
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
-不需要克隆仓库、GitHub 账号、`sudo` 或 GitHub CLI。安装器会自动下载与当前平台
-匹配的正式发行产物、校验 SHA-256，并在启用 fail-open Agent Hook 前只询问一次；
-所有运行数据默认保存在 `~/.skill-runtime`。安装完成后会启动本地 Runtime，并打开
-[http://127.0.0.1:4317](http://127.0.0.1:4317)。
+不需要克隆仓库、账号、`sudo` 或 GitHub CLI。安装器会校验发行产物，检测支持的
+Agent 与 Skills，明确说明会读取的每个路径，在启用只观测 Hook 前只询问一次，
+然后打开本地 UI：[http://127.0.0.1:4317](http://127.0.0.1:4317)。除非显式配置
+导出，否则所有运行数据都保存在 `~/.skill-runtime`。
 
 运行前可以先[检查安装脚本](scripts/install.sh)。
 
-或者从源码运行：
+### 查看第一个实时 SkillRun
+
+1. 安装器询问时，同意启用可选的 fail-open Hook。
+2. 重启 Agent 并新建任务。使用 Codex 时，先在 `/hooks` 中核对并信任受管理的
+   命令；已经打开的任务不会热加载新 Hook。
+3. 正常使用一个 Skill，然后确认集成状态：
+
+```bash
+skill-runtime doctor
+skill-runtime status
+```
+
+只有 Collector 收到真实运行事件后，集成才是 **Live**。已配置但尚未观察到事件的
+Hook 只会显示为 **Pending**，不会冒充实时证据。打开
+[http://127.0.0.1:4317](http://127.0.0.1:4317)，或阅读
+[Getting Started](docs/getting-started.md) 了解各 Agent 的操作与排障方法。
+
+从源码运行：
 
 ```bash
 python3 -m venv .venv
@@ -46,17 +63,6 @@ python3 -m venv .venv
 .venv/bin/skill-runtime start
 ```
 
-打开 [http://127.0.0.1:4317](http://127.0.0.1:4317)。使用 Codex 时，请在
-`/hooks` 中核对并信任由 Skill Runtime 管理的命令，然后新建一个 Codex
-任务/会话（已打开的旧任务不会热加载新安装的 Hook），再执行：
-
-```bash
-skill-runtime doctor
-```
-
-只有收到真实的官方 Hook 事件后，集成状态才会变为 **Verified**。仅完成 Hook 配置时
-显示为 **Pending**，不会冒充实时证据。
-
 | 产品界面 | 回答的问题 |
 |---|---|
 | Runtime Overview | 哪些 SkillRun 值得关注？ |
@@ -64,7 +70,39 @@ skill-runtime doctor
 | Skill Run Panorama | 请求、激活、资源、工具、产物与结果如何连接？ |
 | Evidence Inspector | 哪个来源、证据等级、判断依据和适配器能力支持这项结论？ |
 | Compare | 差异来自行为本身，还是仅来自可观测能力不同？ |
+| Inferred Analysis | 哪种证据约束下的解释或下一步调查方向是合理的？ |
 | Settings / Doctor | 系统读取、存储和导出了什么，哪些连接待验证？ |
+
+## 工作原理
+
+![运行时架构](docs/assets/runtime-architecture.svg)
+
+Skill Runtime 伴随观察用户原有的 Agent 工作流。版本化 adapter 将 Agent
+原生事件转换为稳定的 Skill 生命周期，同时把来源事件、标准化事件、关系与推断
+分别保存。诊断引擎首先寻找证据最早缺失或失败的边界，不编造模型意图，也不从
+单次运行推断因果有效性。
+
+| 数据来源 | 作用 | 时效性 | UI 标识 |
+|---|---|---|---|
+| Agent 官方 Hook／插件／SDK 事件 | 主要的生命周期、工具、子 Agent 与终态证据 | 实时 | `Official hook` / `Native telemetry` |
+| Skill 文件与可观察工作区结果 | 定义、资源、文件、产物与测试证据 | 实时快照／索引 | `Observed` |
+| Session 记录 | Agent 没有充分 Runtime API 时的兼容回退 | 准实时或历史 | `Transcript fallback` |
+| OTLP 与支持的 Trace 导出 | 可观测互操作与历史导入 | 实时导出／批量导入 | 显示来源 profile |
+| 确定性关联 | 在不改写来源事实的前提下把事件连接到 SkillRun | 采集时 | `Derived` |
+| 语义助手 | 只提供解释与调查建议 | 按需 | `Inferred` |
+
+当前第一方 adapter 独立版本化：
+
+| Agent | 主要集成 | 回退 | 激活可见性 |
+|---|---|---|---|
+| Codex | 官方 command Hooks | Session 导入 | Hook 事件暴露时可观察显式激活 |
+| Claude Code | 官方 Hooks | Session 导入 | 来源暴露时可观察 Skill tool 与 slash command |
+| Qoder | 官方 command Hooks | 本地记录 | Skill tool 暴露时可观察显式激活 |
+| OpenCode | 只观测全局插件 | 本地记录 | 来源暴露时可观察 Skill tool callback |
+
+每个版本的精确能力边界见
+[adapter capability matrix](docs/adapter-capability-matrix.md)。不支持与未观察到的
+阶段会保持可见，不会被转化成失败。
 
 ## 要解决的问题
 
@@ -80,9 +118,9 @@ skill-runtime doctor
 - 执行在哪一步失败、重试或丢失上下文？
 - Skill 真正产生了帮助，还是只增加了成本和延迟？
 
-## 产品形态
+## Skill 专属诊断
 
-核心产品是 **Skill Run Panorama**：
+核心诊断对象是 `SkillRun`，不是整个 Agent session：
 
 ```text
 User request
@@ -102,15 +140,8 @@ Files and artifacts produced
 Observable outcome
 ```
 
-全景图由真实信号拼接，而不是依赖模型自述：
-
-| 来源 | 示例 | 证据性质 |
-|---|---|---|
-| Skill 文件 | 元数据、指令、scripts、references、assets | Observed |
-| 运行事件 | Skill 调用、工具调用、子 Agent、失败、耗时 | Observed |
-| 会话记录 | 请求、消息、工具输入输出和顺序 | Observed |
-| 工作区结果 | 文件变更、Git diff、报告和生成产物 | Observed |
-| 关联分析 | 事件、资源与结果之间的关系 | Derived 或 Inferred |
+UI 以有序、类型化、证据分级的方式展示生命周期。缺少激活 telemetry 只代表
+“未观察到”或“来源不支持”，不代表 Agent 一定跳过了 Skill。
 
 ## 证据纪律
 
@@ -134,23 +165,31 @@ UI 绝不能把推断伪装成运行事实：
 - 渐进披露：先给简洁叙事，再按需展示脱敏事件。
 - 每个 Agent 集成均由独立、版本化的 adapter 承担。
 
-## 当前能力范围
+## 当前范围
 
 当前通过独立、版本化的 adapter 支持 Codex、Claude Code、Qoder 与 OpenCode，
 并提供：
 
 - 已安装 Skill 的发现、解析与完整性检查；
-- 历史会话导入，以及 Agent 支持时的实时本地观测；
+- 实时官方 Hook／插件采集，以及明确标识的 session fallback；
 - Skill 激活、资源加载和工具调用时间线；
 - 子 Agent、MCP、文件和产物关系；
 - 来源提供时的耗时、token、错误、重试和状态摘要；
-- 运行列表、全景 DAG、事件时间线、证据检查器与能力感知对比。
+- Runtime Overview 与 First Observable Boundary 诊断；
+- 全景 DAG、事件时间线与 Evidence Inspector；
+- 能力感知的同 Agent 与跨 Agent 对比；
+- 不能改写运行事实的独立 Inferred Analysis；
+- 可选 OTLP/HTTP 实时导出与支持的可观测 Trace 导入。
 
 当前不做 Skill 市场、通用 Agent Runtime、安全执法、企业治理或单次运行因果结论。
 
 ## 安装与生命周期
 
-基础运行时仅要求 Python 3.9+。在仓库根目录执行：
+最短路径请使用[快速开始](#快速开始)中的一行发行版安装命令。完整首次使用流程、
+各 Agent 的重启／信任操作、隐私行为与排障方法见
+[Getting Started](docs/getting-started.md)。
+
+开发模式仅要求 Python 3.9+。在仓库根目录执行：
 
 ```bash
 python3 -m venv .venv
@@ -377,34 +416,40 @@ PYTHONPATH=src python3 experiments/product_lifecycle/run_benchmark.py
 
 ## 文档
 
-- [产品定义](docs/product-definition.md)
-- [MVP 规格](docs/mvp-specification.md)
-- [运行时事件模型](docs/runtime-event-model.md)
-- [UI 信息架构](docs/ui-information-architecture.md)
-- [适配器能力矩阵](docs/adapter-capability-matrix.md)
-- [可观测互操作](docs/observability-interoperability.md)
-- [可观测平台接入](docs/observability-platform-setup.md)
-- [研究与竞品格局](docs/research-and-competitive-landscape.md)
-- [研究论文议程](docs/research-paper-agenda.md)
-- [实验驱动的产品设计哲学](docs/experiment-driven-product-philosophy.md)
-- [实验结果](docs/experiment-results-2026-07-29.md)
-- [PAI-DSW 实验计划](docs/pai-dsw-experiment-plan.md)
+| 建议入口 | 作用 |
+|---|---|
+| [Getting Started](docs/getting-started.md) | 安装、连接 Agent、验证实时证据和排障 |
+| [Architecture](docs/architecture.md) | 采集链路、存储边界、证据引擎与信任模型 |
+| [Adapter 能力矩阵](docs/adapter-capability-matrix.md) | 各 Agent／版本的精确信号与限制 |
+| [可观测平台接入](docs/observability-platform-setup.md) | 连接 OTLP 平台并导入支持的 Trace |
+| [运行时事件模型](docs/runtime-event-model.md) | 稳定事件词表、溯源、关系与证据等级 |
+| [UI 信息架构](docs/ui-information-architecture.md) | Overview、首边界、Panorama、Inspector、Compare 与 Inferred Analysis |
+
+产品与研究资料包括：[产品定义](docs/product-definition.md)、
+[MVP 规格](docs/mvp-specification.md)、
+[可观测互操作](docs/observability-interoperability.md)、
+[实验驱动的产品设计哲学](docs/experiment-driven-product-philosophy.md)、
+[实验结果](docs/experiment-results-2026-07-29.md)和
+[研究论文议程](docs/research-paper-agenda.md)。
 
 ## 路线
 
-1. **v0.1 — 运行证据与诊断：** 实时采集、Skill Run Panorama、首边界诊断、
-   证据检查、运行对比与 OTLP 互操作。
-2. **v0.2 — Adapter 加固与诊断研究：** 扩展 Agent 版本、真实跨 Agent 实验和参与者评估。
-3. **v0.3 — 效果评估：** 受控的有 Skill／无 Skill 配对实验，与单次运行诊断严格分离。
+1. **v0.2.0 — 已发布：** 实时 fail-open 采集、四个版本化 Agent adapter、
+   Runtime Overview、首边界诊断、Panorama、Evidence Inspector、能力感知
+   Compare、Inferred Analysis 与 OTLP 互操作。
+2. **下一步 — Adapter 与诊断加固：** 扩展 Agent／版本覆盖，开展真实故障校准、
+   跨平台尾延迟验证与参与者诊断研究。
+3. **后续 — 效果评估：** 受控的有 Skill／无 Skill 配对实验，并与单次运行诊断
+   明确分离。
 
 ## 项目状态
 
-SkillRun-first Runtime 已可运行：已安装定义清单、Codex 会话 fallback、经用户同意的
-Codex、Claude Code 与 Qoder 官方 Hook adapter、只观测的 OpenCode 插件 adapter、
+`v0.2.0` 已发布。Runtime 包含已安装定义清单、经用户同意的 Codex、Claude Code
+与 Qoder 官方 Hook adapter、只观测 OpenCode 插件、明确标识的 session fallback、
 active-scope 归因、精确文件／产物路径、脱敏、独立
-source／relationship／inference 数据层、SQLite、保留策略、跨运行和跨 Agent
-对比、确定性诊断与实时 Panorama UI。
+source／relationship／inference 数据层、SQLite、保留策略、确定性诊断、实时 UI
+以及跨运行和跨 Agent 对比。
 
 系统可导入 OTLP/Phoenix、Langfuse、LangSmith、W&B Weave 和 Datadog 导出，并可
-通过主动启用的 OTLP/HTTP 实时导出标准化证据。候选发现、模型内部选择原因、
-语义有效性和因果结果结论仍明确标为不支持。
+通过主动启用的 OTLP/HTTP 实时导出标准化证据。模型内部的候选发现与选择原因、
+语义有效性和因果结果结论，除非来源或受控实验提供证据，否则仍明确标为不支持。

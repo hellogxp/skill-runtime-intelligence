@@ -7,29 +7,45 @@
 [Polski](README.pl.md) · [Čeština](README.cs.md) · [Magyar](README.hu.md)
 <!-- locale-switcher:end -->
 
-[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-情報/行動/工作流程/ci.yml）[！ [發布](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-情報/發布/最新）[！ [執照](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)]（執照）[！ [Python](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
+[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-intelligence/releases/latest)
+[![License](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
 
 
 > 診斷特工技能運作首先出現分歧的位置並檢查證據
 > 每一個結論的背後。
 
-Agent Skill Runtime Intelligence是一個針對代理技能的唯讀運行時證據和診斷系統。它將技能定義、官方代理程式運行時事件、導入的追蹤、會話回退和可觀察的工作區結果組合成證據分級的Skill Run Panorama。
+Agent Skill Runtime Intelligence是一個唯讀的運行時代理技能證據和診斷系統。它將技能定義、官方代理運行時事件、導入的追蹤、會話回退和可觀察的工作區結果組合到證據分級的Skill Run Panorama中。
 
 ![Skill Run Panorama](docs/assets/skill-run-panorama.png)
 
 ## 快速啟動
 
-在 macOS 或 Linux 上安裝最新的獨立版本：
+在macOS或Linux上安裝並啟動最新版本：
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
-沒有克隆，Git中心帳戶，`sudo`， 或者Git需要集線器 CLI。安裝程式下載匹配的簽章發佈有效負載，驗證 SHA-256 校驗和，在啟用故障開放代理掛鉤之前詢問一次，並將所有運行時資料儲存在`~/.skill-runtime`。然後它啟動本地運行時並打開[http://127.0.0.1:4317](http://127.0.0.1:4317)。
+不需要複製、帳戶、`sudo`或GitHub CLI。安裝程式會驗證版本校驗和，檢測支援的代理和技能，解釋它將讀取的每個路徑，在啟用僅觀察掛鉤之前詢問一次，並在 [http://127.0.0.1:4317](http://127.0.0.1:4317) 打開本地 UI。除非您明確配置匯出，否則運行時資料將保留在 `~/.skill-runtime` 下。
 
-你可以[檢查安裝程式](scripts/install.sh)在運行之前。
+您可以在運行之前[檢查安裝程式](scripts/install.sh)。
 
-或直接從源結帳運行：
+### 看你的第一次現場直播SkillRun
+
+1. 當安裝程式詢問時，接受可選的故障開啟 Hook 設定。
+2. 重新啟動代理程式並開始新任務。在Codex中，先查看`/hooks`中的託管指令；現有任務不會熱載入新的Hook。
+3. 正常使用技能，然後確認融合並開啟UI：
+
+```bash
+skill-runtime doctor
+skill-runtime status
+```
+
+只有當收集器收到真實的運行時事件後，整合才處於「即時」狀態。已配置但未觀察到的Hook **待定** - 從未作為即時證據呈現。開啟 [http://127.0.0.1:4317](http://127.0.0.1:4317)，或參閱 [入門指南](docs/getting-started.md) 以了解特定於代理的說明和故障排除。
+
+要直接從來源簽出運行：
 
 ```bash
 python3 -m venv .venv
@@ -38,24 +54,41 @@ python3 -m venv .venv
 .venv/bin/skill-runtime start
 ```
 
-打開[http://127.0.0.1:4317](http://127.0.0.1:4317)。使用 Codex 時，請在
-`/hooks` 查看並信任託管命令，然後建立新的 Codex 任務/工作階段（已開啟的舊任務
-不會熱載入新安裝的 Hook），再進行驗證：
-
-```bash
-skill-runtime doctor
-```
-
-僅在收到真正的官方掛鉤事件後，整合才會變為**已驗證**。配置的鉤子顯示為 **Pending**，永遠不會作為即時證據。
-
 | 產品表面 | 它回答什麼 |
 |---|---|
-| 運行時概述 | 哪個SkillRuns需要注意嗎？ |
-| 第一個可觀察邊界 | 證據首先在哪裡遺失或失效？ |
+| Runtime Overview | 哪些SkillRuns需要注意？ |
+| First Observable Boundary | 證據首先在哪裡遺失或失效？ |
 | Skill Run Panorama | 請求、啟動、資源、工具、工件和結果如何連結？ |
-| 證據檢查員 | 什麼來源、等級、基礎和適配器能力支持這一說法？ |
+| Evidence Inspector | 什麼來源、等級、基礎和適配器能力支持這一說法？ |
 | 比較 | 差異是行為差異，還是只是可觀察差異？ |
+| Inferred Analysis | 哪些有證據支持的解釋或下一步調查是可信的？ |
 | 設定/醫生 | 讀取、儲存、匯出、待處理和驗證什麼？ |
+
+## 它是如何運作的
+
+![Runtime architecture](docs/assets/runtime-architecture.svg)
+
+Skill Runtime 觀察您已經使用的工作流程。版本化適配器將代理本機事件轉變為穩定的技能生命週期，而原始來源信封、規範化事件、關係和推理保持獨立。診斷引擎首先識別證據遺失或失敗的最早邊界；它不會發明模型意圖或因果有效性。
+
+| 數據來源 | 角色 | 新鮮 | UI標籤 |
+|---|---|---|---|
+| 官方代理掛鉤/插件/SDK事件 | 主要生命週期、工具、子代理程式和終端證據 | 居住 | `Official hook` / `Native telemetry` |
+| 技能文件和可觀察的工作空間結果 | 定義、資源、文件、工件和測試證據 | 即時快照/索引 | `Observed` |
+| 會議記錄 | 當代理暴露沒有足夠的運行時時的兼容性回退API | 近實時或歷史的 | `Transcript fallback` |
+| OTLP 和支援的追蹤導出 | 互通性和歷史導入 | 即時導出/批次匯入 | 顯示來源設定檔 |
+| 確定性相關性 | 將事件連接到SkillRun而不更改來源事實 | 攝入時 | `Derived` |
+| 語意輔助 | 僅提供解釋和調查建議 | 一經請求 | `Inferred` |
+
+支援的第一方適配器的版本是獨立的：
+
+| 代理人 | 初級整合 | 倒退 | 啟動可見性 |
+|---|---|---|---|
+| Codex | 官方命令Hooks | 會話導入 | Hook 事件暴露時明確激活 |
+| Claude Code | 官方Hooks | 會話導入 | 暴露的顯式技能工具和斜線命令證據 |
+| Qoder | 官方命令Hooks | 本地記錄 | 當其技能工具暴露時明確激活 |
+| OpenCode | 僅觀察全域插件 | 本地記錄 | 暴露的技能工具回調 |
+
+確切的能力限制記錄在[適配器能力矩陣](docs/adapter-capability-matrix.md)中。不受支援和未觀察到的階段保持可見，而不是轉化為失敗。
 
 ## 問題
 
@@ -66,13 +99,13 @@ skill-runtime doctor
 - 該特工可以使用該技能嗎？
 - 它是否針對此請求啟動了？
 - 載入了哪些指令、參考、腳本和資源？
-- 哪些工具，MCP涉及調用、子代理、文件和工件嗎？
+- 涉及哪些工具、MCP 呼叫、子代理、檔案和工件？
 - 運行在哪裡失敗、重試或遺失上下文？
 - 該技能有幫助嗎，還是只會增加成本和延遲？
 
-## 產品方向
+## 技能特異性診斷
 
-第一個產品是**Skill Run Panorama**：
+主要診斷對像是`SkillRun`，而不是整個代理會話：
 
 ```text
 User request
@@ -92,19 +125,11 @@ Files and artifacts produced
 Observable outcome
 ```
 
-全景圖是根據真實訊號建構的，而不是模型自我報告：
-
-| 來源 | 範例 | 證據 |
-|---|---|---|
-| 技能檔案 | 元資料、說明、腳本、參考文獻、資產 | 觀察到 |
-| 運行時事件 | 技能呼叫、工具呼叫、子代理、失敗、持續時間 | 觀察到 |
-| 會議記錄 | 提示、訊息、工具輸入與輸出、排序 | 觀察到 |
-| 工作空間成果 | 文件更改，Gitdiff、報表、產生的工件 | 觀察到 |
-| 相關性 | 事件、資源與結果之間的關係 | 推導或推斷 |
+UI 保持生命週期有序、類型化和證據分級。缺少啟動遙測意味著「未觀察到」或「不受支援」；這並不意味著特工肯定跳過了該技能。
 
 ## 證據紀律
 
-這UI絕不能將推論呈現為運行時事實：
+UI 絕對不能將推論呈現為運行時事實：
 
 - **觀察到** — 明確存在於來源事件或文件中。
 - **派生** — 與觀察到的證據確定性相關。
@@ -123,22 +148,28 @@ Observable outcome
 - 漸進式揭露：簡單敘述優先，按需提供原始事件。
 - 基於適配器的支援更改代理轉錄格式。
 
-## 初始範圍
+## 目前範圍
 
-運行時支援Codex,Claude Code,Qoder， 和OpenCode透過獨立的版本化適配器並提供：
+運行時透過獨立的版本化適配器支援Codex、Claude Code、Qoder和OpenCode，並提供：
 
 - 安裝技能發現和驗證；
-- 支援會話導入和即時本地觀察；
+- 即時官方Hook/外掛集加上標記的會話回退；
 - 技能啟動、資源載入和工具調用時間表；
-- 分代理,MCP、文件和工件關係；
+- 子代理、MCP、文件和工件關係；
 - 持續時間、令牌、錯誤、重試和狀態摘要（如果可用）；
-- 運行清單、全景 DAG、事件時間軸和節點檢查器。
+- Runtime Overview及第一邊界診斷；
+- 全景 DAG、事件時間軸和證據檢查器；
+- 能力感知的同Agent和跨Agent比較；
+- 一個單獨的Inferred Analysis表面，不能重寫運行時事實；
+- 選擇加入OTLP/HTTP導出並支援可觀察性追蹤導入。
 
 MVP **不**包括市場、通用代理運行時、安全實施、企業治理或因果關係聲明。
 
 ## 安裝詳細
 
-基線實作沒有運行時依賴性Python3.9+。從儲存庫根目錄：
+對於支援的最短路徑，請使用 [快速啟動](#quick-start) 中的單行版本安裝程式。完整的首次運行流程、特定於代理的重新啟動/信任步驟、隱私行為和故障排除位於 [入門指南](docs/getting-started.md) 中。
+
+對於開發來說，基線實作沒有超過 Python 3.9+ 的運行時依賴性。從儲存庫根目錄：
 
 ```bash
 python3 -m venv .venv
@@ -149,23 +180,23 @@ python3 -m venv .venv
 
 然後打開[http://127.0.0.1:4317](http://127.0.0.1:4317)。
 
-一次性的`install`命令：
+一次性`install`命令：
 
 1. 掃描用戶、項目和快取插件技能位置；
-2. 檢測到Codex,Claude Code,Qoder， 和OpenCode無需更改其配置；
+2. 檢測Codex、Claude Code、Qoder和OpenCode而不更改其配置；
 3. 顯示將讀取哪些代理程式和技能路徑；
-4. 下載目前平台的校驗和驗證的低啟動本機發送器，回退到本地 C 構建，最後Python發送器，並在安裝過程中預熱一次新的本機二進位；
-5. 創造`~/.skill-runtime/config.json`和當地的SQLite指數。
+4. 為目前平台下載一個經過校驗和驗證的低啟動本機發送器，回退到本地 C 版本，最後是 Python 發送器，並在安裝過程中預熱一次新的本機二進位；
+5. 建立 `~/.skill-runtime/config.json` 和本地 SQLite 索引。
 
-當以互動方式運行時，它會在添加故障開放代理掛鉤之前詢問一次。`--no-hooks`將轉錄本導入保留為標記後備，同時`--enable-hooks`記錄明確同意並僅安裝託管條目。為了Codex， 打開`/hooks`安裝後，請查看確切的託管命令並信任它們。Codex有意要求對在託管企業配置之外添加的掛鉤進行明確的審查。啟動新的代理回合，然後運行：
+當以互動方式運行時，它會在添加故障開放代理掛鉤之前詢問一次。 `--no-hooks` 將轉錄本匯入保留為標記後備，而 `--enable-hooks` 記錄明確同意並僅安裝託管條目。對於Codex，安裝後打開`/hooks`，查看確切的託管命令並信任它們。 Codex 有意要求對在託管企業配置之外添加的掛鉤進行明確的審查。信任 Hook 後啟動新的 Codex 任務/會話，然後執行：
 
 ```bash
 .venv/bin/skill-runtime doctor
 ```
 
-Qoder啟動時載入Hook配置，所以重新啟動Qoder第一次安裝後。OpenCode從其全域插件目錄中發現託管的僅觀察插件；重新啟動OpenCode如果目前進程早於安裝。整合都不會讀取或更改模型請求。
+Qoder在啟動時載入Hook配置，因此首次安裝後重新啟動Qoder。 OpenCode 從其全域插件目錄中發現託管的僅觀察插件；如果當前進程早於安裝，請重新啟動OpenCode。整合都不會讀取或更改模型請求。
 
-只有當資料庫收到真實的資料後，整合才會變成**Live**`official_hook`事件。只是寫`~/.codex/hooks.json`顯示為**待處理**，從未連線。`start`啟動收集器、成績單後備觀察者、保留工作人員，SQLite儲存和生活UI作為託管後台進程。沒有代理模型請求。
+僅在資料庫收到真實的 `official_hook` 事件後，整合才會變為 **Live**。僅寫入 `~/.codex/hooks.json` 顯示為 **Pending**，從未連接。 `start` 啟動收集器、成績單回退觀察程序、保留工作人員、SQLite 儲存和即時 UI 作為託管後台進程。沒有代理模型請求。
 
 生命週期命令：
 
@@ -180,7 +211,7 @@ skill-runtime config --set network_export.enabled=true
 skill-runtime uninstall --keep-data
 ```
 
-`uninstall`僅刪除託管 Hook 條目，且Skill Runtime- 擁有的文件。沒有`--keep-data`，它需要互動式確認（或`--yes`) 刪除前`~/.skill-runtime`;代理會話和技能來源永遠不會被刪除。
+`uninstall` 僅刪除託管的 Hook 條目和 Skill Runtime 擁有的檔案。沒有`--keep-data`，需要交互確認（或⟦L​​4⟧）才能移除`~/.skill-runtime`；代理會話和技能源永遠不會被刪除。
 
 單獨索引和服務：
 
@@ -197,9 +228,9 @@ PYTHONPATH=src python3 -m skill_runtime_intelligence import \
   --format auto
 ```
 
-版本化導入設定檔目前可識別 OTLP/Phoenix,Langfuse,LangSmith,W&B Weave， 和Datadog JSON形狀。他們只創造一個SkillRun當源攜帶明確的技能語意時；通用跨度名稱不被視為激活證據。
+版本化導入設定檔目前可辨識 OTLP/Phoenix、Langfuse、LangSmith、W&B Weave 和 Datadog JSON 形狀。只有當來源攜帶明確的 Skill 語義時，它們才會創建 SkillRun；通用跨度名稱不被視為激活證據。
 
-將標準化的、特定於技能的運行時證據匯出到任何OTLP/HTTP追蹤端點：
+將標準化的、特定於技能的運行時證據導出到任何 OTLP/HTTP 追蹤端點：
 
 ```bash
 .venv/bin/skill-runtime start \
@@ -207,11 +238,11 @@ PYTHONPATH=src python3 -m skill_runtime_intelligence import \
   --otlp-header Authorization='Bearer …'
 ```
 
-除非明確配置端點，否則匯出將被停用。檢查點、重試狀態和目標運作狀況顯示在「設定」中。不會匯出原始提示、工具負載、憑證和技能資源內容。對於經過身份驗證的後台導出，請提供標準`OTEL_EXPORTER_OTLP_HEADERS`在之前的環境中`skill-runtime start`;標頭永遠不會被寫入Skill Runtime配置或進程參數。
+除非明確配置端點，否則匯出將被停用。檢查點、重試狀態和目標運作狀況顯示在「設定」中。不會匯出原始提示、工具負載、憑證和技能資源內容。對於認證後台導出，在`skill-runtime start`之前的環境中提供標準`OTEL_EXPORTER_OTLP_HEADERS`；標頭永遠不會寫入Skill Runtime配置或進程參數。
 
 ## 發送即時運行時證據
 
-`skill-runtime start`包括當地的收藏家。本機遙測轉接器、官方掛鉤、輕量級故障開放掛鉤，以及SDK整合可以將單一事件或有界批次附加到`POST /api/events`:
+`skill-runtime start` 包括本地收集器。本機遙測適配器、官方掛鉤、輕量級故障開放掛鉤和SDK整合可以將單一事件或有界批次附加到`POST /api/events`：
 
 ```bash
 curl -X POST http://127.0.0.1:4317/api/events \
@@ -239,9 +270,9 @@ curl -X POST http://127.0.0.1:4317/api/events \
   }'
 ```
 
-端點在持久化之前編輯通用憑證，並透過以下方式進行重複資料刪除`event_id`，保留一個單獨的經過編輯的原始信封，並返回結果`skill_run_ids`。`GET /api/collector/schema`公開支持的事件詞彙和收集模式。這UI聽`/api/stream`使用 SSE，輪詢僅作為重新連接後備。
+端點在持久化之前編輯通用憑證，並按`event_id`進行重複資料刪除，保留單獨的編輯後的原始信封，並返回結果`skill_run_ids`。 `GET /api/collector/schema`公開了支持的事件詞彙和收集模式。 UI 使用 SSE 監聽 `/api/stream`，輪詢僅作為重新連接後備。
 
-源指示器將主要運行時證據與`Transcript fallback`和進口痕跡。僅收集器端點不會聲明本機遙測：每個生產者都必須聲明其事件是否來自本機遙測、官方掛鉤、輕量級掛鉤或SDK。
+源指示器將主要運行時證據與 `Transcript fallback` 和導入的追蹤區分開來。單獨的收集器端點不會聲明本機遙測：每個生產者都必須聲明其事件是否來自本機遙測、官方掛鉤、輕量級掛鉤還是SDK。
 
 ### 可選代理掛鉤
 
@@ -251,16 +282,16 @@ curl -X POST http://127.0.0.1:4317/api/events \
 .venv/bin/skill-runtime setup
 ```
 
-掛鉤安裝需要明確標誌：
+Hook 安裝需要明確標誌：
 
 ```bash
 .venv/bin/skill-runtime setup --enable-codex-hooks
 .venv/bin/skill-runtime setup --enable-claude-hooks
 ```
 
-安裝程式備份代理配置，保留現有掛鉤，並僅添加帶有Skill Runtime管理標記。鉤子適配器儲存最小的生命週期字段，而不是完整的提示或工具負載。當運行時處於活動狀態時，權限受限Unixsocket是快速路徑；可選的本機寄件者避免Python啟動。當運行時不活動時，獨立的故障開放路徑會將經過編輯的證據附加到`~/.skill-runtime/queue/events.jsonl`。`skill-runtime start`使用事件 ID 重複資料刪除重播該佇列。
+安裝程式會備份代理配置，保留現有掛鉤，並僅新增帶有 Skill Runtime 管理標記的條目。鉤子適配器儲存最小的生命週期字段，而不是完整的提示或工具負載。對於已完成的工具調用，它僅提取精確的`SKILL.md`、標準技能資源和內存中更改的文件路徑；原始命令、補丁主體、提示和工具輸出在持久化之前被丟棄。當運作時處於活動狀態時，權限受限的Unix套接字是快速路徑；可選的本機發送器可避免 Python 啟動。當運行時不活動時，獨立的故障開放路徑會將經過編輯的證據附加到`~/.skill-runtime/queue/events.jsonl`。 `skill-runtime start` 透過事件 ID 重複資料刪除來重播該佇列。
 
-Codex事件使用其官方 HookAPI（`SessionStart`,`SessionEnd`,`UserPromptSubmit`,`PreToolUse`,`PostToolUse`,`PreCompact`,`PostCompact`,`SubagentStart`,`SubagentStop`， 和`Stop`）。Codex目前同步執行命令掛鉤，因此Skill Runtime使用本地Unix具有有限超時的套接字/本機發送方。任何投遞失敗都會被吞掉並排隊；它永遠不會改變代理的決定。請參閱[Codex Hook 官方文檔](https://developers.openai.com/codex/config-advanced#hooks)。
+Codex活動使用其官方HookAPI（`SessionStart`，`SessionEnd`，`UserPromptSubmit`，`PreToolUse`，`PostToolUse`，`PreCompact`，`PostCompact` `SubagentStop`、`Stop`）。 Codex 目前同步執行指令掛鉤，因此 Skill Runtime 使用具有有限逾時的本地 Unix 套接字/本機發送方。任何投遞失敗都會被吞掉並排隊；它永遠不會改變代理的決定。請參閱[Codex Hook 官方文檔](https://developers.openai.com/codex/config-advanced#hooks)。
 
 僅刪除託管項目：
 
@@ -269,7 +300,7 @@ Codex事件使用其官方 HookAPI（`SessionStart`,`SessionEnd`,`UserPromptSubm
 .venv/bin/skill-runtime setup --remove-claude-hooks
 ```
 
-伺服器綁定到`127.0.0.1`預設情況下。完整的轉錄訊息和工具負載不會複製到索引中。在保留標準化摘要之前，會對常見的秘密模式進行編輯。
+伺服器預設綁定到`127.0.0.1`。完整的轉錄訊息和工具負載不會複製到索引中。在保留標準化摘要之前，會對常見的秘密模式進行編輯。
 
 使用以下命令執行無依賴測試套件：
 
@@ -279,7 +310,7 @@ PYTHONPATH=src python3 -m unittest discover -s tests -v
 
 ## 發布工程
 
-Git中心操作運行Python3.9–3.13 測試、JavaScript 驗證、本機發送器編譯以及真實的安裝/啟動/醫生/停止/卸載冒煙測試。一個`v*`標籤建構wheel/sdist套件以及受校驗和保護的Linux和macOS本機發送器。 CLI 安裝程式會下載相符的版本資產，因此最終使用者不需要編譯器。
+GitHub Actions 運行 Python 3.9–3.13 測試、JavaScript 驗證、本機發送器編譯以及真正的安裝/啟動/醫生/停止/卸載冒煙測試。 `v*`標籤建構wheel/sdist包以及受校驗和保護的Linux和macOS本機發送器。 CLI 安裝程式會下載相符的版本資產，因此最終使用者不需要編譯器。
 
 執行第一個產品相關診斷實驗：
 
@@ -287,7 +318,7 @@ Git中心操作運行Python3.9–3.13 測試、JavaScript 驗證、本機發送�
 python3 experiments/runtime_diagnostics/run_benchmark.py
 ```
 
-它錯誤地註入生命週期證據差距、明確故障、不完整的運作和未經驗證的結果，然後評估系統使用的相同確定性診斷引擎。API和UI。請參閱[PAI-DSW實驗計劃](docs/pai-dsw-experiment-plan.md)用於實驗階梯、無幹擾測試和再現性合約。
+它錯誤注入生命週期證據差距、顯式故障、不完整的運行和未經驗證的結果，然後評估 API 和 UI 使用的相同確定性診斷引擎。有關實驗階梯、無幹擾測試和再現性合同，請參閱[PAI-DSW實驗計劃](docs/pai-dsw-experiment-plan.md)。
 
 建置輪子後，使用以下命令運行隔離的打包生命週期煙霧：
 
@@ -299,7 +330,7 @@ PYTHONPATH=src python3 experiments/product_lifecycle/run_benchmark.py
 
 ## 實驗驅動的產品設計
 
-產品行為受到以下因素的限制[實驗驅動的產品理念](docs/experiment-driven-product-philosophy.md)：證據先於結論，第一個可觀察邊界先於嚴重性，類型化關係先於平面日誌，確定性重建先於機率輔助。
+產品行為受到[實驗驅動的產品理念](docs/experiment-driven-product-philosophy.md)的約束：證據先於結論，第一個可觀察邊界先於嚴重性，類型化關係先於平面日誌，確定性重建先於機率輔助。
 
 目前可複製的當地證據包括：
 
@@ -311,29 +342,29 @@ PYTHONPATH=src python3 experiments/product_lifecycle/run_benchmark.py
 
 這些結果驗證了機制和表示選擇，而不是部署泛化或人類利益。真實的第二個智能體研究、跨平台尾部延遲、真實故障校準和參與者診斷研究仍然存在證據差距。
 
-此研究方向也基於相鄰的主要工作：[SkillsBench](https://arxiv.org/abs/2602.12670)和[SWE-Skills-Bench](https://arxiv.org/abs/2603.15401)促進診斷，因為技能效果各不相同並且可能倒退；[Harness-Bench](https://arxiv.org/abs/2605.27922)激發能力感知的跨代理比較；和[執行來源調查](https://arxiv.org/abs/2606.04990)激發類型化證據關係、追蹤來源和隱私意識審計基礎設施。
+研究方向也基於相鄰的主要工作：[SkillsBench](https://arxiv.org/abs/2602.12670)和[SWE-Skills-Bench](https://arxiv.org/abs/2603.15401)激發診斷，因為技能效果各不相同並且可能會回歸； [Harness-Bench](https://arxiv.org/abs/2605.27922) 激發能力感知的跨 Agent 比較； [執行來源調查](https://arxiv.org/abs/2606.04990) 促進類型化證據關係、追踪來源和隱私意識審計基礎設施。
 
 ## 文件
 
-- [產品定義](docs/product-definition.md)
-- [MVP規範](docs/mvp-specification.md)
-- [運行時事件模型](docs/runtime-event-model.md)
-- [UI資訊架構](docs/ui-information-architecture.md)
-- [適配器能力矩陣](docs/adapter-capability-matrix.md)
-- [可觀測性互通性](docs/observability-interoperability.md)
-- [可觀測性平台設置](docs/observability-platform-setup.md)
-- [研究和競爭格局](docs/research-and-competitive-landscape.md)
-- [研究論文議程](docs/research-paper-agenda.md)
-- [實驗驅動的產品理念](docs/experiment-driven-product-philosophy.md)
-- [實驗結果](docs/experiment-results-2026-07-29.md)
-- [PAI-DSW實驗計劃](docs/pai-dsw-experiment-plan.md)
+| 從這裡開始 | 目的 |
+|---|---|
+| [Getting Started](docs/getting-started.md) | 安裝、連接代理、驗證即時證據並排除故障 |
+| [建築學](docs/architecture.md) | 採集管道、儲存邊界、證據引擎和信任模型 |
+| [適配器能力矩陣](docs/adapter-capability-matrix.md) | 代理/版本的確切訊號和限制 |
+| [可觀測性平台設置](docs/observability-platform-setup.md) | 連接 OTLP 相容平台並導入支援的追蹤 |
+| [運行時事件模型](docs/runtime-event-model.md) | 穩定的事件詞彙、出處、關係和證據等級 |
+| [UI資訊架構](docs/ui-information-architecture.md) | 概覽、第一邊界、全景、檢查器、比較和 Inferred Analysis |
+
+產品與研究參考：[產品定義](docs/product-definition.md)、[MVP規範](docs/mvp-specification.md)、[可觀測性 互通性](docs/observability-interoperability.md)、[實驗驅動的產品理念](docs/experiment-driven-product-philosophy.md)、[實驗結果](docs/experiment-results-2026-07-29.md) 和 [研究議程](docs/research-paper-agenda.md)。
 
 ## 路線圖
 
-1. **v0.1 — 運行時證據和診斷：** 即時採集，Skill Run Panorama、第一邊界診斷、證據檢查、比較和 OTLP 互通性。
-2. **v0.2 — 適配器強化和診斷研究：** 額外的 Agent 版本、真實的跨 Agent 實驗和參與者評估。
-3. **v0.3 — 效果評估：** 控制有技能/無技能配對評估，與單次運行診斷分開。
+1. **v0.2.0 — 現已推出：** 即時故障開放集合、四個版本代理適配器、Runtime Overview、第一邊界診斷、Panorama、Evidence Inspector、功能感知比較、Inferred Analysis 和 OTLP 互通性。
+2. **下一步 - 適配器和診斷強化：**更廣泛的代理/版本覆蓋範圍、真實故障校準、跨平台尾部延遲驗證和參與者診斷研究。
+3. **後來－效果評估：**控制有技能/無技能配對評估，與單一運行診斷明確分開。
 
 ## 項目狀況
 
-一個SkillRun-第一個運行時可運行：已安裝的定義清單，Codex轉錄後備，同意驅動的官方 Hook 適配器Codex,Claude Code， 和Qoder，僅觀察OpenCode插件適配器、活動範圍歸因、精確文件/工件路徑、編輯、單獨的來源/關係/推理層、SQLite儲存、保留、交叉運行和跨代理比較、確定性診斷和即時全景UI。 OTLP/Phoenix,Langfuse,LangSmith,W&B Weave， 和Datadog出口可以進口；標準化證據可以透過選擇即時導出OTLP/HTTP。候選發現、模型內部選擇原因、語意有效性和因果結果主張仍明確不受支持。
+版本`v0.2.0`發布。運行時包括已安裝的定義清單、用於Codex、Claude Code和Qoder的同意驅動的官方Hook適配器、僅觀察的OpenCode插件、標記的轉錄後備、活動範圍歸因、精確文件/工件路徑、修訂、單獨的來源/關係/推理層、SQLite儲存、保留、確定性診斷、即時UI以及跨運行/跨代理比較。 OTLP/Phoenix、Langfuse、LangSmith、W&B Weave、Datadog出口可匯入；標準化證據可透過選擇加入OTLP/HTTP即時匯出。
+
+模型內部的候選發現、模型內部選擇原因、語意效度和因果結果主張仍然明確不受支持，除非來源或對照實驗提供了證據。

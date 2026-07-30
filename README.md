@@ -26,21 +26,39 @@ into an evidence-graded Skill Run Panorama.
 
 ## Quick start
 
-Install the latest standalone release on macOS or Linux:
+Install and start the latest release on macOS or Linux:
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
-No clone, GitHub account, `sudo`, or GitHub CLI is required. The installer
-downloads the matching signed-release payload, verifies SHA-256 checksums,
-asks once before enabling fail-open Agent hooks, and stores all runtime data
-under `~/.skill-runtime`. It then starts the local runtime and opens
-[http://127.0.0.1:4317](http://127.0.0.1:4317).
+No clone, account, `sudo`, or GitHub CLI is required. The installer verifies
+the release checksum, detects supported Agents and Skills, explains every path
+it will read, asks once before enabling observation-only hooks, and opens the
+local UI at [http://127.0.0.1:4317](http://127.0.0.1:4317). Runtime data stays
+under `~/.skill-runtime` unless you explicitly configure an export.
 
 You can [inspect the installer](scripts/install.sh) before running it.
 
-Or run directly from a source checkout:
+### See your first live SkillRun
+
+1. Accept the optional fail-open Hook setup when the installer asks.
+2. Restart the Agent and begin a new task. In Codex, review the managed
+   commands in `/hooks` first; existing tasks do not hot-load new Hooks.
+3. Use a Skill normally, then confirm the integration and open the UI:
+
+```bash
+skill-runtime doctor
+skill-runtime status
+```
+
+An integration is **Live** only after the Collector receives a real runtime
+event. A configured but unobserved Hook is **Pending**—never presented as live
+evidence. Open [http://127.0.0.1:4317](http://127.0.0.1:4317), or see the
+[Getting Started guide](docs/getting-started.md) for Agent-specific
+instructions and troubleshooting.
+
+To run directly from a source checkout:
 
 ```bash
 python3 -m venv .venv
@@ -49,17 +67,6 @@ python3 -m venv .venv
 .venv/bin/skill-runtime start
 ```
 
-Open [http://127.0.0.1:4317](http://127.0.0.1:4317). For Codex, review and
-trust the managed commands in `/hooks`, then start a new Codex task/session
-(already-open tasks do not hot-load newly installed Hooks) and verify:
-
-```bash
-skill-runtime doctor
-```
-
-The integration becomes **Verified** only after a real official-hook event is
-received. A configured hook is shown as **Pending**, never as live evidence.
-
 | Product surface | What it answers |
 |---|---|
 | Runtime Overview | Which SkillRuns need attention? |
@@ -67,7 +74,40 @@ received. A configured hook is shown as **Pending**, never as live evidence.
 | Skill Run Panorama | How did request, activation, resources, tools, artifacts, and outcome connect? |
 | Evidence Inspector | What source, grade, basis, and adapter capability support this claim? |
 | Compare | Is a difference behavioral, or only an observability difference? |
+| Inferred Analysis | What evidence-bounded explanation or next investigation is plausible? |
 | Settings / Doctor | What is read, stored, exported, pending, and verified? |
+
+## How it works
+
+![Runtime architecture](docs/assets/runtime-architecture.svg)
+
+Skill Runtime observes the workflow you already use. Versioned adapters turn
+Agent-native events into a stable Skill lifecycle, while raw source envelopes,
+normalized events, relationships, and inferences remain separate. The
+diagnosis engine first identifies the earliest boundary where evidence becomes
+missing or failed; it does not invent model intent or causal effectiveness.
+
+| Data source | Role | Freshness | UI label |
+|---|---|---|---|
+| Official Agent hooks / plugins / SDK events | Primary lifecycle, tool, subagent, and terminal evidence | Live | `Official hook` / `Native telemetry` |
+| Skill files and observable workspace outcomes | Definition, resource, file, artifact, and test evidence | Live snapshot / indexed | `Observed` |
+| Session transcripts | Compatibility fallback when the Agent exposes no sufficient runtime API | Near-live or historical | `Transcript fallback` |
+| OTLP and supported trace exports | Interoperability and historical import | Live export / batch import | Source profile shown |
+| Deterministic correlation | Connects events to a SkillRun without changing source facts | At ingestion | `Derived` |
+| Semantic assistance | Explanations and investigation suggestions only | On demand | `Inferred` |
+
+Supported first-party adapters are versioned independently:
+
+| Agent | Primary integration | Fallback | Activation visibility |
+|---|---|---|---|
+| Codex | Official command Hooks | Session import | Explicit activation when exposed by the Hook event |
+| Claude Code | Official Hooks | Session import | Explicit Skill tool and slash-command evidence where exposed |
+| Qoder | Official command Hooks | Local records | Explicit activation when exposed by its Skill tool |
+| OpenCode | Observation-only global plugin | Local records | Skill tool callbacks where exposed |
+
+Exact capability limits are documented in the
+[adapter capability matrix](docs/adapter-capability-matrix.md). Unsupported and
+not-observed stages stay visible instead of being converted into failures.
 
 ## The problem
 
@@ -82,9 +122,9 @@ Today, these failures are often silent. Developers are left asking:
 - Where did the run fail, retry, or lose context?
 - Did the Skill help, or did it only add cost and latency?
 
-## Product direction
+## Skill-specific diagnosis
 
-The first product is a **Skill Run Panorama**:
+The primary diagnostic object is a `SkillRun`, not an entire Agent session:
 
 ```text
 User request
@@ -104,15 +144,9 @@ Files and artifacts produced
 Observable outcome
 ```
 
-The panorama is built from real signals, not model self-report:
-
-| Source | Examples | Evidence |
-|---|---|---|
-| Skill files | metadata, instructions, scripts, references, assets | Observed |
-| Runtime events | Skill calls, tool calls, subagents, failures, duration | Observed |
-| Session transcripts | prompts, messages, tool inputs and outputs, ordering | Observed |
-| Workspace outcomes | file changes, Git diff, reports, generated artifacts | Observed |
-| Correlation | relationships between events, resources, and outcomes | Derived or Inferred |
+The UI keeps the lifecycle ordered, typed, and evidence-graded. Missing
+activation telemetry means “not observed” or “unsupported”; it does not mean
+the Agent definitely skipped the Skill.
 
 ## Evidence discipline
 
@@ -135,24 +169,33 @@ A single trace can support execution attribution. It cannot prove causal effecti
 - Progressive disclosure: simple narrative first, raw events on demand.
 - Adapter-based support for changing agent transcript formats.
 
-## Initial scope
+## Current scope
 
 The runtime supports Codex, Claude Code, Qoder, and OpenCode through
 independent, versioned adapters and provides:
 
 - installed Skill discovery and validation;
-- session import and live local observation where supported;
+- real-time official Hook/plugin collection plus labeled session fallback;
 - Skill activation, resource loading, and tool-call timelines;
 - subagent, MCP, file, and artifact relationships;
 - duration, token, error, retry, and status summaries when available;
-- a runs list, panorama DAG, event timeline, and node inspector.
+- Runtime Overview and first-boundary diagnosis;
+- a panorama DAG, event timeline, and evidence inspector;
+- capability-aware same-Agent and cross-Agent comparison;
+- a separate Inferred Analysis surface that cannot rewrite runtime facts;
+- opt-in OTLP/HTTP export and supported observability-trace import.
 
 The MVP does **not** include a marketplace, universal agent runtime, security enforcement, enterprise governance, or causal-effect claims.
 
 ## Detailed installation
 
-The baseline implementation has no runtime dependencies beyond Python 3.9+.
-From the repository root:
+For the shortest supported path, use the one-line release installer in
+[Quick start](#quick-start). The complete first-run flow, Agent-specific
+restart/trust steps, privacy behavior, and troubleshooting live in the
+[Getting Started guide](docs/getting-started.md).
+
+For development, the baseline implementation has no runtime dependencies
+beyond Python 3.9+. From the repository root:
 
 ```bash
 python3 -m venv .venv
@@ -407,38 +450,45 @@ evidence relations, trace provenance, and privacy-aware audit infrastructure.
 
 ## Documentation
 
-- [Product definition](docs/product-definition.md)
-- [MVP specification](docs/mvp-specification.md)
-- [Runtime event model](docs/runtime-event-model.md)
-- [UI information architecture](docs/ui-information-architecture.md)
-- [Adapter capability matrix](docs/adapter-capability-matrix.md)
-- [Observability interoperability](docs/observability-interoperability.md)
-- [Observability platform setup](docs/observability-platform-setup.md)
-- [Research and competitive landscape](docs/research-and-competitive-landscape.md)
-- [Research paper agenda](docs/research-paper-agenda.md)
-- [Experiment-driven product philosophy](docs/experiment-driven-product-philosophy.md)
-- [Experiment results](docs/experiment-results-2026-07-29.md)
-- [PAI-DSW experiment plan](docs/pai-dsw-experiment-plan.md)
+| Start here | Purpose |
+|---|---|
+| [Getting Started](docs/getting-started.md) | Install, connect an Agent, verify live evidence, and troubleshoot |
+| [Architecture](docs/architecture.md) | Collection pipeline, storage boundaries, evidence engine, and trust model |
+| [Adapter capability matrix](docs/adapter-capability-matrix.md) | Exact signals and limitations by Agent/version |
+| [Observability platform setup](docs/observability-platform-setup.md) | Connect OTLP-compatible platforms and import supported traces |
+| [Runtime event model](docs/runtime-event-model.md) | Stable event vocabulary, provenance, relationships, and evidence grades |
+| [UI information architecture](docs/ui-information-architecture.md) | Overview, first boundary, Panorama, Inspector, Compare, and Inferred Analysis |
+
+Product and research references: [product definition](docs/product-definition.md),
+[MVP specification](docs/mvp-specification.md),
+[observability interoperability](docs/observability-interoperability.md),
+[experiment-driven product philosophy](docs/experiment-driven-product-philosophy.md),
+[experiment results](docs/experiment-results-2026-07-29.md), and the
+[research agenda](docs/research-paper-agenda.md).
 
 ## Roadmap
 
-1. **v0.1 — Runtime evidence and diagnosis:** live collection, Skill Run
-   Panorama, first-boundary diagnosis, evidence inspection, comparison, and
-   OTLP interoperability.
-2. **v0.2 — Adapter hardening and diagnosis studies:** additional Agent
-   versions, real cross-Agent experiments, and participant evaluation.
-3. **v0.3 — Effect evaluation:** controlled with-Skill/without-Skill paired
-   evaluation, kept separate from single-run diagnosis.
+1. **v0.2.0 — Available now:** live fail-open collection, four versioned Agent
+   adapters, Runtime Overview, first-boundary diagnosis, Panorama, Evidence
+   Inspector, capability-aware Compare, Inferred Analysis, and OTLP
+   interoperability.
+2. **Next — Adapter and diagnosis hardening:** broader Agent/version coverage,
+   real-fault calibration, cross-platform tail-latency validation, and
+   participant diagnosis studies.
+3. **Later — Effect evaluation:** controlled with-Skill/without-Skill paired
+   evaluation, kept explicitly separate from single-run diagnosis.
 
 ## Project status
 
-A SkillRun-first runtime is runnable: installed-definition inventory, Codex
-transcript fallback, consent-driven official Hook adapters for Codex, Claude
-Code, and Qoder, an observation-only OpenCode plugin adapter, active-scope
-attribution, exact file/artifact paths, redaction, separate
-source/relationship/inference layers, SQLite storage, retention, cross-run and
-cross-Agent comparison, deterministic diagnosis, and the live Panorama UI.
-OTLP/Phoenix, Langfuse, LangSmith, W&B Weave, and Datadog exports can be
-imported; normalized evidence can be exported live through opt-in OTLP/HTTP.
-Candidate discovery, model-internal selection reasons, semantic effectiveness,
-and causal outcome claims remain explicitly unsupported.
+Version `v0.2.0` is published. The runtime includes installed-definition
+inventory, consent-driven official Hook adapters for Codex, Claude Code, and
+Qoder, an observation-only OpenCode plugin, labeled transcript fallback,
+active-scope attribution, exact file/artifact paths, redaction, separate
+source/relationship/inference layers, SQLite storage, retention, deterministic
+diagnosis, live UI, and cross-run/cross-Agent comparison. OTLP/Phoenix,
+Langfuse, LangSmith, W&B Weave, and Datadog exports can be imported;
+normalized evidence can be exported live through opt-in OTLP/HTTP.
+
+Candidate discovery inside the model, model-internal selection reasons,
+semantic effectiveness, and causal outcome claims remain explicitly
+unsupported unless a source or controlled experiment provides that evidence.

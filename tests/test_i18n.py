@@ -102,9 +102,13 @@ class InternationalizationTests(unittest.TestCase):
             self.assertEqual(text.count("```"), expected_fences, locale)
             self.assertIn("<!-- locale-switcher:start -->", text)
             self.assertIn("docs/assets/skill-run-panorama.png", text)
+            self.assertIn("docs/assets/runtime-architecture.svg", text)
+            self.assertIn("docs/getting-started.md", text)
             self.assertIn(".venv/bin/skill-runtime install --enable-hooks", text)
             self.assertIn("docs/experiment-driven-product-philosophy.md", text)
+            self.assertIn("Inferred Analysis", text)
             self.assertNotRegex(text, r"(?:ZXQ|SRI_|TKN|TKNT|T901)")
+            self.assertNotRegex(text, r"⟦L\s*\d+⟧")
             self.assertNotRegex(text, r"\]\s+\(")
 
 

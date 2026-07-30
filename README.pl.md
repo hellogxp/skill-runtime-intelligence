@@ -7,29 +7,45 @@
 **Polski** · [Čeština](README.cs.md) · [Magyar](README.hu.md)
 <!-- locale-switcher:end -->
 
-[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-inteligencja/działania/przepływy pracy/ci.yml)[![Uwolnienie](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-wywiad/wydanie/najnowsze)[![Licencja](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)](LICENCJA)[![Pyton](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
+[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-intelligence/releases/latest)
+[![License](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
 
 
 > Zdiagnozuj, gdzie po raz pierwszy przebiegała umiejętność agenta, i sprawdź dowody
 > za każdym wnioskiem.
 
-Agent Skill Runtime Intelligenceto system dowodowy i diagnostyczny w trybie tylko do odczytu dla Agent Skills. Łączy definicje umiejętności, oficjalne zdarzenia wykonawcze agenta, zaimportowane ślady, powrót do sesji i obserwowalne wyniki obszaru roboczego w oparty na dowodachSkill Run Panorama.
+Agent Skill Runtime Intelligence to system dowodowy i diagnostyczny w trybie tylko do odczytu dla Agent Skills. Łączy definicje umiejętności, oficjalne zdarzenia wykonawcze agenta, zaimportowane ślady, powrót sesji i obserwowalne wyniki obszaru roboczego w Skill Run Panorama oceniony jako dowód.
 
 ![Skill Run Panorama](docs/assets/skill-run-panorama.png)
 
 ## Szybki start
 
-Zainstaluj najnowszą samodzielną wersję w systemie macOS lub Linux:
+Zainstaluj i uruchom najnowszą wersję na macOS lub Linux:
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
-Żaden klon,Gitkonto centralne,`sudo`, LubGitWymagany jest interfejs wiersza polecenia koncentratora. Instalator pobiera pasujący ładunek podpisanego wydania, weryfikuje sumy kontrolne SHA-256, pyta raz przed włączeniem haków agenta typu Fail-Open i przechowuje wszystkie dane wykonawcze w`~/.skill-runtime`. Następnie uruchamia lokalne środowisko wykonawcze i otwiera się[http://127.0.0.1:4317](http://127.0.0.1:4317).
+Nie jest wymagany żaden klon, konto, `sudo` ani GitHub CLI. Instalator sprawdza sumę kontrolną wydania, wykrywa obsługiwanych agentów i umiejętności, wyjaśnia każdą ścieżkę, którą odczyta, pyta raz przed włączeniem haków przeznaczonych tylko do obserwacji i otwiera lokalny UI pod adresem [http://127.0.0.1:4317](http://127.0.0.1:4317). Dane wykonawcze pozostają w `~/.skill-runtime`, chyba że jawnie skonfigurujesz eksport.
 
-Możesz[sprawdź instalatora](scripts/install.sh)przed uruchomieniem.
+Możesz [sprawdź instalatora](scripts/install.sh) przed uruchomieniem.
 
-Lub uruchom bezpośrednio z kasy źródłowej:
+### Zobacz swój pierwszy koncert SkillRun
+
+1. Zaakceptuj opcjonalną konfigurację awaryjnego otwarcia Hook, gdy instalator o to poprosi.
+2. Uruchom ponownie Agenta i rozpocznij nowe zadanie. W Codex najpierw przejrzyj zarządzane polecenia w `/hooks`; istniejące zadania nie ładują nowych Hook na gorąco.
+3. Użyj umiejętności normalnie, następnie potwierdź integrację i otwórz UI:
+
+```bash
+skill-runtime doctor
+skill-runtime status
+```
+
+Integracja jest **na żywo** dopiero po odebraniu przez moduł zbierający prawdziwego zdarzenia wykonawczego. Skonfigurowany, ale niezaobserwowany Hook jest **Oczekujący** — nigdy nie prezentowany jako żywy dowód. Otwórz [http://127.0.0.1:4317](http://127.0.0.1:4317) lub zobacz [Przewodnik dla początkujących](docs/getting-started.md), aby uzyskać instrukcje dotyczące konkretnego agenta i sposoby rozwiązywania problemów.
+
+Aby uruchomić bezpośrednio ze źródła realizacji transakcji:
 
 ```bash
 python3 -m venv .venv
@@ -38,22 +54,41 @@ python3 -m venv .venv
 .venv/bin/skill-runtime start
 ```
 
-Otwarte[http://127.0.0.1:4317](http://127.0.0.1:4317). DlaCodex, przejrzyj i zaufaj zarządzanym poleceniom w`/hooks`, rozpocznij jedną nową turę Agenta, a następnie sprawdź:
-
-```bash
-skill-runtime doctor
-```
-
-Integracja zostaje **zweryfikowana** dopiero po odebraniu prawdziwego oficjalnego zdarzenia haka. Skonfigurowany hak jest pokazywany jako **Oczekujący**, nigdy jako żywy dowód.
-
 | Powierzchnia produktu | Co odpowiada |
 |---|---|
-| Przegląd środowiska wykonawczego | KtórySkillRunspotrzebujesz uwagi? |
-| Pierwsza obserwowalna granica | Gdzie po raz pierwszy zaginęły dowody lub zostały one zawiedzione? |
+| Runtime Overview | Które SkillRuns wymagają uwagi? |
+| First Observable Boundary | Gdzie po raz pierwszy zaginęły dowody lub zostały one zawiedzione? |
 | Skill Run Panorama | W jaki sposób prośba, aktywacja, zasoby, narzędzia, artefakty i wynik połączyły się? |
-| Inspektor ds. dowodów | Jakie źródło, klasa, podstawa i możliwości adaptera potwierdzają to twierdzenie? |
+| Evidence Inspector | Jakie źródło, klasa, podstawa i możliwości adaptera potwierdzają to twierdzenie? |
 | Porównywać | Czy różnica ma charakter behawioralny, czy tylko różnica w obserwowalności? |
+| Inferred Analysis | Jakie wyjaśnienie oparte na dowodach lub jakie następne badanie jest wiarygodne? |
 | Ustawienia / Lekarz | Co jest odczytywane, przechowywane, eksportowane, oczekujące i weryfikowane? |
+
+## Jak to działa
+
+![Runtime architecture](docs/assets/runtime-architecture.svg)
+
+Skill Runtime obserwuje przepływ pracy, z którego już korzystasz. Wersjonowane adaptery przekształcają zdarzenia natywne dla agentów w stabilny cykl życia umiejętności, podczas gdy surowe koperty źródłowe, znormalizowane zdarzenia, relacje i wnioski pozostają oddzielne. Silnik diagnostyczny najpierw identyfikuje najwcześniejszą granicę, w której brakuje dowodów lub je zawodzą; nie wymyśla intencji modelowej ani skuteczności przyczynowej.
+
+| Źródło danych | Rola | Świeżość | Etykieta UI |
+|---|---|---|---|
+| Oficjalne haki / wtyczki / wydarzenia SDK agenta | Podstawowy cykl życia, narzędzie, podagent i dowód końcowy | Na żywo | `Official hook` / `Native telemetry` |
+| Pliki umiejętności i obserwowalne wyniki w obszarze roboczym | Definicja, zasób, plik, artefakt i dowód testowy | Migawka na żywo / indeksowana | `Observed` |
+| Transkrypcje sesji | Awaryjna kompatybilność, gdy Agent nie udostępnia wystarczającego czasu działania API | Prawie żywe lub historyczne | `Transcript fallback` |
+| OTLP i obsługiwane eksporty śledzenia | Interoperacyjność i znaczenie historyczne | Eksport na żywo / import wsadowy | Pokazano profil źródłowy |
+| Korelacja deterministyczna | Łączy zdarzenia z SkillRun bez zmiany faktów źródłowych | Przy spożyciu | `Derived` |
+| Pomoc semantyczna | Tylko wyjaśnienia i sugestie dotyczące dochodzenia | Na żądanie | `Inferred` |
+
+Obsługiwane adaptery innych firm są wersjonowane niezależnie:
+
+| Agent | Integracja pierwotna | Powrót | Widoczność aktywacji |
+|---|---|---|---|
+| Codex | Oficjalna komenda Hooks | Import sesji | Wyraźna aktywacja po ujawnieniu przez zdarzenie Hook |
+| Claude Code | Oficjalne Hooks | Import sesji | Wyraźne narzędzie umiejętności i dowód polecenia ukośnika, jeśli są ujawnione |
+| Qoder | Oficjalna komenda Hooks | Lokalne rekordy | Wyraźna aktywacja po ujawnieniu przez narzędzie Umiejętności |
+| OpenCode | Globalna wtyczka przeznaczona wyłącznie do obserwacji | Lokalne rekordy | Wywołania zwrotne narzędzi umiejętności, jeśli są ujawnione |
+
+Dokładne granice możliwości są udokumentowane w [macierz możliwości adaptera](docs/adapter-capability-matrix.md). Nieobsługiwane i niezaobserwowane etapy pozostają widoczne, zamiast zamieniać się w awarie.
 
 ## Problem
 
@@ -64,13 +99,13 @@ Dziś te niepowodzenia często milczą. Deweloperzy pozostają z pytaniem:
 - Czy Umiejętność była dostępna dla tego agenta?
 - Czy zostało aktywowane dla tego żądania?
 - Jakie instrukcje, odniesienia, skrypty i zasoby zostały załadowane?
-- Które narzędzia,MCPw grę wchodziły połączenia telefoniczne, podagenci, pliki i artefakty?
+- Jakie narzędzia, wywołania MCP, podagenci, pliki i artefakty były zaangażowane?
 - W którym miejscu uruchomienie zakończyło się niepowodzeniem, ponowieniem próby lub utratą kontekstu?
 - Czy umiejętność pomogła, czy tylko zwiększyła koszty i opóźnienia?
 
-## Kierunek produktu
+## Diagnoza specyficzna dla umiejętności
 
-Pierwszy produkt to **Skill Run Panorama**:
+Podstawowym obiektem diagnostycznym jest `SkillRun`, a nie cała sesja Agenta:
 
 ```text
 User request
@@ -90,19 +125,11 @@ Files and artifacts produced
 Observable outcome
 ```
 
-Panorama budowana jest na podstawie rzeczywistych sygnałów, a nie samoopisu modelu:
-
-| Źródło | Przykłady | Dowód |
-|---|---|---|
-| Pliki umiejętności | metadane, instrukcje, skrypty, referencje, zasoby | Zauważony |
-| Wydarzenia w czasie wykonywania | Wezwania umiejętności, wywołania narzędzi, podagenci, awarie, czas trwania | Zauważony |
-| Transkrypcje sesji | podpowiedzi, komunikaty, wejścia i wyjścia narzędzi, zamawianie | Zauważony |
-| Wyniki obszaru roboczego | zmiany plików,Gitdiff, raporty, wygenerowane artefakty | Zauważony |
-| Korelacja | relacje między zdarzeniami, zasobami i wynikami | Pochodne lub wywnioskowane |
+UI utrzymuje porządek cyklu życia, typowanie i ocenę dowodów. Brak danych telemetrycznych aktywacji oznacza „nie zaobserwowano” lub „nieobsługiwany”; nie oznacza to jednak, że Agent zdecydowanie pominął Umiejętność.
 
 ## Dyscyplina dowodowa
 
-TheUInigdy nie wolno przedstawiać wnioskowania jako faktu w czasie wykonywania:
+UI nigdy nie może przedstawiać wnioskowania jako faktu w czasie wykonywania:
 
 - **Zaobserwowane** — wyraźnie obecne w zdarzeniu źródłowym lub pliku.
 - **Pochodne** – deterministycznie powiązane z zaobserwowanymi dowodami.
@@ -121,22 +148,28 @@ Pojedynczy ślad może obsługiwać przypisanie wykonania. Nie może wykazać sk
 - Stopniowe ujawnianie informacji: najpierw prosta narracja, surowe wydarzenia na żądanie.
 - Oparta na adapterach obsługa zmiany formatów transkrypcji agentów.
 
-## Zakres początkowy
+## Aktualny zakres
 
-Środowisko wykonawcze obsługujeCodex,Claude Code,Qoder, IOpenCodepoprzez niezależne, wersjonowane adaptery i zapewnia:
+Środowisko wykonawcze obsługuje Codex, Claude Code, Qoder i OpenCode poprzez niezależne, wersjonowane adaptery i zapewnia:
 
 - zainstalowany Odkrywanie i weryfikacja umiejętności;
-- import sesji i lokalna obserwacja na żywo, jeśli jest obsługiwana;
+- oficjalny zbiór Hook/wtyczek w czasie rzeczywistym oraz oznaczony powrót do sesji;
 - Aktywacja umiejętności, ładowanie zasobów i harmonogramy wywoływania narzędzi;
-- subagent,MCPrelacje między plikami i artefaktami;
+- relacje podagenta, MCP, pliku i artefaktu;
 - czas trwania, token, błąd, ponowna próba i podsumowania stanu, jeśli są dostępne;
-- lista uruchomień, panoramiczny DAG, oś czasu wydarzenia i inspektor węzłów.
+- Runtime Overview i diagnoza pierwszej granicy;
+- panoramiczny DAG, harmonogram wydarzeń i inspektor dowodów;
+- porównanie tego samego agenta i wielu agentów uwzględniające możliwości;
+- osobna powierzchnia Inferred Analysis, która nie może przepisać faktów wykonawczych;
+- opcjonalny eksport OTLP/HTTP i obsługiwany import śledzenia obserwacji.
 
 MVP **nie** obejmuje rynku, środowiska wykonawczego agenta uniwersalnego, egzekwowania zabezpieczeń, ładu korporacyjnego ani roszczeń o skutku przyczynowym.
 
 ## Szczegółowa instalacja
 
-Implementacja podstawowa nie ma poza nią żadnych zależności w czasie wykonywaniaPython3,9+. Z katalogu głównego repozytorium:
+Aby uzyskać najkrótszą obsługiwaną ścieżkę, użyj jednowierszowego instalatora wersji w [Szybki start](#quick-start). Pełny przebieg pierwszego uruchomienia, specyficzne dla agenta kroki ponownego uruchomienia/zaufania, zachowanie prywatności i rozwiązywanie problemów są dostępne w [Przewodnik dla początkujących](docs/getting-started.md).
+
+W przypadku programowania podstawowa implementacja nie ma żadnych zależności wykonawczych poza Python 3.9+. Z katalogu głównego repozytorium:
 
 ```bash
 python3 -m venv .venv
@@ -145,25 +178,25 @@ python3 -m venv .venv
 .venv/bin/skill-runtime start
 ```
 
-Następnie otwórz[http://127.0.0.1:4317](http://127.0.0.1:4317).
+Następnie otwórz [http://127.0.0.1:4317](http://127.0.0.1:4317).
 
-Jednorazowy`install`rozkaz:
+Jednorazowa komenda `install`:
 
 1. skanuje lokalizacje umiejętności użytkownika, projektu i wtyczki buforowanej;
-2. wykrywaCodex,Claude Code,Qoder, IOpenCodebez zmiany ich konfiguracji;
+2. wykrywa Codex, Claude Code, Qoder i OpenCode bez zmiany ich konfiguracji;
 3. pokazuje, które ścieżki Agenta i Umiejętności zostaną odczytane;
-4. pobiera zweryfikowanego przez sumę kontrolną natywnego nadawcę o niskim uruchomieniu dla bieżącej platformy, powracając do lokalnej kompilacji C i na koniecPythonnadawcy i podczas instalacji wstępnie podgrzewa świeży natywny plik binarny;
-5. tworzy`~/.skill-runtime/config.json`i lokalnySQLiteindeks.
+4. pobiera natywnego nadawcę o niskim uruchomieniu, zweryfikowanego sumą kontrolną dla bieżącej platformy, powracając do lokalnej kompilacji C i na koniec nadawcy Python, i raz podczas instalacji wstępnie podgrzewa świeży natywny plik binarny;
+5. tworzy `~/.skill-runtime/config.json` i lokalny indeks SQLite.
 
-Kiedy jest uruchamiany interaktywnie, pyta raz przed dodaniem haków agenta typu Fail-Open.`--no-hooks`utrzymuje import transkrypcji jako oznaczony jako rezerwowy, podczas gdy`--enable-hooks`rejestruje wyraźną zgodę i instaluje tylko wpisy zarządzane. DlaCodex, otwarty`/hooks`po instalacji przejrzyj dokładnie zarządzane polecenia i zaufaj im.Codexcelowo wymaga tego wyraźnego przeglądu pod kątem haków dodanych poza konfiguracją zarządzanego przedsiębiorstwa. Rozpocznij nową turę Agenta, a następnie wykonaj:
+Kiedy jest uruchamiany interaktywnie, pyta raz przed dodaniem haków agenta typu Fail-Open. `--no-hooks` utrzymuje import transkrypcji jako opcję oznaczoną jako rezerwową, podczas gdy `--enable-hooks` rejestruje wyraźną zgodę i instaluje tylko wpisy zarządzane. W przypadku Codex otwórz `/hooks` po instalacji, przejrzyj dokładnie zarządzane polecenia i zaufaj im. Codex celowo wymaga tego wyraźnego przeglądu pod kątem haków dodanych poza konfiguracją zarządzanego przedsiębiorstwa. Rozpocznij nowe zadanie/sesję Codex po zaufaniu Hook, a następnie uruchom:
 
 ```bash
 .venv/bin/skill-runtime doctor
 ```
 
-Qoderładuje konfigurację Hooka przy uruchomieniu, więc uruchom ponownieQoderpo pierwszej instalacji.OpenCodeodkrywa zarządzaną wtyczkę służącą tylko do obserwacji w swoim globalnym katalogu wtyczek; uruchom ponownieOpenCodejeśli bieżący proces poprzedza instalację. Żadna integracja nie odczytuje ani nie zmienia żądań modelu.
+Qoder ładuje konfigurację Hook przy uruchomieniu, więc zrestartuj Qoder po pierwszej instalacji. OpenCode odkrywa wtyczkę zarządzaną tylko do obserwacji w swoim globalnym katalogu wtyczek; zrestartuj OpenCode, jeśli bieżący proces poprzedza instalację. Żadna integracja nie odczytuje ani nie zmienia żądań modelu.
 
-Integracja staje się **Live** dopiero po otrzymaniu przez bazę danych rzeczywistego`official_hook`wydarzenie. Jedynie pisanie`~/.codex/hooks.json`jest wyświetlany jako **Oczekujący**, nigdy nie połączony.`start`uruchamia Kolektora, obserwatora rezerwowego transkrypcji, pracownika retencji,SQLiteprzechowuj i żyjUIjako zarządzany proces w tle. Żadne żądanie modelu nie jest przesyłane przez serwer proxy.
+Integracja staje się **Live** dopiero po odebraniu przez bazę danych prawdziwego zdarzenia `official_hook`. Samo wpisanie `~/.codex/hooks.json` jest wyświetlane jako **Oczekujące**, nigdy nie połączone. `start` uruchamia moduł zbierający, moduł obserwatora rezerwowych transkrypcji, pracownika przechowującego, sklep SQLite i aktywny UI jako zarządzany proces w tle. Żadne żądanie modelu nie jest przesyłane przez serwer proxy.
 
 Polecenia cyklu życia:
 
@@ -178,7 +211,7 @@ skill-runtime config --set network_export.enabled=true
 skill-runtime uninstall --keep-data
 ```
 
-`uninstall`usuwa tylko zarządzane wpisy Hook iSkill Runtime-własne pliki. Bez`--keep-data`, wymaga interaktywnego potwierdzenia (lub`--yes`) przed usunięciem`~/.skill-runtime`; Sesje agentów i źródła umiejętności nigdy nie są usuwane.
+`uninstall` usuwa tylko zarządzane wpisy Hook i pliki będące własnością Skill Runtime. Bez `--keep-data` wymaga interaktywnego potwierdzenia (lub `--yes`) przed usunięciem `~/.skill-runtime`; Sesje agentów i źródła umiejętności nigdy nie są usuwane.
 
 Aby indeksować i wyświetlać osobno:
 
@@ -195,9 +228,9 @@ PYTHONPATH=src python3 -m skill_runtime_intelligence import \
   --format auto
 ```
 
-Wersjonowane profile importu obecnie rozpoznają OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, IDatadog JSONkształty. Tworzą tylko tzwSkillRungdy źródło zawiera wyraźną semantykę Umiejętności; Ogólne nazwy zakresów nie są traktowane jako dowód aktywacji.
+Wersjonowane profile importu rozpoznają obecnie kształty OTLP/Phoenix, Langfuse, LangSmith, W&B Weave i Datadog JSON. Tworzą SkillRun tylko wtedy, gdy źródło zawiera wyraźną semantykę Umiejętności; Ogólne nazwy zakresów nie są traktowane jako dowód aktywacji.
 
-Eksportuj znormalizowane dowody środowiska wykonawczego specyficzne dla umiejętności do dowolnegoOTLP/HTTPpunkt końcowy śledzenia:
+Eksportuj znormalizowane dowody środowiska wykonawczego specyficzne dla umiejętności do dowolnego punktu końcowego śledzenia OTLP/HTTP:
 
 ```bash
 .venv/bin/skill-runtime start \
@@ -205,11 +238,11 @@ Eksportuj znormalizowane dowody środowiska wykonawczego specyficzne dla umieję
   --otlp-header Authorization='Bearer …'
 ```
 
-Eksport jest wyłączony, chyba że punkt końcowy jest jawnie skonfigurowany. Punkty kontrolne, stan ponownych prób i stan miejsca docelowego są wyświetlane w Ustawieniach. Surowe podpowiedzi, ładunki narzędzi, dane uwierzytelniające i zawartość zasobów umiejętności nie są eksportowane. W przypadku uwierzytelnionego eksportu w tle podaj standard`OTEL_EXPORTER_OTLP_HEADERS`wcześniej w środowisku`skill-runtime start`; nagłówki nigdy nie są zapisywaneSkill Runtimeargumenty konfiguracyjne lub procesowe.
+Eksport jest wyłączony, chyba że punkt końcowy jest jawnie skonfigurowany. Punkty kontrolne, stan ponownych prób i stan miejsca docelowego są wyświetlane w Ustawieniach. Surowe podpowiedzi, ładunki narzędzi, dane uwierzytelniające i zawartość zasobów umiejętności nie są eksportowane. W przypadku uwierzytelnionego eksportu w tle podaj standard `OTEL_EXPORTER_OTLP_HEADERS` w środowisku przed `skill-runtime start`; nagłówki nigdy nie są zapisywane w argumentach konfiguracyjnych lub procesowych Skill Runtime.
 
 ## Wysyłaj dowody działania na żywo
 
-`skill-runtime start`obejmuje lokalnego kolekcjonera. Natywne adaptery telemetryczne, oficjalne haki, lekkie haki typu Fail-Open iSDKintegracje mogą dołączać pojedyncze zdarzenie lub ograniczoną partię`POST /api/events`:
+`skill-runtime start` obejmuje lokalnego Kolekcjonera. Natywne adaptery telemetryczne, oficjalne zaczepy, lekkie zaczepy typu Fail-Open i integracje SDK mogą dołączyć pojedyncze zdarzenie lub ograniczoną partię do `POST /api/events`:
 
 ```bash
 curl -X POST http://127.0.0.1:4317/api/events \
@@ -237,9 +270,9 @@ curl -X POST http://127.0.0.1:4317/api/events \
   }'
 ```
 
-Punkt końcowy redaguje typowe poświadczenia przed utrwaleniem, deduplikuje według`event_id`, zachowuje oddzielną, zredagowaną, surową kopertę i zwraca wynik`skill_run_ids`.`GET /api/collector/schema`udostępnia obsługiwane słownictwo i tryby gromadzenia zdarzeń. TheUIsłucha`/api/stream`przy użyciu SSE, z odpytywaniem tylko jako rezerwowym ponownym połączeniem.
+Punkt końcowy redaguje wspólne poświadczenia przed utrwaleniem, deduplikuje przez `event_id`, zachowuje osobną zredagowaną surową kopertę i zwraca wynikowy `skill_run_ids`. `GET /api/collector/schema` udostępnia obsługiwane słownictwo i tryby gromadzenia zdarzeń. UI nasłuchuje `/api/stream` przy użyciu SSE, z odpytywaniem tylko jako rezerwowym ponownym połączeniem.
 
-Wskaźnik źródła odróżnia podstawowe dowody środowiska wykonawczego od`Transcript fallback`i importowane ślady. Sam punkt końcowy modułu Collector nie żąda natywnej telemetrii: każdy producent musi zadeklarować, czy jego zdarzenie pochodzi z natywnej telemetrii, oficjalnego haka, lekkiego haka czySDK.
+Wskaźnik źródła odróżnia podstawowe dowody środowiska wykonawczego od `Transcript fallback` i importowanych śladów. Sam punkt końcowy modułu Collector nie żąda natywnej telemetrii: każdy producent musi zadeklarować, czy jego zdarzenie pochodzi z natywnej telemetrii, oficjalnego haka, lekkiego haka czy SDK.
 
 ### Opcjonalne haki agenta
 
@@ -249,16 +282,16 @@ Najpierw sprawdź dokładne ścieżki i zdarzenia. To polecenie jest tylko do od
 .venv/bin/skill-runtime setup
 ```
 
-Instalacja haka wymaga wyraźnej flagi:
+Instalacja Hook wymaga wyraźnej flagi:
 
 ```bash
 .venv/bin/skill-runtime setup --enable-codex-hooks
 .venv/bin/skill-runtime setup --enable-claude-hooks
 ```
 
-Instalator tworzy kopię zapasową konfiguracji Agenta, zachowuje istniejące zaczepy i dodaje tylko wpisy zawierające plikSkill Runtimeznacznik zarządzania. Adapter haka przechowuje minimalne pola cyklu życia zamiast pełnych podpowiedzi lub ładunków narzędzi. Gdy środowisko wykonawcze jest aktywne, uprawnienia są ograniczoneUnixgniazdo to szybka ścieżka; opcjonalny natywny nadawca unikaPythonuruchomienie. Gdy środowisko wykonawcze nie jest aktywne, samodzielna ścieżka otwierania awaryjnego dołącza zredagowane dowody`~/.skill-runtime/queue/events.jsonl`.`skill-runtime start`odtwarza tę kolejkę z deduplikacją identyfikatora zdarzenia.
+Instalator tworzy kopię zapasową konfiguracji Agenta, zachowuje istniejące zaczepy i dodaje tylko wpisy posiadające znacznik zarządzania Skill Runtime. Adapter haka przechowuje minimalne pola cyklu życia zamiast pełnych podpowiedzi lub ładunków narzędzi. W przypadku ukończonych wywołań narzędzi wyodrębnia tylko dokładne `SKILL.md`, standardowe zasoby umiejętności i ścieżki zmienionych plików w pamięci; surowe polecenia, treści poprawek, podpowiedzi i dane wyjściowe narzędzi są odrzucane przed utrwaleniem. Gdy środowisko wykonawcze jest aktywne, szybką ścieżką jest gniazdo Unix z ograniczonymi uprawnieniami; opcjonalny natywny nadawca pozwala uniknąć uruchamiania Python. Gdy środowisko wykonawcze nie jest aktywne, samodzielna ścieżka otwierania awaryjnego dołącza zredagowane dowody do `~/.skill-runtime/queue/events.jsonl`. `skill-runtime start` odtwarza tę kolejkę z deduplikacją identyfikatora zdarzenia.
 
-Codexwydarzenia korzystają z oficjalnego hakaAPI(`SessionStart`,`SessionEnd`,`UserPromptSubmit`,`PreToolUse`,`PostToolUse`,`PreCompact`,`PostCompact`,`SubagentStart`,`SubagentStop`, I`Stop`).Codexobecnie wykonuje zaczepy poleceń synchronicznie, więcSkill Runtimeużywa lokalnegoUnixgniazdo/natywny nadawca z ograniczonym limitem czasu. Wszelkie niepowodzenia w dostawie są przełykane i umieszczane w kolejce; nigdy nie zmienia decyzji Agenta. Zobacz[oficjalna dokumentacja Codex Hook](https://developers.openai.com/codex/config-advanced#hooks).
+Wydarzenia Codex używają swojego oficjalnego Hook API (`SessionStart`, `SessionEnd`, `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `PreCompact`, `PostCompact`, `SubagentStart`, `SubagentStop` i `Stop`). Codex obecnie wykonuje punkty poleceń synchronicznie, więc Skill Runtime używa lokalnego gniazda Unix/natywnego nadawcy z ograniczonym limitem czasu. Wszelkie niepowodzenia w dostawie są przełykane i umieszczane w kolejce; nigdy nie zmienia decyzji Agenta. Zobacz [oficjalna dokumentacja Codex Hook](https://developers.openai.com/codex/config-advanced#hooks).
 
 Usuń tylko zarządzane wpisy za pomocą:
 
@@ -267,7 +300,7 @@ Usuń tylko zarządzane wpisy za pomocą:
 .venv/bin/skill-runtime setup --remove-claude-hooks
 ```
 
-Serwer łączy się z`127.0.0.1`domyślnie. Komunikaty z pełną transkrypcją i ładunki narzędzi nie są kopiowane do indeksu. Wspólne tajne wzorce są redagowane przed utrwaleniem znormalizowanych podsumowań.
+Serwer domyślnie łączy się z `127.0.0.1`. Komunikaty z pełną transkrypcją i ładunki narzędzi nie są kopiowane do indeksu. Wspólne tajne wzorce są redagowane przed utrwaleniem znormalizowanych podsumowań.
 
 Uruchom wolny od zależności zestaw testów za pomocą:
 
@@ -277,7 +310,7 @@ PYTHONPATH=src python3 -m unittest discover -s tests -v
 
 ## Inżynieria wydania
 
-GitDziała Centrum AkcjePythonTesty 3.9–3.13, walidacja JavaScript, kompilacja natywnych nadawców i prawdziwy test dymu instalacji/startu/doktora/zatrzymania/odinstalowania. A`v*`tag tworzy pakiety Wheel/sdist oraz natywnych nadawców chronionych sumą kontrolną dla systemów Linux i macOS. Instalator CLI pobiera pasujący zasób wersji, więc użytkownicy końcowi nie potrzebują kompilatora.
+GitHub Actions uruchamia testy Python 3.9–3.13, walidację JavaScript, kompilację natywnych nadawców i prawdziwy test dymu instalacji/startu/doktora/zatrzymania/odinstalowania. Znacznik `v*` tworzy pakiety koła/sdist oraz natywnych nadawców Linux i macOS chronionych sumą kontrolną. Instalator CLI pobiera pasujący zasób wersji, więc użytkownicy końcowi nie potrzebują kompilatora.
 
 Uruchom pierwszy eksperyment diagnostyczny powiązany z produktem:
 
@@ -285,7 +318,7 @@ Uruchom pierwszy eksperyment diagnostyczny powiązany z produktem:
 python3 experiments/runtime_diagnostics/run_benchmark.py
 ```
 
-Wprowadza błędy w dowodach dotyczących cyklu życia, wyraźne awarie, niekompletne przebiegi i niezweryfikowane wyniki, a następnie ocenia ten sam deterministyczny silnik diagnostyczny, którego używaAPIIUI. Zobacz[Plan eksperymentu PAI-DSW](docs/pai-dsw-experiment-plan.md)dla drabinki eksperymentu, testów braku zakłóceń i umowy odtwarzalności.
+Wprowadza błędy w dowodach dotyczących cyklu życia, wyraźne awarie, niekompletne przebiegi i niezweryfikowane wyniki, a następnie ocenia ten sam deterministyczny silnik diagnostyczny, którego używają API i UI. Zobacz [Plan eksperymentu PAI-DSW](docs/pai-dsw-experiment-plan.md), aby zapoznać się z drabinką eksperymentów, testami braku zakłóceń i umową odtwarzalności.
 
 Po zbudowaniu koła uruchom izolowany pakiet dymu cyklu życia za pomocą:
 
@@ -297,7 +330,7 @@ Instaluje się w tymczasowym środowisku wirtualnym i tymczasowym domu, wykonuje
 
 ## Projektowanie produktu oparte na eksperymentach
 
-Zachowanie produktu jest ograniczone przez[filozofia produktu oparta na eksperymentach](docs/experiment-driven-product-philosophy.md): dowody przed wnioskami, pierwsza obserwowalna granica przed dotkliwością, relacje typowane przed logami płaskimi i rekonstrukcja deterministyczna przed pomocą probabilistyczną.
+Zachowanie produktu jest ograniczone przez [filozofia produktu oparta na eksperymentach](docs/experiment-driven-product-philosophy.md): dowody przed wnioskami, pierwszą obserwowalną granicę przed dotkliwością, relacje typowane przed płaskimi kłodami i rekonstrukcję deterministyczną przed pomocą probabilistyczną.
 
 Aktualne, powtarzalne dowody lokalne obejmują:
 
@@ -309,29 +342,29 @@ Aktualne, powtarzalne dowody lokalne obejmują:
 
 Wyniki te potwierdzają mechanizmy i wybory dotyczące reprezentacji, a nie uogólnienie wdrożenia czy korzyści dla ludzi. Badania prawdziwego drugiego agenta, międzyplatformowe opóźnienia ogona, kalibracja rzeczywistych błędów i badania diagnozy uczestników pozostają otwartymi lukami w dowodach.
 
-Kierunek badań jest również osadzony w sąsiednich pracach podstawowych:[SkillsBench](https://arxiv.org/abs/2602.12670)I[SWE-Skills-Bench](https://arxiv.org/abs/2603.15401)motywować do diagnozy, ponieważ efekty Umiejętności są różne i mogą ulec regresowi;[Harness-Bench](https://arxiv.org/abs/2605.27922)motywuje do porównań między agentami uwzględniających możliwości; i[badanie pochodzenia wykonania](https://arxiv.org/abs/2606.04990)motywuje wpisane relacje dowodowe, śledzenie pochodzenia i infrastrukturę audytu uwzględniającą prywatność.
+Kierunek badań opiera się również na sąsiadującej pracy podstawowej: [SkillsBench](https://arxiv.org/abs/2602.12670) i [SWE-Skills-Bench](https://arxiv.org/abs/2603.15401) motywują do diagnozy, ponieważ efekty Umiejętności są różne i mogą ulec regresowi; [Harness-Bench](https://arxiv.org/abs/2605.27922) motywuje do porównań między agentami uwzględniających możliwości; a [badanie pochodzenia wykonania](https://arxiv.org/abs/2606.04990) motywuje powiązania dowodów na maszynie, pochodzenie śladów i infrastrukturę audytu uwzględniającą prywatność.
 
 ## Dokumentacja
 
-- [Definicja produktu](docs/product-definition.md)
-- [Specyfikacja MVP](docs/mvp-specification.md)
-- [Model zdarzeń środowiska wykonawczego](docs/runtime-event-model.md)
-- [Architektura informacji interfejsu użytkownika](docs/ui-information-architecture.md)
-- [Macierz możliwości adaptera](docs/adapter-capability-matrix.md)
-- [Interoperacyjność obserwowalności](docs/observability-interoperability.md)
-- [Konfiguracja platformy obserwowalności](docs/observability-platform-setup.md)
-- [Krajobraz badawczy i konkurencyjny](docs/research-and-competitive-landscape.md)
-- [Agenda publikacji naukowych](docs/research-paper-agenda.md)
-- [Filozofia produktu oparta na eksperymentach](docs/experiment-driven-product-philosophy.md)
-- [Wyniki eksperymentu](docs/experiment-results-2026-07-29.md)
-- [Plan eksperymentu PAI-DSW](docs/pai-dsw-experiment-plan.md)
+| Zacznij tutaj | Zamiar |
+|---|---|
+| [Getting Started](docs/getting-started.md) | Zainstaluj, podłącz agenta, zweryfikuj dowody na żywo i rozwiąż problemy |
+| [Architektura](docs/architecture.md) | Potok gromadzenia, granice przechowywania, silnik dowodów i model zaufania |
+| [Macierz możliwości adaptera](docs/adapter-capability-matrix.md) | Dokładne sygnały i ograniczenia według agenta/wersji |
+| [Konfiguracja platformy obserwowalności](docs/observability-platform-setup.md) | Połącz platformy kompatybilne z OTLP i importuj obsługiwane ślady |
+| [Model zdarzeń środowiska wykonawczego](docs/runtime-event-model.md) | Stabilne słownictwo dotyczące zdarzeń, pochodzenie, relacje i oceny dowodów |
+| [Architektura informacji interfejsu użytkownika](docs/ui-information-architecture.md) | Przegląd, pierwsza granica, Panorama, Inspektor, Porównanie i Inferred Analysis |
+
+Referencje dotyczące produktów i badań: [definicja produktu](docs/product-definition.md), [Specyfikacja MVP](docs/mvp-specification.md), [obserwowalność interoperacyjność](docs/observability-interoperability.md), [filozofia produktu oparta na eksperymentach](docs/experiment-driven-product-philosophy.md), [wyniki eksperymentu](docs/experiment-results-2026-07-29.md) i [program badawczy](docs/research-paper-agenda.md).
 
 ## Plan działania
 
-1. **v0.1 — Dowody i diagnoza w czasie wykonywania:** kolekcja na żywo,Skill Run Panorama, diagnoza pierwszej granicy, kontrola dowodów, porównanie i interoperacyjność OTLP.
-2. **v0.2 — Badania nad wzmocnieniem adaptera i diagnostyką:** dodatkowe wersje agentów, rzeczywiste eksperymenty między agentami i ocena uczestników.
-3. **v0.3 — Ocena efektu:** kontrolowana ocena sparowana z umiejętnością/bez umiejętności, oddzielona od diagnostyki pojedynczej.
+1. **wersja 0.2.0 — Dostępne teraz:** kolekcja na żywo typu Fail-Open, cztery wersjonowane adaptery agentów, Runtime Overview, diagnostyka pierwszej granicy, Panorama, Evidence Inspector, porównanie uwzględniające możliwości, Inferred Analysis i interoperacyjność OTLP.
+2. **Następnie — Wzmocnienie adapterów i diagnostyki:** szersze pokrycie agentów/wersji, kalibracja rzeczywistych błędów, weryfikacja opóźnień między platformami i badania diagnostyczne uczestników.
+3. **Później — Ocena efektu:** kontrolowana ocena parowana z umiejętnością/bez umiejętności, wyraźnie oddzielona od diagnozy jednorazowej.
 
 ## Stan projektu
 
-ASkillRun- możliwe jest uruchomienie pierwszego środowiska wykonawczego: inwentarz w zainstalowanej rozdzielczości,Codextranskrypcja zastępcza, oficjalne adaptery Hook oparte na zgodzie dlaCodex,Claude Code, IQoder, tylko obserwacjaOpenCodeadapter wtyczki, przypisanie zakresu aktywnego, dokładne ścieżki plików/artefaktów, redakcja, oddzielne warstwy źródła/relacji/wnioskowania,SQLiteprzechowywanie, przechowywanie, porównywanie między różnymi agentami, diagnostyka deterministyczna i panorama na żywoUI. OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, IDatadogeksport może być importowany; znormalizowane dowody można eksportować na żywo po wyrażeniu zgodyOTLP/HTTP. Odkrycie kandydata, powody selekcji wewnętrznej w modelu, skuteczność semantyczna i twierdzenia o wynikach przyczynowych pozostają wyraźnie nie poparte.
+Wersja `v0.2.0` została opublikowana. Środowisko wykonawcze obejmuje inwentarz w rozdzielczości zainstalowanej, oficjalne adaptery Hook oparte na zgodzie dla Codex, Claude Code i Qoder, wtyczkę OpenCode służącą wyłącznie do obserwacji, etykietowaną rezerwę transkrypcji, przypisanie zakresu aktywnego, dokładne ścieżki plików/artefaktów, redakcję, oddzielne warstwy źródeł/relacji/wnioskowania, SQLite przechowywanie, przechowywanie, diagnostyka deterministyczna, UI na żywo i porównanie między różnymi agentami. Można importować eksporty OTLP/Phoenix, Langfuse, LangSmith, W&B Weave i Datadog; znormalizowane dowody można eksportować na żywo poprzez wyrażenie zgody OTLP/HTTP.
+
+Odkrycie kandydata w modelu, powody selekcji wewnętrznej modelu, skuteczność semantyczna i twierdzenia o wyniku przyczynowym pozostają wyraźnie nie poparte, chyba że źródło lub kontrolowany eksperyment dostarczy takich dowodów.

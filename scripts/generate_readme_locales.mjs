@@ -44,9 +44,11 @@ const protectedTerms = [
   "OTEL_EXPORTER_OTLP_HEADERS",
   "OTEL_EXPORTER_OTLP_ENDPOINT",
   "skill-runtime",
-  "Skill Run Panorama", "Skill Runtime", "SkillRuns", "SkillRun", "OTLP/HTTP",
+  "Skill Run Panorama", "Skill Runtime", "SkillRuns", "SkillRun",
+  "Runtime Overview", "First Observable Boundary", "Evidence Inspector",
+  "Inferred Analysis", "Getting Started", "OTLP/HTTP",
   "OpenTelemetry", "SQLite", "Codex", "Claude Code", "Qoder", "OpenCode",
-  "MCP", "SDK",
+  "GitHub CLI", "GitHub", "macOS", "Linux", "Hook", "MCP", "SDK", "API",
   "SkillsBench", "SWE-Skills-Bench", "Harness-Bench",
   "Phoenix", "Langfuse", "LangSmith", "W&B Weave", "Datadog", "Grafana",
   "Python", "Unix", "Git", "JSON", "API", "UI",
@@ -62,12 +64,15 @@ const protectedSegmentPattern = new RegExp(
 
 async function translatePlain(value, target, attempt = 0) {
   if (!value.trim()) return value;
+  const leading = value.match(/^\s*/)?.[0] || "";
+  const trailing = value.match(/\s*$/)?.[0] || "";
+  const content = value.slice(leading.length, value.length - trailing.length);
   const url = new URL("https://translate.googleapis.com/translate_a/single");
   url.searchParams.set("client", "gtx");
   url.searchParams.set("sl", "en");
   url.searchParams.set("tl", target);
   url.searchParams.set("dt", "t");
-  url.searchParams.set("q", value);
+  url.searchParams.set("q", content);
   const response = await fetch(url, {
     headers: {"User-Agent": "skill-runtime-intelligence-localization-builder/1"},
   });
@@ -80,47 +85,41 @@ async function translatePlain(value, target, attempt = 0) {
   }
   const payload = await response.json();
   if (!Array.isArray(payload[0])) return value;
-  return payload[0].map((segment) => segment[0]).join("");
+  return `${leading}${payload[0].map((segment) => segment[0]).join("")}${trailing}`;
 }
 
 async function translate(value, target) {
   if (!value.trim()) return value;
-  const parts = [];
-  let cursor = 0;
-  for (const match of value.matchAll(protectedSegmentPattern)) {
-    if (match.index > cursor) {
-      parts.push({kind: "text", value: value.slice(cursor, match.index)});
-    }
-    if (match[1] !== undefined) {
-      parts.push({
-        kind: "link",
-        label: match[1],
-        target: match[2],
-      });
-    } else {
-      parts.push({kind: "literal", value: match[0]});
-    }
-    cursor = match.index + match[0].length;
-  }
-  if (cursor < value.length) {
-    parts.push({kind: "text", value: value.slice(cursor)});
-  }
-  const translated = await Promise.all(parts.map(async (part) => {
-    if (part.kind === "literal") return part.value;
-    if (part.kind === "link") {
-      const label = protectedTerms.includes(part.label)
-        ? part.label
-        : await translatePlain(part.label, target);
-      return `[${label}](${part.target})`;
-    }
-    return translatePlain(part.value, target);
-  }));
-  return translated.join("").replace(/\]\s+\(/g, "](");
+  const replacements = [];
+  const tokenized = value.replace(
+    protectedSegmentPattern,
+    (matched, label, linkTarget) => {
+      const index = replacements.length;
+      replacements.push(
+        label === undefined
+          ? Promise.resolve(matched)
+          : (protectedTerms.includes(label)
+            ? Promise.resolve(`[${label}](${linkTarget})`)
+            : translatePlain(label, target)
+              .then((translatedLabel) => `[${translatedLabel}](${linkTarget})`))
+      );
+      return `⟦L${index}⟧`;
+    },
+  );
+  let translated = await translatePlain(tokenized, target);
+  const resolved = await Promise.all(replacements);
+  resolved.forEach((replacement, index) => {
+    translated = translated
+      .replaceAll(`⟦L${index}⟧`, replacement)
+      .replaceAll(`⟦L ${index}⟧`, replacement);
+  });
+  return translated.replace(/\]\s+\(/g, "](");
 }
 
 function classifyLine(line, inCode) {
   if (line.startsWith("```")) return {kind: "fence", value: line};
-  if (inCode || !line.trim() || line.startsWith("<!--") || line.startsWith("!["))
+  if (inCode || !line.trim() || line.startsWith("<!--")
+      || line.startsWith("![") || line.startsWith("[!["))
     return {kind: "literal", value: line};
   if (/^\|?[\s|:-]+\|?$/.test(line)) return {kind: "literal", value: line};
   const match = line.match(/^(\s*(?:#{1,6}|>|[-*]|\d+\.)\s+)(.*)$/);
@@ -134,7 +133,7 @@ function compactMarkdownParagraphs(lines) {
   let inCode = false;
   const isBoundary = (line) =>
     !line.trim()
-    || /^(```|<!--|!\[|\||#{1,6}\s|>\s|[-*]\s|\d+\.\s)/.test(line);
+    || /^(```|<!--|!\[|\[!\[|\||#{1,6}\s|>\s|[-*]\s|\d+\.\s)/.test(line);
   for (let index = 0; index < lines.length;) {
     const line = lines[index];
     if (line.startsWith("```")) {
@@ -143,7 +142,7 @@ function compactMarkdownParagraphs(lines) {
       index += 1;
       continue;
     }
-    if (inCode || !line.trim() || /^(<!--|!\[|\|)/.test(line)) {
+    if (inCode || !line.trim() || /^(<!--|!\[|\[!\[|\|)/.test(line)) {
       output.push(line);
       index += 1;
       continue;
