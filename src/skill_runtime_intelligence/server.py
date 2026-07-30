@@ -9,6 +9,7 @@ from importlib import resources
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
+from . import __version__
 from .config import (
     default_config_path,
     load_config,
@@ -53,6 +54,8 @@ class PanoramaHandler(BaseHTTPRequestHandler):
                 lambda storage: self._json(
                     {
                         "ok": True,
+                        "product": "skill-runtime-intelligence",
+                        "version": __version__,
                         "local": True,
                         "revision": storage.revision(),
                         "counts": storage.counts(),

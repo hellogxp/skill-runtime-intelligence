@@ -53,7 +53,12 @@ from .integrations import (
 from .native_sender import build_native_hook_sender, install_native_hook_sender
 from .otlp_exporter import export_otlp_once, watch_otlp_export
 from .runtime_diagnostics import diagnose_runtime
-from .runtime_manager import runtime_status, start_runtime, stop_runtime
+from .runtime_manager import (
+    restart_runtime,
+    runtime_status,
+    start_runtime,
+    stop_runtime,
+)
 from .server import serve
 from .storage import Storage
 
@@ -904,28 +909,7 @@ def main(argv=None) -> None:
             )
         )
     elif args.command == "restart":
-        stop_runtime(args.state_root, args.host, args.port)
-        config_path = default_config_path(args.state_root)
-        config = load_config(config_path)
-        command = _cli_invocation() + [
-            "start",
-            "--foreground",
-            "--no-open",
-            "--config",
-            str(config_path),
-            "--database",
-            str(config["database"]),
-            "--host",
-            args.host,
-            "--port",
-            str(args.port),
-        ]
-        result = start_runtime(
-            command,
-            state_root=args.state_root,
-            host=args.host,
-            port=args.port,
-        )
+        result = restart_runtime(args.state_root, args.host, args.port)
         if not args.no_open:
             webbrowser.open(result["url"])
         print(json.dumps(result, ensure_ascii=False, indent=2))

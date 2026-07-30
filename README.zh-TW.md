@@ -38,7 +38,9 @@ python3 -m venv .venv
 .venv/bin/skill-runtime start
 ```
 
-打開[http://127.0.0.1:4317](http://127.0.0.1:4317)。為了Codex，查看並信任中的託管命令`/hooks`，啟動一個新的 Agent 回合，然後驗證：
+打開[http://127.0.0.1:4317](http://127.0.0.1:4317)。使用 Codex 時，請在
+`/hooks` 查看並信任託管命令，然後建立新的 Codex 任務/工作階段（已開啟的舊任務
+不會熱載入新安裝的 Hook），再進行驗證：
 
 ```bash
 skill-runtime doctor

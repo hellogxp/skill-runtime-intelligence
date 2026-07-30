@@ -149,3 +149,52 @@ official-hook event. It scores hook evidence preservation, correlation-group
 preservation, and availability of cross-source relationship edges separately.
 An overall failed gate can therefore mean evidence is safely retained but a
 merged relationship view is still absent.
+
+Localize full-reindex drift by collection provenance:
+
+```bash
+PYTHONPATH=src python3 \
+  experiments/real_corpus_audit/provenance_reindex_benchmark.py \
+  --database .sri/panorama.db \
+  --project .
+```
+
+The experiment makes a consistent query-only database snapshot, performs two
+full transcript reindexes on an isolated temporary copy, and emits aggregate
+deltas by collection mode. A live-snapshot comparison is identifiable only
+when the captured collection checkpoint is completed with zero failures and
+late arrivals, its source watermark matches the reindex input, and no source
+changes during the comparison. The working database is deleted afterward;
+no row-level records, raw content, identifiers, source paths, or watermark
+hashes are included in the report. A non-identifiable gate is not evidence of
+reindex failure.
+
+Test repeated reconstruction on a frozen historical transcript subset:
+
+```bash
+PYTHONPATH=src python3 \
+  experiments/real_corpus_audit/frozen_corpus_reindex_benchmark.py \
+  --project . \
+  --repeats 3
+```
+
+The default selection is limited to 12 transcripts older than one hour, no
+larger than 8 MiB each or 64 MiB total. Raw files are copied only into an
+auto-deleted local temporary directory. The report includes aggregate source
+identity multiplicities, copy integrity, table counts, and equality booleans;
+it emits no paths, IDs, contents, or fingerprint values. The gate checks both
+repeat fingerprint equality and preservation of each physical source instance,
+because a deterministic overwrite is not a correct reconstruction.
+
+Audit source-identity cardinality across the complete local Codex corpus:
+
+```bash
+PYTHONPATH=src python3 \
+  experiments/real_corpus_audit/source_identity_audit.py
+```
+
+This lightweight audit reads at most the first 20 lines of each transcript and
+emits only source counts, upstream-identity multiplicities, and an aggregate
+ratio. It never exports identities, paths, content, timestamps, or row-level
+records. Repeated identities establish a many-to-one cardinality condition;
+they do not by themselves prove that the underlying streams diverge.

@@ -22,8 +22,8 @@ from ..redaction import compact_text, redact, redacted_json
 
 
 ADAPTER_NAME = "codex"
-ADAPTER_VERSION = "0.2.0"
-SOURCE_FORMAT_VERSION = "codex-jsonl-observed-2026-07"
+ADAPTER_VERSION = "0.3.0"
+SOURCE_FORMAT_VERSION = "codex-jsonl-source-instance-2026-07"
 
 
 def _stable_id(prefix: str, *parts: Any) -> str:
@@ -269,12 +269,18 @@ class CodexAdapter:
             {},
         )
         meta_payload = meta.get("payload", {})
-        session_id = str(
+        source_resolved = str(source_path.resolve())
+        source_session_id = str(
             meta_payload.get("session_id")
             or meta_payload.get("id")
-            or _stable_id("session", str(source_path.resolve()))
+            or _stable_id("source_session", source_resolved)
         )
-        source_resolved = str(source_path.resolve())
+        session_id = _stable_id(
+            "session",
+            self.name,
+            "transcript_fallback",
+            source_resolved,
+        )
         raw_records: List[Dict[str, Any]] = []
         events: List[Dict[str, Any]] = []
         skill_runs_by_id: Dict[str, Dict[str, Any]] = {}
@@ -667,6 +673,11 @@ class CodexAdapter:
             "adapter_version": self.version,
             "source_path": source_resolved,
             "source_format_version": SOURCE_FORMAT_VERSION,
+            "source_session_id": source_session_id,
+            "correlation_key": f"{self.name}:{source_session_id}",
+            "collection_mode": "transcript_fallback",
+            "transport": "filesystem_watch",
+            "source_health": "active",
             "title": title or source_path.stem,
             "cwd": str(meta_payload.get("cwd") or ""),
             "model": model,

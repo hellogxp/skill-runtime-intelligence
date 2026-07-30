@@ -47,7 +47,8 @@ python3 -m venv .venv
 ```
 
 打开 [http://127.0.0.1:4317](http://127.0.0.1:4317)。使用 Codex 时，请在
-`/hooks` 中核对并信任由 Skill Runtime 管理的命令，开始一个新的 Agent 回合，然后执行：
+`/hooks` 中核对并信任由 Skill Runtime 管理的命令，然后新建一个 Codex
+任务/会话（已打开的旧任务不会热加载新安装的 Hook），再执行：
 
 ```bash
 skill-runtime doctor
@@ -172,7 +173,8 @@ python3 -m venv .venv
 交互安装会在添加 fail-open Hook 前征求一次同意。`--no-hooks` 会将会话导入保留为
 明确标注的 fallback；`--enable-hooks` 会记录用户授权，并只安装带管理标记的条目。
 
-对于 Codex，安装后请打开 `/hooks`，核对命令并授予信任。完成一个新的 Agent 回合后执行：
+对于 Codex，安装后请打开 `/hooks`，核对命令并授予信任；随后新建一个
+Codex 任务/会话，再执行：
 
 ```bash
 .venv/bin/skill-runtime doctor

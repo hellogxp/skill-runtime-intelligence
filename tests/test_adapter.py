@@ -9,6 +9,55 @@ from skill_runtime_intelligence.discovery import parse_skill
 
 
 class CodexAdapterTests(unittest.TestCase):
+    def test_source_files_have_distinct_storage_identity_and_shared_correlation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            records = [
+                {
+                    "timestamp": "2026-07-28T01:00:00Z",
+                    "type": "session_meta",
+                    "payload": {
+                        "id": "shared-source-session",
+                        "cwd": str(root),
+                    },
+                }
+            ]
+            first = root / "first.jsonl"
+            second = root / "second.jsonl"
+            for source in (first, second):
+                source.write_text(
+                    "".join(
+                        json.dumps(record) + "\n" for record in records
+                    ),
+                    encoding="utf-8",
+                )
+
+            first_session, first_raw, _, _ = CodexAdapter(root).parse(
+                first,
+                [],
+            )
+            second_session, second_raw, _, _ = CodexAdapter(root).parse(
+                second,
+                [],
+            )
+
+            self.assertNotEqual(
+                first_session["session_id"],
+                second_session["session_id"],
+            )
+            self.assertEqual(
+                first_session["source_session_id"],
+                second_session["source_session_id"],
+            )
+            self.assertEqual(
+                first_session["correlation_key"],
+                second_session["correlation_key"],
+            )
+            self.assertNotEqual(
+                first_raw[0]["raw_id"],
+                second_raw[0]["raw_id"],
+            )
+
     def test_reconstructs_exact_skill_path_and_tool_relationship(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

@@ -61,6 +61,8 @@ TERMINAL_SKILL_EVENTS = {
     "skill.deactivated",
     "outcome.reported",
     "outcome.verified",
+    "turn.completed",
+    "turn.failed",
 }
 
 

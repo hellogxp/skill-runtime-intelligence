@@ -47,11 +47,19 @@ AgentInstallation
 
 ### Session
 
-- source session ID;
+- internal source-instance session ID;
+- upstream source session ID and a non-destructive correlation key;
 - agent, model, project, and working directory;
 - start and end time;
 - source transcript location;
 - ingestion completeness.
+
+The internal `session_id` identifies one physical evidence stream, such as one
+transcript file or one official-hook stream. `source_session_id` preserves the
+logical identity reported by the Agent. Multiple physical streams may report
+the same upstream ID; they remain separate sessions and share a
+`correlation_key`. Correlation never authorizes one stream to overwrite or
+erase another.
 
 ### SkillRun
 

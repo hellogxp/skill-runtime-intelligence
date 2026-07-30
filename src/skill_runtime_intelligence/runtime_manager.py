@@ -155,22 +155,40 @@ def runtime_status(
 ) -> Dict[str, Any]:
     record = _read_record(state_root)
     pid = int(record.get("pid") or 0)
-    alive = _managed_process(record)
-    # Never attribute an unrelated service on the same port to Skill Runtime.
-    # Health is meaningful only after the recorded process passes ownership
-    # verification.
-    health = fetch_health(host, port) if alive else {}
+    managed_alive = _managed_process(record)
+    health = fetch_health(host, port)
+    product_healthy = bool(
+        health.get("ok")
+        and health.get("product") == "skill-runtime-intelligence"
+    )
+    management_mode = (
+        "managed"
+        if managed_alive and product_healthy
+        else "external"
+        if product_healthy
+        else "none"
+    )
     return {
-        "running": bool(alive and health.get("ok")),
-        "process_alive": alive,
-        "collector_healthy": bool(alive and health.get("ok")),
-        "pid": pid or None,
+        "running": product_healthy,
+        "process_alive": managed_alive,
+        "collector_healthy": product_healthy,
+        "managed": bool(managed_alive and product_healthy),
+        "management_mode": management_mode,
+        "pid": pid if managed_alive else None,
         "url": health_url(host, port).removesuffix("/api/health"),
         "state_path": str(runtime_pid_path(state_root)),
         "log_path": str(runtime_log_path(state_root)),
         "started_at": record.get("started_at"),
-        "database": _command_argument(record.get("command"), "--database"),
-        "config_path": _command_argument(record.get("command"), "--config"),
+        "database": (
+            _command_argument(record.get("command"), "--database")
+            if managed_alive
+            else ""
+        ),
+        "config_path": (
+            _command_argument(record.get("command"), "--config")
+            if managed_alive
+            else ""
+        ),
         "health": health,
     }
 
@@ -218,12 +236,17 @@ def start_runtime(
     deadline = time.monotonic() + max(0.5, wait_seconds)
     while time.monotonic() < deadline:
         health = fetch_health(host, port)
-        if health.get("ok"):
-            return {
-                **runtime_status(state_root, host, port),
-                "changed": True,
-                "reason": "started",
-            }
+        if (
+            health.get("ok")
+            and health.get("product") == "skill-runtime-intelligence"
+        ):
+            status = runtime_status(state_root, host, port)
+            if status["running"]:
+                return {
+                    **status,
+                    "changed": True,
+                    "reason": "started",
+                }
         if process.poll() is not None:
             break
         time.sleep(0.1)
@@ -296,3 +319,32 @@ def stop_runtime(
         "changed": True,
         "reason": "stopped",
     }
+
+
+def restart_runtime(
+    state_root: Optional[Path] = None,
+    host: str = "127.0.0.1",
+    port: int = 4317,
+) -> Dict[str, Any]:
+    """Restart only a verified managed Runtime with its exact arguments."""
+    record = _read_record(state_root)
+    if not _managed_process(record):
+        raise RuntimeError(
+            "no verified managed Skill Runtime is running; use `skill-runtime start`"
+        )
+    command = record.get("command")
+    if not isinstance(command, list) or not command:
+        raise RuntimeError("managed Skill Runtime command is unavailable")
+    record_host = str(record.get("host") or host)
+    try:
+        record_port = int(record.get("port") or port)
+    except (TypeError, ValueError):
+        record_port = port
+    preserved_command = [str(token) for token in command]
+    stop_runtime(state_root, record_host, record_port)
+    return start_runtime(
+        preserved_command,
+        state_root=state_root,
+        host=record_host,
+        port=record_port,
+    )

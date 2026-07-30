@@ -4,7 +4,7 @@ Status: implemented baseline
 
 ## Codex transcript adapter
 
-Adapter version: `0.2.0`
+Adapter version: `0.3.0`
 
 This matrix records what the current adapter can establish from observed local
 records. An unsupported signal remains absent; it is never silently inferred.
@@ -41,6 +41,9 @@ records. An unsupported signal remains absent; it is never silently inferred.
   absolute path. Those accesses are reported as not observed.
 - A currently active JSONL file is labeled incomplete until its open turn has a
   matching completion record.
+- Each transcript path has a separate internal storage identity. Repeated
+  upstream session IDs are retained as `source_session_id` and correlated
+  without overwriting another transcript.
 - The source format is not a public stability contract. Sanitized fixtures and
   the adapter version must be updated together when it changes.
 
@@ -57,7 +60,7 @@ Request and outcome events in the same turn are connected as Derived
 
 ## Codex hook adapter
 
-Adapter version: `0.1.0`
+Adapter version: `0.2.0`
 Collection mode: `official_hook`
 
 The Hook Manager is opt-in. `skill-runtime setup` only presents the plan;
@@ -68,6 +71,9 @@ The Hook Manager is opt-in. `skill-runtime setup` only presents the plan;
 | `SessionStart` / `SessionEnd` | Session boundary | Observed when source session ID exists |
 | `UserPromptSubmit` / `Stop` | Turn boundary | Prompt content is not persisted |
 | `PreToolUse` / `PostToolUse` | Tool start/completion | Full tool input/output is omitted |
+| Successful tool access to exact `SKILL.md` path | `instruction.loaded` and SkillRun scope | Derived from an Observed successful tool event; raw command omitted |
+| Successful access to `scripts/`, `references/`, or `assets/` | `resource.executed` / `resource.read` | Exact standard resource path only; raw input omitted |
+| Successful structured write/edit or `apply_patch` | File/artifact path | Exact changed paths only; patch content omitted |
 | `PostToolUseFailure` | Tool failure | Error is redacted and capped |
 | `Skill` tool at `PreToolUse` | `skill.activated` | Explicit-tool activation only |
 | `Skill` tool completion/failure | Activation terminal event | Requires Skill name in hook payload |
@@ -100,7 +106,7 @@ concern, not a storage-side overwrite.
 
 ## Claude Code hook adapter
 
-Adapter version: `0.1.0`
+Adapter version: `0.2.0`
 Collection mode: `official_hook`
 
 | Hook signal | Normalized evidence | Limits |
@@ -121,7 +127,7 @@ authenticated second Agent corpus is available.
 
 ## Qoder hook adapter
 
-Adapter version: `0.1.0`
+Adapter version: `0.2.0`
 
 Collection mode: `official_hook`
 
@@ -151,7 +157,7 @@ the [documented user and project Skill directories](https://docs.qoder.com/exten
 
 ## OpenCode plugin adapter
 
-Adapter version: `0.1.0`
+Adapter version: `0.2.0`
 
 Collection mode: `official_hook`
 

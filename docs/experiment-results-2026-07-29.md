@@ -29,12 +29,15 @@ outcome across general tasks.
 | E2 Linux `nc` fallback | 80/80 events accepted across two runs; p50 2.0–2.8 ms, p95 6.0–6.1 ms; incremental p50 1.2–2.0 ms, p95 4.4–5.5 ms; silent with zero exit failures | 2 × 40 paired trials in one digest-pinned Linux/arm64 container; Experimental |
 | E3 study readiness | 11 cases, 24 balanced participant slots, 264 assignments; first-visible-boundary and evidence-citation audits 1.0 | study-material audit; zero human responses |
 | E4 export-profile equivalence | 6/6 profiles exact; comparable-field coverage 1.0; zero dangling parents after fix | equivalent synthetic export fixtures |
+| Cross-Agent source-instance contract | 8/8 trials kept Qoder, OpenCode, and Claude Code as three Agent-scoped sessions despite identical upstream session/turn/call labels; same-Agent append remained in one stream; zero event-ID collisions or cross-source causal edges | production hook builders, Collector, and storage over synthetic hook payloads; Experimental mechanism evidence |
 | E5 diagnosis representation ablation | rules exact 1.0/F1 1.0; lexical retrieval exact 0.214/F1 0.414; lifecycle-feature retrieval exact 0.071/F1 0.080; ordered relational templates exact 0.929/F1 0.963 | leave-one-out synthetic corpus; retrieval outputs Inferred |
 | Real-run corpus readiness audit | privacy-safe aggregate gate passed in four audits; snapshots contained 97, 75, 77, and 77 SkillRuns and every audit passed only 1/7 readiness criteria; v3 added integrity-checked snapshot/schema/aggregate fingerprints | query-only consistent snapshots of one local Codex database; Derived aggregate, zero row-level records |
 | Dataset cut-policy pilot | across three three-snapshot trials, pooled next-window stability was 222/240 all-observed, 205/216 terminal-status, 215/230 30-second watermark, and 188/206 prior-quiescence selections | one local live database; Experimental observational time series, non-independent run observations |
 | Collection-checkpoint capability and mechanism | pre-deployment live runtime exposed 3/7 capabilities; post-deployment audit exposed 7/7, then a real completed epoch recorded one late arrival and a later retry completed with zero; isolated trials detected 8/8 modified and 8/8 newly created sources with 0/8 control false positives | query-only live snapshots (Derived), aggregate live epoch state (Observed), and controlled synthetic-adapter trials (Experimental); no row-level records |
 | Production Codex watch epoch | pre-fix deletion boundary advanced 0/3; post-fix create, append, and delete paths each advanced 3/3, removal count was exact 3/3, historical sessions were retained 3/3, and watcher cleanup passed 3/3 | production Codex adapter/watch loop over isolated synthetic transcripts; Experimental mechanism evidence |
 | Mixed provenance reconciliation | official-hook raw/event/run evidence survived transcript refresh 8/8 and correlation groups remained intact 8/8; cross-source relationship edges were available 0/8 | production adapter and collector over isolated synthetic correlated sources; Experimental, privacy-safe aggregate |
+| Provenance-localized reindex pilot | official-hook aggregate counts changed by zero in both isolated reindexes; one source-stable comparison added 3 transcript raw records, 2 events, and 3 relationships, but its checkpoint cut was not recorded; a checkpoint-aware repeat had active source changes and was non-identifiable | two isolated copies of one local live database; Experimental/Derived aggregate, no row-level records |
+| Frozen historical corpus identity | before the source-instance fix, 12 frozen transcripts with four divergent upstream identities collapsed to 4 sessions, 216 raw records, and 80 events; after the fix they produced 12 sessions, 802 raw records, and 300 events, with 3/3 exact repeat fingerprints | same bounded 2.87 MB historical Codex subset before/after adapter identity change; Experimental mechanism evidence with privacy-safe aggregates |
 | Packaged product lifecycle | 6/6 post-fix isolated wheel runs completed install/start/status/doctor/stop/uninstall; latest 3/3 also verified native prewarm; project and Agent configs unchanged; state fully removed | six local packaged-product runs; Experimental |
 | Live Codex reconstruction | 3/3 verified outcomes, unchanged workspaces, sessions, SkillRuns, instruction events, and resource events | real Codex 0.145.0 / GPT-5.6-sol, deterministic task |
 
@@ -42,7 +45,7 @@ The latest low-load-window reproducibility suite passed 7/7 selected local
 experiment gates. Across all eight comparable transport runs, however, the
 performance gate passed only 7/8; the Wilson 95% interval for the run-level
 pass rate is 0.529–0.978. The latest expanded product unit/integration suite
-passed 93/93 tests, including privacy-safe real-corpus audit, drift,
+passed 111/111 tests, including privacy-safe real-corpus audit, drift,
 cut-policy, curve-summary, collection-epoch, and capability-audit tests,
 lifecycle ownership safeguards, 15-locale catalog integrity, hooks,
 Collector, OTLP export, storage, comparison, and deterministic diagnosis.
@@ -467,7 +470,8 @@ equating missing source, deleted history, and incomplete evidence.
 
 ### Live checkpoint convergence after deployment
 
-After the production Codex watch gates and the 93-test suite passed, the local
+After the production Codex watch gates and the then-current 93-test suite
+passed, the local
 development runtime was gracefully restarted with the current source. A new
 query-only audit found all 7/7 checkpoint capabilities and
 `freeze_checkpoint_available=true`. This is Derived schema-capability evidence,
@@ -489,6 +493,101 @@ convergence protocol:
 3. `completed` with zero late arrivals is only a candidate freeze boundary;
 4. an immutable snapshot and manifest are still required to declare a dataset
    revision frozen.
+
+### Provenance-localized reindex drift: two boundaries are required
+
+A privacy-safe pilot copied a transactionally consistent live database into
+an isolated temporary database, ran full transcript reconstruction twice, and
+reported only aggregate deltas grouped by `collection_mode`. The first run
+observed zero source-mtime boundary changes while the first reconstruction
+added 3 transcript-fallback raw records, 2 events, and 3 relationships.
+Official-hook counts changed by zero in both reconstructions. Because this
+pilot did not capture whether the live snapshot was at a completed, zero-late
+checkpoint whose source watermark matched the input boundary, it localizes
+the difference to transcript-fallback evidence but cannot distinguish watcher
+lag from transformation instability.
+
+The experiment was then tightened to require both boundaries: a completed
+zero-failure/zero-late collection checkpoint and an exact match between its
+source watermark and the reindex input. The checkpoint-aware repeat captured
+a converged checkpoint, but one transcript changed during each reconstruction;
+both stability comparisons were therefore explicitly non-identifiable.
+Official-hook preservation and the privacy audit still passed.
+
+These are two snapshots of one local runtime, not a failure-rate estimate or a
+causal effect. The negative result is methodological: aggregate equality is a
+valid reproducibility gate only when both the database checkpoint and source
+boundary are bound into the manifest. Provenance grouping should precede any
+record-level diff so source-specific behavior is not hidden by total counts.
+
+### Frozen corpus: deterministic reconstruction can still lose evidence
+
+A bounded frozen-corpus experiment selected 12 historical Codex transcripts
+(2.87 MB total), all older than one hour and unchanged while copied into an
+auto-deleted temporary directory. The files contained four upstream source
+session identities with multiplicities 2, 3, 3, and 4. All four groups were
+divergent rather than prefix chains, and the latest file contained the union
+of raw line hashes in 0/4 groups.
+
+With adapter `0.2.0`, source files sharing an upstream session ID used the same
+storage primary key. The 12 successful imports therefore persisted only 4
+sessions, 216 raw records, and 80 normalized events. Three repeated reindexes
+were fingerprint-exact: this was deterministic overwrite, demonstrating that
+repeatability alone is not a correctness criterion.
+
+Adapter `0.3.0` now assigns a storage identity to each physical transcript
+source while retaining the upstream ID as `source_session_id` and using it in
+the non-destructive `correlation_key`. On the identical frozen input it
+persisted 12 sessions, 802 raw records, and 300 events, with zero collapsed
+source instances. Three subsequent reindexes again matched every graph-table
+fingerprint exactly.
+
+This is Experimental mechanism evidence from one bounded, selection-filtered
+local corpus. It does not estimate how frequently duplicate upstream IDs occur
+in other users, versions, or Agents. It does establish an exercised invariant:
+physical evidence streams must remain separately addressable even when they
+report the same logical session identity.
+
+A separate lightweight audit then read at most the first 20 lines of all 135
+local transcript files. All exposed an upstream identity; 55 distinct
+identities were observed, 18 were shared by multiple physical sources, 80
+files were above a one-to-one mapping, and the largest group contained 21
+sources. The physical-to-upstream ratio was 2.45 in this one local corpus.
+This Derived aggregate confirms that the identity condition is material here,
+but it is not a population prevalence estimate and does not establish that
+every repeated group is divergent.
+
+After deploying adapter `0.3.0`, a full local reindex imported 135/135 sources
+with zero parse failures. The live database contained 135 active transcript
+sessions on `0.3.0`, plus four official-hook sessions and one retained
+historical `0.2.0` source whose current transcript was unavailable. Aggregate
+counts moved from the immediately pre-restart 60 sessions, 13,894 events, and
+96 SkillRuns to 140 sessions, 39,896 events, and 180 SkillRuns. This is one
+Observed deployment sequence, not an effect-size or failure-rate estimate; the
+controlled frozen-corpus result supplies the mechanism evidence.
+
+### Cross-Agent identity: source correlation is not experiment alignment
+
+An eight-trial controlled mechanism experiment sent official-hook events from
+Qoder, OpenCode, and Claude Code with deliberately identical upstream session,
+turn, and call labels. The production hook builders, Collector normalization,
+and Evidence Store retained three Agent-scoped sessions in all 8/8 trials.
+All six initial event identities were distinct in every trial, and a later
+Qoder event appended to the existing Qoder stream without creating a fourth
+session. No cross-source causal relationship was generated.
+
+The identical turn labels produced two repeated `(turn, event-type)` label
+groups per trial across different sessions. This makes the scope rule
+observable: turn and call IDs are not globally unique and must be interpreted
+with the internal source-instance session. Likewise, source correlation keys
+remain Agent-scoped; cross-Agent research comparisons require a separate,
+explicit task/evaluation alignment key rather than reusing an upstream session
+label.
+
+The trials use synthetic payloads and repeat deterministic code paths, so they
+are Experimental mechanism evidence rather than independent Agent workloads or
+live schema validation. Zero implicit cross-source edges is a safety result;
+the product still needs a non-causal correlation/alignment view.
 
 ## New exploratory direction: Skill catalog footprint
 

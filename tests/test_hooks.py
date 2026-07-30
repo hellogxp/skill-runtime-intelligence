@@ -110,6 +110,130 @@ class HookAdapterTests(unittest.TestCase):
         self.assertNotIn("must-not-leak", serialized)
         self.assertEqual(started[0]["source"]["collection_mode"], "official_hook")
 
+    def test_successful_skill_instruction_access_opens_realtime_scope(self):
+        secret = "secret-that-must-not-be-persisted"
+        path = "/tmp/.codex/skills/pdf/SKILL.md"
+        envelopes = build_codex_hook_envelopes(
+            "PostToolUse",
+            {
+                "session_id": "session-instruction",
+                "turn_id": "turn-instruction",
+                "tool_name": "Bash",
+                "tool_use_id": "call-instruction",
+                "tool_input": {
+                    "cmd": f"sed -n '1,240p' {path} && echo {secret}"
+                },
+                "cwd": "/tmp",
+            },
+        )
+        self.assertEqual(
+            [item["event_type"] for item in envelopes],
+            ["tool.completed", "instruction.loaded"],
+        )
+        instruction = envelopes[1]
+        self.assertEqual(instruction["skill"]["name"], "pdf")
+        self.assertEqual(instruction["skill"]["source_path"], str(Path(path).resolve()))
+        self.assertEqual(instruction["activation_mode"], "instruction_access")
+        self.assertEqual(instruction["evidence"]["grade"], "derived")
+        serialized = json.dumps(envelopes, ensure_ascii=False)
+        self.assertNotIn(secret, serialized)
+        self.assertNotIn("sed -n", serialized)
+
+    def test_skill_resource_access_is_derived_without_raw_command(self):
+        path = "/tmp/.codex/skills/pdf/scripts/render.py"
+        envelopes = build_codex_hook_envelopes(
+            "PostToolUse",
+            {
+                "session_id": "session-resource",
+                "turn_id": "turn-resource",
+                "tool_name": "Bash",
+                "tool_use_id": "call-resource",
+                "tool_input": {
+                    "cmd": f"python3 {path} --token must-not-leak",
+                },
+                "cwd": "/tmp",
+            },
+        )
+        self.assertEqual(
+            [item["event_type"] for item in envelopes],
+            ["tool.completed", "resource.executed"],
+        )
+        resource = envelopes[1]
+        self.assertEqual(resource["skill"]["name"], "pdf")
+        self.assertEqual(resource["activation_mode"], "resource_access")
+        self.assertEqual(resource["payload"]["resource_kind"], "scripts")
+        self.assertEqual(resource["payload"]["file_path"], str(Path(path).resolve()))
+        serialized = json.dumps(envelopes, ensure_ascii=False)
+        self.assertNotIn("must-not-leak", serialized)
+        self.assertNotIn("python3", serialized)
+
+    def test_relative_agents_skill_resource_is_resolved_from_hook_cwd(self):
+        envelopes = build_codex_hook_envelopes(
+            "PostToolUse",
+            {
+                "session_id": "session-relative-resource",
+                "turn_id": "turn-relative-resource",
+                "tool_name": "Bash",
+                "tool_use_id": "call-relative-resource",
+                "tool_input": {
+                    "command": (
+                        "python3 "
+                        ".agents/skills/checksum-skill/scripts/verify.py"
+                    ),
+                },
+                "cwd": "/tmp/project",
+            },
+        )
+        self.assertEqual(
+            [item["event_type"] for item in envelopes],
+            ["tool.completed", "resource.executed"],
+        )
+        self.assertEqual(
+            envelopes[1]["payload"]["file_path"],
+            str(
+                Path(
+                    "/tmp/project/.agents/skills/checksum-skill/scripts/verify.py"
+                ).resolve()
+            ),
+        )
+
+    def test_apply_patch_emits_each_changed_path_without_patch_content(self):
+        envelopes = build_codex_hook_envelopes(
+            "PostToolUse",
+            {
+                "session_id": "session-patch",
+                "turn_id": "turn-patch",
+                "tool_name": "apply_patch",
+                "tool_use_id": "call-patch",
+                "tool_input": {
+                    "patch": (
+                        "*** Begin Patch\n"
+                        "*** Update File: src/one.py\n"
+                        "@@\n"
+                        "+must-not-leak\n"
+                        "*** Add File: src/two.py\n"
+                        "+must-not-leak\n"
+                        "*** End Patch\n"
+                    )
+                },
+                "cwd": "/tmp/project",
+            },
+        )
+        self.assertEqual(
+            [item["event_type"] for item in envelopes],
+            ["tool.completed", "file.modified", "file.modified"],
+        )
+        self.assertEqual(
+            [item["payload"]["file_path"] for item in envelopes[1:]],
+            [
+                str(Path("/tmp/project/src/one.py").resolve()),
+                str(Path("/tmp/project/src/two.py").resolve()),
+            ],
+        )
+        self.assertNotIn(
+            "must-not-leak", json.dumps(envelopes, ensure_ascii=False)
+        )
+
     def test_hook_without_session_identity_is_ignored(self):
         self.assertEqual(
             build_codex_hook_envelopes(
@@ -233,7 +357,10 @@ class HookAdapterTests(unittest.TestCase):
             "file.created",
         ])
         artifact = envelopes[1]
-        self.assertEqual(artifact["payload"]["file_path"], "/tmp/report.md")
+        self.assertEqual(
+            artifact["payload"]["file_path"],
+            str(Path("/tmp/report.md").resolve()),
+        )
         self.assertEqual(artifact["evidence"]["grade"], "derived")
         serialized = json.dumps(envelopes, ensure_ascii=False)
         self.assertNotIn("private-content", serialized)
@@ -512,6 +639,115 @@ class HookAdapterTests(unittest.TestCase):
                         all(
                             source["collection_mode"] == "official_hook"
                             for source in sources
+                        )
+                    )
+                finally:
+                    storage.close()
+            finally:
+                bridge.close()
+
+    def test_hook_only_instruction_access_creates_and_completes_skill_run(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            database = root / "panorama.db"
+            socket_path = root / "run" / "hook.sock"
+            bridge = HookBridge(database, socket_path=socket_path).start()
+
+            def send(event, payload):
+                client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+                client.connect(str(socket_path))
+                client.sendall(
+                    json.dumps(
+                        {"agent": "codex", "event": event}
+                    ).encode("utf-8")
+                    + b"\n"
+                    + json.dumps(payload).encode("utf-8")
+                )
+                client.close()
+
+            base = {
+                "session_id": "hook-only-session",
+                "turn_id": "hook-only-turn",
+                "cwd": str(root),
+            }
+            skill_path = root / ".codex" / "skills" / "pdf" / "SKILL.md"
+            try:
+                send(
+                    "PostToolUse",
+                    {
+                        **base,
+                        "tool_name": "Bash",
+                        "tool_use_id": "read-skill",
+                        "tool_input": {"cmd": f"sed -n 1,200p {skill_path}"},
+                    },
+                )
+                send(
+                    "PostToolUse",
+                    {
+                        **base,
+                        "tool_name": "Bash",
+                        "tool_use_id": "run-resource",
+                        "tool_input": {
+                            "command": (
+                                "python3 "
+                                ".codex/skills/pdf/scripts/render.py"
+                            )
+                        },
+                    },
+                )
+                send(
+                    "PreToolUse",
+                    {
+                        **base,
+                        "tool_name": "Bash",
+                        "tool_use_id": "work",
+                        "tool_input": {"cmd": "true"},
+                    },
+                )
+                send("Stop", base)
+                deadline = time.monotonic() + 2
+                while time.monotonic() < deadline:
+                    storage = Storage(database)
+                    try:
+                        runs = storage.list_skill_runs()
+                        if runs and runs[0]["status"] == "completed":
+                            break
+                    finally:
+                        storage.close()
+                    time.sleep(0.02)
+                storage = Storage(database)
+                try:
+                    runs = storage.list_skill_runs()
+                    self.assertEqual(len(runs), 1)
+                    self.assertEqual(runs[0]["name"], "pdf")
+                    self.assertEqual(
+                        runs[0]["activation_mode"], "instruction_access"
+                    )
+                    self.assertEqual(runs[0]["status"], "completed")
+                    source = storage.list_sources()[0]
+                    self.assertEqual(
+                        source["collection_mode"], "official_hook"
+                    )
+                    detail = storage.get_skill_run(
+                        runs[0]["skill_run_id"]
+                    )
+                    self.assertTrue(
+                        any(
+                            event["event_type"] == "instruction.loaded"
+                            for event in detail["events"]
+                        )
+                    )
+                    self.assertTrue(
+                        any(
+                            event["event_type"] == "tool.started"
+                            and event.get("context_only") == 0
+                            for event in detail["events"]
+                        )
+                    )
+                    self.assertTrue(
+                        any(
+                            event["event_type"] == "resource.executed"
+                            for event in detail["events"]
                         )
                     )
                 finally:

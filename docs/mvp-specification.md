@@ -50,6 +50,8 @@ No task prompt is required to open the UI. The home page lists all known runs.
 
 - Import historical local sessions.
 - Tail new local sessions when the format supports safe incremental reading.
+- Preserve each physical evidence stream even when multiple sources report the
+  same upstream session ID; correlate them without storage-side merging.
 - Preserve source adapter name and source format version.
 - Avoid ingesting credentials or unrelated files.
 - Tolerate incomplete sessions and partial writes.

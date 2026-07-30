@@ -2,6 +2,8 @@
 
 import hashlib
 import json
+import os
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -9,10 +11,43 @@ from typing import Any, Dict, List, Optional
 from .redaction import compact_text
 
 
-CODEX_HOOK_ADAPTER_VERSION = "0.1.0"
-CLAUDE_HOOK_ADAPTER_VERSION = "0.1.0"
-QODER_HOOK_ADAPTER_VERSION = "0.1.0"
-OPENCODE_PLUGIN_ADAPTER_VERSION = "0.1.0"
+CODEX_HOOK_ADAPTER_VERSION = "0.2.0"
+CLAUDE_HOOK_ADAPTER_VERSION = "0.2.0"
+QODER_HOOK_ADAPTER_VERSION = "0.2.0"
+OPENCODE_PLUGIN_ADAPTER_VERSION = "0.2.0"
+
+QUOTED_SKILL_PATH = re.compile(
+    r"""(?:
+        "((?:~?/|\./|\.\./|[A-Za-z0-9._-]+/)
+        [^\s"'`|;&<>\r\n]*?/SKILL\.md)"
+        |
+        '((?:~?/|\./|\.\./|[A-Za-z0-9._-]+/)
+        [^\s"'`|;&<>\r\n]*?/SKILL\.md)'
+        |
+        ((?:~?/|\./|\.\./|[A-Za-z0-9._-]+/)
+        [^\s"'`|;&<>\r\n]*?/SKILL\.md)
+    )""",
+    re.IGNORECASE | re.VERBOSE,
+)
+QUOTED_SKILL_RESOURCE_PATH = re.compile(
+    r"""(?:
+        "((?:~?/|\./|\.\./|[A-Za-z0-9._-]+/)
+        [^\s"'`|;&<>\r\n]*?skills/[^\s/"']+/
+        (?:references|scripts|assets)/[^\s"'`|;&<>\r\n]+)"
+        |
+        '((?:~?/|\./|\.\./|[A-Za-z0-9._-]+/)
+        [^\s"'`|;&<>\r\n]*?skills/[^\s/"']+/
+        (?:references|scripts|assets)/[^\s"'`|;&<>\r\n]+)'
+        |
+        ((?:~?/|\./|\.\./|[A-Za-z0-9._-]+/)
+        [^\s"'`|;&<>\r\n]*?skills/[^\s/"']+/
+        (?:references|scripts|assets)/[^\s"'`|;&<>\r\n]+)
+    )""",
+    re.IGNORECASE | re.VERBOSE,
+)
+PATCH_FILE_PATH = re.compile(
+    r"^\*\*\* (?:Add|Update|Delete) File:\s*(.+?)\s*$", re.MULTILINE
+)
 
 HOOK_EVENT_TYPES = {
     "SessionStart": "session.started",
@@ -89,6 +124,130 @@ def _tool_input(payload: Dict[str, Any]) -> Dict[str, Any]:
         "payload.input",
     )
     return value if isinstance(value, dict) else {}
+
+
+def _bounded_strings(value: Any, depth: int = 0) -> List[str]:
+    """Return bounded string leaves for in-memory path extraction only."""
+    if depth > 4:
+        return []
+    if isinstance(value, str):
+        return [value[:131072]]
+    if isinstance(value, dict):
+        result: List[str] = []
+        for index, item in enumerate(value.values()):
+            if index >= 64:
+                break
+            result.extend(_bounded_strings(item, depth + 1))
+        return result
+    if isinstance(value, list):
+        result = []
+        for item in value[:64]:
+            result.extend(_bounded_strings(item, depth + 1))
+        return result
+    return []
+
+
+def _skill_instruction_paths(payload: Dict[str, Any]) -> List[str]:
+    """Extract only exact Skill instruction paths and discard source strings.
+
+    A Bash command or tool payload can contain credentials or source content,
+    so the raw string is never copied into the normalized envelope. Only a
+    normalized path ending in a standard Skill ``SKILL.md`` location survives.
+    """
+    cwd = compact_text(_get(payload, "cwd", "workspace", "context.cwd"), 1000)
+    candidates = []
+    structured = _file_path(payload)
+    if structured:
+        candidates.append(structured)
+    for text in _bounded_strings(_tool_input(payload)):
+        for match in QUOTED_SKILL_PATH.finditer(text):
+            candidates.append(next(group for group in match.groups() if group))
+    result = []
+    seen = set()
+    for candidate in candidates:
+        cleaned = candidate.strip().rstrip(",:")
+        try:
+            expanded = Path(os.path.expanduser(cleaned))
+            if not expanded.is_absolute() and cwd:
+                expanded = Path(cwd) / expanded
+            normalized = str(expanded.resolve(strict=False))
+        except (OSError, RuntimeError, ValueError):
+            continue
+        if not _looks_like_skill_instruction(normalized):
+            continue
+        if normalized not in seen:
+            seen.add(normalized)
+            result.append(normalized)
+    return result[:16]
+
+
+def _normalize_path(candidate: str, cwd: str) -> str:
+    try:
+        expanded = Path(os.path.expanduser(candidate.strip().rstrip(",:")))
+        if not expanded.is_absolute() and cwd:
+            expanded = Path(cwd) / expanded
+        return str(expanded.resolve(strict=False))
+    except (OSError, RuntimeError, ValueError):
+        return ""
+
+
+def _skill_resource_identity(path: str) -> Optional[Dict[str, str]]:
+    parts = Path(path).parts
+    lower = [part.lower() for part in parts]
+    for index, part in enumerate(lower):
+        if part != "skills" or index + 3 >= len(parts):
+            continue
+        kind = lower[index + 2]
+        if kind not in {"references", "scripts", "assets"}:
+            continue
+        return {
+            "skill_name": parts[index + 1],
+            "kind": kind,
+            "path": path,
+        }
+    return None
+
+
+def _skill_resource_paths(payload: Dict[str, Any]) -> List[Dict[str, str]]:
+    """Extract exact standard Skill resource paths without retaining input."""
+    cwd = compact_text(_get(payload, "cwd", "workspace", "context.cwd"), 1000)
+    candidates = []
+    structured = _file_path(payload)
+    if structured:
+        candidates.append(structured)
+    for text in _bounded_strings(_tool_input(payload)):
+        for match in QUOTED_SKILL_RESOURCE_PATH.finditer(text):
+            candidates.append(next(group for group in match.groups() if group))
+    result = []
+    seen = set()
+    for candidate in candidates:
+        normalized = _normalize_path(candidate, cwd)
+        identity = _skill_resource_identity(normalized)
+        if not identity or normalized in seen:
+            continue
+        seen.add(normalized)
+        result.append(identity)
+    return result[:32]
+
+
+def _changed_file_paths(payload: Dict[str, Any], tool_name: str) -> List[str]:
+    """Extract only exact changed paths from structured inputs or patch headers."""
+    cwd = compact_text(_get(payload, "cwd", "workspace", "context.cwd"), 1000)
+    candidates = []
+    structured = _file_path(payload)
+    if structured:
+        candidates.append(structured)
+    if tool_name.lower() in {"applypatch", "apply_patch", "patch"}:
+        for text in _bounded_strings(_tool_input(payload)):
+            candidates.extend(PATCH_FILE_PATH.findall(text))
+    result = []
+    seen = set()
+    for candidate in candidates:
+        normalized = _normalize_path(candidate, cwd)
+        if normalized and normalized not in seen:
+            seen.add(normalized)
+            result.append(normalized)
+    return result[:64]
 
 
 def _skill_name(payload: Dict[str, Any], tool_name: str) -> str:
@@ -259,6 +418,8 @@ def build_agent_hook_envelopes(
     skill_name = _skill_name(payload, tool_name) or _direct_slash_skill(
         payload, hook_event
     )
+    instruction_paths = _skill_instruction_paths(payload)
+    skill_resources = _skill_resource_paths(payload)
     instruction_path = _file_path(payload) if hook_event == "InstructionsLoaded" else ""
     if not skill_name and _looks_like_skill_instruction(instruction_path):
         skill_name = Path(instruction_path).parent.name
@@ -360,32 +521,153 @@ def build_agent_hook_envelopes(
         )
 
     envelopes = [envelope]
+    if hook_event == "PostToolUse":
+        for path in instruction_paths:
+            instruction_source_id = _stable_id(
+                "hook_", source_event_id, "instruction.loaded", path
+            )
+            envelopes.append(
+                {
+                    **envelope,
+                    "event_id": _stable_id(
+                        "evt_",
+                        f"{agent}-hook",
+                        instruction_source_id,
+                        "instruction.loaded",
+                    ),
+                    "event_type": "instruction.loaded",
+                    "parent_event_id": event_id,
+                    "source": {
+                        **envelope["source"],
+                        "source_event_id": instruction_source_id,
+                        "record_locator": (
+                            f"{agent}-hook:{hook_event}:{instruction_source_id}"
+                        ),
+                    },
+                    "evidence": {
+                        "grade": "derived",
+                        "confidence": 1.0,
+                        "basis": (
+                            "Exact SKILL.md path extracted from a successful "
+                            f"{tool_name or 'tool'} official hook; raw input omitted"
+                        ),
+                    },
+                    "skill": {
+                        "name": Path(path).parent.name,
+                        "source_path": path,
+                    },
+                    "activation_mode": "instruction_access",
+                    "payload": {
+                        "hook_event": hook_event,
+                        "tool_name": tool_name,
+                        "call_id": call_id,
+                        "file_path": path,
+                        "resource_kind": "skill_body",
+                    },
+                    "summary": (
+                        f"Skill `{Path(path).parent.name}` instruction accessed"
+                    ),
+                    "status": "completed",
+                }
+            )
+        for resource in skill_resources:
+            resource_event_type = (
+                "resource.executed"
+                if resource["kind"] == "scripts"
+                and tool_name.lower() in {"bash", "shell", "exec", "execute"}
+                else "resource.read"
+            )
+            resource_source_id = _stable_id(
+                "hook_", source_event_id, resource_event_type, resource["path"]
+            )
+            envelopes.append(
+                {
+                    **envelope,
+                    "event_id": _stable_id(
+                        "evt_",
+                        f"{agent}-hook",
+                        resource_source_id,
+                        resource_event_type,
+                    ),
+                    "event_type": resource_event_type,
+                    "parent_event_id": event_id,
+                    "source": {
+                        **envelope["source"],
+                        "source_event_id": resource_source_id,
+                        "record_locator": (
+                            f"{agent}-hook:{hook_event}:{resource_source_id}"
+                        ),
+                    },
+                    "evidence": {
+                        "grade": "derived",
+                        "confidence": 1.0,
+                        "basis": (
+                            "Exact standard Skill resource path extracted from "
+                            f"a successful {tool_name or 'tool'} official hook; "
+                            "raw input omitted"
+                        ),
+                    },
+                    "skill": {
+                        "name": resource["skill_name"],
+                    },
+                    "activation_mode": "resource_access",
+                    "payload": {
+                        "hook_event": hook_event,
+                        "tool_name": tool_name,
+                        "call_id": call_id,
+                        "file_path": resource["path"],
+                        "resource_kind": resource["kind"],
+                    },
+                    "summary": (
+                        f"Skill `{resource['skill_name']}` "
+                        f"{resource_event_type.split('.')[-1]} "
+                        f"{resource['kind']} resource"
+                    ),
+                    "status": "completed",
+                }
+            )
     file_event_type = _file_event_type(payload, hook_event)
-    file_path = _file_path(payload)
-    if file_event_type and file_path and hook_event == "PostToolUse":
-        file_grade = "derived"
-        file_event = {
-            **envelope,
-            "event_id": _stable_id(
-                "evt_", f"{agent}-hook", source_event_id, file_event_type, file_path
-            ),
-            "event_type": file_event_type,
-            "parent_event_id": event_id,
-            "evidence": {
-                "grade": file_grade,
-                "confidence": 1.0,
-                "basis": f"Exact path from successful {tool_name} official hook",
-            },
-            "payload": {
-                "hook_event": hook_event,
-                "tool_name": tool_name,
-                "call_id": call_id,
-                "file_path": file_path,
-            },
-            "summary": f"{file_event_type}: {file_path}",
-            "status": "observed",
-        }
-        envelopes.append(file_event)
+    changed_paths = _changed_file_paths(payload, tool_name)
+    if file_event_type and changed_paths and hook_event == "PostToolUse":
+        for file_path in changed_paths:
+            file_source_id = _stable_id(
+                "hook_", source_event_id, file_event_type, file_path
+            )
+            file_event = {
+                **envelope,
+                "event_id": _stable_id(
+                    "evt_",
+                    f"{agent}-hook",
+                    file_source_id,
+                    file_event_type,
+                ),
+                "event_type": file_event_type,
+                "parent_event_id": event_id,
+                "source": {
+                    **envelope["source"],
+                    "source_event_id": file_source_id,
+                    "record_locator": (
+                        f"{agent}-hook:{hook_event}:{file_source_id}"
+                    ),
+                },
+                "evidence": {
+                    "grade": "derived",
+                    "confidence": 1.0,
+                    "basis": (
+                        f"Exact changed path from successful {tool_name} "
+                        "official hook; file content omitted"
+                    ),
+                },
+                "payload": {
+                    "hook_event": hook_event,
+                    "tool_name": tool_name,
+                    "call_id": call_id,
+                    "file_path": file_path,
+                },
+                "summary": f"{file_event_type}: {file_path}",
+                "status": "observed",
+            }
+            envelopes.append(file_event)
     return envelopes
 
 

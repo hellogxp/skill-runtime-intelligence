@@ -234,16 +234,24 @@ class HookBridge:
                     active = self._active_skills.get(active_key)
                     if active:
                         for envelope in envelopes:
-                            if not envelope.get("skill"):
+                            envelope_skill = envelope.get("skill")
+                            same_skill = (
+                                not envelope_skill
+                                or envelope_skill.get("name")
+                                == active["skill"].get("name")
+                            )
+                            if same_skill:
                                 envelope["skill"] = dict(active["skill"])
                                 envelope["skill_run_id"] = active["skill_run_id"]
                                 envelope["activation_mode"] = active["activation_mode"]
                     bundles = normalize_collector_payload(envelopes)
                     for bundle in bundles:
-                        if (
-                            bundle.get("event", {}).get("event_type")
-                            == "skill.activated"
-                        ):
+                        if bundle.get("event", {}).get("event_type") in {
+                            "skill.activated",
+                            "instruction.loaded",
+                            "resource.read",
+                            "resource.executed",
+                        }:
                             run = bundle.get("skill_run")
                             skill = bundle.get("skill")
                             if run and skill:

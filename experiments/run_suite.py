@@ -22,6 +22,10 @@ LOCAL_EXPERIMENTS = (
     ("E2-transport", "hook_transport/run_benchmark.py"),
     ("E3", "diagnostic_usefulness/prepare_study.py"),
     ("E4", "cross_agent/run_benchmark.py"),
+    (
+        "E4-source-contract",
+        "cross_agent/source_instance_contract_benchmark.py",
+    ),
     ("E5", "semantic_diagnosis/run_benchmark.py"),
 )
 

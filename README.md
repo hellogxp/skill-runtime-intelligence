@@ -50,7 +50,8 @@ python3 -m venv .venv
 ```
 
 Open [http://127.0.0.1:4317](http://127.0.0.1:4317). For Codex, review and
-trust the managed commands in `/hooks`, start one new Agent turn, then verify:
+trust the managed commands in `/hooks`, then start a new Codex task/session
+(already-open tasks do not hot-load newly installed Hooks) and verify:
 
 ```bash
 skill-runtime doctor
@@ -178,8 +179,8 @@ When run interactively, it asks once before adding fail-open Agent hooks.
 `--enable-hooks` records explicit consent and installs only managed entries.
 For Codex, open `/hooks` after installation, review the exact managed commands,
 and trust them. Codex intentionally requires this explicit review for hooks
-added outside managed enterprise configuration. Start a new Agent turn, then
-run:
+added outside managed enterprise configuration. Start a new Codex task/session
+after trusting the Hooks, then run:
 
 ```bash
 .venv/bin/skill-runtime doctor
@@ -310,6 +311,9 @@ Hook installation requires an explicit flag:
 The installer backs up the Agent configuration, preserves existing hooks, and
 adds only entries carrying a Skill Runtime management marker. The hook adapter
 stores minimal lifecycle fields rather than full prompts or tool payloads.
+For completed tool calls it extracts only exact `SKILL.md`, standard Skill
+resource, and changed-file paths in memory; raw commands, patch bodies, prompts,
+and tool outputs are discarded before persistence.
 While the runtime is active, a permission-restricted Unix socket is the fast
 path; an optional native sender avoids Python startup. When the runtime is not
 active, the standalone fail-open path appends redacted evidence to

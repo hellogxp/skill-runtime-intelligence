@@ -12,6 +12,7 @@ from skill_runtime_intelligence import runtime_manager
 from skill_runtime_intelligence.config import default_config, save_config
 from skill_runtime_intelligence.runtime_manager import (
     RUNTIME_STATE_VERSION,
+    restart_runtime,
     runtime_status,
     start_runtime,
     stop_runtime,
@@ -101,6 +102,72 @@ class RuntimeLifecycleTests(unittest.TestCase):
             return_value="/usr/bin/sleep 60",
         ):
             self.assertFalse(runtime_manager._managed_process(record))
+
+    def test_status_recognizes_product_health_without_claiming_process_ownership(self):
+        with mock.patch.object(
+            runtime_manager, "_read_record", return_value={}
+        ), mock.patch.object(
+            runtime_manager,
+            "fetch_health",
+            return_value={
+                "ok": True,
+                "product": "skill-runtime-intelligence",
+                "version": "0.1.5",
+            },
+        ):
+            status = runtime_status(port=4317)
+        self.assertTrue(status["running"])
+        self.assertTrue(status["collector_healthy"])
+        self.assertFalse(status["managed"])
+        self.assertEqual(status["management_mode"], "external")
+        self.assertIsNone(status["pid"])
+
+    def test_status_never_claims_an_unidentified_service(self):
+        with mock.patch.object(
+            runtime_manager, "_read_record", return_value={}
+        ), mock.patch.object(
+            runtime_manager,
+            "fetch_health",
+            return_value={"ok": True},
+        ):
+            status = runtime_status(port=4317)
+        self.assertFalse(status["running"])
+        self.assertEqual(status["management_mode"], "none")
+
+    def test_restart_preserves_the_verified_managed_command(self):
+        command = [
+            "/tmp/skill-runtime.pyz",
+            "start",
+            "--foreground",
+            "--database",
+            "/tmp/custom.db",
+            "--project",
+            "/tmp/custom-project",
+        ]
+        record = {
+            "version": RUNTIME_STATE_VERSION,
+            "pid": 123,
+            "marker": "skill-runtime-intelligence",
+            "command": command,
+            "host": "127.0.0.1",
+            "port": 4777,
+        }
+        with mock.patch.object(
+            runtime_manager, "_read_record", return_value=record
+        ), mock.patch.object(
+            runtime_manager, "_managed_process", return_value=True
+        ), mock.patch.object(
+            runtime_manager, "stop_runtime"
+        ) as stop, mock.patch.object(
+            runtime_manager,
+            "start_runtime",
+            return_value={"running": True},
+        ) as start:
+            result = restart_runtime(port=4317)
+        self.assertTrue(result["running"])
+        stop.assert_called_once_with(None, "127.0.0.1", 4777)
+        self.assertEqual(start.call_args.args[0], command)
+        self.assertEqual(start.call_args.kwargs["port"], 4777)
 
     def test_module_runtime_accepts_interpreter_alias_but_not_argument_drift(self):
         record = {

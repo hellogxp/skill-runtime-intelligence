@@ -1075,7 +1075,11 @@ class Storage:
                     None,
                     event["event_id"],
                     "skill_scope",
-                    "observed" if direct_skill_evidence else "derived",
+                    (
+                        event.get("evidence_grade", "derived")
+                        if direct_skill_evidence
+                        else "derived"
+                    ),
                     1.0,
                     (
                         "Event directly names or accesses the Skill"
