@@ -7,6 +7,8 @@
 [Polski](README.pl.md) · [Čeština](README.cs.md) · **Magyar**
 <!-- locale-switcher:end -->
 
+[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml)[![Release](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-intelligencia/kiadások/legújabb)[![Engedély](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)](ENGEDÉLY)[![Piton](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
+
 
 > Diagnosztizálja, hol tért el először egy ügynöki készség – és nézze meg a bizonyítékokat
 > minden következtetés mögött.
@@ -17,11 +19,15 @@ Agent Skill Runtime Intelligenceegy csak olvasható futásidejű bizonyíték- �
 
 ## Gyors kezdés
 
-Telepítse a legújabb önálló kiadást macOS vagy Linux rendszerre:
+Telepítse a legújabb önálló kiadást macOS vagy Linux rendszeren:
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
+
+Nincs klón,GitHub fiók,`sudo`, vagyGitHub CLI szükséges. A telepítő letölti a megfelelő aláírt kiadás hasznos adatot, ellenőrzi az SHA-256 ellenőrző összegeket, egyszer rákérdez, mielőtt engedélyezi a hibamentes ügynök hook-okat, és az összes futásidejű adatot a következő helyen tárolja.`~/.skill-runtime`. Ezután elindítja a helyi futási környezetet, és megnyílik[http://127.0.0.1:4317](http://127.0.0.1:4317).
+
+Megteheti[ellenőrizze a telepítőt](scripts/install.sh)futtatása előtt.
 
 Vagy futtassa közvetlenül a forráspénztárból:
 
@@ -35,7 +41,7 @@ python3 -m venv .venv
 Nyitott[http://127.0.0.1:4317](http://127.0.0.1:4317). MertCodex, tekintse át és bízza meg a kezelt parancsokat`/hooks`, kezdjen egy új ügynöki kört, majd ellenőrizze:
 
 ```bash
-.venv/bin/skill-runtime doctor
+skill-runtime doctor
 ```
 
 Az integráció csak akkor válik **ellenőrzötté**, ha valódi hivatalos horog esemény érkezik. A beállított horog **Függőben**ként jelenik meg, soha nem élő bizonyítékként.
@@ -117,7 +123,7 @@ Egyetlen nyomkövetés támogathatja a végrehajtási hozzárendelést. Az ok-ok
 
 ## Kezdeti hatály
 
-Az MVP támogatjaClaude CodeésCodexés biztosítja:
+A futásidejű támogatjaCodex,Claude Code,Qoder, ésOpenCodefüggetlen, verziószámú adaptereken keresztül, és a következőket kínálja:
 
 - telepített készségfelderítés és érvényesítés;
 - munkamenet importálás és élő helyi megfigyelés, ahol támogatott;
@@ -144,7 +150,7 @@ Ezután nyissa meg[http://127.0.0.1:4317](http://127.0.0.1:4317).
 Az egyszeri`install`parancs:
 
 1. átvizsgálja a felhasználók, a projektek és a gyorsítótárazott beépülő modulok képzettségi helyeit;
-2. észleliCodexésClaude Codekonfigurációjuk megváltoztatása nélkül;
+2. észleliCodex,Claude Code,Qoder, ésOpenCodekonfigurációjuk megváltoztatása nélkül;
 3. megmutatja, hogy mely ügynök és szakértelem útvonalak kerülnek beolvasásra;
 4. letölt egy ellenőrzőösszeggel ellenőrzött alacsony indítású natív küldőt az aktuális platformhoz, visszatérve egy helyi C buildre, és végül aPythonküldőt, és a telepítés során egyszer előmelegít egy friss natív bináris fájlt;
 5. létrehozza`~/.skill-runtime/config.json`és a helyiSQLiteindex.
@@ -154,6 +160,8 @@ Interaktív futtatáskor egyszer megkérdezi, mielőtt felveszi a feladatmegnyit
 ```bash
 .venv/bin/skill-runtime doctor
 ```
+
+Qoderindításkor betölti a Hook konfigurációt, ezért indítsa újraQoderaz első telepítés után.OpenCodefelfedezi a felügyelt, csak megfigyelésre alkalmas beépülő modult a globális beépülő modulok könyvtárából; indítsa újraOpenCodeha az aktuális folyamat megelőzi a telepítést. Egyik integráció sem olvassa be vagy módosítja a modellkéréseket.
 
 Az integráció csak akkor válik **Élő**-vé, ha az adatbázis valódi értéket kap`official_hook`esemény. Pusztán írás`~/.codex/hooks.json`**Függőben**ként jelenik meg, soha nincs csatlakoztatva.`start`elindítja a Collectort, az átiratok tartalékfigyelőjét, a megőrzési dolgozót,SQLitetárolni, és élniUImenedzselt háttérfolyamatként. Nincs modellkérelem proxy.
 
@@ -321,9 +329,9 @@ A kutatási irány a szomszédos elsődleges munkákra is épül:[SkillsBench](h
 ## Útiterv
 
 1. **v0.1 – Futásidejű bizonyítékok és diagnózis:** élő adatgyűjtés,Skill Run Panorama, első határdiagnózis, bizonyítékok vizsgálata, összehasonlítása és OTLP interoperabilitás.
-2. **v0.2 – Adapterszélesség- és diagnosztikai vizsgálatok:** további ágensek, valódi ágensek közötti kísérletek és résztvevők értékelése.
+2. **v0.2 – Adapter keményedési és diagnosztikai vizsgálatok:** további Agent verziók, valódi cross-Agent kísérletek és résztvevők értékelése.
 3. **v0.3 – Hatásértékelés:** Ellenőrzött, készség/készség nélkül párosított értékeléssel, elkülönítve az egyszeri diagnosztikától.
 
 ## Projekt állapota
 
-ASkillRun-az első futási környezet futtatható: telepített definíciós leltár,Codexátírási tartalék, beleegyezés-vezéreltCodexésClaude Codehivatalos horog adapterek, aktív hatókörű hozzárendelés, pontos fájl/műtermék elérési út, szerkesztés, külön forrás/kapcsolat/következtetési rétegek,SQLitetárolás, megőrzés, keresztfutás és ügynökök közötti összehasonlítás, determinisztikus diagnózis és az élő panorámaUI. OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, ésDatadogaz export importálható; A normalizált bizonyítékok élőben exportálhatók a részvétellelOTLP/HTTP. A jelenlegi reprodukálható csomag hét áthaladó kísérleti kapuval rendelkezik. A jelöltek felfedezése, a modell-belső kiválasztási okok, a szemantikai hatékonyság és az ok-okozati eredménnyel kapcsolatos állítások továbbra sem támogatottak.
+ASkillRun-az első futási környezet futtatható: telepített definíciós leltár,Codexátirat tartalék, beleegyezés-vezérelt hivatalos Hook adapterekCodex,Claude Code, ésQoder, csak megfigyelésOpenCodeplugin adapter, aktív hatókörű hozzárendelés, pontos fájl/műtermék elérési út, szerkesztés, külön forrás/kapcsolat/következtetési rétegek,SQLitetárolás, megőrzés, keresztfutás és ügynökök közötti összehasonlítás, determinisztikus diagnózis és az élő panorámaUI. OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, ésDatadogaz export importálható; A normalizált bizonyítékok élőben exportálhatók a részvétellelOTLP/HTTP. A jelöltek felfedezése, a modell-belső kiválasztási okok, a szemantikai hatékonyság és az ok-okozati eredménnyel kapcsolatos állítások továbbra sem támogatottak.

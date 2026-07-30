@@ -7,6 +7,8 @@
 [Polski](README.pl.md) · [Čeština](README.cs.md) · [Magyar](README.hu.md)
 <!-- locale-switcher:end -->
 
+[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-zeka/eylemler/iş akışları/ci.yml)[![Serbest bırakmak](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-istihbarat/yayınlar/en son)[![Lisans](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)](LİSANS)[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
+
 
 > Bir Ajan Beceri çalışmasının ilk olarak nerede saptığını teşhis edin ve kanıtları inceleyin
 > her sonucun arkasında.
@@ -17,11 +19,15 @@ Agent Skill Runtime IntelligenceAgent Skills için salt okunur bir çalışma za
 
 ## Hızlı başlangıç
 
-macOS veya Linux için en son bağımsız sürümü yükleyin:
+En son bağımsız sürümü macOS veya Linux'a yükleyin:
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
+
+Klon yokGitMerkez hesabı,`sudo`, veyaGitHub CLI gereklidir. Yükleyici, eşleşen imzalı yayın yükünü indirir, SHA-256 sağlama toplamlarını doğrular, arıza durumunda açılan Agent kancalarını etkinleştirmeden önce bir kez sorar ve tüm çalışma zamanı verilerini altında saklar.`~/.skill-runtime`. Daha sonra yerel çalışma zamanını başlatır ve açılır[http://127.0.0.1:4317](http://127.0.0.1:4317).
+
+Yapabilirsiniz[yükleyiciyi inceleyin](scripts/install.sh)çalıştırmadan önce.
 
 Veya doğrudan kaynak ödemesinden çalıştırın:
 
@@ -35,7 +41,7 @@ python3 -m venv .venv
 Açık[http://127.0.0.1:4317](http://127.0.0.1:4317). İçinCodex, yönetilen komutları inceleyin ve güvenin`/hooks`, yeni bir Temsilci turu başlatın ve ardından şunları doğrulayın:
 
 ```bash
-.venv/bin/skill-runtime doctor
+skill-runtime doctor
 ```
 
 Entegrasyon, yalnızca gerçek bir resmi kanca etkinliği alındıktan sonra **Doğrulanmış** olur. Yapılandırılmış bir kanca **Beklemede** olarak gösterilir, hiçbir zaman canlı kanıt olarak gösterilmez.
@@ -117,7 +123,7 @@ Tek bir izleme, yürütme ilişkilendirmesini destekleyebilir. Nedensel etkilili
 
 ## Başlangıç ​​kapsamı
 
-MVP destekliyorClaude CodeVeCodexve şunları sağlar:
+Çalışma zamanı desteklerCodex,Claude Code,Qoder, VeOpenCodebağımsız, versiyonlu adaptörler aracılığıyla şunları sağlar:
 
 - yüklü Beceri keşfi ve doğrulaması;
 - desteklendiğinde oturumu içe aktarma ve canlı yerel gözlem;
@@ -144,7 +150,7 @@ Sonra aç[http://127.0.0.1:4317](http://127.0.0.1:4317).
 Tek seferlik`install`emretmek:
 
 1. kullanıcı, proje ve önbelleğe alınmış eklenti Beceri konumlarını tarar;
-2. tespit ederCodexVeClaude Codekonfigürasyonlarını değiştirmeden;
+2. tespit ederCodex,Claude Code,Qoder, VeOpenCodekonfigürasyonlarını değiştirmeden;
 3. hangi Aracı ve Beceri yollarının okunacağını gösterir;
 4. mevcut platform için sağlama toplamı doğrulanmış düşük başlangıçlı yerel göndericiyi indirir, yerel bir C yapısına geri döner ve son olarakPythongönderen ve kurulum sırasında yeni bir yerel ikili dosyayı önceden ısıtır;
 5. yaratır`~/.skill-runtime/config.json`ve yerelSQLiteindeks.
@@ -154,6 +160,8 @@ Etkileşimli olarak çalıştırıldığında, arıza durumunda açılan Ajan ka
 ```bash
 .venv/bin/skill-runtime doctor
 ```
+
+QoderHook yapılandırmasını başlangıçta yükler, bu nedenle yeniden başlatınQoderilk kurulumdan sonra.OpenCodediscovers the managed observation-only plugin from its global plugin directory; tekrar başlatOpenCodegeçerli işlem kurulumdan önceyse. Neither integration reads or changes model requests.
 
 Entegrasyon yalnızca veritabanı gerçek bir bildirim aldıktan sonra **Canlı** hale gelir`official_hook`etkinlik. Sadece yazmak`~/.codex/hooks.json`**Beklemede** olarak gösterilir, hiçbir zaman Bağlanmadı.`start`Toplayıcıyı, transkript geri dönüş izleyicisini, saklama çalışanını başlattı,SQLitedepola ve yaşaUIyönetilen bir arka plan süreci olarak. Hiçbir model isteği proxy'ye aktarılmaz.
 
@@ -321,9 +329,9 @@ Araştırmanın yönü aynı zamanda bitişikteki birincil çalışmaya da dayan
 ## Yol Haritası
 
 1. **v0.1 — Çalışma zamanı kanıtı ve teşhisi:** canlı toplama,Skill Run Panorama, ilk sınır tanısı, kanıt incelemesi, karşılaştırma ve OTLP birlikte çalışabilirliği.
-2. **v0.2 — Adaptör kapsamı ve teşhis çalışmaları:** ek Aracılar, gerçek Aracılar arası deneyler ve katılımcı değerlendirmesi.
+2. **v0.2 — Bağdaştırıcı sağlamlaştırma ve teşhis çalışmaları:** ek Agent sürümleri, gerçek Aracılar arası deneyler ve katılımcı değerlendirmesi.
 3. **v0.3 — Etki değerlendirmesi:** Beceri ile/Beceri olmadan eşleştirilmiş değerlendirme ile kontrol edilir, tek seferlik teşhisten ayrı tutulur.
 
 ## Proje durumu
 
-ASkillRun-ilk çalışma zamanı çalıştırılabilir: yüklü tanımlı envanter,Codextranskript geri dönüşü, izin odaklıCodexVeClaude Coderesmi kanca bağdaştırıcıları, aktif kapsam ilişkilendirmesi, tam dosya/yapı yolları, redaksiyon, ayrı kaynak/ilişki/çıkarım katmanları,SQLitedepolama, saklama, çapraz çalıştırma ve aracılar arası karşılaştırma, deterministik teşhis ve canlı PanoramaUI. OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, VeDatadogihracat ithal edilebilir; normalleştirilmiş kanıtlar, katılım yoluyla canlı olarak dışarı aktarılabilirOTLP/HTTP. Mevcut tekrarlanabilir paketin yedi adet geçiş deney kapısı vardır. Aday keşfi, model-iç seçim nedenleri, anlamsal etkililik ve nedensel sonuç iddiaları açıkça desteklenmemektedir.
+ASkillRun-ilk çalışma zamanı çalıştırılabilir: yüklü tanımlı envanter,Codextranskript geri dönüşü, izin odaklı resmi Hook bağdaştırıcılarıCodex,Claude Code, VeQoder, yalnızca gözlem amaçlıOpenCodeeklenti bağdaştırıcısı, aktif kapsam ilişkilendirmesi, tam dosya/yapı yolları, redaksiyon, ayrı kaynak/ilişki/çıkarım katmanları,SQLitedepolama, saklama, çapraz çalıştırma ve aracılar arası karşılaştırma, deterministik teşhis ve canlı PanoramaUI. OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, VeDatadogihracat ithal edilebilir; normalleştirilmiş kanıtlar, katılım yoluyla canlı olarak dışarı aktarılabilirOTLP/HTTP. Aday keşfi, model-iç seçim nedenleri, anlamsal etkililik ve nedensel sonuç iddiaları açıkça desteklenmemektedir.

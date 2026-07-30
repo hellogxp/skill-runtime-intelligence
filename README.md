@@ -136,7 +136,8 @@ A single trace can support execution attribution. It cannot prove causal effecti
 
 ## Initial scope
 
-The MVP supports Claude Code and Codex and provides:
+The runtime supports Codex, Claude Code, Qoder, and OpenCode through
+independent, versioned adapters and provides:
 
 - installed Skill discovery and validation;
 - session import and live local observation where supported;
@@ -164,7 +165,8 @@ Then open [http://127.0.0.1:4317](http://127.0.0.1:4317).
 The one-time `install` command:
 
 1. scans user, project, and cached-plugin Skill locations;
-2. detects Codex and Claude Code without changing their configuration;
+2. detects Codex, Claude Code, Qoder, and OpenCode without changing their
+   configuration;
 3. shows which Agent and Skill paths will be read;
 4. downloads a checksum-verified low-startup native sender for the current
    platform, falling back to a local C build and finally the Python sender,
@@ -182,6 +184,11 @@ run:
 ```bash
 .venv/bin/skill-runtime doctor
 ```
+
+Qoder loads Hook configuration at startup, so restart Qoder after first
+installation. OpenCode discovers the managed observation-only plugin from its
+global plugin directory; restart OpenCode if the current process predates
+installation. Neither integration reads or changes model requests.
 
 The integration becomes **Live** only after the database receives a real
 `official_hook` event. Merely writing `~/.codex/hooks.json` is shown as
@@ -414,20 +421,20 @@ evidence relations, trace provenance, and privacy-aware audit infrastructure.
 1. **v0.1 — Runtime evidence and diagnosis:** live collection, Skill Run
    Panorama, first-boundary diagnosis, evidence inspection, comparison, and
    OTLP interoperability.
-2. **v0.2 — Adapter breadth and diagnosis studies:** additional Agents, real
-   cross-Agent experiments, and participant evaluation.
+2. **v0.2 — Adapter hardening and diagnosis studies:** additional Agent
+   versions, real cross-Agent experiments, and participant evaluation.
 3. **v0.3 — Effect evaluation:** controlled with-Skill/without-Skill paired
    evaluation, kept separate from single-run diagnosis.
 
 ## Project status
 
 A SkillRun-first runtime is runnable: installed-definition inventory, Codex
-transcript fallback, consent-driven Codex and Claude Code official-hook
-adapters, active-scope attribution, exact file/artifact paths, redaction,
-separate source/relationship/inference layers, SQLite storage, retention,
-cross-run and cross-Agent comparison, deterministic diagnosis, and the live
-Panorama UI. OTLP/Phoenix, Langfuse, LangSmith, W&B Weave, and Datadog exports
-can be imported; normalized evidence can be exported live through opt-in
-OTLP/HTTP. The current reproducible suite has seven passing experiment gates.
+transcript fallback, consent-driven official Hook adapters for Codex, Claude
+Code, and Qoder, an observation-only OpenCode plugin adapter, active-scope
+attribution, exact file/artifact paths, redaction, separate
+source/relationship/inference layers, SQLite storage, retention, cross-run and
+cross-Agent comparison, deterministic diagnosis, and the live Panorama UI.
+OTLP/Phoenix, Langfuse, LangSmith, W&B Weave, and Datadog exports can be
+imported; normalized evidence can be exported live through opt-in OTLP/HTTP.
 Candidate discovery, model-internal selection reasons, semantic effectiveness,
 and causal outcome claims remain explicitly unsupported.

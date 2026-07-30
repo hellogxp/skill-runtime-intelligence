@@ -60,7 +60,8 @@ PYTHONPATH=src python3 \
 ```
 
 The middle snapshot selects runs using all-observed, terminal-status,
-event-watermark, and observed-quiescence policies. The third snapshot measures
+event-watermark, observed-quiescence, terminal-plus-watermark, and
+terminal-plus-watermark-plus-quiescence policies. The third snapshot measures
 which selected private run fingerprints changed. Only aggregate counts and
 rates are emitted. This is an observational pilot: a stable fingerprint does
 not prove source completeness, and one time series cannot establish a causal
@@ -77,3 +78,74 @@ PYTHONPATH=src python3 \
 The summary reports pooled counts plus across-trial means and ranges. Pooled
 run observations are not treated as independent participants, and the output
 does not estimate a causal policy effect.
+
+Group repeated pilot reports into an observational wait curve:
+
+```bash
+PYTHONPATH=src python3 \
+  experiments/real_corpus_audit/summarize_cut_policy_curve.py \
+  --inputs experiments/real_corpus_audit/results/dataset-cut-policy-*.json
+```
+
+Each wait condition must have at least two trials. Conditions are run
+sequentially rather than randomized, so ambient ingestion load is a covariate
+and the curve must not be presented as a causal waiting-time effect.
+
+Audit whether the live schema exposes an actual collection checkpoint:
+
+```bash
+PYTHONPATH=src python3 \
+  experiments/real_corpus_audit/epoch_capability_audit.py \
+  --database .sri/panorama.db
+```
+
+The audit emits only schema and runtime-state category counts. It does not
+export raw state keys, source paths, endpoints, session identifiers, or row
+records. A global revision counter is scored separately from an epoch
+identifier, running/completed state, source watermark, and late-arrival
+counter.
+
+Run the isolated collection-epoch mechanism experiment:
+
+```bash
+PYTHONPATH=src python3 \
+  experiments/real_corpus_audit/collection_epoch_benchmark.py \
+  --paired-trials 8 \
+  --failure-trials 4
+```
+
+The experiment pairs a controlled late source mutation with an unchanged
+control, injects a newly created source inside the epoch, observes epoch state
+during parsing and after completion, and separately exercises the failed
+transition. It uses temporary databases and a synthetic adapter. Passing
+validates mechanism behavior only; it does not prove live watcher deployment,
+source completeness, or a natural late-arrival rate.
+
+Exercise epochs through the production Codex adapter and watch loop:
+
+```bash
+PYTHONPATH=src python3 \
+  experiments/real_corpus_audit/codex_watch_epoch_benchmark.py \
+  --trials 3
+```
+
+Each isolated trial creates a transcript, appends its completion records, and
+then removes the source. The experiment checks epoch advancement, exact
+removed-source accounting, historical session retention, and watcher-process
+cleanup. The transcripts are synthetic, so the result validates the
+production adapter/watch mechanism but is not a live-Agent replication or a
+field failure-rate estimate.
+
+Audit mixed transcript and official-hook provenance:
+
+```bash
+PYTHONPATH=src python3 \
+  experiments/real_corpus_audit/mixed_provenance_benchmark.py \
+  --trials 8
+```
+
+The experiment refreshes a transcript after appending a correlated
+official-hook event. It scores hook evidence preservation, correlation-group
+preservation, and availability of cross-source relationship edges separately.
+An overall failed gate can therefore mean evidence is safely retained but a
+merged relationship view is still absent.

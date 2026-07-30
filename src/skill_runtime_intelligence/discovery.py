@@ -41,8 +41,20 @@ def _source_kind(path: Path) -> str:
     parts = set(path.parts)
     if "plugins" in parts or "cache" in parts:
         return "plugin"
-    if ".codex" in parts or ".agents" in parts:
-        return "user"
+    try:
+        resolved = path.resolve()
+        home = Path.home().resolve()
+        user_roots = (
+            home / ".codex" / "skills",
+            home / ".claude" / "skills",
+            home / ".qoder" / "skills",
+            home / ".config" / "opencode" / "skills",
+            home / ".agents" / "skills",
+        )
+        if any(resolved.is_relative_to(root) for root in user_roots):
+            return "user"
+    except OSError:
+        pass
     return "project"
 
 
@@ -145,8 +157,19 @@ def default_skill_roots(project: Optional[Path] = None) -> List[Path]:
     roots = [
         home / ".codex" / "skills",
         home / ".codex" / "plugins" / "cache",
+        home / ".claude" / "skills",
+        home / ".qoder" / "skills",
+        home / ".config" / "opencode" / "skills",
         home / ".agents" / "skills",
     ]
     if project:
-        roots.extend([project / ".codex" / "skills", project / ".agents" / "skills"])
+        roots.extend(
+            [
+                project / ".codex" / "skills",
+                project / ".claude" / "skills",
+                project / ".qoder" / "skills",
+                project / ".opencode" / "skills",
+                project / ".agents" / "skills",
+            ]
+        )
     return roots

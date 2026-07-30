@@ -118,3 +118,74 @@ Claude hooks are configured with the Agent's asynchronous flag as well as
 fail-open collection. No Claude binary or commercial Agent is required to run
 the local fixture evaluation; real cross-Agent claims remain pending until an
 authenticated second Agent corpus is available.
+
+## Qoder hook adapter
+
+Adapter version: `0.1.0`
+
+Collection mode: `official_hook`
+
+Qoder is integrated through its documented
+[command Hook interface](https://docs.qoder.com/extensions/hooks).
+Installation is opt-in and additive: existing groups in
+`~/.qoder/settings.json` are preserved, a timestamped backup is created, and
+only entries carrying the Skill Runtime management marker are removed on
+uninstall.
+
+| Hook signal | Normalized evidence | Limits |
+|---|---|---|
+| `UserPromptSubmit` / `Stop` | Turn boundary | Prompt and response content omitted |
+| `PreToolUse` / `PostToolUse` | Tool start/completion | Inputs are minimized before persistence |
+| `PostToolUseFailure` | Tool failure | Redacted, capped error summary only |
+| `Skill` at `PreToolUse` | Explicit `skill.activated` event | Depends on Qoder exposing the Skill as a tool |
+
+Qoder command Hooks are synchronous at the Agent boundary, so every generated
+command is fail-open (`|| true`) and uses the bounded native sender. A sender or
+Collector failure therefore loses or queues telemetry rather than delaying or
+denying the Agent action. Qoder must be restarted after the configuration is
+installed.
+
+The adapter does not claim candidate discovery, model-internal selection
+reasons, or semantic effectiveness. Qoder Skills are discovered read-only from
+the [documented user and project Skill directories](https://docs.qoder.com/extensions/skills).
+
+## OpenCode plugin adapter
+
+Adapter version: `0.1.0`
+
+Collection mode: `official_hook`
+
+OpenCode is integrated through a managed, observation-only global plugin at
+`~/.config/opencode/plugins/skill-runtime-intelligence.js`. The plugin uses
+[documented public callbacks](https://opencode.ai/docs/plugins/) and starts a
+detached sender without awaiting delivery. It does not register model-parameter,
+system-prompt, permission, or authentication callbacks.
+
+| OpenCode callback/event | Normalized evidence | Limits |
+|---|---|---|
+| `session.created` / `session.idle` | Session start and turn completion | Idle is not a semantic success verdict |
+| `session.error` | Failed turn boundary | Provider error content is redacted and capped |
+| `chat.message` | User request boundary | Message text and parts are intentionally omitted |
+| `tool.execute.before` / `tool.execute.after` | Tool start/completion | Tool output is intentionally omitted |
+| `skill` tool before/after | Explicit activation and terminal event | Requires the OpenCode Skill tool callback |
+
+The exact managed file is never overwritten or removed unless it contains the
+Skill Runtime ownership marker. The plugin first starts the native sender and
+falls back once to the Python CLI sender if process startup or delivery fails;
+all integration exceptions are swallowed so OpenCode execution remains
+fail-open. OpenCode must be restarted if it was already running during
+installation.
+
+OpenCode Skill discovery covers its standard global and project directories,
+plus the shared `.agents/skills` compatibility location. Custom directories
+declared by third-party plugins are not yet automatically discovered and remain
+an explicit adapter limitation.
+
+## Cross-Agent support boundary
+
+The four adapters normalize into the same evidence schema, but they do not
+pretend to have identical source capabilities. Agent name, adapter version,
+collection mode, raw source identity, normalized evidence, and attribution
+relationships remain independently recorded. Cross-Agent comparison is
+therefore comparison over graded evidence—not proof that every Agent exposed
+the same hidden lifecycle.

@@ -7,6 +7,8 @@
 [Polski](README.pl.md) · [Čeština](README.cs.md) · [Magyar](README.hu.md)
 <!-- locale-switcher:end -->
 
+[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml)[![풀어 주다](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-지능/릴리스/최신)[![특허](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)](특허)[![파이썬](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
+
 
 > 에이전트 스킬 실행이 처음으로 분기된 위치를 진단하고 증거를 조사합니다.
 > 모든 결론 뒤에.
@@ -23,6 +25,10 @@ macOS 또는 Linux에 최신 독립 실행형 릴리스를 설치합니다.
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
+클론 없음,Git허브 계정,`sudo`, 또는Git허브 CLI가 필요합니다. 설치 프로그램은 일치하는 서명된 릴리스 페이로드를 다운로드하고, SHA-256 체크섬을 확인하고, 페일오픈 에이전트 후크를 활성화하기 전에 한 번 묻고, 모든 런타임 데이터를`~/.skill-runtime`. 그런 다음 로컬 런타임을 시작하고 열립니다.[http://127.0.0.1:4317](http://127.0.0.1:4317).
+
+당신은 할 수 있습니다[설치 프로그램을 검사하다](scripts/install.sh)실행하기 전에.
+
 또는 소스 체크아웃에서 직접 실행하십시오.
 
 ```bash
@@ -35,7 +41,7 @@ python3 -m venv .venv
 열려 있는[http://127.0.0.1:4317](http://127.0.0.1:4317). 을 위한Codex, 관리되는 명령을 검토하고 신뢰합니다.`/hooks`, 새로운 에이전트 턴을 한 번 시작한 후 다음을 확인하세요.
 
 ```bash
-.venv/bin/skill-runtime doctor
+skill-runtime doctor
 ```
 
 실제 공식 후크 이벤트가 수신된 후에만 통합이 **검증**됩니다. 구성된 후크는 **보류 중**으로 표시되며 실시간 증거로 표시되지 않습니다.
@@ -117,7 +123,7 @@ Observable outcome
 
 ## 초기 범위
 
-MVP가 지원합니다.Claude Code그리고Codex그리고 다음을 제공합니다:
+런타임은 다음을 지원합니다.Codex,Claude Code,Qoder, 그리고OpenCode버전이 지정된 독립적인 어댑터를 통해 다음을 제공합니다.
 
 - 설치된 스킬 발견 및 검증;
 - 지원되는 경우 세션 가져오기 및 실시간 로컬 관찰;
@@ -144,7 +150,7 @@ python3 -m venv .venv
 일회성`install`명령:
 
 1. 사용자, 프로젝트 및 캐시된 플러그인 스킬 위치를 스캔합니다.
-2. 감지하다Codex그리고Claude Code구성을 변경하지 않고;
+2. 감지하다Codex,Claude Code,Qoder, 그리고OpenCode구성을 변경하지 않고;
 3. 읽을 에이전트 및 스킬 경로를 표시합니다.
 4. 현재 플랫폼에 대해 체크섬 확인된 낮은 시작 네이티브 발신자를 다운로드하고 로컬 C 빌드로 대체한 다음 마지막으로Python발신자이며 설치 중에 새로운 기본 바이너리를 한 번 미리 준비합니다.
 5. 창조하다`~/.skill-runtime/config.json`그리고 지역SQLite색인.
@@ -154,6 +160,8 @@ python3 -m venv .venv
 ```bash
 .venv/bin/skill-runtime doctor
 ```
+
+Qoder시작 시 Hook 구성을 로드하므로 다시 시작하세요.Qoder첫 설치 후.OpenCode전역 플러그인 디렉터리에서 관리형 관찰 전용 플러그인을 검색합니다. 다시 시작하다OpenCode현재 프로세스가 설치보다 이전인 경우. 통합은 모델 요청을 읽거나 변경하지 않습니다.
 
 데이터베이스가 실제 데이터를 수신한 후에만 통합이 **라이브** 상태가 됩니다.`official_hook`이벤트. 그냥 쓰는 것`~/.codex/hooks.json`**보류 중**으로 표시되며 연결되지 않습니다.`start`수집기, 기록 대체 감시자, 보존 작업자를 시작합니다.SQLite저장하고 살아요UI관리되는 백그라운드 프로세스로. 모델 요청이 프록시되지 않습니다.
 
@@ -321,9 +329,9 @@ PYTHONPATH=src python3 experiments/product_lifecycle/run_benchmark.py
 ## 로드맵
 
 1. **v0.1 — 런타임 증거 및 진단:** 실시간 수집,Skill Run Panorama, 1차 경계 진단, 증거 조사, 비교 및 ​​OTLP 상호 운용성.
-2. **v0.2 — 어댑터 범위 및 진단 연구:** 추가 에이전트, 실제 교차 에이전트 실험 및 참가자 평가.
+2. **v0.2 — 어댑터 강화 및 진단 연구:** 추가 에이전트 버전, 실제 교차 에이전트 실험 및 참가자 평가.
 3. **v0.3 — 효과 평가:** 기술 유무에 따른 쌍 평가가 제어되며 단일 실행 진단과 별도로 유지됩니다.
 
 ## 프로젝트 현황
 
-에이SkillRun-첫 번째 런타임이 실행 가능합니다: 설치된 정의 인벤토리,Codex성적표 대체, 동의 기반Codex그리고Claude Code공식 후크 어댑터, 활성 범위 속성, 정확한 파일/아티팩트 경로, 수정, 별도의 소스/관계/추론 레이어,SQLite저장, 보존, 교차 실행 및 에이전트 간 비교, 결정론적 진단 및 라이브 파노라마UI. OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, 그리고Datadog수출품을 수입할 수 있습니다. 정규화된 증거는 옵트인을 통해 실시간으로 내보낼 수 있습니다.OTLP/HTTP. 현재 재현 가능한 제품군에는 7개의 통과 실험 게이트가 있습니다. 후보 발견, 모델 내부 선택 이유, 의미론적 효율성 및 인과적 결과 주장은 명시적으로 지원되지 않습니다.
+에이SkillRun-첫 번째 런타임이 실행 가능합니다: 설치된 정의 인벤토리,Codex성적표 폴백, 동의 기반 공식 후크 어댑터Codex,Claude Code, 그리고Qoder, 관찰 전용OpenCode플러그인 어댑터, 활성 범위 속성, 정확한 파일/아티팩트 경로, 수정, 별도의 소스/관계/추론 레이어,SQLite저장, 보존, 교차 실행 및 에이전트 간 비교, 결정론적 진단 및 라이브 파노라마UI. OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, 그리고Datadog수출품을 수입할 수 있습니다. 정규화된 증거는 옵트인을 통해 실시간으로 내보낼 수 있습니다.OTLP/HTTP. 후보 발견, 모델 내부 선택 이유, 의미론적 효율성 및 인과적 결과 주장은 명시적으로 지원되지 않습니다.

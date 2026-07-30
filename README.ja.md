@@ -7,6 +7,8 @@
 [Polski](README.pl.md) · [Čeština](README.cs.md) · [Magyar](README.hu.md)
 <!-- locale-switcher:end -->
 
+[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-インテリジェンス/アクション/ワークフロー/ci.yml)[！[リリース](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-インテリジェンス/リリース/最新)[！[ライセンス](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)]（ライセンス）[![パイソン](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
+
 
 > エージェント スキルの実行が最初に分岐した場所を診断し、証拠を検査します
 > あらゆる結論の裏にあるもの。
@@ -17,11 +19,15 @@ Agent Skill Runtime Intelligenceは、エージェント スキルのための�
 
 ## クイックスタート
 
-macOS または Linux に最新のスタンドアロンリリースをインストールします。
+最新のスタンドアロン リリースを macOS または Linux にインストールします。
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
+
+クローンはありません。Gitハブアカウント、`sudo`、 またはGitハブ CLI が必要です。インストーラーは、一致する署名付きリリース ペイロードをダウンロードし、SHA-256 チェックサムを検証し、フェールオープン エージェント フックを有効にする前に 1 回確認し、すべてのランタイム データを次の場所に保存します。`~/.skill-runtime`。次に、ローカル ランタイムが起動して開きます。[http://127.0.0.1:4317](http://127.0.0.1:4317)。
+
+あなたはできる[インストーラーを検査する](scripts/install.sh)実行する前に。
 
 または、ソース チェックアウトから直接実行します。
 
@@ -35,7 +41,7 @@ python3 -m venv .venv
 開ける[http://127.0.0.1:4317](http://127.0.0.1:4317)。のためにCodexで管理されているコマンドを確認して信頼します。`/hooks`、新しいエージェント ターンを 1 つ開始し、次のことを確認します。
 
 ```bash
-.venv/bin/skill-runtime doctor
+skill-runtime doctor
 ```
 
 統合は、実際の公式フック イベントを受信した後にのみ **検証済み** になります。設定されたフックは **保留中** として表示され、ライブ証拠として表示されることはありません。
@@ -117,7 +123,7 @@ Observable outcome
 
 ## 初期範囲
 
-MVP がサポートするのは、Claude CodeそしてCodexそして以下を提供します:
+ランタイムがサポートするのは、Codex、Claude Code、Qoder、 そしてOpenCode独立したバージョン管理されたアダプターを通じて、以下を提供します。
 
 - インストールされたスキルの検出と検証。
 - セッションのインポートとライブローカル観察（サポートされている場合）。
@@ -144,7 +150,7 @@ python3 -m venv .venv
 ワンタイム`install`指示：
 
 1. ユーザー、プロジェクト、およびキャッシュされたプラグインのスキルの場所をスキャンします。
-2. 検出しますCodexそしてClaude Code構成を変更することなく。
+2. 検出しますCodex、Claude Code、Qoder、 そしてOpenCode構成を変更することなく。
 3. どのエージェントおよびスキルのパスが読み取られるかを示します。
 4. 現在のプラットフォーム用のチェックサム検証済みの低起動ネイティブ センダーをダウンロードし、ローカル C ビルドにフォールバックし、最後にPython送信者は、インストール中に一度、新しいネイティブ バイナリをプリウォームします。
 5. 作成します`~/.skill-runtime/config.json`そして地元のSQLite索引。
@@ -154,6 +160,8 @@ python3 -m venv .venv
 ```bash
 .venv/bin/skill-runtime doctor
 ```
+
+Qoder起動時にフック設定をロードするため、再起動しますQoder最初のインストール後。OpenCodeグローバル プラグイン ディレクトリからマネージド監視専用プラグインを検出します。再起動OpenCode現在のプロセスがインストール前のものである場合。どちらの統合でも、モデル リクエストの読み取りや変更は行われません。
 
 統合は、データベースが実際のデータを受け取った後にのみ **ライブ** になります。`official_hook`イベント。ただ書くだけ`~/.codex/hooks.json`**保留中**として表示され、接続されていません。`start`コレクター、トランスクリプトフォールバックウォッチャー、保持ワーカーを起動します。SQLite蓄える、そして生きるUI管理されたバックグラウンドプロセスとして。モデルリクエストはプロキシされません。
 
@@ -321,9 +329,9 @@ PYTHONPATH=src python3 experiments/product_lifecycle/run_benchmark.py
 ## ロードマップ
 
 1. **v0.1 — 実行時の証拠と診断:** ライブ収集、Skill Run Panorama、第一境界診断、証拠検査、比較、OTLP 相互運用性。
-2. **v0.2 — アダプターの幅広さと診断の研究:** 追加のエージェント、実際のエージェント間の実験、および参加者の評価。
+2. **v0.2 — アダプターの強化と診断の研究:** 追加のエージェント バージョン、実際のエージェント間の実験、および参加者の評価。
 3. **v0.3 — 効果評価:** スキルあり/スキルなしのペア評価を管理し、単一実行の診断とは別に管理します。
 
 ## プロジェクトのステータス
 
-あSkillRun-最初のランタイムが実行可能です: インストールされた定義のインベントリ、Codexトランスクリプトフォールバック、同意主導型CodexそしてClaude Code公式フックアダプター、アクティブスコープの帰属、正確なファイル/アーティファクトパス、編集、個別のソース/関係/推論レイヤー、SQLiteストレージ、保持、クロスランおよびクロスエージェント比較、決定論的診断、およびライブパノラマUI。 OTLP/Phoenix、Langfuse、LangSmith、W&B Weave、 そしてDatadog輸出品は輸入可能です。正規化された証拠はオプトインを通じてライブでエクスポート可能OTLP/HTTP。現在の再現可能なスイートには 7 つの通過実験ゲートがあります。候補の発見、モデル内部の選択理由、意味論的有効性、および因果関係の結果の主張は、明示的にサポートされていないままです。
+あSkillRun-最初のランタイムが実行可能です: インストールされた定義のインベントリ、Codexトランスクリプトフォールバック、同意主導型の公式フックアダプタCodex、Claude Code、 そしてQoder、観察のみOpenCodeプラグインアダプター、アクティブスコープの帰属、正確なファイル/アーティファクトパス、編集、個別のソース/関係/推論レイヤー、SQLiteストレージ、保持、クロスランおよびクロスエージェント比較、決定論的診断、およびライブパノラマUI。 OTLP/Phoenix、Langfuse、LangSmith、W&B Weave、 そしてDatadog輸出品は輸入可能です。正規化された証拠はオプトインを通じてライブでエクスポート可能OTLP/HTTP。候補の発見、モデル内部の選択理由、意味論的有効性、および因果関係の結果の主張は、明示的にサポートされていないままです。

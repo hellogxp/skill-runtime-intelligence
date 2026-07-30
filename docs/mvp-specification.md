@@ -13,6 +13,8 @@ Initial adapters:
 
 - Claude Code
 - Codex
+- Qoder
+- OpenCode
 
 The architecture must allow additional adapters without changing the normalized event model.
 

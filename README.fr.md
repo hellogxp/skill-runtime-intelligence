@@ -7,6 +7,8 @@
 [Polski](README.pl.md) · [Čeština](README.cs.md) · [Magyar](README.hu.md)
 <!-- locale-switcher:end -->
 
+[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml)[![Libérer](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-intelligence/versions/dernières)[![Licence](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)](LICENCE)[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
+
 
 > Diagnostiquez où une compétence d'agent a divergé pour la première fois et inspectez les preuves
 > derrière chaque conclusion.
@@ -17,11 +19,15 @@ Agent Skill Runtime Intelligenceest un système de preuve d'exécution et de dia
 
 ## Démarrage rapide
 
-Installez la dernière version autonome pour macOS ou Linux :
+Installez la dernière version autonome sur macOS ou Linux :
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
+
+Pas de clone,GitCompte Hub,`sudo`, ouGitLa CLI du hub est requise. Le programme d'installation télécharge la charge utile de la version signée correspondante, vérifie les sommes de contrôle SHA-256, demande une fois avant d'activer les hooks d'agent d'ouverture en cas d'échec et stocke toutes les données d'exécution sous`~/.skill-runtime`. Il démarre ensuite le runtime local et ouvre[http://127.0.0.1:4317](http://127.0.0.1:4317).
+
+Tu peux[inspecter l'installateur](scripts/install.sh)avant de l'exécuter.
 
 Ou exécutez directement à partir d'une extraction source :
 
@@ -35,7 +41,7 @@ python3 -m venv .venv
 Ouvrir[http://127.0.0.1:4317](http://127.0.0.1:4317). PourCodex, examinez et approuvez les commandes gérées dans`/hooks`, démarrez un nouveau tour d'agent, puis vérifiez :
 
 ```bash
-.venv/bin/skill-runtime doctor
+skill-runtime doctor
 ```
 
 L'intégration devient **Vérifiée** uniquement après la réception d'un véritable événement de hook officiel. Un hook configuré est affiché comme **En attente**, jamais comme preuve réelle.
@@ -117,7 +123,7 @@ Une seule trace peut prendre en charge l’attribution de l’exécution. Cela n
 
 ## Portée initiale
 
-Le MVP prend en chargeClaude CodeetCodexet fournit :
+Le runtime prend en chargeCodex,Claude Code,Qoder, etOpenCodevia des adaptateurs indépendants et versionnés et fournit :
 
 - découverte et validation des compétences installées ;
 - importation de session et observation locale en direct lorsque cela est pris en charge ;
@@ -144,7 +150,7 @@ Puis ouvrez[http://127.0.0.1:4317](http://127.0.0.1:4317).
 L'unique`install`commande:
 
 1. analyse les emplacements de compétences des utilisateurs, des projets et des plugins mis en cache ;
-2. détecteCodexetClaude Codesans changer leur configuration ;
+2. détecteCodex,Claude Code,Qoder, etOpenCodesans changer leur configuration ;
 3. indique quels chemins d'agent et de compétences seront lus ;
 4. télécharge un expéditeur natif à faible démarrage vérifié par somme de contrôle pour la plate-forme actuelle, en revenant à une version C locale et enfin auPythonl'expéditeur et préchauffe un nouveau binaire natif une fois pendant l'installation ;
 5. crée`~/.skill-runtime/config.json`et le localSQLiteindice.
@@ -154,6 +160,8 @@ Lorsqu'il est exécuté de manière interactive, il demande une fois avant d'ajo
 ```bash
 .venv/bin/skill-runtime doctor
 ```
+
+Qodercharge la configuration de Hook au démarrage, alors redémarrezQoderaprès la première installation.OpenCodedécouvre le plugin géré d'observation uniquement à partir de son répertoire global de plugins ; redémarrageOpenCodesi le processus en cours est antérieur à l'installation. Aucune des deux intégrations ne lit ou ne modifie les demandes de modèle.
 
 L'intégration devient **Live** seulement après que la base de données reçoive un véritable`official_hook`événement. Simplement écrire`~/.codex/hooks.json`s'affiche comme **En attente**, jamais connecté.`start`lance le collecteur, l'observateur de repli des transcriptions, le travailleur de rétention,SQLitemagasiner et vivreUIen tant que processus en arrière-plan géré. Aucune demande de modèle n'est proxy.
 
@@ -321,9 +329,9 @@ L’orientation de la recherche s’appuie également sur des travaux primaires 
 ## Feuille de route
 
 1. **v0.1 — Preuves d'exécution et diagnostic :** collecte en direct,Skill Run Panorama, diagnostic de première limite, inspection des preuves, comparaison et interopérabilité OTLP.
-2. **v0.2 — Études sur l'étendue de l'adaptateur et les diagnostics :** agents supplémentaires, expériences réelles entre agents et évaluation des participants.
+2. **v0.2 — Études de renforcement et de diagnostic des adaptateurs :** versions supplémentaires de l'agent, expériences réelles entre agents et évaluation des participants.
 3. **v0.3 — Évaluation des effets :** évaluation par paire contrôlée avec/sans compétence, séparée du diagnostic à une seule analyse.
 
 ## Statut du projet
 
-UNSkillRun-le premier runtime est exécutable : inventaire de définition installé,Codexsolution de secours pour la transcription, basée sur le consentementCodexetClaude Codeadaptateurs de hook officiels, attribution de portée active, chemins exacts de fichiers/artefacts, rédaction, couches source/relation/inférence séparées,SQLitestockage, conservation, comparaison entre exécutions et entre agents, diagnostic déterministe et Panorama en directUI. OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, etDatadogles exportations peuvent être importées ; les preuves normalisées peuvent être exportées en direct via opt-inOTLP/HTTP. La suite reproductible actuelle comporte sept portes d’expériences de passage. La découverte de candidats, les raisons de sélection internes au modèle, l'efficacité sémantique et les allégations de résultats causals restent explicitement non étayées.
+UNSkillRun-le premier runtime est exécutable : inventaire de définition installé,Codexsolution de secours pour la transcription, adaptateurs Hook officiels basés sur le consentement pourCodex,Claude Code, etQoder, une observation uniquementOpenCodeadaptateur de plugin, attribution de portée active, chemins exacts de fichiers/artefacts, rédaction, couches source/relation/inférence séparées,SQLitestockage, conservation, comparaison entre exécutions et entre agents, diagnostic déterministe et Panorama en directUI. OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, etDatadogles exportations peuvent être importées ; les preuves normalisées peuvent être exportées en direct via opt-inOTLP/HTTP. La découverte de candidats, les raisons de sélection internes au modèle, l'efficacité sémantique et les allégations de résultats causals restent explicitement non étayées.

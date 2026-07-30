@@ -60,6 +60,18 @@ class DatasetCutPolicyTests(unittest.TestCase):
             2,
         )
         self.assertEqual(
+            result["policies"]["terminal_and_watermark"][
+                "selected_run_count"
+            ],
+            2,
+        )
+        self.assertEqual(
+            result["policies"]["terminal_watermark_and_quiescence"][
+                "selected_run_count"
+            ],
+            1,
+        )
+        self.assertEqual(
             result["policies"]["terminal_status"][
                 "changed_next_interval_count"
             ],
@@ -67,6 +79,12 @@ class DatasetCutPolicyTests(unittest.TestCase):
         )
         self.assertEqual(
             result["policies"]["observed_quiescence"][
+                "changed_next_interval_count"
+            ],
+            0,
+        )
+        self.assertEqual(
+            result["policies"]["terminal_watermark_and_quiescence"][
                 "changed_next_interval_count"
             ],
             0,

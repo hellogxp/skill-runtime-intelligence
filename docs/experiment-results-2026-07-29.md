@@ -32,16 +32,19 @@ outcome across general tasks.
 | E5 diagnosis representation ablation | rules exact 1.0/F1 1.0; lexical retrieval exact 0.214/F1 0.414; lifecycle-feature retrieval exact 0.071/F1 0.080; ordered relational templates exact 0.929/F1 0.963 | leave-one-out synthetic corpus; retrieval outputs Inferred |
 | Real-run corpus readiness audit | privacy-safe aggregate gate passed in four audits; snapshots contained 97, 75, 77, and 77 SkillRuns and every audit passed only 1/7 readiness criteria; v3 added integrity-checked snapshot/schema/aggregate fingerprints | query-only consistent snapshots of one local Codex database; Derived aggregate, zero row-level records |
 | Dataset cut-policy pilot | across three three-snapshot trials, pooled next-window stability was 222/240 all-observed, 205/216 terminal-status, 215/230 30-second watermark, and 188/206 prior-quiescence selections | one local live database; Experimental observational time series, non-independent run observations |
-| Packaged product lifecycle | 5/5 post-fix isolated wheel runs completed install/start/status/doctor/stop/uninstall; latest 2/2 also verified native prewarm; project and Agent configs unchanged; state fully removed | five local packaged-product runs; Experimental |
+| Collection-checkpoint capability and mechanism | pre-deployment live runtime exposed 3/7 capabilities; post-deployment audit exposed 7/7, then a real completed epoch recorded one late arrival and a later retry completed with zero; isolated trials detected 8/8 modified and 8/8 newly created sources with 0/8 control false positives | query-only live snapshots (Derived), aggregate live epoch state (Observed), and controlled synthetic-adapter trials (Experimental); no row-level records |
+| Production Codex watch epoch | pre-fix deletion boundary advanced 0/3; post-fix create, append, and delete paths each advanced 3/3, removal count was exact 3/3, historical sessions were retained 3/3, and watcher cleanup passed 3/3 | production Codex adapter/watch loop over isolated synthetic transcripts; Experimental mechanism evidence |
+| Mixed provenance reconciliation | official-hook raw/event/run evidence survived transcript refresh 8/8 and correlation groups remained intact 8/8; cross-source relationship edges were available 0/8 | production adapter and collector over isolated synthetic correlated sources; Experimental, privacy-safe aggregate |
+| Packaged product lifecycle | 6/6 post-fix isolated wheel runs completed install/start/status/doctor/stop/uninstall; latest 3/3 also verified native prewarm; project and Agent configs unchanged; state fully removed | six local packaged-product runs; Experimental |
 | Live Codex reconstruction | 3/3 verified outcomes, unchanged workspaces, sessions, SkillRuns, instruction events, and resource events | real Codex 0.145.0 / GPT-5.6-sol, deterministic task |
 
 The latest low-load-window reproducibility suite passed 7/7 selected local
 experiment gates. Across all eight comparable transport runs, however, the
 performance gate passed only 7/8; the Wilson 95% interval for the run-level
 pass rate is 0.529–0.978. The latest expanded product unit/integration suite
-passed 70/70 tests, including 11 privacy-safe real-corpus audit, drift,
-cut-policy, and summary tests, lifecycle ownership safeguards, 15-locale
-catalog integrity, hooks,
+passed 93/93 tests, including privacy-safe real-corpus audit, drift,
+cut-policy, curve-summary, collection-epoch, and capability-audit tests,
+lifecycle ownership safeguards, 15-locale catalog integrity, hooks,
 Collector, OTLP export, storage, comparison, and deterministic diagnosis.
 A local source distribution and wheel also built successfully; the
 installed-wheel smoke test found all required native-source and web assets.
@@ -221,6 +224,57 @@ The remaining miss gives a concrete corpus-design criterion: each relation
 type needs multiple independently labeled positive examples before
 leave-one-out semantic or template evaluation is identifiable.
 
+### 11. An interrupted lifecycle harness can leave an unowned runtime
+
+A read-only process audit found one isolated packaged-lifecycle runtime still
+listening on loopback more than two hours after its parent exited. The command
+line pointed only to a temporary experiment home and port, and the process had
+been reparented to PID 1. Its temporary runtime ownership record was already
+absent, so the normal guarded `stop` command correctly refused to treat it as a
+managed process. After resolving the exact PID and command, the experiment
+process was terminated explicitly and the listener disappeared.
+
+This observation does not invalidate the six completed lifecycle reports:
+each of those reports recorded a successful stop and no running process. It
+does expose a separate interrupted-harness failure mode. The experiment runner
+needs a cleanup ledger outside its disposable directory and a scoped orphan
+audit. The product must not weaken process-ownership checks or broadly kill
+matching Python processes to compensate.
+
+The next isolated wheel run passed all lifecycle gates with native prewarm at
+404.9 ms. Its durable cleanup ledger was removed after verified stop, and a
+post-run process audit found no temporary listener. This validates the normal
+cleanup path once; crash-recovery behavior still requires a controlled
+interruption experiment.
+
+### 12. Mixed provenance is preserved but not relationally merged
+
+Immediately before the live checkpoint deployment restart, the runtime
+reported 56 sessions, 46 Skills, 17,122 normalized events, and 90 SkillRuns.
+The post-restart initial index reported the same 56 sessions and 46 Skills but
+12,740 normalized events and 86 SkillRuns. This is Observed aggregate drift
+across one restart, not a causal estimate.
+
+Initial code-path audit raised a Derived hypothesis that transcript
+`replace_session` might cascade-delete official-hook evidence. A closer audit
+showed that collector normalization creates a source-scoped internal session
+ID from adapter, collection mode, and source session ID. Transcript and hook
+records therefore occupy distinct session rows with a shared
+`correlation_key`.
+
+Eight isolated mixed-provenance trials then appended one official-hook event
+and refreshed the correlated transcript. Hook raw, event, run, and session
+records survived 8/8, and the two source sessions retained one correlation
+group 8/8. This falsifies the proposed hook-erasure mechanism for the exercised
+current path. The earlier aggregate restart drift remains Observed but
+unexplained; it must not be attributed to hook deletion.
+
+The experiment also found a narrower product gap: cross-source relationship
+edges were present 0/8. Evidence is preserved and grouped, but the lifecycle
+graph remains source-local. A future correlation layer should connect
+source-scoped views without collapsing raw identity or inventing causal
+parent/child order across sources.
+
 ## Real runs are not automatically a diagnosis corpus
 
 A privacy-safe audit copied the live SQLite database through SQLite's backup
@@ -311,6 +365,130 @@ randomized, and the experiment does not estimate causal policy effects or
 source completeness. Product export should keep runtime status separate from
 dataset freeze state, require an adapter collection checkpoint plus immutable
 snapshot manifest, and expose late-arrival revisions explicitly.
+
+A three-trial composite follow-up added terminal-plus-watermark and
+terminal-plus-watermark-plus-prior-quiescence policies. The observed window was
+quiet: all 246 all-observed selections remained unchanged. Terminal and
+terminal-plus-watermark selected exactly the same 231 pooled observations,
+while the three-condition policy selected 219 (mean retention 89.0% versus
+93.9%) with no measurable stability advantage in this window. This negative
+result makes the benefit unidentifiable rather than showing the composite is
+ineffective. Future trials must span ingestion bursts, restart/re-index
+boundaries, and longer outcome windows; otherwise additional gates mainly
+discard data.
+
+A six-trial observational wait curve then repeated the protocol twice at
+requested 1-, 3-, and 8-second intervals:
+
+| Policy | 1 s pooled stability | 3 s pooled stability | 8 s pooled stability |
+|---|---:|---:|---:|
+| all observed | 171/176 (97.2%) | 156/176 (88.6%) | 156/176 (88.6%) |
+| terminal status | 161/166 (97.0%) | 148/166 (89.2%) | 148/166 (89.2%) |
+| prior quiescence | 135/140 (96.4%) | 120/140 (85.7%) | 130/150 (86.7%) |
+
+Longer observed quiet time did not monotonically improve subsequent stability.
+Within each interval condition one trial could be fully stable while the other
+contained 5 or 20 changed run fingerprints. The conditions were sequential,
+not randomized, so ambient ingestion load is confounded with interval and the
+curve is not a causal waiting-time estimate. The recurring batch-shaped changes
+still expose a product requirement: wall-clock silence is an advisory signal,
+not a collection checkpoint. Reproducible export needs an adapter/index epoch,
+source high-water mark, and explicit late-arrival accounting.
+
+## Collection-checkpoint capability audit
+
+A pre-deployment query-only audit of a consistent live database snapshot found three of seven
+required capabilities: a global monotonic revision, revision update timestamp,
+and completed-import digest. It did not find a collection-epoch identifier,
+running/completed epoch state, source high-water mark, or late-arrival counter.
+The audit therefore reported `freeze_checkpoint_available=false`. It emitted
+only schema and runtime-state category counts; no keys, paths, endpoints,
+identifiers, or row-level records were exported.
+
+This is Derived evidence about schema capability, not proof of collection
+correctness or source completeness. It also confirms that the existing global
+revision cannot delimit a multi-session watcher batch: a reader can observe a
+valid revision while the watcher is between two session replacements.
+
+A minimal local prototype now records a versioned collection epoch with
+`running`, `completed`, and `failed` states; a SHA-256 source watermark;
+processed/failed source counts; and explicit late-arrival count. Six focused
+tests and the 84-test full suite passed, including an isolated changed-source
+batch that ended in `completed`. This is engineering verification in a
+temporary database, not a live-runtime experiment. The deployed live runtime
+was subsequently restarted with the prototype.
+
+An 8-pair controlled mechanism follow-up then mutated one source after the
+epoch boundary while leaving its paired control unchanged. All eight injected
+mutations changed the source watermark and produced `late_arrival_count=1`;
+all eight controls retained their watermark and produced zero. The adapter
+observed `running` during all 16 parse calls and the persisted state was
+`completed` afterward. Four additional unexpected-error trials propagated the
+error while persisting `failed` with an exact failed-source count. The
+privacy-safe aggregate gate passed.
+
+Code-path audit showed that the first implementation rechecked only paths
+present at epoch start, leaving a newly created source outside its accounting
+boundary by construction. The watcher now
+re-enumerates eligible adapter sources after the batch and compares the union
+of the before/after boundaries. Eight additional controlled creations were
+then detected 8/8. This closes the exercised new-source gap, but does not prove
+that a live adapter enumerates every upstream source.
+
+These are Experimental mechanism results from temporary databases and a
+synthetic adapter. Repetition checks deterministic implementation consistency;
+the trials are not independent workload samples, do not estimate natural
+late-arrival frequency, and do not validate the undeployed live watcher. The
+result supports using a positive late-arrival count to invalidate a candidate
+freeze, not interpreting the count as a quality or effectiveness score.
+
+### Production Codex watcher: source removal is a boundary, not erasure
+
+Three isolated trials then exercised the production `CodexAdapter` and
+continuous watch loop rather than the controlled adapter. Initial transcript
+ingestion and appended completion records were reconstructed 3/3, with the
+collection epoch advancing in every case. Deleting the transcript exposed a
+negative result: the pre-fix epoch advanced 0/3 and the indexed historical
+session remained present 3/3.
+
+The watcher now treats source disappearance as a collection-boundary change,
+records `removed_source_count`, and advances an otherwise empty epoch. It does
+not delete historical reconstructed evidence. In three post-fix trials,
+deletion advanced the epoch 3/3, the removal count was exactly one 3/3,
+historical sessions remained present 3/3, and all three watcher subprocesses
+were cleaned up. Both privacy-safe aggregate gates passed.
+
+This is Experimental mechanism evidence from synthetic transcripts in
+temporary databases. It does not estimate live Codex deletion frequency or
+prove upstream completeness. It establishes a product-state distinction:
+source availability can change while historical observed/derived evidence
+remains retained. Export and UI must disclose that distinction instead of
+equating missing source, deleted history, and incomplete evidence.
+
+### Live checkpoint convergence after deployment
+
+After the production Codex watch gates and the 93-test suite passed, the local
+development runtime was gracefully restarted with the current source. A new
+query-only audit found all 7/7 checkpoint capabilities and
+`freeze_checkpoint_available=true`. This is Derived schema-capability evidence,
+not proof that every completed epoch is freeze-ready.
+
+The active runtime then produced epoch 10 with status `completed`: two changed
+sources were processed, zero failed, and one late arrival was recorded.
+Because a positive late-arrival count invalidates a candidate freeze, this
+epoch was not treated as stable. The watcher naturally retried changed input;
+epoch 14 later completed with one processed source, zero failures, and zero
+late arrivals. Both records are Observed aggregate runtime state. They are a
+single local sequence, not a causal estimate or field failure-rate sample.
+
+The sequence changes the product model from a one-shot checkpoint to a
+convergence protocol:
+
+1. `running` means the boundary is being processed;
+2. `completed` with late arrivals means catch-up is still required;
+3. `completed` with zero late arrivals is only a candidate freeze boundary;
+4. an immutable snapshot and manifest are still required to declare a dataset
+   revision frozen.
 
 ## New exploratory direction: Skill catalog footprint
 

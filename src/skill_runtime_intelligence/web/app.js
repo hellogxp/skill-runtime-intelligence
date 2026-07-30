@@ -155,9 +155,9 @@ function renderSourceSummary() {
   const verifiedIntegrations = installedIntegrations.filter(
     (integration) => integration.connection_status === "verified"
   );
-  if (verifiedIntegrations.length) parts.push(tr(`${verifiedIntegrations.length} live hook`));
-  else if (installedIntegrations.length) parts.push(tr(`${installedIntegrations.length} hook pending`));
-  else if (detectedIntegrations.length) parts.push(tr("Hooks available"));
+  if (verifiedIntegrations.length) parts.push(tr(`${verifiedIntegrations.length} live integration`));
+  else if (installedIntegrations.length) parts.push(tr(`${installedIntegrations.length} integration pending`));
+  else if (detectedIntegrations.length) parts.push(tr("Runtime integrations available"));
   summary.textContent = parts.join(" · ");
   const sourceDetails = runtimeSources.map((source) =>
     `${source.adapter} ${source.adapter_version} — ${sourceModeLabel(source.collection_mode)}; ${source.event_count} events; ${source.source_health}`
@@ -165,10 +165,10 @@ function renderSourceSummary() {
   detectedIntegrations.forEach((integration) => {
     sourceDetails.push(
       integration.connection_status === "verified"
-        ? `${integration.agent} official hooks verified by live evidence: ${(integration.installed_events || []).join(", ")}`
+        ? `${integration.agent} runtime integration verified by live evidence: ${(integration.installed_events || []).join(", ")}`
         : integration.installed
-          ? `${integration.agent} hooks configured but not yet verified; review/trust them in the Agent and start a new turn.`
-        : `${integration.agent} hooks are available but require explicit consent.`
+          ? `${integration.agent} runtime integration configured but not yet verified; restart the Agent and start a new turn.`
+        : `${integration.agent} runtime integration is available but requires explicit consent.`
     );
   });
   summary.title = sourceDetails.join("\n");
@@ -484,11 +484,11 @@ function renderSettings() {
       <div>
         <strong>${esc(item.agent)}</strong>
         <small>${item.connection_status === "verified"
-          ? `${(item.installed_events || []).length} official events · live evidence verified · ${item.fail_open ? "fail-open" : "blocking unknown"}`
+          ? `${(item.installed_events || []).length} runtime events · live evidence verified · ${item.fail_open ? "fail-open" : "blocking unknown"}`
           : item.installed
-            ? `${(item.installed_events || []).length} events configured · awaiting Agent trust or a new run`
+            ? `${(item.installed_events || []).length} events configured · awaiting Agent restart/trust or a new run`
           : item.detected
-            ? "Detected · hook consent not granted"
+            ? "Detected · runtime collection consent not granted"
             : "Agent not detected on this machine"}</small>
         <code>${esc(item.agent_version || "version unavailable")} · ${esc(item.selected_collection_mode || "unknown")}</code>
         <code>${esc(item.config_path || "")}</code>

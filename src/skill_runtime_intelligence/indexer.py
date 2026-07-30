@@ -3,12 +3,37 @@
 import hashlib
 import time
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional
+from typing import Callable, Dict, Iterable, List, Optional
 
 from .adapters import CodexAdapter, ObservabilityAdapter
 from .config import path_is_excluded
 from .discovery import SkillDefinition, discover_skills
 from .storage import Storage
+
+
+def _source_watermark(source_mtimes: Dict[Path, int]) -> str:
+    payload = "\0".join(
+        f"{path}:{source_mtimes[path]}"
+        for path in sorted(source_mtimes, key=str)
+    )
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _eligible_source_mtimes(
+    adapter: CodexAdapter,
+    exclusions: Iterable[Path],
+) -> Dict[Path, int]:
+    excluded = list(exclusions)
+    result = {}
+    for path in adapter.session_files():
+        cwd = adapter.peek_cwd(path)
+        if cwd and path_is_excluded(Path(cwd), excluded):
+            continue
+        try:
+            result[path] = path.stat().st_mtime_ns
+        except OSError:
+            continue
+    return result
 
 
 def index_local(
@@ -82,6 +107,77 @@ def import_observability(
         storage.close()
 
 
+def _index_changed_batch(
+    database: Path,
+    adapter: CodexAdapter,
+    skills: List[SkillDefinition],
+    changed: List[Path],
+    eligible_mtimes: Dict[Path, int],
+    removed_source_count: int = 0,
+    source_boundary_probe: Optional[
+        Callable[[], Dict[Path, int]]
+    ] = None,
+) -> Dict[str, object]:
+    storage = Storage(database)
+    epoch_state = storage.begin_collection_epoch(
+        "codex",
+        source_count=len(eligible_mtimes),
+        changed_source_count=len(changed) + max(0, removed_source_count),
+        removed_source_count=removed_source_count,
+        source_watermark_sha256=_source_watermark(eligible_mtimes),
+    )
+    processed = 0
+    failed = 0
+    late_arrivals = 0
+    try:
+        try:
+            for source_path in changed:
+                try:
+                    session, raw, events, skill_runs = adapter.parse(
+                        source_path, skills
+                    )
+                    storage.replace_session(session, raw, events, skill_runs)
+                    processed += 1
+                except (OSError, UnicodeError, ValueError):
+                    failed += 1
+                    continue
+            if source_boundary_probe is None:
+                current_mtimes = {}
+                for source_path in eligible_mtimes:
+                    try:
+                        current_mtimes[source_path] = (
+                            source_path.stat().st_mtime_ns
+                        )
+                    except OSError:
+                        continue
+            else:
+                current_mtimes = source_boundary_probe()
+            late_arrivals = sum(
+                eligible_mtimes.get(source_path)
+                != current_mtimes.get(source_path)
+                for source_path in set(eligible_mtimes) | set(current_mtimes)
+            )
+        except Exception:
+            storage.complete_collection_epoch(
+                "codex",
+                epoch_state["epoch"],
+                processed_source_count=processed,
+                failed_source_count=failed + 1,
+                late_arrival_count=late_arrivals,
+                status="failed",
+            )
+            raise
+        return storage.complete_collection_epoch(
+            "codex",
+            epoch_state["epoch"],
+            processed_source_count=processed,
+            failed_source_count=failed,
+            late_arrival_count=late_arrivals,
+        )
+    finally:
+        storage.close()
+
+
 def watch_local(
     database: Path,
     codex_sessions: Path,
@@ -129,32 +225,30 @@ def watch_local(
 
         changed = []
         current_paths = set(adapter.session_files())
+        removed_paths = set(known_mtimes) - current_paths
+        eligible_mtimes = _eligible_source_mtimes(adapter, excluded)
         for path in current_paths:
-            cwd = adapter.peek_cwd(path)
-            if cwd and path_is_excluded(Path(cwd), excluded):
+            if path not in eligible_mtimes:
                 known_mtimes.pop(path, None)
                 continue
-            try:
-                mtime = path.stat().st_mtime_ns
-            except OSError:
-                continue
+            mtime = eligible_mtimes[path]
             if known_mtimes.get(path) != mtime:
                 known_mtimes[path] = mtime
                 changed.append(path)
-        for removed in set(known_mtimes) - current_paths:
+        for removed in removed_paths:
             known_mtimes.pop(removed, None)
 
-        if changed:
-            storage = Storage(database)
-            try:
-                for source_path in changed:
-                    try:
-                        session, raw, events, skill_runs = adapter.parse(
-                            source_path, skills
-                        )
-                        storage.replace_session(session, raw, events, skill_runs)
-                    except (OSError, UnicodeError, ValueError):
-                        continue
-            finally:
-                storage.close()
+        if changed or removed_paths:
+            _index_changed_batch(
+                database,
+                adapter,
+                skills,
+                changed,
+                eligible_mtimes,
+                removed_source_count=len(removed_paths),
+                source_boundary_probe=lambda: _eligible_source_mtimes(
+                    adapter,
+                    excluded,
+                ),
+            )
         time.sleep(max(0.5, interval_seconds))

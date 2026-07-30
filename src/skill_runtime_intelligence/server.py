@@ -25,6 +25,8 @@ from .integrations import (
     IntegrationError,
     inspect_claude_integration,
     inspect_codex_integration,
+    inspect_opencode_integration,
+    inspect_qoder_integration,
 )
 from .hook_bridge import HookBridge, default_hook_socket
 from .storage import Storage
@@ -79,6 +81,8 @@ class PanoramaHandler(BaseHTTPRequestHandler):
                 for agent, inspector in (
                     ("codex", inspect_codex_integration),
                     ("claude-code", inspect_claude_integration),
+                    ("qoder", inspect_qoder_integration),
+                    ("opencode", inspect_opencode_integration),
                 ):
                     try:
                         item = inspector()

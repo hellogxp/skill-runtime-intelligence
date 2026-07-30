@@ -7,6 +7,8 @@
 [Polski](README.pl.md) · **Čeština** · [Magyar](README.hu.md)
 <!-- locale-switcher:end -->
 
+[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-inteligence/akce/pracovní postupy/ci.yml)[![Uvolnění](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime– inteligence/vydání/nejnovější)[![Licence](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)](LICENCE)[![Krajta](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
+
 
 > Diagnostikujte, kde se poprvé rozcházel běh agenta Skill – a prohlédněte si důkazy
 > za každým závěrem.
@@ -17,11 +19,15 @@ Agent Skill Runtime Intelligenceje runtime evidence a diagnostický systém pro 
 
 ## Rychlý start
 
-Nainstalujte nejnovější samostatnou verzi pro macOS nebo Linux:
+Nainstalujte nejnovější samostatnou verzi na macOS nebo Linux:
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
+
+Žádný klon,GitHub účet,`sudo`neboGitJe vyžadován rozbočovač CLI. Instalační program stáhne odpovídající užitečné zatížení podepsaného vydání, ověří kontrolní součty SHA-256, jednou se zeptá, než povolí háky agenta otevřít při selhání, a uloží všechna data za běhu pod`~/.skill-runtime`. Poté spustí místní runtime a otevře se[http://127.0.0.1:4317](http://127.0.0.1:4317).
+
+Můžete[zkontrolovat instalačního technika](scripts/install.sh)než jej spustíte.
 
 Nebo spusťte přímo z pokladny zdroje:
 
@@ -35,7 +41,7 @@ python3 -m venv .venv
 OTEVŘENO[http://127.0.0.1:4317](http://127.0.0.1:4317). ProCodex, kontrolovat a důvěřovat spravovaným příkazům`/hooks`, začněte jedno nové kolo agenta a poté ověřte:
 
 ```bash
-.venv/bin/skill-runtime doctor
+skill-runtime doctor
 ```
 
 Integrace se stane **Ověřenou** až po obdržení skutečné oficiální události. Nakonfigurovaný hák je zobrazen jako **Nevyřízeno**, nikdy jako živý důkaz.
@@ -117,7 +123,7 @@ Jedno trasování může podporovat atribuci provedení. Nemůže prokázat kauz
 
 ## Počáteční rozsah
 
-MVP podporujeClaude CodeaCodexa poskytuje:
+Runtime podporujeCodex,Claude Code,QoderaOpenCodeprostřednictvím nezávislých verzovaných adaptérů a poskytuje:
 
 - nainstalované zjišťování a ověřování dovedností;
 - import relace a živé místní pozorování tam, kde je podporováno;
@@ -144,7 +150,7 @@ Poté otevřete[http://127.0.0.1:4317](http://127.0.0.1:4317).
 Jednorázový`install`příkaz:
 
 1. prohledá umístění dovedností uživatelů, projektů a pluginů v mezipaměti;
-2. zjistíCodexaClaude Codebeze změny jejich konfigurace;
+2. zjistíCodex,Claude Code,QoderaOpenCodebeze změny jejich konfigurace;
 3. ukazuje, které cesty agenta a dovednosti budou načteny;
 4. stáhne nativního odesílatele s nízkým spuštěním ověřeného kontrolním součtem pro aktuální platformu, vrátí se k místnímu sestavení C a nakonecPythonodesílatel a během instalace jednou předehřeje čerstvý nativní binární soubor;
 5. vytváří`~/.skill-runtime/config.json`a místníSQLiteindex.
@@ -154,6 +160,8 @@ Když je spuštěn interaktivně, zeptá se jednou před přidáním háčků ag
 ```bash
 .venv/bin/skill-runtime doctor
 ```
+
+Qodernačte konfiguraci háku při spuštění, takže restartujteQoderpo první instalaci.OpenCodeobjeví spravovaný plugin pouze pro pozorování ze svého globálního adresáře pluginů; restartovatOpenCodepokud aktuální proces předchází instalaci. Integrace nečte ani nemění požadavky modelu.
 
 Integrace se stane **Live** až poté, co databáze obdrží real`official_hook`událost. Pouze psaní`~/.codex/hooks.json`se zobrazí jako **Nevyřízeno**, nikdy nepřipojeno.`start`spouští Collector, záložního sledování přepisů, retenčního pracovníka,SQLiteskladovat a žítUIjako řízený proces na pozadí. Žádný požadavek na model není zadán proxy.
 
@@ -321,9 +329,9 @@ Směr výzkumu je také založen na sousední primární práci:[SkillsBench](ht
 ## Cestovní mapa
 
 1. **v0.1 — Průkaz a diagnostika běhu:** živý sběr,Skill Run Panorama, diagnostika první hranice, kontrola důkazů, porovnání a interoperabilita OTLP.
-2. **v0.2 — Šířka adaptéru a diagnostické studie:** další agenti, skutečné experimenty mezi agenty a hodnocení účastníků.
+2. **v0.2 — Adaptér hardening a diagnostické studie:** další verze agentů, skutečné experimenty mezi agenty a hodnocení účastníků.
 3. **v0.3 — Vyhodnocení efektu:** řízené s párovým hodnocením s dovednostmi/bez dovedností, oddělené od diagnostiky jednoho cyklu.
 
 ## Stav projektu
 
-ASkillRun-první runtime je spustitelné: inventář nainstalované definice,Codexzáložní přepis, řízený souhlasemCodexaClaude Codeoficiální adaptéry, přiřazení aktivního rozsahu, přesné cesty k souboru/artefaktům, redakce, samostatné vrstvy zdroje/vztahu/odvození,SQLiteukládání, uchovávání, porovnávání mezi běhy a agenty, deterministická diagnóza a živé panoramaUI. OTLP/Phoenix,Langfuse,LangSmith,W&B WeaveaDatadogexport lze dovážet; normalizované důkazy lze živě exportovat prostřednictvím přihlášeníOTLP/HTTP. Současná reprodukovatelná sada má sedm průchozích experimentálních bran. Zjištění kandidátů, důvody interního výběru modelu, sémantická účinnost a tvrzení o kauzálních výsledcích zůstávají výslovně nepodporovány.
+ASkillRun-první runtime je spustitelné: inventář nainstalované definice,Codexpřepis záložní, souhlasem řízené oficiální adaptéry háku proCodex,Claude CodeaQoder, pouze pozorováníOpenCodeadaptér pluginu, atribuce aktivního rozsahu, přesné cesty k souboru/artefaktu, redakce, samostatné vrstvy zdroje/vztahu/odvozování,SQLiteukládání, uchovávání, porovnávání mezi běhy a agenty, deterministická diagnóza a živé panoramaUI. OTLP/Phoenix,Langfuse,LangSmith,W&B WeaveaDatadogexport lze dovážet; normalizované důkazy lze živě exportovat prostřednictvím přihlášeníOTLP/HTTP. Zjištění kandidátů, důvody interního výběru modelu, sémantická účinnost a tvrzení o kauzálních výsledcích zůstávají výslovně nepodporovány.

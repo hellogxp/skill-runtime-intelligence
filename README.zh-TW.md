@@ -7,6 +7,8 @@
 [Polski](README.pl.md) · [Čeština](README.cs.md) · [Magyar](README.hu.md)
 <!-- locale-switcher:end -->
 
+[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-情報/行動/工作流程/ci.yml）[！ [發布](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-情報/發布/最新）[！ [執照](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)]（執照）[！ [Python](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
+
 
 > 診斷特工技能運作首先出現分歧的位置並檢查證據
 > 每一個結論的背後。
@@ -17,11 +19,15 @@ Agent Skill Runtime Intelligence是一個針對代理技能的唯讀運行時證
 
 ## 快速啟動
 
-在 macOS 或 Linux 上安裝最新獨立版本：
+在 macOS 或 Linux 上安裝最新的獨立版本：
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
+
+沒有克隆，Git中心帳戶，`sudo`， 或者Git需要集線器 CLI。安裝程式下載匹配的簽章發佈有效負載，驗證 SHA-256 校驗和，在啟用故障開放代理掛鉤之前詢問一次，並將所有運行時資料儲存在`~/.skill-runtime`。然後它啟動本地運行時並打開[http://127.0.0.1:4317](http://127.0.0.1:4317)。
+
+你可以[檢查安裝程式](scripts/install.sh)在運行之前。
 
 或直接從源結帳運行：
 
@@ -35,7 +41,7 @@ python3 -m venv .venv
 打開[http://127.0.0.1:4317](http://127.0.0.1:4317)。為了Codex，查看並信任中的託管命令`/hooks`，啟動一個新的 Agent 回合，然後驗證：
 
 ```bash
-.venv/bin/skill-runtime doctor
+skill-runtime doctor
 ```
 
 僅在收到真正的官方掛鉤事件後，整合才會變為**已驗證**。配置的鉤子顯示為 **Pending**，永遠不會作為即時證據。
@@ -117,7 +123,7 @@ Observable outcome
 
 ## 初始範圍
 
-MVP 支持Claude Code和Codex並提供：
+運行時支援Codex,Claude Code,Qoder， 和OpenCode透過獨立的版本化適配器並提供：
 
 - 安裝技能發現和驗證；
 - 支援會話導入和即時本地觀察；
@@ -144,7 +150,7 @@ python3 -m venv .venv
 一次性的`install`命令：
 
 1. 掃描用戶、項目和快取插件技能位置；
-2. 檢測到Codex和Claude Code無需更改其配置；
+2. 檢測到Codex,Claude Code,Qoder， 和OpenCode無需更改其配置；
 3. 顯示將讀取哪些代理程式和技能路徑；
 4. 下載目前平台的校驗和驗證的低啟動本機發送器，回退到本地 C 構建，最後Python發送器，並在安裝過程中預熱一次新的本機二進位；
 5. 創造`~/.skill-runtime/config.json`和當地的SQLite指數。
@@ -154,6 +160,8 @@ python3 -m venv .venv
 ```bash
 .venv/bin/skill-runtime doctor
 ```
+
+Qoder啟動時載入Hook配置，所以重新啟動Qoder第一次安裝後。OpenCode從其全域插件目錄中發現託管的僅觀察插件；重新啟動OpenCode如果目前進程早於安裝。整合都不會讀取或更改模型請求。
 
 只有當資料庫收到真實的資料後，整合才會變成**Live**`official_hook`事件。只是寫`~/.codex/hooks.json`顯示為**待處理**，從未連線。`start`啟動收集器、成績單後備觀察者、保留工作人員，SQLite儲存和生活UI作為託管後台進程。沒有代理模型請求。
 
@@ -321,9 +329,9 @@ PYTHONPATH=src python3 experiments/product_lifecycle/run_benchmark.py
 ## 路線圖
 
 1. **v0.1 — 運行時證據和診斷：** 即時採集，Skill Run Panorama、第一邊界診斷、證據檢查、比較和 OTLP 互通性。
-2. **v0.2 — 適配器廣度和診斷研究：** 額外的代理、真實的跨代理實驗和參與者評估。
+2. **v0.2 — 適配器強化和診斷研究：** 額外的 Agent 版本、真實的跨 Agent 實驗和參與者評估。
 3. **v0.3 — 效果評估：** 控制有技能/無技能配對評估，與單次運行診斷分開。
 
 ## 項目狀況
 
-一個SkillRun-第一個運行時可運行：已安裝的定義清單，Codex成績單回退，同意驅動Codex和Claude Code官方鉤子適配器、活動範圍歸因、精確文件/工件路徑、編輯、單獨的來源/關係/推理層、SQLite儲存、保留、交叉運行和跨代理比較、確定性診斷和即時全景UI。 OTLP/Phoenix,Langfuse,LangSmith,W&B Weave， 和Datadog出口可以進口；標準化證據可以透過選擇即時導出OTLP/HTTP。目前的可重複套件有七個通過的實驗門。候選發現、模型內部選擇原因、語意有效性和因果結果主張仍明確不受支持。
+一個SkillRun-第一個運行時可運行：已安裝的定義清單，Codex轉錄後備，同意驅動的官方 Hook 適配器Codex,Claude Code， 和Qoder，僅觀察OpenCode插件適配器、活動範圍歸因、精確文件/工件路徑、編輯、單獨的來源/關係/推理層、SQLite儲存、保留、交叉運行和跨代理比較、確定性診斷和即時全景UI。 OTLP/Phoenix,Langfuse,LangSmith,W&B Weave， 和Datadog出口可以進口；標準化證據可以透過選擇即時導出OTLP/HTTP。候選發現、模型內部選擇原因、語意有效性和因果結果主張仍明確不受支持。

@@ -226,6 +226,35 @@ def _evaluate_policies(
                 total,
             ),
         },
+        "terminal_and_watermark": {
+            "eligibility_rule": (
+                "run is terminal and its latest event is older than the "
+                "configured watermark"
+            ),
+            "minimum_wait_seconds": watermark_seconds,
+            **_score_selection(
+                terminal_runs & watermark_runs,
+                selection_states,
+                outcome_states,
+                total,
+            ),
+        },
+        "terminal_watermark_and_quiescence": {
+            "eligibility_rule": (
+                "run is terminal, older than the watermark, and unchanged "
+                "from snapshot A to B"
+            ),
+            "minimum_wait_seconds": max(
+                watermark_seconds,
+                observed_quiescence_seconds,
+            ),
+            **_score_selection(
+                terminal_runs & watermark_runs & quiescent_runs,
+                selection_states,
+                outcome_states,
+                total,
+            ),
+        },
     }
     return {
         "selection_snapshot_run_count": total,

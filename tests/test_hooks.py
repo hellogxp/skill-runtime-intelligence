@@ -16,6 +16,8 @@ from skill_runtime_intelligence.event_queue import (
 from skill_runtime_intelligence.hook_adapter import (
     build_claude_hook_envelopes,
     build_codex_hook_envelopes,
+    build_opencode_hook_envelopes,
+    build_qoder_hook_envelopes,
 )
 from skill_runtime_intelligence.hook_bridge import (
     SAFE_UNIX_SOCKET_PATH_BYTES,
@@ -25,12 +27,19 @@ from skill_runtime_intelligence.hook_bridge import (
 from skill_runtime_intelligence.integrations import (
     MANAGED_CLAUDE_EVENTS,
     MANAGED_CODEX_EVENTS,
+    MANAGED_QODER_EVENTS,
     enable_claude_hooks,
     enable_codex_hooks,
+    enable_opencode_plugin,
+    enable_qoder_hooks,
     inspect_claude_integration,
     inspect_codex_integration,
+    inspect_opencode_integration,
+    inspect_qoder_integration,
     remove_claude_hooks,
     remove_codex_hooks,
+    remove_opencode_plugin,
+    remove_qoder_hooks,
 )
 from skill_runtime_intelligence.native_sender import (
     build_native_hook_sender,
@@ -156,6 +165,52 @@ class HookAdapterTests(unittest.TestCase):
         self.assertEqual(slash[0]["activation_mode"], "slash_command")
         self.assertNotIn(
             "must-not-leak", json.dumps(explicit, ensure_ascii=False)
+        )
+
+    def test_qoder_skill_hook_uses_the_shared_minimal_event_model(self):
+        envelopes = build_qoder_hook_envelopes(
+            "PreToolUse",
+            {
+                "session_id": "qoder-session",
+                "tool_name": "Skill",
+                "tool_use_id": "qoder-call",
+                "tool_input": {
+                    "name": "pdf",
+                    "secret": "must-not-leak",
+                },
+                "transcript_path": "/private/qoder/transcript.jsonl",
+            },
+        )
+        self.assertEqual(envelopes[0]["event_type"], "skill.activated")
+        self.assertEqual(envelopes[0]["source"]["adapter"], "qoder")
+        self.assertEqual(envelopes[0]["skill"]["name"], "pdf")
+        serialized = json.dumps(envelopes, ensure_ascii=False)
+        self.assertNotIn("must-not-leak", serialized)
+        self.assertNotIn("transcript.jsonl", serialized)
+
+    def test_opencode_skill_and_session_error_are_observed(self):
+        activated = build_opencode_hook_envelopes(
+            "PreToolUse",
+            {
+                "session_id": "opencode-session",
+                "tool_name": "skill",
+                "tool_use_id": "opencode-call",
+                "tool_input": {"name": "pdf", "content": "must-not-leak"},
+            },
+        )
+        failed = build_opencode_hook_envelopes(
+            "SessionError",
+            {
+                "session_id": "opencode-session",
+                "error": "redacted failure",
+            },
+        )
+        self.assertEqual(activated[0]["event_type"], "skill.activated")
+        self.assertEqual(activated[0]["source"]["adapter"], "opencode")
+        self.assertEqual(failed[0]["event_type"], "turn.failed")
+        self.assertEqual(failed[0]["status"], "failed")
+        self.assertNotIn(
+            "must-not-leak", json.dumps(activated, ensure_ascii=False)
         )
 
     def test_claude_successful_write_emits_exact_derived_artifact(self):
@@ -402,6 +457,68 @@ class HookAdapterTests(unittest.TestCase):
             finally:
                 bridge.close()
 
+    def test_native_sender_ingests_qoder_and_opencode_as_distinct_sources(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            built = build_native_hook_sender(root)
+            if not built["available"]:
+                self.skipTest(built["reason"])
+            database = root / "panorama.db"
+            socket_path = root / "run" / "hook.sock"
+            bridge = HookBridge(database, socket_path=socket_path).start()
+            try:
+                for agent in ("qoder", "opencode"):
+                    result = subprocess.run(
+                        [
+                            built["path"],
+                            "--agent",
+                            agent,
+                            "--event",
+                            "PreToolUse",
+                            "--socket",
+                            str(socket_path),
+                        ],
+                        input=json.dumps(
+                            {
+                                "session_id": f"{agent}-session",
+                                "tool_name": "Skill",
+                                "tool_use_id": f"{agent}-call",
+                                "tool_input": {"name": "pdf"},
+                            }
+                        ).encode("utf-8"),
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        check=False,
+                        timeout=2,
+                    )
+                    self.assertEqual(result.returncode, 0)
+                deadline = time.monotonic() + 2
+                while time.monotonic() < deadline:
+                    storage = Storage(database)
+                    try:
+                        if storage.counts()["normalized_events"] == 2:
+                            break
+                    finally:
+                        storage.close()
+                    time.sleep(0.02)
+                storage = Storage(database)
+                try:
+                    sources = storage.list_sources()
+                    self.assertEqual(
+                        {source["adapter"] for source in sources},
+                        {"qoder", "opencode"},
+                    )
+                    self.assertTrue(
+                        all(
+                            source["collection_mode"] == "official_hook"
+                            for source in sources
+                        )
+                    )
+                finally:
+                    storage.close()
+            finally:
+                bridge.close()
+
 
 class HookIntegrationTests(unittest.TestCase):
     def test_enable_is_additive_idempotent_and_exactly_removable(self):
@@ -576,6 +693,98 @@ class HookIntegrationTests(unittest.TestCase):
             self.assertEqual(
                 json.loads(settings.read_text(encoding="utf-8")), existing
             )
+
+    def test_qoder_hooks_are_additive_fail_open_and_exactly_removable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = root / "settings.json"
+            settings.write_text(
+                json.dumps(
+                    {
+                        "general": {"enableAutoUpdate": False},
+                        "hooks": {
+                            "PostToolUse": [
+                                {
+                                    "matcher": "Bash",
+                                    "hooks": [
+                                        {
+                                            "type": "command",
+                                            "command": "/tmp/unrelated",
+                                        }
+                                    ],
+                                }
+                            ]
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_root = root / "state"
+            result = enable_qoder_hooks(
+                "/tmp/skill-runtime",
+                settings,
+                state_root=state_root,
+            )
+            self.assertTrue(result["changed"])
+            inspected = inspect_qoder_integration(
+                settings,
+                "/tmp/skill-runtime",
+                state_root=state_root,
+            )
+            self.assertTrue(inspected["installed"])
+            configured = json.loads(settings.read_text(encoding="utf-8"))
+            self.assertEqual(configured["general"]["enableAutoUpdate"], False)
+            managed = [
+                hook
+                for groups in configured["hooks"].values()
+                for group in groups
+                for hook in group.get("hooks", [])
+                if "--agent qoder" in hook.get("command", "")
+            ]
+            self.assertEqual(len(managed), len(MANAGED_QODER_EVENTS))
+            self.assertTrue(all("|| true" in hook["command"] for hook in managed))
+            removed = remove_qoder_hooks(settings, state_root=state_root)
+            self.assertTrue(removed["changed"])
+            remaining = json.loads(settings.read_text(encoding="utf-8"))
+            self.assertEqual(
+                remaining["hooks"]["PostToolUse"][0]["hooks"][0]["command"],
+                "/tmp/unrelated",
+            )
+
+    def test_opencode_plugin_is_owned_idempotent_and_exactly_removable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            plugin = root / "opencode" / "plugins" / "skill-runtime.js"
+            state_root = root / "state"
+            first = enable_opencode_plugin(
+                "/tmp/skill-runtime",
+                plugin,
+                state_root=state_root,
+            )
+            second = enable_opencode_plugin(
+                "/tmp/skill-runtime",
+                plugin,
+                state_root=state_root,
+            )
+            self.assertTrue(first["changed"])
+            self.assertFalse(second["changed"])
+            source = plugin.read_text(encoding="utf-8")
+            self.assertIn("managed-by: skill-runtime-intelligence", source)
+            self.assertIn('"chat.message": async', source)
+            self.assertIn('"tool.execute.before": "PreToolUse"', source)
+            self.assertIn('"tool.execute.after": async', source)
+            self.assertIn("fallbackOnce", source)
+            self.assertIn("spawnFallback", source)
+            self.assertNotIn('session.hook("request"', source)
+            inspected = inspect_opencode_integration(
+                plugin,
+                "/tmp/skill-runtime",
+                state_root=state_root,
+            )
+            self.assertTrue(inspected["installed"])
+            removed = remove_opencode_plugin(plugin, state_root=state_root)
+            self.assertTrue(removed["changed"])
+            self.assertFalse(plugin.exists())
 
 
 if __name__ == "__main__":

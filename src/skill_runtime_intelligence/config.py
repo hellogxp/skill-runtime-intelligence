@@ -31,6 +31,8 @@ def default_config(state_root: Optional[Path] = None) -> Dict[str, Any]:
         "hooks": {
             "codex": {"consent": "not_requested"},
             "claude-code": {"consent": "not_requested"},
+            "qoder": {"consent": "not_requested"},
+            "opencode": {"consent": "not_requested"},
         },
     }
 
@@ -43,7 +45,13 @@ def load_config(path: Optional[Path] = None) -> Dict[str, Any]:
     loaded = json.loads(config_path.read_text(encoding="utf-8"))
     if not isinstance(loaded, dict):
         raise ValueError("Skill Runtime config must be a JSON object")
+    default_hooks = dict(value["hooks"])
     value.update(loaded)
+    loaded_hooks = loaded.get("hooks", {})
+    if not isinstance(loaded_hooks, dict):
+        raise ValueError("config.hooks must be an object")
+    default_hooks.update(loaded_hooks)
+    value["hooks"] = default_hooks
     if not isinstance(value.get("projects"), list):
         raise ValueError("config.projects must be a list")
     if not isinstance(value.get("exclude_paths"), list):

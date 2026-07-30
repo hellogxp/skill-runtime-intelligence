@@ -13,6 +13,8 @@ from .integrations import (
     IntegrationError,
     inspect_claude_integration,
     inspect_codex_integration,
+    inspect_opencode_integration,
+    inspect_qoder_integration,
 )
 from .native_sender import native_hook_sender_path
 from .runtime_manager import runtime_status
@@ -159,6 +161,8 @@ def diagnose_runtime(
     for agent, inspector in (
         ("codex", inspect_codex_integration),
         ("claude-code", inspect_claude_integration),
+        ("qoder", inspect_qoder_integration),
+        ("opencode", inspect_opencode_integration),
     ):
         try:
             integration = inspector(state_root=root)
@@ -202,7 +206,8 @@ def diagnose_runtime(
                 if verified
                 else (
                     "hooks configured but no live official event observed; "
-                    "review/trust Codex hooks with `/hooks`, then start a new turn"
+                    "restart the configured Agent and start a new turn; for "
+                    "Codex, also review/trust the managed commands with `/hooks`"
                     if configured
                     else "no detected Agent has managed hooks configured"
                 )

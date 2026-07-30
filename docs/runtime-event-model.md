@@ -246,3 +246,35 @@ The initial relationship vocabulary includes:
 - `runtime_context` — request/outcome sharing the SkillRun turn boundary.
 
 This separation allows re-normalization when an adapter changes without contaminating source evidence.
+
+## 10. Collection checkpoint metadata
+
+Collection progress is local control metadata, not a normalized runtime event
+and not evidence that a source is complete. Each versioned adapter may expose
+one current collection epoch with:
+
+- a monotonically increasing adapter-local epoch identifier;
+- `running`, `completed`, or `failed` state;
+- source, changed-source, and removed-source counts;
+- processed and failed-source counts;
+- a privacy-preserving source high-watermark digest;
+- start and end storage revisions;
+- an explicit late-arrival count.
+
+The persisted checkpoint must not contain source paths or raw source content.
+A completed epoch means only that the adapter finished the source boundary it
+observed. It does not upgrade any event evidence grade, prove that upstream
+sources emitted every event, or make a dataset immutable. Dataset export must
+bind a completed checkpoint to an immutable snapshot manifest; later arrivals
+create a new dataset revision rather than silently modifying the frozen one.
+When an observed source disappears, the next epoch records the removal without
+silently deleting already reconstructed historical evidence. Source
+availability and historical-run retention are separate states.
+
+Checkpoint consumers interpret completion as a convergence protocol:
+
+- `running` — the observed boundary is still being processed;
+- `completed` with `late_arrival_count > 0` — catch-up is required;
+- `completed` with zero late arrivals — candidate checkpoint only;
+- frozen dataset revision — candidate checkpoint plus immutable snapshot and
+  manifest.

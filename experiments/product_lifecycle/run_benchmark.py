@@ -5,10 +5,12 @@ import argparse
 import hashlib
 import json
 import os
+import signal
 import socket
 import subprocess
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 
@@ -17,6 +19,15 @@ REPOSITORY_ROOT = EXPERIMENT_DIR.parents[1]
 sys.path.insert(0, str(REPOSITORY_ROOT))
 
 from experiments.common import write_report
+from skill_runtime_intelligence.runtime_manager import (
+    _managed_process,
+    _process_alive,
+)
+
+
+DEFAULT_CLEANUP_LEDGER = (
+    EXPERIMENT_DIR / "results" / ".active-runtime-cleanup.json"
+)
 
 
 def digest(path):
@@ -76,6 +87,55 @@ def free_port():
     return port
 
 
+def write_cleanup_ledger(source, destination):
+    record = json.loads(source.read_text(encoding="utf-8"))
+    if not isinstance(record, dict):
+        raise ValueError("runtime ownership record must be an object")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temporary = destination.with_suffix(".tmp")
+    temporary.write_text(
+        json.dumps(record, separators=(",", ":"), sort_keys=True),
+        encoding="utf-8",
+    )
+    temporary.chmod(0o600)
+    temporary.replace(destination)
+
+
+def recover_cleanup_ledger(path, wait_seconds=2.0):
+    if not path.is_file():
+        return {
+            "ledger_found": False,
+            "verified_process_found": False,
+            "terminated": False,
+        }
+    try:
+        record = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError, json.JSONDecodeError):
+        path.unlink(missing_ok=True)
+        return {
+            "ledger_found": True,
+            "verified_process_found": False,
+            "terminated": False,
+        }
+    verified = isinstance(record, dict) and _managed_process(record)
+    terminated = False
+    if verified:
+        pid = int(record["pid"])
+        os.kill(pid, signal.SIGTERM)
+        deadline = time.monotonic() + max(0.1, wait_seconds)
+        while time.monotonic() < deadline and _process_alive(pid):
+            time.sleep(0.05)
+        if _process_alive(pid):
+            os.kill(pid, signal.SIGKILL)
+        terminated = True
+    path.unlink(missing_ok=True)
+    return {
+        "ledger_found": True,
+        "verified_process_found": verified,
+        "terminated": terminated,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -88,11 +148,17 @@ def main():
         ),
     )
     parser.add_argument("--output", type=Path)
+    parser.add_argument(
+        "--cleanup-ledger",
+        type=Path,
+        default=DEFAULT_CLEANUP_LEDGER,
+    )
     arguments = parser.parse_args()
     wheel = arguments.wheel.expanduser().resolve()
     if not wheel.is_file():
         parser.error(f"wheel does not exist: {wheel}")
 
+    cleanup_recovery = recover_cleanup_ledger(arguments.cleanup_ledger)
     steps = {}
     cleanup_stop = None
     with tempfile.TemporaryDirectory() as directory:
@@ -178,6 +244,11 @@ def main():
         try:
             steps["start"] = run(start_command, environment)
             cleanup_stop = stop_command
+            if steps["start"].get("return_code") == 0:
+                write_cleanup_ledger(
+                    state / "run" / "runtime.json",
+                    arguments.cleanup_ledger,
+                )
             steps["status_running"] = run(
                 [
                     executable,
@@ -226,6 +297,7 @@ def main():
         finally:
             if cleanup_stop is not None:
                 run(cleanup_stop, environment)
+            recover_cleanup_ledger(arguments.cleanup_ledger)
 
         project_unchanged = fixture.is_file() and digest(fixture) == fixture_before
         agent_configs_absent = not any(
@@ -307,6 +379,7 @@ def main():
             "project_unchanged": project_unchanged,
             "agent_configs_absent": agent_configs_absent,
             "state_removed": state_removed,
+            "prior_cleanup_recovery": cleanup_recovery,
             "step_diagnostics": steps,
         },
         "gate": {

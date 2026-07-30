@@ -135,7 +135,8 @@ UI 绝不能把推断伪装成运行事实：
 
 ## 当前能力范围
 
-当前支持 Codex 与 Claude Code，并提供：
+当前通过独立、版本化的 adapter 支持 Codex、Claude Code、Qoder 与 OpenCode，
+并提供：
 
 - 已安装 Skill 的发现、解析与完整性检查；
 - 历史会话导入，以及 Agent 支持时的实时本地观测；
@@ -162,7 +163,7 @@ python3 -m venv .venv
 一次性的 `install` 会：
 
 1. 扫描用户、项目和插件缓存中的 Skill；
-2. 检测 Codex 与 Claude Code，但不擅自修改其配置；
+2. 检测 Codex、Claude Code、Qoder 与 OpenCode，但不擅自修改其配置；
 3. 明确列出将读取的 Agent 与 Skill 路径；
 4. 优先下载带校验和的低启动开销原生 sender；不可用时回退到本地 C 编译，
    最后回退到 Python sender，并在安装阶段完成一次预热；
@@ -176,6 +177,10 @@ python3 -m venv .venv
 ```bash
 .venv/bin/skill-runtime doctor
 ```
+
+Qoder 在启动时加载 Hook 配置，因此首次安装后需要重启 Qoder。OpenCode 从全局
+插件目录加载本产品管理的只观测插件；若当前 OpenCode 进程早于安装启动，也请
+重启一次。两个集成都不读取或修改模型请求。
 
 数据库只有在收到真实 `official_hook` 事件后才会把集成显示为 **Live**。仅写入
 `~/.codex/hooks.json` 时显示 **Pending**。`start` 会以受管理的后台进程启动
@@ -387,16 +392,17 @@ PYTHONPATH=src python3 experiments/product_lifecycle/run_benchmark.py
 
 1. **v0.1 — 运行证据与诊断：** 实时采集、Skill Run Panorama、首边界诊断、
    证据检查、运行对比与 OTLP 互操作。
-2. **v0.2 — Adapter 广度与诊断研究：** 更多 Agent、真实跨 Agent 实验和参与者评估。
+2. **v0.2 — Adapter 加固与诊断研究：** 扩展 Agent 版本、真实跨 Agent 实验和参与者评估。
 3. **v0.3 — 效果评估：** 受控的有 Skill／无 Skill 配对实验，与单次运行诊断严格分离。
 
 ## 项目状态
 
 SkillRun-first Runtime 已可运行：已安装定义清单、Codex 会话 fallback、经用户同意的
-Codex 和 Claude Code 官方 Hook adapter、active-scope 归因、精确文件／产物路径、
-脱敏、独立 source／relationship／inference 数据层、SQLite、保留策略、跨运行和
-跨 Agent 对比、确定性诊断与实时 Panorama UI。
+Codex、Claude Code 与 Qoder 官方 Hook adapter、只观测的 OpenCode 插件 adapter、
+active-scope 归因、精确文件／产物路径、脱敏、独立
+source／relationship／inference 数据层、SQLite、保留策略、跨运行和跨 Agent
+对比、确定性诊断与实时 Panorama UI。
 
 系统可导入 OTLP/Phoenix、Langfuse、LangSmith、W&B Weave 和 Datadog 导出，并可
-通过主动启用的 OTLP/HTTP 实时导出标准化证据。当前可复现实验套件有七个通过的门禁。
-候选发现、模型内部选择原因、语义有效性和因果结果结论仍明确标为不支持。
+通过主动启用的 OTLP/HTTP 实时导出标准化证据。候选发现、模型内部选择原因、
+语义有效性和因果结果结论仍明确标为不支持。

@@ -7,6 +7,8 @@
 **Polski** · [Čeština](README.cs.md) · [Magyar](README.hu.md)
 <!-- locale-switcher:end -->
 
+[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-inteligencja/działania/przepływy pracy/ci.yml)[![Uwolnienie](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-wywiad/wydanie/najnowsze)[![Licencja](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)](LICENCJA)[![Pyton](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
+
 
 > Zdiagnozuj, gdzie po raz pierwszy przebiegała umiejętność agenta, i sprawdź dowody
 > za każdym wnioskiem.
@@ -17,11 +19,15 @@ Agent Skill Runtime Intelligenceto system dowodowy i diagnostyczny w trybie tylk
 
 ## Szybki start
 
-Zainstaluj najnowszą samodzielną wersję dla macOS lub Linux:
+Zainstaluj najnowszą samodzielną wersję w systemie macOS lub Linux:
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
+
+Żaden klon,Gitkonto centralne,`sudo`, LubGitWymagany jest interfejs wiersza polecenia koncentratora. Instalator pobiera pasujący ładunek podpisanego wydania, weryfikuje sumy kontrolne SHA-256, pyta raz przed włączeniem haków agenta typu Fail-Open i przechowuje wszystkie dane wykonawcze w`~/.skill-runtime`. Następnie uruchamia lokalne środowisko wykonawcze i otwiera się[http://127.0.0.1:4317](http://127.0.0.1:4317).
+
+Możesz[sprawdź instalatora](scripts/install.sh)przed uruchomieniem.
 
 Lub uruchom bezpośrednio z kasy źródłowej:
 
@@ -35,7 +41,7 @@ python3 -m venv .venv
 Otwarte[http://127.0.0.1:4317](http://127.0.0.1:4317). DlaCodex, przejrzyj i zaufaj zarządzanym poleceniom w`/hooks`, rozpocznij jedną nową turę Agenta, a następnie sprawdź:
 
 ```bash
-.venv/bin/skill-runtime doctor
+skill-runtime doctor
 ```
 
 Integracja zostaje **zweryfikowana** dopiero po odebraniu prawdziwego oficjalnego zdarzenia haka. Skonfigurowany hak jest pokazywany jako **Oczekujący**, nigdy jako żywy dowód.
@@ -117,7 +123,7 @@ Pojedynczy ślad może obsługiwać przypisanie wykonania. Nie może wykazać sk
 
 ## Zakres początkowy
 
-MVP wspieraClaude CodeICodexi zapewnia:
+Środowisko wykonawcze obsługujeCodex,Claude Code,Qoder, IOpenCodepoprzez niezależne, wersjonowane adaptery i zapewnia:
 
 - zainstalowany Odkrywanie i weryfikacja umiejętności;
 - import sesji i lokalna obserwacja na żywo, jeśli jest obsługiwana;
@@ -144,7 +150,7 @@ Następnie otwórz[http://127.0.0.1:4317](http://127.0.0.1:4317).
 Jednorazowy`install`rozkaz:
 
 1. skanuje lokalizacje umiejętności użytkownika, projektu i wtyczki buforowanej;
-2. wykrywaCodexIClaude Codebez zmiany ich konfiguracji;
+2. wykrywaCodex,Claude Code,Qoder, IOpenCodebez zmiany ich konfiguracji;
 3. pokazuje, które ścieżki Agenta i Umiejętności zostaną odczytane;
 4. pobiera zweryfikowanego przez sumę kontrolną natywnego nadawcę o niskim uruchomieniu dla bieżącej platformy, powracając do lokalnej kompilacji C i na koniecPythonnadawcy i podczas instalacji wstępnie podgrzewa świeży natywny plik binarny;
 5. tworzy`~/.skill-runtime/config.json`i lokalnySQLiteindeks.
@@ -154,6 +160,8 @@ Kiedy jest uruchamiany interaktywnie, pyta raz przed dodaniem haków agenta typu
 ```bash
 .venv/bin/skill-runtime doctor
 ```
+
+Qoderładuje konfigurację Hooka przy uruchomieniu, więc uruchom ponownieQoderpo pierwszej instalacji.OpenCodeodkrywa zarządzaną wtyczkę służącą tylko do obserwacji w swoim globalnym katalogu wtyczek; uruchom ponownieOpenCodejeśli bieżący proces poprzedza instalację. Żadna integracja nie odczytuje ani nie zmienia żądań modelu.
 
 Integracja staje się **Live** dopiero po otrzymaniu przez bazę danych rzeczywistego`official_hook`wydarzenie. Jedynie pisanie`~/.codex/hooks.json`jest wyświetlany jako **Oczekujący**, nigdy nie połączony.`start`uruchamia Kolektora, obserwatora rezerwowego transkrypcji, pracownika retencji,SQLiteprzechowuj i żyjUIjako zarządzany proces w tle. Żadne żądanie modelu nie jest przesyłane przez serwer proxy.
 
@@ -321,9 +329,9 @@ Kierunek badań jest również osadzony w sąsiednich pracach podstawowych:[Skil
 ## Plan działania
 
 1. **v0.1 — Dowody i diagnoza w czasie wykonywania:** kolekcja na żywo,Skill Run Panorama, diagnoza pierwszej granicy, kontrola dowodów, porównanie i interoperacyjność OTLP.
-2. **v0.2 — Badania dotyczące szerokości adaptera i diagnozy:** dodatkowi agenci, rzeczywiste eksperymenty między agentami i ocena uczestników.
+2. **v0.2 — Badania nad wzmocnieniem adaptera i diagnostyką:** dodatkowe wersje agentów, rzeczywiste eksperymenty między agentami i ocena uczestników.
 3. **v0.3 — Ocena efektu:** kontrolowana ocena sparowana z umiejętnością/bez umiejętności, oddzielona od diagnostyki pojedynczej.
 
 ## Stan projektu
 
-ASkillRun- możliwe jest uruchomienie pierwszego środowiska wykonawczego: inwentarz w zainstalowanej rozdzielczości,Codextranskrypcja zastępcza, oparta na zgodzieCodexIClaude Codeoficjalne adaptery hooków, przypisywanie zakresu aktywnego, dokładne ścieżki plików/artefaktów, redakcja, oddzielne warstwy źródeł/relacji/wnioskowania,SQLiteprzechowywanie, przechowywanie, porównywanie między różnymi agentami, diagnostyka deterministyczna i panorama na żywoUI. OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, IDatadogeksport może być importowany; znormalizowane dowody można eksportować na żywo po wyrażeniu zgodyOTLP/HTTP. Obecny powtarzalny zestaw ma siedem przechodzących bramek eksperymentalnych. Odkrycie kandydata, powody selekcji wewnętrznej w modelu, skuteczność semantyczna i twierdzenia o wynikach przyczynowych pozostają wyraźnie nie poparte.
+ASkillRun- możliwe jest uruchomienie pierwszego środowiska wykonawczego: inwentarz w zainstalowanej rozdzielczości,Codextranskrypcja zastępcza, oficjalne adaptery Hook oparte na zgodzie dlaCodex,Claude Code, IQoder, tylko obserwacjaOpenCodeadapter wtyczki, przypisanie zakresu aktywnego, dokładne ścieżki plików/artefaktów, redakcja, oddzielne warstwy źródła/relacji/wnioskowania,SQLiteprzechowywanie, przechowywanie, porównywanie między różnymi agentami, diagnostyka deterministyczna i panorama na żywoUI. OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, IDatadogeksport może być importowany; znormalizowane dowody można eksportować na żywo po wyrażeniu zgodyOTLP/HTTP. Odkrycie kandydata, powody selekcji wewnętrznej w modelu, skuteczność semantyczna i twierdzenia o wynikach przyczynowych pozostają wyraźnie nie poparte.

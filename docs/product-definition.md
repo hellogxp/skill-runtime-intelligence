@@ -446,6 +446,8 @@ experimental_results
 
 - Codex adapter；
 - Claude Code adapter；
+- Qoder adapter；
+- OpenCode adapter；
 - 自动发现本机 Agent 和 Skills；
 - 原生信号优先的实时采集；
 - 历史 session 导入；

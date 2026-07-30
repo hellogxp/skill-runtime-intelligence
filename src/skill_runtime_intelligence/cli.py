@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 from urllib.parse import unquote
 
+from . import __version__
 from .adapters import SUPPORTED_PROFILES
 from .config import (
     default_config,
@@ -35,12 +36,19 @@ from .hook_adapter import (
 from .hook_bridge import default_hook_socket
 from .indexer import import_observability, index_local, watch_local
 from .integrations import (
+    IntegrationError,
     enable_claude_hooks,
     enable_codex_hooks,
+    enable_opencode_plugin,
+    enable_qoder_hooks,
     inspect_claude_integration,
     inspect_codex_integration,
+    inspect_opencode_integration,
+    inspect_qoder_integration,
     remove_claude_hooks,
     remove_codex_hooks,
+    remove_opencode_plugin,
+    remove_qoder_hooks,
 )
 from .native_sender import build_native_hook_sender, install_native_hook_sender
 from .otlp_exporter import export_otlp_once, watch_otlp_export
@@ -474,6 +482,11 @@ def build_parser() -> argparse.ArgumentParser:
         prog="skill-runtime",
         description="Local-first, evidence-graded Agent Skill runtime panorama",
     )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
+    )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     install_parser = subparsers.add_parser(
@@ -647,6 +660,26 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Remove only hooks managed by Skill Runtime",
     )
+    setup_actions.add_argument(
+        "--enable-qoder-hooks",
+        action="store_true",
+        help="Back up settings and install fail-open Qoder hooks",
+    )
+    setup_actions.add_argument(
+        "--remove-qoder-hooks",
+        action="store_true",
+        help="Remove only Qoder hooks managed by Skill Runtime",
+    )
+    setup_actions.add_argument(
+        "--enable-opencode-plugin",
+        action="store_true",
+        help="Install the managed, observation-only OpenCode event plugin",
+    )
+    setup_actions.add_argument(
+        "--remove-opencode-plugin",
+        action="store_true",
+        help="Remove only the OpenCode plugin managed by Skill Runtime",
+    )
     setup_parser.add_argument(
         "--codex-hooks",
         type=_path,
@@ -658,6 +691,21 @@ def build_parser() -> argparse.ArgumentParser:
         type=_path,
         default=Path("~/.claude/settings.json").expanduser(),
         help="Claude Code settings path",
+    )
+    setup_parser.add_argument(
+        "--qoder-settings",
+        type=_path,
+        default=Path("~/.qoder/settings.json").expanduser(),
+        help="Qoder settings path",
+    )
+    setup_parser.add_argument(
+        "--opencode-plugin",
+        type=_path,
+        default=(
+            Path("~/.config/opencode/plugins/skill-runtime-intelligence.js")
+            .expanduser()
+        ),
+        help="OpenCode managed plugin path",
     )
     setup_parser.add_argument("--executable", default="", help=argparse.SUPPRESS)
 
@@ -705,6 +753,12 @@ def main(argv=None) -> None:
             inspect_claude_integration(
                 executable=executable, state_root=state_root
             ),
+            inspect_qoder_integration(
+                executable=executable, state_root=state_root
+            ),
+            inspect_opencode_integration(
+                executable=executable, state_root=state_root
+            ),
         ]
         detected = [item for item in integrations if item["detected"]]
         enable_hooks = args.enable_hooks
@@ -720,19 +774,41 @@ def main(argv=None) -> None:
             ).strip().lower()
             enable_hooks = answer in {"y", "yes"}
         hook_results = []
+        config.setdefault("hooks", {})
         for integration in detected:
             agent = integration["agent"]
             if enable_hooks:
-                if agent == "codex":
-                    result = enable_codex_hooks(
-                        executable, state_root=state_root
+                try:
+                    if agent == "codex":
+                        result = enable_codex_hooks(
+                            executable, state_root=state_root
+                        )
+                    elif agent == "claude-code":
+                        result = enable_claude_hooks(
+                            executable, state_root=state_root
+                        )
+                    elif agent == "qoder":
+                        result = enable_qoder_hooks(
+                            executable, state_root=state_root
+                        )
+                    else:
+                        result = enable_opencode_plugin(
+                            executable, state_root=state_root
+                        )
+                    hook_results.append({"agent": agent, **result})
+                    config["hooks"][agent] = {"consent": "granted"}
+                except IntegrationError as exc:
+                    hook_results.append(
+                        {
+                            "agent": agent,
+                            "changed": False,
+                            "error": str(exc),
+                        }
                     )
-                else:
-                    result = enable_claude_hooks(
-                        executable, state_root=state_root
-                    )
-                hook_results.append({"agent": agent, **result})
-                config["hooks"][agent] = {"consent": "granted"}
+                    config["hooks"][agent] = {
+                        "consent": "granted",
+                        "status": "configuration_failed",
+                    }
             elif args.no_hooks:
                 config["hooks"][agent] = {"consent": "declined"}
         save_config(config, config_path)
@@ -748,6 +824,8 @@ def main(argv=None) -> None:
         integrations = [
             inspect_codex_integration(executable=executable, state_root=state_root),
             inspect_claude_integration(executable=executable, state_root=state_root),
+            inspect_qoder_integration(executable=executable, state_root=state_root),
+            inspect_opencode_integration(executable=executable, state_root=state_root),
         ]
         result = {
             "installed": True,
@@ -891,6 +969,8 @@ def main(argv=None) -> None:
         for agent, remover in (
             ("codex", remove_codex_hooks),
             ("claude-code", remove_claude_hooks),
+            ("qoder", remove_qoder_hooks),
+            ("opencode", remove_opencode_plugin),
         ):
             consent = (
                 installation_config.get("hooks", {})
@@ -964,11 +1044,23 @@ def main(argv=None) -> None:
             result = enable_claude_hooks(executable, args.claude_settings)
         elif args.remove_claude_hooks:
             result = remove_claude_hooks(args.claude_settings)
+        elif args.enable_qoder_hooks:
+            native_sender = build_native_hook_sender()
+            result = enable_qoder_hooks(executable, args.qoder_settings)
+        elif args.remove_qoder_hooks:
+            result = remove_qoder_hooks(args.qoder_settings)
+        elif args.enable_opencode_plugin:
+            native_sender = build_native_hook_sender()
+            result = enable_opencode_plugin(executable, args.opencode_plugin)
+        elif args.remove_opencode_plugin:
+            result = remove_opencode_plugin(args.opencode_plugin)
         else:
             result = {
                 "integrations": [
                     inspect_codex_integration(args.codex_hooks, executable),
                     inspect_claude_integration(args.claude_settings, executable),
+                    inspect_qoder_integration(args.qoder_settings, executable),
+                    inspect_opencode_integration(args.opencode_plugin, executable),
                 ]
             }
         if native_sender is not None:

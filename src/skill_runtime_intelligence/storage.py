@@ -48,6 +48,26 @@ ADAPTER_CAPABILITIES = {
         "artifacts": "partial",
         "outcome": "observed",
     },
+    "qoder": {
+        "request": "observed",
+        "discovery": "unsupported",
+        "activation": "observed",
+        "instructions": "partial",
+        "resources": "partial",
+        "execution": "observed",
+        "artifacts": "partial",
+        "outcome": "partial",
+    },
+    "opencode": {
+        "request": "observed",
+        "discovery": "unsupported",
+        "activation": "observed",
+        "instructions": "partial",
+        "resources": "partial",
+        "execution": "observed",
+        "artifacts": "partial",
+        "outcome": "partial",
+    },
     "otel": {
         "request": "partial",
         "discovery": "unsupported",
@@ -454,6 +474,91 @@ class Storage:
                 """,
                 (key, value),
             )
+
+    @staticmethod
+    def _collection_epoch_key(adapter: str) -> str:
+        normalized = adapter.strip().lower()
+        if not re.fullmatch(r"[a-z0-9][a-z0-9._-]{0,63}", normalized):
+            raise ValueError("invalid collection adapter identifier")
+        return f"collection.{normalized}.epoch"
+
+    def collection_epoch(self, adapter: str) -> Dict[str, Any]:
+        value = self.runtime_state(self._collection_epoch_key(adapter), "")
+        if not value:
+            return {}
+        try:
+            result = json.loads(value)
+        except json.JSONDecodeError:
+            return {}
+        return result if isinstance(result, dict) else {}
+
+    def begin_collection_epoch(
+        self,
+        adapter: str,
+        *,
+        source_count: int,
+        changed_source_count: int,
+        removed_source_count: int = 0,
+        source_watermark_sha256: str,
+    ) -> Dict[str, Any]:
+        key = self._collection_epoch_key(adapter)
+        previous = self.collection_epoch(adapter)
+        epoch = int(previous.get("epoch", 0) or 0) + 1
+        state = {
+            "schema_version": "collection-epoch-v1",
+            "adapter": adapter,
+            "epoch": epoch,
+            "status": "running",
+            "source_count": max(0, int(source_count)),
+            "changed_source_count": max(0, int(changed_source_count)),
+            "removed_source_count": max(0, int(removed_source_count)),
+            "processed_source_count": 0,
+            "failed_source_count": 0,
+            "late_arrival_count": 0,
+            "source_watermark_sha256": str(source_watermark_sha256),
+            "start_revision": self.revision(),
+            "end_revision": None,
+        }
+        self.set_runtime_state(
+            key,
+            json.dumps(state, separators=(",", ":"), sort_keys=True),
+        )
+        return state
+
+    def complete_collection_epoch(
+        self,
+        adapter: str,
+        epoch: int,
+        *,
+        processed_source_count: int,
+        failed_source_count: int,
+        late_arrival_count: int,
+        status: str = "completed",
+    ) -> Dict[str, Any]:
+        if status not in {"completed", "failed"}:
+            raise ValueError("collection epoch status must be completed or failed")
+        key = self._collection_epoch_key(adapter)
+        state = self.collection_epoch(adapter)
+        if not state or int(state.get("epoch", 0) or 0) != int(epoch):
+            raise RuntimeError("collection epoch does not match active state")
+        if state.get("status") != "running":
+            raise RuntimeError("collection epoch is not running")
+        state.update(
+            {
+                "status": status,
+                "processed_source_count": max(
+                    0, int(processed_source_count)
+                ),
+                "failed_source_count": max(0, int(failed_source_count)),
+                "late_arrival_count": max(0, int(late_arrival_count)),
+                "end_revision": self.revision(),
+            }
+        )
+        self.set_runtime_state(
+            key,
+            json.dumps(state, separators=(",", ":"), sort_keys=True),
+        )
+        return state
 
     def list_runtime_state(self, prefix: str) -> List[Dict[str, str]]:
         rows = self.connection.execute(

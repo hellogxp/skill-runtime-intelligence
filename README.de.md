@@ -7,6 +7,8 @@
 [Polski](README.pl.md) · [Čeština](README.cs.md) · [Magyar](README.hu.md)
 <!-- locale-switcher:end -->
 
+[![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml)[![Freigeben](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-Intelligence/Releases/Neueste)[![Lizenz](https://img.shields.io/github/license/hellogxp/skill-runtime-intelligence)](LIZENZ)[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB)](https://www.python.org/)
+
 
 > Diagnostizieren Sie, wo ein Agent-Skill-Lauf zuerst auseinanderfiel – und prüfen Sie die Beweise
 > hinter jeder Schlussfolgerung.
@@ -17,11 +19,15 @@ Agent Skill Runtime Intelligenceist ein schreibgeschütztes Laufzeit-Beweis- und
 
 ## Schnellstart
 
-Installieren Sie die neueste eigenständige Version für macOS oder Linux:
+Installieren Sie die neueste Standalone-Version auf macOS oder Linux:
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
+
+Kein Klon,GitHub-Konto,`sudo`, oderGitHub-CLI ist erforderlich. Das Installationsprogramm lädt die passende Nutzlast der signierten Version herunter, überprüft die SHA-256-Prüfsummen, fragt einmal nach, bevor Fail-Open-Agent-Hooks aktiviert werden, und speichert alle Laufzeitdaten darunter`~/.skill-runtime`. Anschließend wird die lokale Laufzeit gestartet und geöffnet[http://127.0.0.1:4317](http://127.0.0.1:4317).
+
+Du kannst[Überprüfen Sie den Installer](scripts/install.sh)bevor Sie es ausführen.
 
 Oder führen Sie es direkt von einem Quell-Checkout aus aus:
 
@@ -35,7 +41,7 @@ python3 -m venv .venv
 Offen[http://127.0.0.1:4317](http://127.0.0.1:4317). FürCodexÜberprüfen Sie die verwalteten Befehle und vertrauen Sie ihnen`/hooks`, beginnen Sie einen neuen Agentenzug und überprüfen Sie dann Folgendes:
 
 ```bash
-.venv/bin/skill-runtime doctor
+skill-runtime doctor
 ```
 
 Die Integration wird erst **verifiziert**, nachdem ein echtes offizielles Hook-Ereignis empfangen wurde. Ein konfigurierter Hook wird als **Ausstehend** angezeigt, niemals als Live-Beweis.
@@ -117,7 +123,7 @@ Eine einzelne Ablaufverfolgung kann die Ausführungszuordnung unterstützen. Ein
 
 ## Erster Umfang
 
-Der MVP unterstütztClaude CodeUndCodexund bietet:
+Die Laufzeit unterstütztCodex,Claude Code,Qoder, UndOpenCodedurch unabhängige, versionierte Adapter und bietet:
 
 - installierte Fähigkeitserkennung und -validierung;
 - Sitzungsimport und lokale Live-Beobachtung, sofern unterstützt;
@@ -144,7 +150,7 @@ Dann öffnen[http://127.0.0.1:4317](http://127.0.0.1:4317).
 Das Einmalige`install`Befehl:
 
 1. scannt Benutzer-, Projekt- und zwischengespeicherte Plugin-Skill-Standorte;
-2. erkenntCodexUndClaude Codeohne ihre Konfiguration zu ändern;
+2. erkenntCodex,Claude Code,Qoder, UndOpenCodeohne ihre Konfiguration zu ändern;
 3. zeigt an, welche Agenten- und Skillpfade gelesen werden;
 4. lädt einen durch Prüfsummen verifizierten nativen Absender mit geringem Startup für die aktuelle Plattform herunter, greift auf einen lokalen C-Build zurück und schließlich auf denPythonAbsender und erwärmt einmal während der Installation eine neue native Binärdatei vor;
 5. schafft`~/.skill-runtime/config.json`und das LokaleSQLiteIndex.
@@ -154,6 +160,8 @@ Wenn es interaktiv ausgeführt wird, fragt es einmal nach, bevor es Fail-Open-Ag
 ```bash
 .venv/bin/skill-runtime doctor
 ```
+
+Qoderlädt die Hook-Konfiguration beim Start, also neu startenQodernach der ersten Installation.OpenCodeerkennt das verwaltete Nur-Beobachtungs-Plugin aus seinem globalen Plugin-Verzeichnis; neu startenOpenCodewenn der aktuelle Prozess vor der Installation durchgeführt wurde. Keine der Integrationen liest oder ändert Modellanforderungen.
 
 Die Integration wird erst **Live**, nachdem die Datenbank eine echte Datei erhält`official_hook`Ereignis. Bloß schreiben`~/.codex/hooks.json`wird als **Ausstehend**, nie verbunden angezeigt.`start`startet den Collector, den Transkript-Fallback-Watcher und den Retention Worker.SQLitespeichern und lebenUIals verwalteter Hintergrundprozess. Es wird keine Modellanfrage weitergeleitet.
 
@@ -321,9 +329,9 @@ Die Forschungsrichtung basiert auch auf angrenzenden Primärarbeiten:[SkillsBenc
 ## Roadmap
 
 1. **v0.1 – Laufzeitbeweis und -diagnose:** Live-Sammlung,Skill Run Panorama, Erstgrenzdiagnose, Beweisprüfung, Vergleich und OTLP-Interoperabilität.
-2. **v0.2 – Adapterbreite und Diagnosestudien:** zusätzliche Agenten, echte agentenübergreifende Experimente und Teilnehmerbewertung.
+2. **v0.2 – Studien zur Adapterhärtung und Diagnose:** zusätzliche Agentenversionen, echte agentenübergreifende Experimente und Teilnehmerbewertung.
 3. **v0.3 – Effektauswertung:** kontrollierte gepaarte Auswertung mit Fertigkeit/ohne Fertigkeit, getrennt von der Einzeldurchlaufdiagnose.
 
 ## Projektstatus
 
-ASkillRun-erste Laufzeit ist ausführbar: Inventar der installierten Definition,CodexTranskript-Fallback, einwilligungsgesteuertCodexUndClaude CodeOffizielle Hook-Adapter, Active-Scope-Attribution, genaue Datei-/Artefaktpfade, Schwärzung, separate Quell-/Beziehungs-/Inferenzebenen,SQLiteSpeicherung, Aufbewahrung, Cross-Run- und Cross-Agent-Vergleich, deterministische Diagnose und das Live-PanoramaUI. OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, UndDatadogExporte können importiert werden; Normalisierte Beweise können per Opt-in live exportiert werdenOTLP/HTTP. Die aktuelle reproduzierbare Suite verfügt über sieben Durchgangsexperimentstore. Kandidatenfindung, modellinterne Auswahlgründe, semantische Wirksamkeit und kausale Ergebnisansprüche werden weiterhin ausdrücklich nicht unterstützt.
+ASkillRun-erste Laufzeit ist ausführbar: Inventar der installierten Definition,CodexTranskript-Fallback, zustimmungsgesteuerte offizielle Hook-Adapter fürCodex,Claude Code, UndQoder, eine reine BeobachtungOpenCodePlugin-Adapter, Active-Scope-Attribution, genaue Datei-/Artefaktpfade, Schwärzung, separate Quell-/Beziehungs-/Inferenzebenen,SQLiteSpeicherung, Aufbewahrung, Cross-Run- und Cross-Agent-Vergleich, deterministische Diagnose und das Live-PanoramaUI. OTLP/Phoenix,Langfuse,LangSmith,W&B Weave, UndDatadogExporte können importiert werden; Normalisierte Beweise können per Opt-in live exportiert werdenOTLP/HTTP. Kandidatenfindung, modellinterne Auswahlgründe, semantische Wirksamkeit und kausale Ergebnisansprüche werden weiterhin ausdrücklich nicht unterstützt.

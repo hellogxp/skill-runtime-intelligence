@@ -11,6 +11,8 @@ from .redaction import compact_text
 
 CODEX_HOOK_ADAPTER_VERSION = "0.1.0"
 CLAUDE_HOOK_ADAPTER_VERSION = "0.1.0"
+QODER_HOOK_ADAPTER_VERSION = "0.1.0"
+OPENCODE_PLUGIN_ADAPTER_VERSION = "0.1.0"
 
 HOOK_EVENT_TYPES = {
     "SessionStart": "session.started",
@@ -27,11 +29,14 @@ HOOK_EVENT_TYPES = {
     "SubagentStart": "subagent.started",
     "SubagentStop": "subagent.completed",
     "FileChanged": "file.modified",
+    "SessionError": "turn.failed",
 }
 
 SUPPORTED_HOOK_AGENTS = {
     "codex": CODEX_HOOK_ADAPTER_VERSION,
     "claude-code": CLAUDE_HOOK_ADAPTER_VERSION,
+    "qoder": QODER_HOOK_ADAPTER_VERSION,
+    "opencode": OPENCODE_PLUGIN_ADAPTER_VERSION,
 }
 
 
@@ -138,6 +143,8 @@ def _status(payload: Dict[str, Any], hook_event: str) -> Optional[str]:
     }:
         return explicit
     if hook_event == "PostToolUseFailure":
+        return "failed"
+    if hook_event == "SessionError":
         return "failed"
     if hook_event in {
         "PostToolUse",
@@ -398,6 +405,22 @@ def build_claude_hook_envelopes(
     )
 
 
+def build_qoder_hook_envelopes(
+    hook_event: str, payload: Dict[str, Any]
+) -> List[Dict[str, Any]]:
+    return build_agent_hook_envelopes(
+        "qoder", QODER_HOOK_ADAPTER_VERSION, hook_event, payload
+    )
+
+
+def build_opencode_hook_envelopes(
+    hook_event: str, payload: Dict[str, Any]
+) -> List[Dict[str, Any]]:
+    return build_agent_hook_envelopes(
+        "opencode", OPENCODE_PLUGIN_ADAPTER_VERSION, hook_event, payload
+    )
+
+
 def build_hook_envelopes(
     agent: str, hook_event: str, payload: Dict[str, Any]
 ) -> List[Dict[str, Any]]:
@@ -405,4 +428,8 @@ def build_hook_envelopes(
         return build_codex_hook_envelopes(hook_event, payload)
     if agent == "claude-code":
         return build_claude_hook_envelopes(hook_event, payload)
+    if agent == "qoder":
+        return build_qoder_hook_envelopes(hook_event, payload)
+    if agent == "opencode":
+        return build_opencode_hook_envelopes(hook_event, payload)
     return []
