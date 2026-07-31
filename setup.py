@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="skill-runtime-intelligence",
-    version="0.2.0",
+    version="0.2.1",
     description="Local-first, evidence-graded Agent Skill runtime intelligence",
     author="xueping",
     author_email="hellogxp@gmail.com",

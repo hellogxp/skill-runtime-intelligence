@@ -468,7 +468,7 @@ Product and research references: [product definition](docs/product-definition.md
 
 ## Roadmap
 
-1. **v0.2.0 — Available now:** live fail-open collection, four versioned Agent
+1. **v0.2.1 — Available now:** live fail-open collection, four versioned Agent
    adapters, Runtime Overview, first-boundary diagnosis, Panorama, Evidence
    Inspector, capability-aware Compare, Inferred Analysis, and OTLP
    interoperability.
@@ -480,7 +480,7 @@ Product and research references: [product definition](docs/product-definition.md
 
 ## Project status
 
-Version `v0.2.0` is published. The runtime includes installed-definition
+Version `v0.2.1` is published. The runtime includes installed-definition
 inventory, consent-driven official Hook adapters for Codex, Claude Code, and
 Qoder, an observation-only OpenCode plugin, labeled transcript fallback,
 active-scope attribution, exact file/artifact paths, redaction, separate

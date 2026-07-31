@@ -681,9 +681,18 @@ class Storage:
             "last_event_at", session.get("ended_at") or session.get("started_at")
         )
         with self.connection:
+            # A transcript is refreshed while it is still growing. Replacing the
+            # parent session with DELETE + INSERT used to cascade-delete every
+            # normalized event and assign new SQLite rowids on each scan. The
+            # OTLP exporter uses rowid as its append cursor, so unchanged events
+            # then looked new and could indefinitely delay live Hook evidence.
+            #
+            # Remove only a genuinely superseded session that owns the same
+            # source path. The current session and its event rowids are updated
+            # in place below.
             self.connection.execute(
-                "DELETE FROM sessions WHERE session_id = ? OR source_path = ?",
-                (session["session_id"], session["source_path"]),
+                "DELETE FROM sessions WHERE source_path = ? AND session_id != ?",
+                (session["source_path"], session["session_id"]),
             )
             columns = (
                 "session_id",
@@ -710,8 +719,18 @@ class Storage:
             )
             self.connection.execute(
                 f"INSERT INTO sessions ({','.join(columns)}) "
-                f"VALUES ({','.join('?' for _ in columns)})",
+                f"VALUES ({','.join('?' for _ in columns)}) "
+                "ON CONFLICT(session_id) DO UPDATE SET "
+                + ",".join(
+                    f"{column}=excluded.{column}"
+                    for column in columns
+                    if column != "session_id"
+                ),
                 tuple(session.get(column) for column in columns),
+            )
+            self.connection.execute(
+                "DELETE FROM raw_source_records WHERE session_id = ?",
+                (session["session_id"],),
             )
             for record in raw:
                 self.connection.execute(
@@ -733,6 +752,10 @@ class Storage:
                         record["redacted_envelope_json"],
                     ),
                 )
+            self.connection.execute(
+                "DELETE FROM skill_runs WHERE session_id = ?",
+                (session["session_id"],),
+            )
             for run in skill_runs:
                 self.connection.execute(
                     """
@@ -758,6 +781,26 @@ class Storage:
                         run.get("source_adapter", session["adapter"]),
                     ),
                 )
+            self.connection.execute(
+                """
+                CREATE TEMP TABLE IF NOT EXISTS sri_replace_event_ids (
+                    event_id TEXT PRIMARY KEY
+                )
+                """
+            )
+            self.connection.execute("DELETE FROM sri_replace_event_ids")
+            self.connection.executemany(
+                "INSERT INTO sri_replace_event_ids (event_id) VALUES (?)",
+                ((event["event_id"],) for event in events),
+            )
+            self.connection.execute(
+                """
+                DELETE FROM normalized_events
+                WHERE session_id = ?
+                  AND event_id NOT IN (SELECT event_id FROM sri_replace_event_ids)
+                """,
+                (session["session_id"],),
+            )
             for event in events:
                 self.connection.execute(
                     """
@@ -769,6 +812,27 @@ class Storage:
                         evidence_grade, confidence, basis, summary, source_locator,
                         payload_json
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(event_id) DO UPDATE SET
+                        session_id=excluded.session_id,
+                        turn_id=excluded.turn_id,
+                        skill_id=excluded.skill_id,
+                        skill_run_id=excluded.skill_run_id,
+                        parent_event_id=excluded.parent_event_id,
+                        occurred_at=excluded.occurred_at,
+                        timestamp_origin=excluded.timestamp_origin,
+                        ingested_at=excluded.ingested_at,
+                        clock_domain=excluded.clock_domain,
+                        clock_uncertainty_ms=excluded.clock_uncertainty_ms,
+                        timestamp_precision=excluded.timestamp_precision,
+                        event_type=excluded.event_type,
+                        stage=excluded.stage,
+                        status=excluded.status,
+                        evidence_grade=excluded.evidence_grade,
+                        confidence=excluded.confidence,
+                        basis=excluded.basis,
+                        summary=excluded.summary,
+                        source_locator=excluded.source_locator,
+                        payload_json=excluded.payload_json
                     """,
                     (
                         event["event_id"],
@@ -794,6 +858,10 @@ class Storage:
                         json.dumps(event.get("payload", {}), ensure_ascii=False),
                     ),
                 )
+            self.connection.execute(
+                "DELETE FROM inferences WHERE session_id = ?",
+                (session["session_id"],),
+            )
             self._build_relationships(session["session_id"], events, skill_runs)
             self._bump_revision()
 

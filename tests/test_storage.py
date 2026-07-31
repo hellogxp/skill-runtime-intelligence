@@ -210,6 +210,82 @@ class StorageTests(unittest.TestCase):
             finally:
                 storage.close()
 
+    def test_session_refresh_preserves_export_rowids_for_unchanged_events(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            database = root / "panorama.db"
+            storage = Storage(database)
+            session = {
+                "session_id": "growing-session",
+                "adapter": "codex",
+                "adapter_version": "0.2.0",
+                "source_path": str(root / "session.jsonl"),
+                "source_format_version": "fixture",
+                "title": "Growing transcript",
+                "cwd": str(root),
+                "model": "",
+                "agent_version": "",
+                "started_at": "2026-07-31T00:00:00Z",
+                "ended_at": None,
+                "duration_ms": None,
+                "status": "incomplete",
+                "completeness": "partial",
+                "event_count": 1,
+            }
+            first_event = {
+                "event_id": "event-stable",
+                "session_id": session["session_id"],
+                "turn_id": "turn-1",
+                "skill_id": None,
+                "skill_run_id": None,
+                "parent_event_id": None,
+                "occurred_at": "2026-07-31T00:00:01Z",
+                "event_type": "request.received",
+                "stage": "request",
+                "status": "observed",
+                "evidence_grade": "observed",
+                "confidence": 1.0,
+                "basis": "fixture",
+                "summary": "Initial request",
+                "source_locator": "fixture:1",
+                "payload": {},
+            }
+            second_event = {
+                **first_event,
+                "event_id": "event-new",
+                "occurred_at": "2026-07-31T00:00:02Z",
+                "summary": "New request",
+                "source_locator": "fixture:2",
+            }
+            try:
+                storage.replace_session(session, [], [first_event], [])
+                original = storage.connection.execute(
+                    "SELECT rowid FROM normalized_events WHERE event_id = ?",
+                    (first_event["event_id"],),
+                ).fetchone()["rowid"]
+
+                refreshed = dict(session)
+                refreshed["event_count"] = 2
+                storage.replace_session(
+                    refreshed, [], [first_event, second_event], []
+                )
+
+                rows = storage.connection.execute(
+                    """
+                    SELECT rowid, event_id
+                    FROM normalized_events
+                    WHERE session_id = ?
+                    ORDER BY rowid
+                    """,
+                    (session["session_id"],),
+                ).fetchall()
+                self.assertEqual(rows[0]["event_id"], first_event["event_id"])
+                self.assertEqual(rows[0]["rowid"], original)
+                self.assertEqual(rows[1]["event_id"], second_event["event_id"])
+                self.assertGreater(rows[1]["rowid"], original)
+            finally:
+                storage.close()
+
     def test_inventory_records_resource_metadata_without_contents(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
