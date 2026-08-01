@@ -9,6 +9,19 @@ permissions:
   contents: read
 
 jobs:
+  public-boundary:
+    name: Public repository boundary
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Reject private-only material
+        run: python scripts/check_public_boundary.py
+
   test:
     name: Python ${{ matrix.python }} / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}

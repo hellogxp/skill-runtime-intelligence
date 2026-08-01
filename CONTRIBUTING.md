@@ -14,6 +14,22 @@ Keep integrations behind versioned adapters and preserve raw source events
 separately from normalized and inferred records. New behavior must strengthen
 the Skill-specific run panorama or diagnosis workflow.
 
+## Public repository boundary
+
+This repository and every published release contain public material only. Do
+not commit private infrastructure URLs, organization-only installation or
+distribution instructions, credentials, employee identity data, or other
+non-public content.
+
+Run the same fail-closed check used by CI before opening a pull request:
+
+```bash
+python scripts/check_public_boundary.py
+```
+
+The release workflow repeats this check against both the source tree and the
+contents of packaged archives before uploading any asset.
+
 ## Pull requests
 
 1. Open an issue for substantial behavior or event-model changes.
