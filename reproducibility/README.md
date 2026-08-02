@@ -43,7 +43,11 @@ model-backed experiments require the named external Agent/CLI or an
 OpenAI-compatible model endpoint; they are intentionally not hidden inside the
 deterministic command.
 
-## Rebuild the archive
+## Maintainer rebuild
+
+Rebuilding requires the complete source result directories from the private
+working archive. Those machine-local source copies are intentionally not
+published; reviewers should use the verification commands above.
 
 ```bash
 python3 scripts/build_reproducibility_bundle.py

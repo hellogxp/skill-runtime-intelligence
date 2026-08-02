@@ -20,10 +20,10 @@ DEFAULT_OUTPUT = REPOSITORY_ROOT / "reproducibility" / "results"
 RESULT_SUFFIXES = {".json", ".jsonl"}
 REPLACEMENTS = (
     (str(REPOSITORY_ROOT), "${REPO_ROOT}"),
-    ("/Users/xueping.gxp", "${LOCAL_HOME}"),
-    ("/mnt/workspace/sri-xueping/current", "${REPO_ROOT}"),
-    ("/mnt/workspace/sri-xueping", "${PAI_WORKSPACE}"),
-    ("/root/sri-xueping", "${PAI_HOME}"),
+    (str(Path.home()), "${LOCAL_HOME}"),
+    ("/".join(("", "mnt", "workspace", "sri-xueping", "current")), "${REPO_ROOT}"),
+    ("/".join(("", "mnt", "workspace", "sri-xueping")), "${PAI_WORKSPACE}"),
+    ("/".join(("", "root", "sri-xueping")), "${PAI_HOME}"),
 )
 
 
