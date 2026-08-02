@@ -65,7 +65,8 @@ erase another.
 
 - Skill identity and digest;
 - independent occurrence identity within a turn;
-- activation mode: explicit tool, slash command, automatic, inferred, unknown;
+- activation mode: explicit tool, UI selection, slash command, automatic,
+  instruction evidence, unknown;
 - activation and end events;
 - evidence grade;
 - status.
@@ -146,6 +147,18 @@ connecting it to a SkillRun is Derived.
 - `skill.activation_completed`
 - `skill.activation_failed`
 - `skill.deactivated`
+
+`skill.activation_completed` closes the Agent's activation operation (for
+example, the `Skill` tool call); it does not close the surrounding SkillRun.
+The active Skill scope remains open for subsequent execution and artifacts
+until a turn/session terminal event, explicit deactivation, activation failure,
+or outcome boundary is observed.
+
+An Agent UI selection may normalize to `skill.activated` only when the source
+exposes an exact structured Skill identity, typed Skill attachment/message, or
+versioned local metadata record. Prompt-text similarity is not an activation
+signal. The source-specific entrypoint is retained as `activation_mode` and in
+the evidence basis.
 
 Do not emit `skill.considered` unless the source explicitly provides a candidate event. Similarity analysis belongs in the inference layer.
 
@@ -263,6 +276,13 @@ Use this order:
 6. heuristic or model inference.
 
 Levels 1–4 may usually be Derived. Levels 5–6 must include uncertainty and must never overwrite observed relationships.
+
+Active Skill scope is persisted in the local evidence index rather than held
+only in a Hook server process. This makes level-3 attribution deterministic
+across native-sender, HTTP/queue fallback, and separate fail-open Hook
+processes. A new observed request boundary clears an unclosed prior scope so a
+missing terminal Hook cannot silently attribute the next turn to the old
+Skill.
 
 ## 8. Adapter contract
 

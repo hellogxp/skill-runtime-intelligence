@@ -576,7 +576,12 @@ window.SkillRuntimeLocalePacks = {
       "No actionable diagnostic finding": "沒有可操作的診斷結果",
       "Systemic observability limits are summarized above instead of repeated as run issues.": "上面總結了系統可觀測性限制，而不是作為運行問題重複。",
       "Activation signal observed": "觀察到激活訊號",
-      "Direct lifecycle evidence is available.": "可以獲得直接的生命週期證據。"
+      "Direct lifecycle evidence is available.": "可以獲得直接的生命週期證據。",
+      "ui selection": "介面選擇",
+      "slash command": "斜線指令",
+      "instruction evidence": "指令證據",
+      "instruction access": "指令存取",
+      "resource access": "資源存取"
     },
     "patterns": {
       "skills_count": "{count}技能",
@@ -1175,7 +1180,12 @@ window.SkillRuntimeLocalePacks = {
       "No actionable diagnostic finding": "Aucun résultat de diagnostic exploitable",
       "Systemic observability limits are summarized above instead of repeated as run issues.": "Les limites d'observabilité systémique sont résumées ci-dessus au lieu d'être répétées en tant que problèmes d'exécution.",
       "Activation signal observed": "Signal d'activation observé",
-      "Direct lifecycle evidence is available.": "Des preuves directes du cycle de vie sont disponibles."
+      "Direct lifecycle evidence is available.": "Des preuves directes du cycle de vie sont disponibles.",
+      "ui selection": "ui selection",
+      "slash command": "slash command",
+      "instruction evidence": "instruction evidence",
+      "instruction access": "instruction access",
+      "resource access": "resource access"
     },
     "patterns": {
       "skills_count": "{count} Compétences",
@@ -1774,7 +1784,12 @@ window.SkillRuntimeLocalePacks = {
       "No actionable diagnostic finding": "Kein verwertbarer diagnostischer Befund",
       "Systemic observability limits are summarized above instead of repeated as run issues.": "Systemische Beobachtbarkeitsgrenzen werden oben zusammengefasst und nicht als Laufprobleme wiederholt.",
       "Activation signal observed": "Aktivierungssignal beobachtet",
-      "Direct lifecycle evidence is available.": "Es liegen direkte Lebenszyklusnachweise vor."
+      "Direct lifecycle evidence is available.": "Es liegen direkte Lebenszyklusnachweise vor.",
+      "ui selection": "ui selection",
+      "slash command": "slash command",
+      "instruction evidence": "instruction evidence",
+      "instruction access": "instruction access",
+      "resource access": "resource access"
     },
     "patterns": {
       "skills_count": "{count} Fähigkeiten",
@@ -2373,7 +2388,12 @@ window.SkillRuntimeLocalePacks = {
       "No actionable diagnostic finding": "Nessun risultato diagnostico utilizzabile",
       "Systemic observability limits are summarized above instead of repeated as run issues.": "I limiti di osservabilità sistemica sono riepilogati sopra invece di essere ripetuti come problemi di esecuzione.",
       "Activation signal observed": "Segnale di attivazione osservato",
-      "Direct lifecycle evidence is available.": "Sono disponibili prove dirette del ciclo di vita."
+      "Direct lifecycle evidence is available.": "Sono disponibili prove dirette del ciclo di vita.",
+      "ui selection": "ui selection",
+      "slash command": "slash command",
+      "instruction evidence": "instruction evidence",
+      "instruction access": "instruction access",
+      "resource access": "resource access"
     },
     "patterns": {
       "skills_count": "{count} competenze",
@@ -2972,7 +2992,12 @@ window.SkillRuntimeLocalePacks = {
       "No actionable diagnostic finding": "Ningún hallazgo diagnóstico procesable",
       "Systemic observability limits are summarized above instead of repeated as run issues.": "Los límites de observabilidad sistémica se resumen arriba en lugar de repetirse como problemas de ejecución.",
       "Activation signal observed": "Señal de activación observada.",
-      "Direct lifecycle evidence is available.": "Hay disponible evidencia directa del ciclo de vida."
+      "Direct lifecycle evidence is available.": "Hay disponible evidencia directa del ciclo de vida.",
+      "ui selection": "ui selection",
+      "slash command": "slash command",
+      "instruction evidence": "instruction evidence",
+      "instruction access": "instruction access",
+      "resource access": "resource access"
     },
     "patterns": {
       "skills_count": "{count} Habilidades",
@@ -3571,7 +3596,12 @@ window.SkillRuntimeLocalePacks = {
       "No actionable diagnostic finding": "実用的な診断結果はありません",
       "Systemic observability limits are summarized above instead of repeated as run issues.": "系統的な可観測性の制限は、実行の問題として繰り返すのではなく、上記にまとめられています。",
       "Activation signal observed": "活性化シグナルが観察される",
-      "Direct lifecycle evidence is available.": "ライフサイクルの直接的な証拠が入手可能です。"
+      "Direct lifecycle evidence is available.": "ライフサイクルの直接的な証拠が入手可能です。",
+      "ui selection": "ui selection",
+      "slash command": "slash command",
+      "instruction evidence": "instruction evidence",
+      "instruction access": "instruction access",
+      "resource access": "resource access"
     },
     "patterns": {
       "skills_count": "{count} 個のスキル",
@@ -4170,7 +4200,12 @@ window.SkillRuntimeLocalePacks = {
       "No actionable diagnostic finding": "실행 가능한 진단 결과 없음",
       "Systemic observability limits are summarized above instead of repeated as run issues.": "실행 문제로 반복되는 대신 체계적인 관찰 가능성 제한이 위에 요약되어 있습니다.",
       "Activation signal observed": "활성화 신호가 관찰됨",
-      "Direct lifecycle evidence is available.": "직접적인 수명주기 증거가 제공됩니다."
+      "Direct lifecycle evidence is available.": "직접적인 수명주기 증거가 제공됩니다.",
+      "ui selection": "ui selection",
+      "slash command": "slash command",
+      "instruction evidence": "instruction evidence",
+      "instruction access": "instruction access",
+      "resource access": "resource access"
     },
     "patterns": {
       "skills_count": "{count} 기술",
@@ -4769,7 +4804,12 @@ window.SkillRuntimeLocalePacks = {
       "No actionable diagnostic finding": "Никаких действенных диагностических результатов",
       "Systemic observability limits are summarized above instead of repeated as run issues.": "Системные пределы наблюдаемости кратко изложены выше, а не повторяются как проблемы запуска.",
       "Activation signal observed": "Обнаружен сигнал активации",
-      "Direct lifecycle evidence is available.": "Доступны прямые доказательства жизненного цикла."
+      "Direct lifecycle evidence is available.": "Доступны прямые доказательства жизненного цикла.",
+      "ui selection": "ui selection",
+      "slash command": "slash command",
+      "instruction evidence": "instruction evidence",
+      "instruction access": "instruction access",
+      "resource access": "resource access"
     },
     "patterns": {
       "skills_count": "{count} Навыки",
@@ -5368,7 +5408,12 @@ window.SkillRuntimeLocalePacks = {
       "No actionable diagnostic finding": "Nenhum achado diagnóstico acionável",
       "Systemic observability limits are summarized above instead of repeated as run issues.": "Os limites de observabilidade sistêmica estão resumidos acima, em vez de serem repetidos como problemas de execução.",
       "Activation signal observed": "Sinal de ativação observado",
-      "Direct lifecycle evidence is available.": "Evidências diretas do ciclo de vida estão disponíveis."
+      "Direct lifecycle evidence is available.": "Evidências diretas do ciclo de vida estão disponíveis.",
+      "ui selection": "ui selection",
+      "slash command": "slash command",
+      "instruction evidence": "instruction evidence",
+      "instruction access": "instruction access",
+      "resource access": "resource access"
     },
     "patterns": {
       "skills_count": "{count} Habilidades",
@@ -5967,7 +6012,12 @@ window.SkillRuntimeLocalePacks = {
       "No actionable diagnostic finding": "Uygulanabilir teşhis bulgusu yok",
       "Systemic observability limits are summarized above instead of repeated as run issues.": "Sistemik gözlemlenebilirlik sınırları, çalıştırma sorunları olarak tekrarlanmak yerine yukarıda özetlenmiştir.",
       "Activation signal observed": "Aktivasyon sinyali gözlemlendi",
-      "Direct lifecycle evidence is available.": "Doğrudan yaşam döngüsü kanıtı mevcuttur."
+      "Direct lifecycle evidence is available.": "Doğrudan yaşam döngüsü kanıtı mevcuttur.",
+      "ui selection": "ui selection",
+      "slash command": "slash command",
+      "instruction evidence": "instruction evidence",
+      "instruction access": "instruction access",
+      "resource access": "resource access"
     },
     "patterns": {
       "skills_count": "{count} Beceri",
@@ -6566,7 +6616,12 @@ window.SkillRuntimeLocalePacks = {
       "No actionable diagnostic finding": "Brak wyników diagnostycznych, które można zastosować",
       "Systemic observability limits are summarized above instead of repeated as run issues.": "Systemowe limity obserwowalności podsumowano powyżej, a nie powtarzano w miarę problemów z uruchomieniem.",
       "Activation signal observed": "Zaobserwowano sygnał aktywacji",
-      "Direct lifecycle evidence is available.": "Dostępne są bezpośrednie dowody dotyczące cyklu życia."
+      "Direct lifecycle evidence is available.": "Dostępne są bezpośrednie dowody dotyczące cyklu życia.",
+      "ui selection": "ui selection",
+      "slash command": "slash command",
+      "instruction evidence": "instruction evidence",
+      "instruction access": "instruction access",
+      "resource access": "resource access"
     },
     "patterns": {
       "skills_count": "{count} Umiejętności",
@@ -7165,7 +7220,12 @@ window.SkillRuntimeLocalePacks = {
       "No actionable diagnostic finding": "Žádný funkční diagnostický nález",
       "Systemic observability limits are summarized above instead of repeated as run issues.": "Limity systémové pozorovatelnosti jsou shrnuty výše místo toho, aby se opakovaly jako problémy běhu.",
       "Activation signal observed": "Aktivační signál byl pozorován",
-      "Direct lifecycle evidence is available.": "K dispozici jsou přímé důkazy životního cyklu."
+      "Direct lifecycle evidence is available.": "K dispozici jsou přímé důkazy životního cyklu.",
+      "ui selection": "ui selection",
+      "slash command": "slash command",
+      "instruction evidence": "instruction evidence",
+      "instruction access": "instruction access",
+      "resource access": "resource access"
     },
     "patterns": {
       "skills_count": "{count} Dovednosti",
@@ -7764,7 +7824,12 @@ window.SkillRuntimeLocalePacks = {
       "No actionable diagnostic finding": "Nincs használható diagnosztikai lelet",
       "Systemic observability limits are summarized above instead of repeated as run issues.": "A rendszerszintű megfigyelhetőségi határértékek fent vannak összefoglalva, ahelyett, hogy futási problémaként ismétlődnek.",
       "Activation signal observed": "Aktiválási jel figyelhető meg",
-      "Direct lifecycle evidence is available.": "Közvetlen életciklusra vonatkozó bizonyítékok állnak rendelkezésre."
+      "Direct lifecycle evidence is available.": "Közvetlen életciklusra vonatkozó bizonyítékok állnak rendelkezésre.",
+      "ui selection": "ui selection",
+      "slash command": "slash command",
+      "instruction evidence": "instruction evidence",
+      "instruction access": "instruction access",
+      "resource access": "resource access"
     },
     "patterns": {
       "skills_count": "{count} Készségek",

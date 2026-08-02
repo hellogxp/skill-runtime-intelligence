@@ -7,12 +7,14 @@ import time
 import unittest
 import socket
 import platform
+import shutil
 from pathlib import Path
 
 from skill_runtime_intelligence.event_queue import (
     deliver_or_queue,
     drain_event_queue,
 )
+from skill_runtime_intelligence.collector import normalize_collector_payload
 from skill_runtime_intelligence.hook_adapter import (
     build_claude_hook_envelopes,
     build_codex_hook_envelopes,
@@ -291,6 +293,24 @@ class HookAdapterTests(unittest.TestCase):
             "must-not-leak", json.dumps(explicit, ensure_ascii=False)
         )
 
+    def test_claude_instruction_signal_uses_instruction_evidence_mode(self):
+        envelopes = build_claude_hook_envelopes(
+            "InstructionsLoaded",
+            {
+                "session_id": "claude-instructions",
+                "skill_name": "paper-review",
+                "file_path": "/tmp/.agents/skills/paper-review/SKILL.md",
+            },
+        )
+        self.assertEqual(envelopes[0]["event_type"], "instruction.loaded")
+        self.assertEqual(
+            envelopes[0]["activation_mode"], "instruction_evidence"
+        )
+        self.assertEqual(
+            envelopes[0]["skill"]["source_path"],
+            "/tmp/.agents/skills/paper-review/SKILL.md",
+        )
+
     def test_qoder_skill_hook_uses_the_shared_minimal_event_model(self):
         envelopes = build_qoder_hook_envelopes(
             "PreToolUse",
@@ -311,6 +331,117 @@ class HookAdapterTests(unittest.TestCase):
         serialized = json.dumps(envelopes, ensure_ascii=False)
         self.assertNotIn("must-not-leak", serialized)
         self.assertNotIn("transcript.jsonl", serialized)
+
+    def test_structured_ui_selection_preserves_request_and_activation(self):
+        builders = (
+            build_codex_hook_envelopes,
+            build_claude_hook_envelopes,
+            build_qoder_hook_envelopes,
+            build_opencode_hook_envelopes,
+        )
+        for builder in builders:
+            with self.subTest(builder=builder.__name__):
+                envelopes = builder(
+                    "UserPromptSubmit",
+                    {
+                        "session_id": f"session-{builder.__name__}",
+                        "turn_id": "turn-ui",
+                        "selected_skill": {
+                            "name": "paper-review",
+                            "file_path": "/tmp/.agents/skills/paper-review/SKILL.md",
+                            "private_prompt": "must-not-leak",
+                        },
+                    },
+                )
+                self.assertEqual(
+                    [item["event_type"] for item in envelopes],
+                    ["turn.started", "skill.activated"],
+                )
+                self.assertNotIn("skill", envelopes[0])
+                self.assertEqual(
+                    envelopes[1]["activation_mode"], "ui_selection"
+                )
+                self.assertEqual(
+                    envelopes[1]["skill"]["name"], "paper-review"
+                )
+                self.assertNotIn(
+                    "must-not-leak", json.dumps(envelopes, ensure_ascii=False)
+                )
+
+    def test_qoder_ui_skill_selection_is_read_from_structured_transcript_tail(self):
+        with tempfile.TemporaryDirectory() as directory:
+            transcript = (
+                Path(directory)
+                / ".qoder"
+                / "projects"
+                / "demo"
+                / "transcript"
+                / "qoder-session.jsonl"
+            )
+            transcript.parent.mkdir(parents=True)
+            records = [
+                {
+                    "uuid": "selection-record",
+                    "sessionId": "qoder-session",
+                    "timestamp": "2026-08-02T10:24:40.242846Z",
+                    "type": "session_meta",
+                    "data": {
+                        "meta_type": "slash_command",
+                        "content": {
+                            "name": "kbase-mcp-skill",
+                            "type": "skill",
+                            "filePath": (
+                                "/tmp/.agents/skills/kbase-mcp-skill/SKILL.md"
+                            ),
+                        },
+                    },
+                },
+                {
+                    "uuid": "session-info",
+                    "sessionId": "qoder-session",
+                    "timestamp": "2026-08-02T10:24:40.243358Z",
+                    "type": "session_meta",
+                    "data": {"meta_type": "session_info", "content": {}},
+                },
+                {
+                    "uuid": "user-record",
+                    "sessionId": "qoder-session",
+                    "timestamp": "2026-08-02T10:24:43.368785Z",
+                    "type": "user",
+                    "message": {"content": "private prompt must-not-leak"},
+                },
+                {
+                    "uuid": "later-user-record",
+                    "sessionId": "qoder-session",
+                    "timestamp": "2026-08-02T10:40:24.240898Z",
+                    "type": "user",
+                    "message": {"content": "later prompt must-not-leak"},
+                },
+            ]
+            transcript.write_text(
+                "\n".join(json.dumps(record) for record in records) + "\n",
+                encoding="utf-8",
+            )
+            envelopes = build_qoder_hook_envelopes(
+                "PreToolUse",
+                {
+                    "session_id": "qoder-session",
+                    "tool_name": "Bash",
+                    "tool_use_id": "work-call",
+                    "transcript_path": str(transcript),
+                    "timestamp": "2026-08-02T10:25:09.143975Z",
+                },
+            )
+            self.assertEqual(
+                [item["event_type"] for item in envelopes],
+                ["skill.activated", "tool.started"],
+            )
+            self.assertEqual(envelopes[0]["skill"]["name"], "kbase-mcp-skill")
+            self.assertEqual(envelopes[0]["activation_mode"], "slash_command")
+            self.assertIn("session_meta/slash_command", envelopes[0]["evidence"]["basis"])
+            self.assertNotIn(
+                "must-not-leak", json.dumps(envelopes, ensure_ascii=False)
+            )
 
     def test_opencode_skill_and_session_error_are_observed(self):
         activated = build_opencode_hook_envelopes(
@@ -336,6 +467,66 @@ class HookAdapterTests(unittest.TestCase):
         self.assertNotIn(
             "must-not-leak", json.dumps(activated, ensure_ascii=False)
         )
+
+    def test_active_skill_scope_survives_separate_collector_processes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            database = Path(directory) / "panorama.db"
+            base = {
+                "session_id": "fallback-session",
+                "turn_id": "fallback-turn",
+                "tool_name": "Skill",
+                "tool_use_id": "skill-call",
+                "tool_input": {"skill": "pdf"},
+            }
+            first_process = Storage(database)
+            try:
+                first_process.append_collector_events(
+                    normalize_collector_payload(
+                        build_codex_hook_envelopes("PreToolUse", base)
+                        + build_codex_hook_envelopes("PostToolUse", base)
+                    )
+                )
+            finally:
+                first_process.close()
+
+            second_process = Storage(database)
+            try:
+                second_process.append_collector_events(
+                    normalize_collector_payload(
+                        build_codex_hook_envelopes(
+                            "PreToolUse",
+                            {
+                                "session_id": "fallback-session",
+                                "turn_id": "fallback-turn",
+                                "tool_name": "Bash",
+                                "tool_use_id": "work-call",
+                            },
+                        )
+                        + build_codex_hook_envelopes(
+                            "Stop",
+                            {
+                                "session_id": "fallback-session",
+                                "turn_id": "fallback-turn",
+                            },
+                        )
+                    )
+                )
+                runs = second_process.list_skill_runs()
+                self.assertEqual(len(runs), 1)
+                self.assertEqual(runs[0]["status"], "completed")
+                detail = second_process.get_skill_run(runs[0]["skill_run_id"])
+                linked = {
+                    event["event_type"]: event.get("context_only")
+                    for event in detail["events"]
+                }
+                self.assertEqual(linked["tool.started"], 0)
+                self.assertEqual(linked["turn.completed"], 0)
+                remaining = second_process.connection.execute(
+                    "SELECT COUNT(*) FROM active_skill_scopes"
+                ).fetchone()[0]
+                self.assertEqual(remaining, 0)
+            finally:
+                second_process.close()
 
     def test_claude_successful_write_emits_exact_derived_artifact(self):
         envelopes = build_claude_hook_envelopes(
@@ -1011,7 +1202,18 @@ class HookIntegrationTests(unittest.TestCase):
             self.assertIn('"tool.execute.after": async', source)
             self.assertIn("fallbackOnce", source)
             self.assertIn("spawnFallback", source)
+            self.assertIn("structuredSkillSelection", source)
             self.assertNotIn('session.hook("request"', source)
+            node = shutil.which("node")
+            if node:
+                checked = subprocess.run(
+                    [node, "--check", str(plugin)],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    check=False,
+                )
+                self.assertEqual(checked.returncode, 0, checked.stderr)
             inspected = inspect_opencode_integration(
                 plugin,
                 "/tmp/skill-runtime",

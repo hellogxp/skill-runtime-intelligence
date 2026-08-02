@@ -107,10 +107,10 @@ Supported first-party adapters are versioned independently:
 
 | Agent | Primary integration | Fallback | Activation visibility |
 |---|---|---|---|
-| Codex | Official command Hooks | Session import | Explicit activation when exposed by the Hook event |
-| Claude Code | Official Hooks | Session import | Explicit Skill tool and slash-command evidence where exposed |
-| Qoder | Official command Hooks | Local records | Explicit activation when exposed by its Skill tool |
-| OpenCode | Observation-only global plugin | Local records | Skill tool callbacks where exposed |
+| Codex | Official command Hooks | Session import | Skill tool, exact instruction path, and structured UI context when exposed |
+| Claude Code | Official Hooks | Session import | Skill tool, slash command, instruction load, and structured UI context when exposed |
+| Qoder | Official command Hooks | Structured local records | Skill tool plus UI/Slash Skill context recorded by Qoder |
+| OpenCode | Observation-only global plugin | Local records | Stable Skill tool plus typed UI/Skill-message context when exposed |
 
 Exact capability limits are documented in the
 [adapter capability matrix](docs/adapter-capability-matrix.md). Unsupported and

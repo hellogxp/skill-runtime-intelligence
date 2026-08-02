@@ -4,17 +4,17 @@ import hashlib
 import json
 import os
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from .redaction import compact_text
 
 
-CODEX_HOOK_ADAPTER_VERSION = "0.2.0"
-CLAUDE_HOOK_ADAPTER_VERSION = "0.2.0"
-QODER_HOOK_ADAPTER_VERSION = "0.2.0"
-OPENCODE_PLUGIN_ADAPTER_VERSION = "0.2.0"
+CODEX_HOOK_ADAPTER_VERSION = "0.3.0"
+CLAUDE_HOOK_ADAPTER_VERSION = "0.3.0"
+QODER_HOOK_ADAPTER_VERSION = "0.3.0"
+OPENCODE_PLUGIN_ADAPTER_VERSION = "0.3.0"
 
 QUOTED_SKILL_PATH = re.compile(
     r"""(?:
@@ -405,6 +405,208 @@ def _direct_slash_skill(payload: Dict[str, Any], hook_event: str) -> str:
     ).lstrip("/")
 
 
+def _structured_skill_selection(payload: Dict[str, Any]) -> Dict[str, str]:
+    """Extract an exact Skill selection from structured Agent metadata.
+
+    Prompt text is deliberately excluded. Adapters may expose a selected Skill
+    as a named object or a typed attachment/message part; only those explicit
+    schemas are accepted.
+    """
+    name = compact_text(
+        _get(
+            payload,
+            "selected_skill.name",
+            "selected_skill.skill_name",
+            "selectedSkill.name",
+            "selectedSkill.skillName",
+            "context.selected_skill.name",
+            "context.selectedSkill.name",
+        ),
+        160,
+    )
+    path = compact_text(
+        _get(
+            payload,
+            "selected_skill.file_path",
+            "selected_skill.filePath",
+            "selectedSkill.filePath",
+            "context.selected_skill.file_path",
+        ),
+        1000,
+    )
+    source = "selected_skill"
+    collections = (
+        _get(payload, "attachments", "context.attachments"),
+        _get(payload, "parts", "message.parts", "message.content"),
+    )
+    if not name:
+        for collection in collections:
+            if not isinstance(collection, list):
+                continue
+            for item in collection[:64]:
+                if not isinstance(item, dict):
+                    continue
+                item_type = compact_text(
+                    _get(item, "type", "kind", "content_type"), 80
+                ).lower()
+                if item_type not in {
+                    "skill",
+                    "agent_skill",
+                    "skill_attachment",
+                    "skill_message",
+                }:
+                    continue
+                name = compact_text(
+                    _get(item, "name", "skill", "skill_name", "id"), 160
+                )
+                path = compact_text(
+                    _get(item, "file_path", "filePath", "path"), 1000
+                )
+                source = f"structured_{item_type}"
+                if name:
+                    break
+            if name:
+                break
+    if not name:
+        name = compact_text(_get(payload, "skill_name", "skill.name"), 160)
+        if name:
+            path = compact_text(
+                _get(
+                    payload,
+                    "skill_path",
+                    "skill.file_path",
+                    "skill.filePath",
+                    "skill.source_path",
+                ),
+                1000,
+            )
+            source = compact_text(
+                _get(payload, "activation_source", "activationSource"), 120
+            ) or "skill_name"
+    if not name:
+        explicit_mode = compact_text(
+            _get(payload, "activation_mode", "activationMode"), 80
+        ).lower()
+        if explicit_mode in {
+            "ui_selection",
+            "slash_command",
+            "automatic",
+            "explicit_tool",
+        }:
+            name = compact_text(_get(payload, "skill_name", "skill.name"), 160)
+            source = compact_text(
+                _get(payload, "activation_source", "activationSource"), 120
+            ) or "structured_activation"
+    if not name:
+        return {}
+    return {"name": name, "path": path, "source": source}
+
+
+def _qoder_transcript_skill_selection(payload: Dict[str, Any]) -> Dict[str, str]:
+    """Read Qoder's bounded structured Skill-selection record, if present.
+
+    Qoder serializes a UI Skill chip as ``session_meta/slash_command`` before
+    the corresponding user record. Only the bounded JSONL tail is inspected;
+    message content and tool payloads are never returned or persisted.
+    """
+    candidate = compact_text(
+        _get(payload, "transcript_path", "transcriptPath"), 2000
+    )
+    session_id = compact_text(
+        _get(payload, "session_id", "sessionId", "session.id"), 256
+    )
+    if not candidate or not session_id:
+        return {}
+    try:
+        path = Path(candidate).expanduser().resolve(strict=True)
+        parts = {part.casefold() for part in path.parts}
+        if path.suffix.casefold() != ".jsonl" or ".qoder" not in parts:
+            return {}
+        if "transcript" not in parts or not path.is_file():
+            return {}
+        with path.open("rb") as source:
+            source.seek(0, os.SEEK_END)
+            size = source.tell()
+            source.seek(max(0, size - 262144))
+            tail = source.read(262144)
+    except (OSError, RuntimeError, ValueError):
+        return {}
+    if tail and size > len(tail):
+        tail = tail.split(b"\n", 1)[-1]
+    records = []
+    for line in tail.splitlines()[-256:]:
+        try:
+            record = json.loads(line)
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            continue
+        if not isinstance(record, dict):
+            continue
+        if str(record.get("sessionId") or "") != session_id:
+            continue
+        records.append(record)
+    if not records:
+        return {}
+
+    event_time = None
+    event_time_value = _get(payload, "timestamp", "occurred_at", "created_at")
+    if event_time_value:
+        try:
+            event_time = datetime.fromisoformat(
+                str(event_time_value).replace("Z", "+00:00")
+            )
+        except ValueError:
+            event_time = None
+
+    anchor = None
+    for index in range(len(records) - 1, -1, -1):
+        record = records[index]
+        if record.get("type") != "user":
+            continue
+        if event_time:
+            try:
+                record_time = datetime.fromisoformat(
+                    str(record.get("timestamp") or "").replace("Z", "+00:00")
+                )
+            except ValueError:
+                record_time = None
+            if record_time and record_time > event_time + timedelta(seconds=5):
+                continue
+        content = _get(record, "message.content")
+        if isinstance(content, list) and content and all(
+            isinstance(item, dict) and item.get("type") == "tool_result"
+            for item in content
+        ):
+            continue
+        anchor = index
+        break
+    turn_id = ""
+    if anchor is not None:
+        turn_id = compact_text(records[anchor].get("uuid"), 256)
+    search_end = anchor if anchor is not None else len(records)
+    for index in range(search_end - 1, max(-1, search_end - 17), -1):
+        record = records[index]
+        if record.get("type") == "user":
+            break
+        data = record.get("data")
+        if not isinstance(data, dict) or data.get("meta_type") != "slash_command":
+            continue
+        content = data.get("content")
+        if not isinstance(content, dict) or content.get("type") != "skill":
+            continue
+        name = compact_text(content.get("name"), 160)
+        if not name:
+            continue
+        return {
+            "name": name,
+            "path": compact_text(content.get("filePath"), 1000),
+            "source": "qoder_session_meta.slash_command",
+            "timestamp": compact_text(record.get("timestamp"), 80),
+            "record_id": compact_text(record.get("uuid"), 256),
+            "turn_id": turn_id,
+        }
+    return {"turn_id": turn_id} if turn_id else {}
+
+
 def _looks_like_skill_instruction(path: str) -> bool:
     normalized = path.replace("\\", "/").lower()
     return normalized.endswith("/skill.md") and (
@@ -445,14 +647,39 @@ def build_agent_hook_envelopes(
         _get(payload, "turn_id", "turnId", "turn.id", "payload.turn_id"), 256
     )
     tool_name = _tool_name(payload)
-    skill_name = _skill_name(payload, tool_name) or _direct_slash_skill(
-        payload, hook_event
+    named_skill = _skill_name(payload, tool_name)
+    slash_skill = _direct_slash_skill(payload, hook_event)
+    selection = (
+        _structured_skill_selection(payload)
+        if hook_event in {"UserPromptSubmit", "UserPromptExpansion"}
+        else {}
     )
+    skill_name = named_skill or slash_skill or selection.get("name", "")
+    explicit_skill_tool = tool_name.casefold() == "skill" and bool(named_skill)
+    activation_start = bool(
+        skill_name
+        and (
+            (hook_event == "PreToolUse" and explicit_skill_tool)
+            or hook_event == "UserPromptExpansion"
+            or (hook_event == "UserPromptSubmit" and selection)
+        )
+    )
+    activation_mode = "unknown"
+    if explicit_skill_tool:
+        activation_mode = "explicit_tool"
+    elif slash_skill or hook_event == "UserPromptExpansion":
+        activation_mode = "slash_command"
+    elif selection:
+        activation_mode = compact_text(
+            _get(payload, "activation_mode", "activationMode"), 80
+        ).lower() or "ui_selection"
     instruction_paths = _skill_instruction_paths(payload)
     skill_resources = _skill_resource_paths(payload)
     instruction_path = _file_path(payload) if hook_event == "InstructionsLoaded" else ""
     if not skill_name and _looks_like_skill_instruction(instruction_path):
         skill_name = Path(instruction_path).parent.name
+    if hook_event == "InstructionsLoaded" and skill_name:
+        activation_mode = "instruction_evidence"
     source_event_id = _source_event_id(
         payload, hook_event, session_id, occurred_at
     )
@@ -489,6 +716,12 @@ def build_agent_hook_envelopes(
         "load_reason": compact_text(
             _get(payload, "load_reason", "loadReason"), 120
         ),
+        "activation_source": (
+            selection.get("source", "")
+            or compact_text(
+                _get(payload, "activation_source", "activationSource"), 120
+            )
+        ),
     }
     minimal_payload = {
         key: value for key, value in minimal_payload.items() if value not in (None, "")
@@ -496,11 +729,11 @@ def build_agent_hook_envelopes(
 
     if hook_event == "FileChanged":
         event_type = _file_event_type(payload, hook_event)
-    elif skill_name and hook_event in {"PreToolUse", "UserPromptExpansion"}:
+    elif activation_start and hook_event != "UserPromptSubmit":
         event_type = "skill.activated"
-    elif skill_name and hook_event == "PostToolUse":
+    elif explicit_skill_tool and hook_event == "PostToolUse":
         event_type = "skill.activation_completed"
-    elif skill_name and hook_event == "PostToolUseFailure":
+    elif explicit_skill_tool and hook_event == "PostToolUseFailure":
         event_type = "skill.activation_failed"
     else:
         event_type = base_event_type
@@ -508,7 +741,7 @@ def build_agent_hook_envelopes(
     event_id = _stable_id("evt_", f"{agent}-hook", source_event_id, event_type)
     parent_event_id = None
     if hook_event in {"PostToolUse", "PostToolUseFailure"} and call_id:
-        parent_type = "skill.activated" if skill_name else "tool.started"
+        parent_type = "skill.activated" if explicit_skill_tool else "tool.started"
         parent_event_id = _stable_id(
             "evt_", f"{agent}-hook", source_event_id, parent_type
         )
@@ -546,15 +779,56 @@ def build_agent_hook_envelopes(
     event_status = _status(payload, hook_event)
     if event_status:
         envelope["status"] = event_status
-    if skill_name:
-        envelope["skill"] = {"name": skill_name}
-        envelope["activation_mode"] = (
-            "slash_command"
-            if hook_event == "UserPromptExpansion"
-            else "explicit_tool"
-        )
+    prompt_with_selection = hook_event == "UserPromptSubmit" and bool(selection)
+    if skill_name and not prompt_with_selection:
+        skill_record = {"name": skill_name}
+        skill_path = selection.get("path", "") or instruction_path
+        if skill_path and _looks_like_skill_instruction(skill_path):
+            skill_record["source_path"] = skill_path
+        envelope["skill"] = skill_record
+        envelope["activation_mode"] = activation_mode
 
     envelopes = [envelope]
+    if prompt_with_selection:
+        activation_source_id = _stable_id(
+            "hook_", source_event_id, "skill.activated", skill_name
+        )
+        activation_payload = dict(minimal_payload)
+        activation_payload["activation_source"] = selection.get(
+            "source", "structured_selection"
+        )
+        activation = {
+            **envelope,
+            "event_id": _stable_id(
+                "evt_", f"{agent}-hook", activation_source_id, "skill.activated"
+            ),
+            "event_type": "skill.activated",
+            "parent_event_id": event_id,
+            "source": {
+                **envelope["source"],
+                "source_event_id": activation_source_id,
+                "record_locator": (
+                    f"{agent}-hook:{hook_event}:{activation_source_id}"
+                ),
+            },
+            "evidence": {
+                "grade": "observed",
+                "confidence": 1.0,
+                "basis": (
+                    f"{agent} {hook_event} exposed an exact structured "
+                    "Skill selection"
+                ),
+            },
+            "payload": activation_payload,
+            "summary": f"Skill `{skill_name}` selected",
+            "status": "started",
+            "skill": {"name": skill_name},
+            "activation_mode": activation_mode,
+        }
+        skill_path = selection.get("path", "")
+        if skill_path and _looks_like_skill_instruction(skill_path):
+            activation["skill"]["source_path"] = skill_path
+        envelopes.append(activation)
     if hook_event == "PostToolUse":
         for path in instruction_paths:
             instruction_source_id = _stable_id(
@@ -724,9 +998,60 @@ def build_claude_hook_envelopes(
 def build_qoder_hook_envelopes(
     hook_event: str, payload: Dict[str, Any]
 ) -> List[Dict[str, Any]]:
-    return build_agent_hook_envelopes(
-        "qoder", QODER_HOOK_ADAPTER_VERSION, hook_event, payload
+    transcript_context = _qoder_transcript_skill_selection(payload)
+    effective_payload = payload
+    if transcript_context.get("turn_id") and not _get(
+        payload, "turn_id", "turnId", "turn.id"
+    ):
+        effective_payload = dict(payload)
+        effective_payload["turn_id"] = transcript_context["turn_id"]
+    envelopes = build_agent_hook_envelopes(
+        "qoder", QODER_HOOK_ADAPTER_VERSION, hook_event, effective_payload
     )
+    if hook_event not in {"UserPromptSubmit", "PreToolUse"} or any(
+        item.get("event_type") == "skill.activated" for item in envelopes
+    ):
+        return envelopes
+    selection = transcript_context
+    if not selection.get("name"):
+        return envelopes
+    synthetic = {
+        "session_id": _get(payload, "session_id", "sessionId", "session.id"),
+        "turn_id": _get(
+            effective_payload, "turn_id", "turnId", "turn.id"
+        ),
+        "timestamp": selection.get("timestamp") or _get(payload, "timestamp"),
+        "event_id": selection.get("record_id"),
+        "expansion_type": "slash_command",
+        "command_name": selection["name"],
+        "skill_name": selection["name"],
+        "skill_path": selection.get("path", ""),
+        "activation_source": selection["source"],
+        "cwd": _get(effective_payload, "cwd", "workspace", "context.cwd"),
+        "model": _get(effective_payload, "model", "context.model"),
+        "agent_version": _get(
+            effective_payload,
+            "agent_version",
+            "version",
+            "context.agent_version",
+        ),
+    }
+    activation = build_agent_hook_envelopes(
+        "qoder", QODER_HOOK_ADAPTER_VERSION, "UserPromptExpansion", synthetic
+    )
+    if activation:
+        activation[0]["source"]["record_locator"] = (
+            "qoder-transcript:session_meta:"
+            + (selection.get("record_id") or activation[0]["source"]["source_event_id"])
+        )
+        activation[0]["evidence"]["basis"] = (
+            "Exact Qoder session_meta/slash_command Skill record; "
+            "conversation content omitted"
+        )
+        activation[0]["payload"]["activation_source"] = selection["source"]
+        activation[0]["summary"] = f"Skill `{selection['name']}` selected"
+        return activation + envelopes
+    return envelopes
 
 
 def build_opencode_hook_envelopes(

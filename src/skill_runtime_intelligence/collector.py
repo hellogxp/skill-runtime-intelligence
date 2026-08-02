@@ -63,7 +63,6 @@ VALID_TIMESTAMP_ORIGINS = {
 }
 TERMINAL_SESSION_EVENTS = {"session.ended"}
 TERMINAL_SKILL_EVENTS = {
-    "skill.activation_completed",
     "skill.activation_failed",
     "skill.deactivated",
     "outcome.reported",

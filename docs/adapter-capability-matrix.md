@@ -60,7 +60,7 @@ Request and outcome events in the same turn are connected as Derived
 
 ## Codex hook adapter
 
-Adapter version: `0.2.0`
+Adapter version: `0.3.0`
 Collection mode: `official_hook`
 
 The Hook Manager is opt-in. `skill-runtime setup` only presents the plan;
@@ -77,6 +77,7 @@ The Hook Manager is opt-in. `skill-runtime setup` only presents the plan;
 | `PostToolUseFailure` | Tool failure | Error is redacted and capped |
 | `Skill` tool at `PreToolUse` | `skill.activated` | Explicit-tool activation only |
 | `Skill` tool completion/failure | Activation terminal event | Requires Skill name in hook payload |
+| Typed Skill selection on `UserPromptSubmit` | request plus `skill.activated` | Observed only when the Hook payload exposes an exact structured identity; prompt text is never classified |
 
 Delivery behavior:
 
@@ -106,7 +107,7 @@ concern, not a storage-side overwrite.
 
 ## Claude Code hook adapter
 
-Adapter version: `0.2.0`
+Adapter version: `0.3.0`
 Collection mode: `official_hook`
 
 | Hook signal | Normalized evidence | Limits |
@@ -115,6 +116,7 @@ Collection mode: `official_hook`
 | `UserPromptSubmit` / `Stop` | Turn boundary | Prompt content omitted |
 | `Skill` tool | Explicit activation and terminal event | Observed |
 | `UserPromptExpansion` slash command | Slash-command activation | Observed when command name exists |
+| Typed Skill selection on `UserPromptSubmit` | UI-selection activation | Observed only when an exact structured Skill field/attachment is emitted |
 | `InstructionsLoaded` | Instruction/resource load | Partial; only exact Skill paths are scoped |
 | `PreToolUse` / terminal tool hooks | Tool execution and failure | Observed; payload minimized |
 | `SubagentStart` / `SubagentStop` | Subagent execution | Observed when emitted |
@@ -127,7 +129,7 @@ authenticated second Agent corpus is available.
 
 ## Qoder hook adapter
 
-Adapter version: `0.2.0`
+Adapter version: `0.3.0`
 
 Collection mode: `official_hook`
 
@@ -144,6 +146,7 @@ uninstall.
 | `PreToolUse` / `PostToolUse` | Tool start/completion | Inputs are minimized before persistence |
 | `PostToolUseFailure` | Tool failure | Redacted, capped error summary only |
 | `Skill` at `PreToolUse` | Explicit `skill.activated` event | Depends on Qoder exposing the Skill as a tool |
+| UI Skill chip / slash context | `skill.activated` plus exact turn identity | Observed from Qoder's bounded `session_meta/slash_command` Skill record; only name, `SKILL.md` path, timestamp, and record/turn IDs are retained |
 
 Qoder command Hooks are synchronous at the Agent boundary, so every generated
 command is fail-open (`|| true`) and uses the bounded native sender. A sender or
@@ -151,13 +154,19 @@ Collector failure therefore loses or queues telemetry rather than delaying or
 denying the Agent action. Qoder must be restarted after the configuration is
 installed.
 
+Qoder currently serializes its UI Skill chip through the same structured
+`slash_command` record used for Skill context injection, so the normalized
+entrypoint is `slash_command`; SRI does not relabel that source fact as an
+explicit tool call. The transcript tail read is bounded and excludes messages,
+tool content, and responses.
+
 The adapter does not claim candidate discovery, model-internal selection
 reasons, or semantic effectiveness. Qoder Skills are discovered read-only from
 the [documented user and project Skill directories](https://docs.qoder.com/extensions/skills).
 
 ## OpenCode plugin adapter
 
-Adapter version: `0.2.0`
+Adapter version: `0.3.0`
 
 Collection mode: `official_hook`
 
@@ -172,6 +181,7 @@ system-prompt, permission, or authentication callbacks.
 | `session.created` / `session.idle` | Session start and turn completion | Idle is not a semantic success verdict |
 | `session.error` | Failed turn boundary | Provider error content is redacted and capped |
 | `chat.message` | User request boundary | Message text and parts are intentionally omitted |
+| Typed Skill part/attachment on `chat.message` | request plus Skill activation | Only exact structured Skill identity/path is forwarded; message content is omitted |
 | `tool.execute.before` / `tool.execute.after` | Tool start/completion | Tool output is intentionally omitted |
 | `skill` tool before/after | Explicit activation and terminal event | Requires the OpenCode Skill tool callback |
 
@@ -186,6 +196,20 @@ OpenCode Skill discovery covers its standard global and project directories,
 plus the shared `.agents/skills` compatibility location. Custom directories
 declared by third-party plugins are not yet automatically discovered and remain
 an explicit adapter limitation.
+
+## Activation entrypoint summary
+
+| Agent | Skill tool | UI / typed context | Slash / Skill message | Exact `SKILL.md` evidence |
+|---|---|---|---|---|
+| Codex | Observed when emitted | Partial; exact structured Hook field only | Partial; source/version dependent | Observed/Derived from exact path |
+| Claude Code | Observed | Partial; exact structured Hook field only | Observed through `UserPromptExpansion` | Partial through `InstructionsLoaded` or exact path |
+| Qoder | Observed when emitted | Observed through structured local `slash_command` metadata | Observed through the same Qoder metadata contract | Derived from exact path |
+| OpenCode | Observed through stable `skill` tool | Partial; typed part/attachment only | Partial; typed Skill message only | Derived from exact path |
+
+For all four adapters, the runtime event remains Observed while the
+relationship that associates later tool/file events with the persisted active
+Skill scope is Derived. Missing structured metadata remains Not observed or
+Unsupported; SRI never guesses activation from the user's wording.
 
 ## Cross-Agent support boundary
 

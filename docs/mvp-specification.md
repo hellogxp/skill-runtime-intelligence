@@ -65,6 +65,7 @@ Reconstruct, when evidence exists:
 
 - session and turn boundaries;
 - explicit Skill invocation;
+- exact UI selection or typed Skill context when the Agent exposes it;
 - direct command or slash invocation;
 - instruction and resource reads;
 - built-in and MCP tool calls;

@@ -405,6 +405,48 @@ function minimalPayload(event, directory) {{
   }}
 }}
 
+function structuredSkillSelection(...values) {{
+  for (const value of values) {{
+    if (!value || typeof value !== "object") continue
+    const selected = first(
+      value.selected_skill, value.selectedSkill,
+      value.context?.selected_skill, value.context?.selectedSkill
+    )
+    if (selected && typeof selected === "object") {{
+      const name = first(selected.name, selected.skill_name, selected.skillName)
+      if (name) return {{
+        skill_name: String(name),
+        skill_path: String(first(
+          selected.file_path, selected.filePath, selected.path
+        )),
+        activation_mode: "ui_selection",
+        activation_source: "opencode.selected_skill",
+      }}
+    }}
+    const collections = [
+      value.parts, value.attachments,
+      value.message?.parts, value.message?.content,
+    ]
+    for (const collection of collections) {{
+      if (!Array.isArray(collection)) continue
+      for (const part of collection.slice(0, 64)) {{
+        if (!part || typeof part !== "object") continue
+        const kind = String(first(part.type, part.kind, part.content_type)).toLowerCase()
+        if (!["skill", "agent_skill", "skill_attachment", "skill_message"].includes(kind)) continue
+        const name = first(part.name, part.skill, part.skill_name, part.id)
+        if (!name) continue
+        return {{
+          skill_name: String(name),
+          skill_path: String(first(part.file_path, part.filePath, part.path)),
+          activation_mode: kind === "skill_message" ? "slash_command" : "ui_selection",
+          activation_source: `opencode.structured_${{kind}}`,
+        }}
+      }}
+    }}
+  }}
+  return {{}}
+}}
+
 function spawnFallback(args, body) {{
   if (!SETTINGS.fallback_executable) return
   try {{
@@ -465,9 +507,12 @@ const SkillRuntimePlugin = async ({{ directory }}) => ({{
   event: async ({{ event }}) => {{
     emit(event, directory)
   }},
-  "chat.message": async (input) => {{
+  "chat.message": async (input, output) => {{
+    const selection = structuredSkillSelection(output, input)
     deliver("UserPromptSubmit", {{
       session_id: String(input?.sessionID || ""),
+      turn_id: String(first(input?.messageID, input?.messageId, output?.message?.id)),
+      ...selection,
       cwd: String(directory || ""),
       timestamp: new Date().toISOString(),
     }})

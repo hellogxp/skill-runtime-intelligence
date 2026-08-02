@@ -313,7 +313,7 @@ function renderRuns() {
     <button class="run-card ${esc(run.status)} ${selectedRunId === run.skill_run_id ? "active" : ""}"
             type="button" data-run="${esc(run.skill_run_id)}">
       <div class="card-top">
-        <span class="card-source">${esc(run.adapter)} · ${esc(pretty(run.activation_mode))}</span>
+        <span class="card-source">${esc(run.adapter)} · ${esc(tr(pretty(run.activation_mode)))}</span>
         <span class="card-time">${esc(formatTime(run.started_at))}</span>
       </div>
       <h3>${esc(run.name)}</h3>
@@ -802,7 +802,7 @@ function renderDetail(run) {
     `<span class="status-pill ${esc(run.status)}">${esc(run.status)}</span>`;
   document.querySelector("#metric-coverage").textContent = `${run.evidence_completeness}%`;
   document.querySelector("#coverage-fill").style.width = `${run.evidence_completeness}%`;
-  document.querySelector("#metric-activation").textContent = pretty(run.activation_mode);
+  document.querySelector("#metric-activation").textContent = tr(pretty(run.activation_mode));
   document.querySelector("#metric-activation-grade").textContent =
     `${pretty(run.evidence_grade)} evidence`;
   document.querySelector("#metric-events").textContent = run.events.length;

@@ -19,6 +19,9 @@ const reviewedOverrides = {
     Evidence: "證據", Lifecycle: "生命週期", "Runtime Settings": "執行階段設定",
     "Collection health": "採集健康狀態", "Data & privacy": "資料與隱私",
     "Save settings": "儲存設定",
+    "ui selection": "介面選擇", "slash command": "斜線指令",
+    "instruction evidence": "指令證據", "instruction access": "指令存取",
+    "resource access": "資源存取",
   },
   fr: {
     Language: "Langue", Runs: "Exécutions", Skills: "Skills", Settings: "Paramètres",

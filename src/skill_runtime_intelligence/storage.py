@@ -212,6 +212,20 @@ CREATE TABLE IF NOT EXISTS skill_runs (
     FOREIGN KEY(skill_id) REFERENCES skills(skill_id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS active_skill_scopes (
+    session_id TEXT NOT NULL,
+    scope_key TEXT NOT NULL,
+    skill_run_id TEXT NOT NULL,
+    skill_id TEXT NOT NULL,
+    activation_mode TEXT NOT NULL,
+    opened_at TEXT,
+    basis TEXT NOT NULL,
+    PRIMARY KEY(session_id, scope_key),
+    FOREIGN KEY(session_id) REFERENCES sessions(session_id) ON DELETE CASCADE,
+    FOREIGN KEY(skill_run_id) REFERENCES skill_runs(skill_run_id) ON DELETE CASCADE,
+    FOREIGN KEY(skill_id) REFERENCES skills(skill_id) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS normalized_events (
     event_id TEXT PRIMARY KEY,
     session_id TEXT NOT NULL,
@@ -286,6 +300,8 @@ CREATE INDEX IF NOT EXISTS idx_events_session_time
 CREATE INDEX IF NOT EXISTS idx_events_type ON normalized_events(event_type);
 CREATE INDEX IF NOT EXISTS idx_sessions_started ON sessions(started_at DESC);
 CREATE INDEX IF NOT EXISTS idx_skill_runs_started ON skill_runs(started_at DESC);
+CREATE INDEX IF NOT EXISTS idx_active_skill_scopes_run
+    ON active_skill_scopes(skill_run_id);
 CREATE INDEX IF NOT EXISTS idx_relationships_run
     ON derived_relationships(skill_run_id, target_event_id);
 """
@@ -867,6 +883,105 @@ class Storage:
             self._build_relationships(session["session_id"], events, skill_runs)
             self._bump_revision()
 
+    def _active_scope(self, session_id: str, turn_id: Optional[str]) -> Optional[sqlite3.Row]:
+        scope_key = str(turn_id or "")
+        row = self.connection.execute(
+            """
+            SELECT * FROM active_skill_scopes
+            WHERE session_id = ? AND scope_key = ?
+            """,
+            (session_id, scope_key),
+        ).fetchone()
+        if row or not scope_key:
+            return row
+        return self.connection.execute(
+            """
+            SELECT * FROM active_skill_scopes
+            WHERE session_id = ? AND scope_key = ''
+            """,
+            (session_id,),
+        ).fetchone()
+
+    def _open_active_scope(
+        self,
+        event: Dict[str, Any],
+        run: Dict[str, Any],
+    ) -> None:
+        self.connection.execute(
+            """
+            INSERT INTO active_skill_scopes (
+                session_id, scope_key, skill_run_id, skill_id,
+                activation_mode, opened_at, basis
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(session_id, scope_key) DO UPDATE SET
+                skill_run_id=excluded.skill_run_id,
+                skill_id=excluded.skill_id,
+                activation_mode=excluded.activation_mode,
+                basis=excluded.basis
+            """,
+            (
+                event["session_id"],
+                str(event.get("turn_id") or ""),
+                run["skill_run_id"],
+                run["skill_id"],
+                run.get("activation_mode", "unknown"),
+                event.get("occurred_at"),
+                "Deterministic active Skill scope from direct runtime evidence",
+            ),
+        )
+
+    def _close_active_scopes(
+        self,
+        session_id: str,
+        turn_id: Optional[str] = None,
+        *,
+        all_session_scopes: bool = False,
+    ) -> List[str]:
+        if all_session_scopes:
+            rows = self.connection.execute(
+                "SELECT skill_run_id FROM active_skill_scopes WHERE session_id = ?",
+                (session_id,),
+            ).fetchall()
+            self.connection.execute(
+                "DELETE FROM active_skill_scopes WHERE session_id = ?",
+                (session_id,),
+            )
+        else:
+            scope_keys = {str(turn_id or ""), ""}
+            placeholders = ",".join("?" for _ in scope_keys)
+            parameters = (session_id, *sorted(scope_keys))
+            rows = self.connection.execute(
+                f"SELECT skill_run_id FROM active_skill_scopes "
+                f"WHERE session_id = ? AND scope_key IN ({placeholders})",
+                parameters,
+            ).fetchall()
+            self.connection.execute(
+                f"DELETE FROM active_skill_scopes "
+                f"WHERE session_id = ? AND scope_key IN ({placeholders})",
+                parameters,
+            )
+        return sorted({str(row["skill_run_id"]) for row in rows})
+
+    def _finish_skill_runs(
+        self,
+        run_ids: Iterable[str],
+        status: str,
+        ended_at: Optional[str],
+    ) -> None:
+        for run_id in run_ids:
+            self.connection.execute(
+                """
+                UPDATE skill_runs
+                SET status = CASE
+                        WHEN status = 'failed' THEN status
+                        ELSE ?
+                    END,
+                    ended_at = COALESCE(ended_at, ?)
+                WHERE skill_run_id = ?
+                """,
+                (status, ended_at, run_id),
+            )
+
     def append_collector_events(
         self, bundles: List[Dict[str, Any]]
     ) -> Dict[str, int]:
@@ -1008,6 +1123,26 @@ class Storage:
                         tuple(session.get(column) for column in columns),
                     )
 
+                event_exists = self.connection.execute(
+                    "SELECT 1 FROM normalized_events WHERE event_id = ?",
+                    (event["event_id"],),
+                ).fetchone()
+                if not event_exists and event["event_type"] in {
+                    "session.started",
+                    "turn.started",
+                }:
+                    self._close_active_scopes(
+                        session["session_id"], all_session_scopes=True
+                    )
+
+                if not run and not event.get("skill_run_id"):
+                    active_scope = self._active_scope(
+                        session["session_id"], event.get("turn_id")
+                    )
+                    if active_scope:
+                        event["skill_id"] = active_scope["skill_id"]
+                        event["skill_run_id"] = active_scope["skill_run_id"]
+
                 if run:
                     self.connection.execute(
                         """
@@ -1110,6 +1245,45 @@ class Storage:
                 )
                 if event_result.rowcount:
                     accepted += 1
+                    event_type = event["event_type"]
+                    if run and event_type not in {
+                        "skill.activation_failed",
+                        "skill.deactivated",
+                        "turn.completed",
+                        "turn.failed",
+                        "session.ended",
+                        "outcome.reported",
+                        "outcome.verified",
+                    }:
+                        self._open_active_scope(event, run)
+                    terminal_status = {
+                        "skill.activation_failed": "failed",
+                        "skill.deactivated": "completed",
+                        "turn.completed": "completed",
+                        "turn.failed": "failed",
+                        "session.ended": (
+                            "failed" if event.get("status") == "failed" else "completed"
+                        ),
+                        "outcome.reported": (
+                            "failed" if event.get("status") == "failed" else "completed"
+                        ),
+                        "outcome.verified": (
+                            "failed" if event.get("status") == "failed" else "completed"
+                        ),
+                    }.get(event_type)
+                    if terminal_status:
+                        closed_run_ids = self._close_active_scopes(
+                            session["session_id"],
+                            event.get("turn_id"),
+                            all_session_scopes=event_type == "session.ended",
+                        )
+                        if event.get("skill_run_id"):
+                            closed_run_ids.append(event["skill_run_id"])
+                        self._finish_skill_runs(
+                            set(closed_run_ids),
+                            terminal_status,
+                            event.get("occurred_at"),
+                        )
                 else:
                     duplicates += 1
                 if not raw_result.rowcount and event_result.rowcount:
