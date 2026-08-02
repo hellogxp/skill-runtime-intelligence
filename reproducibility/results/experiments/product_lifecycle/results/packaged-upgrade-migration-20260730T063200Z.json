@@ -1,0 +1,67 @@
+{
+  "schema_version": "sri.experiment.packaged-upgrade-migration.v1",
+  "experiment": {
+    "name": "packaged-additive-upgrade-migration",
+    "evidence_grade": "Experimental",
+    "wheel": "skill_runtime_intelligence-0.1.6-py3-none-any.whl",
+    "offline_install": true,
+    "source_database_open_mode": "read_only",
+    "source_database_modified": false,
+    "migration_repetitions": 2,
+    "row_level_records_included": false,
+    "limitations": [
+      "One isolated snapshot does not establish live rollout safety.",
+      "The experiment covers additive migration, not downgrade.",
+      "Preserved aggregates do not establish timestamp accuracy."
+    ]
+  },
+  "metrics": {
+    "step_return_codes": {
+      "create_venv": 0,
+      "install_wheel": 0,
+      "migrate_twice": 0
+    },
+    "step_stdout_bytes": {
+      "create_venv": 0,
+      "install_wheel": 182,
+      "migrate_twice": 0
+    },
+    "step_stderr_bytes": {
+      "create_venv": 0,
+      "install_wheel": 0,
+      "migrate_twice": 0
+    },
+    "event_count_before": 41661,
+    "event_count_after": 41661,
+    "session_count_before": 151,
+    "session_count_after": 151,
+    "provenance_columns_before": 0,
+    "provenance_columns_after": 5,
+    "legacy_unknown_or_null": {
+      "unknown_origin": 41661,
+      "null_ingested": 41661,
+      "unknown_domain": 41661,
+      "null_uncertainty": 41661,
+      "unknown_precision": 41661
+    },
+    "quick_check_ok": true
+  },
+  "gate": {
+    "name": "packaged idempotent additive migration preserved aggregates",
+    "passed": true
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "created_at": "2026-07-30T06:32:00.936361+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "e3f47b3f3fe261f8e12b27815436c4b945679de7",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

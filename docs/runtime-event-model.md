@@ -193,6 +193,17 @@ Resource kinds:
 
 `outcome.reported` is an agent or source assertion. `outcome.verified` requires an independent result such as a deterministic test or explicit user-provided evaluation.
 
+### Skill behavior constraints
+
+Behavior conformance is a derived view over the current `SKILL.md` definition
+and normalized runtime evidence. The MVP extracts only explicit, checkable
+tool, resource, command, prohibition, and verification constraints. Each
+constraint is reported as `satisfied`, `deviation`,
+`expected_not_observed`, or `not_evaluable` and links to its source line and
+lifecycle stage. Conditional applicability or redacted command arguments must
+produce `not_evaluable`, never an invented failure. Constraint source text is
+not persisted with the run.
+
 ## 6. Evidence model
 
 ```text
@@ -224,6 +235,21 @@ The user request and Skill description share distinctive PDF-layout terms, which
 ### Experimental example
 
 Matched tasks run repeatedly with and without the Skill show a measured pass-rate delta.
+
+## 6.1 Causal scope
+
+Evidence certainty and causal permission are independent. Findings expose a
+separate `causal_scope`:
+
+| Scope | Allowed wording |
+|---|---|
+| `none` | descriptive boundary and evidence statements only |
+| `source_assertion_only` | report that a source asserted attribution; do not present it as a validated effect |
+| `experimental_estimate` | report a bounded effect estimate from a controlled experimental record |
+
+Every deterministic single-Run diagnostic uses `none`, including an Observed
+failure. Unknown scopes and claim kinds fail closed. A model confidence score
+never expands causal scope.
 
 ## 7. Correlation precedence
 

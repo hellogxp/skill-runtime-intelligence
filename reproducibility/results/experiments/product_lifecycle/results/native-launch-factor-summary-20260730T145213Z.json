@@ -1,0 +1,152 @@
+{
+  "schema_version": "sri.experiment.native-launch-factor-summary.v1",
+  "experiment": {
+    "name": "native-sender-placement-signature-repeated-summary",
+    "evidence_grade": "Derived",
+    "limitations": [
+      "Three runs share one host and are not independent machines.",
+      "Strong run-order differences make pooled latency nonstationary.",
+      "Factor manipulations do not identify the host mechanism.",
+      "Integrity passes do not imply a stable latency effect."
+    ]
+  },
+  "metrics": {
+    "report_count": 3,
+    "total_trials": 96,
+    "correct_trials": 96,
+    "factor_setup_passed_trials": 96,
+    "all_run_gates_passed": true,
+    "pooled_cell_summaries": {
+      "atomic_replace:preserved:adhoc_resigned": {
+        "count": 24,
+        "min_ms": 191.320875,
+        "p50_ms": 236.5271875,
+        "p95_ms": 4032.4446598499994,
+        "max_ms": 7180.056458
+      },
+      "atomic_replace:preserved:original_linker": {
+        "count": 24,
+        "min_ms": 270.181625,
+        "p50_ms": 310.3562915,
+        "p95_ms": 551.00563385,
+        "max_ms": 582.030917
+      },
+      "direct_copy:preserved:adhoc_resigned": {
+        "count": 24,
+        "min_ms": 191.166875,
+        "p50_ms": 235.70124950000002,
+        "p95_ms": 3730.2301349,
+        "max_ms": 6142.331959
+      },
+      "direct_copy:preserved:original_linker": {
+        "count": 24,
+        "min_ms": 260.595625,
+        "p50_ms": 310.1760415,
+        "p95_ms": 566.9974918999999,
+        "max_ms": 825.384958
+      }
+    },
+    "per_run_cell_boundaries": {
+      "atomic_replace:preserved:adhoc_resigned": {
+        "p50_values_ms": [
+          3615.8828125,
+          216.452,
+          234.99775
+        ],
+        "p50_range_ms": [
+          216.452,
+          3615.8828125
+        ]
+      },
+      "atomic_replace:preserved:original_linker": {
+        "p50_values_ms": [
+          329.394333,
+          281.738854,
+          311.304625
+        ],
+        "p50_range_ms": [
+          281.738854,
+          329.394333
+        ]
+      },
+      "direct_copy:preserved:adhoc_resigned": {
+        "p50_values_ms": [
+          3434.419771,
+          226.517083,
+          220.50464599999998
+        ],
+        "p50_range_ms": [
+          220.50464599999998,
+          3434.419771
+        ]
+      },
+      "direct_copy:preserved:original_linker": {
+        "p50_values_ms": [
+          314.80475049999995,
+          301.3650625,
+          311.0805835
+        ],
+        "p50_range_ms": [
+          301.3650625,
+          314.80475049999995
+        ]
+      }
+    },
+    "factor_run_boundaries": {
+      "placement": {
+        "contrast": "atomic_replace_minus_direct_copy",
+        "per_run_delta_p50_ms": [
+          74.36555225000006,
+          -1.0842604999999992,
+          -44.16690650000001
+        ],
+        "delta_p50_range_ms": [
+          -44.16690650000001,
+          74.36555225000006
+        ],
+        "positive_blocks_by_run": [
+          4,
+          4,
+          4
+        ],
+        "positive_blocks_total": 12,
+        "total_blocks": 24,
+        "direction_consistent_across_run_p50s": false
+      },
+      "signature": {
+        "contrast": "adhoc_resigned_minus_original_linker",
+        "per_run_delta_p50_ms": [
+          3006.0392395,
+          -79.84666675000003,
+          -89.62566675000001
+        ],
+        "delta_p50_range_ms": [
+          -89.62566675000001,
+          3006.0392395
+        ],
+        "positive_blocks_by_run": [
+          8,
+          1,
+          2
+        ],
+        "positive_blocks_total": 11,
+        "total_blocks": 24,
+        "direction_consistent_across_run_p50s": false
+      }
+    }
+  },
+  "gate": {
+    "name": "three-run launch-factor integrity summary",
+    "passed": true
+  },
+  "created_at": "2026-07-30T14:52:13.619463+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

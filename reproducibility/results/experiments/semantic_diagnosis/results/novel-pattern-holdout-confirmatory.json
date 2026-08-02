@@ -1,0 +1,293 @@
+{
+  "schema_version": "sri.experiment.novel-pattern-holdout.v1",
+  "experiment": {
+    "name": "paired-rule-external-graph-anomaly-holdout",
+    "evidence_grade": "Experimental",
+    "preregistered_families": [
+      "temporal_order",
+      "parent_cycle",
+      "evidence_grade_escalation",
+      "verifier_conflict",
+      "capability_drift",
+      "orphan_reference"
+    ],
+    "limitations": [
+      "Cases are controlled synthetic graph invariants, not production incidents.",
+      "The holdout tests hypothesis generation and false positives, not prevalence."
+    ]
+  },
+  "cases": [
+    {
+      "case_id": "novel-01-anomaly",
+      "family": "temporal_order",
+      "anomaly_present": true,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "kind": "event",
+          "stage": "activation",
+          "sequence": 2
+        },
+        {
+          "evidence_id": "E2",
+          "kind": "event",
+          "stage": "execution",
+          "sequence": 1
+        }
+      ],
+      "expected_support": [
+        "E1",
+        "E2"
+      ],
+      "label_origin": "preregistered_controlled_graph_invariant"
+    },
+    {
+      "case_id": "novel-01-clean",
+      "family": "temporal_order",
+      "anomaly_present": false,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "kind": "event",
+          "stage": "activation",
+          "sequence": 1
+        },
+        {
+          "evidence_id": "E2",
+          "kind": "event",
+          "stage": "execution",
+          "sequence": 2
+        }
+      ],
+      "expected_support": [],
+      "label_origin": "preregistered_controlled_graph_invariant"
+    },
+    {
+      "case_id": "novel-02-anomaly",
+      "family": "parent_cycle",
+      "anomaly_present": true,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "kind": "event",
+          "parent": "E2"
+        },
+        {
+          "evidence_id": "E2",
+          "kind": "event",
+          "parent": "E1"
+        }
+      ],
+      "expected_support": [
+        "E1",
+        "E2"
+      ],
+      "label_origin": "preregistered_controlled_graph_invariant"
+    },
+    {
+      "case_id": "novel-02-clean",
+      "family": "parent_cycle",
+      "anomaly_present": false,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "kind": "event",
+          "parent": null
+        },
+        {
+          "evidence_id": "E2",
+          "kind": "event",
+          "parent": "E1"
+        }
+      ],
+      "expected_support": [],
+      "label_origin": "preregistered_controlled_graph_invariant"
+    },
+    {
+      "case_id": "novel-03-anomaly",
+      "family": "evidence_grade_escalation",
+      "anomaly_present": true,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "kind": "source",
+          "grade": "derived"
+        },
+        {
+          "evidence_id": "E2",
+          "kind": "claim",
+          "grade": "observed",
+          "depends_on": [
+            "E1"
+          ]
+        }
+      ],
+      "expected_support": [
+        "E1",
+        "E2"
+      ],
+      "label_origin": "preregistered_controlled_graph_invariant"
+    },
+    {
+      "case_id": "novel-03-clean",
+      "family": "evidence_grade_escalation",
+      "anomaly_present": false,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "kind": "source",
+          "grade": "derived"
+        },
+        {
+          "evidence_id": "E2",
+          "kind": "claim",
+          "grade": "derived",
+          "depends_on": [
+            "E1"
+          ]
+        }
+      ],
+      "expected_support": [],
+      "label_origin": "preregistered_controlled_graph_invariant"
+    },
+    {
+      "case_id": "novel-04-anomaly",
+      "family": "verifier_conflict",
+      "anomaly_present": true,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "kind": "reported_outcome",
+          "status": "success"
+        },
+        {
+          "evidence_id": "E2",
+          "kind": "independent_verifier",
+          "status": "failed"
+        }
+      ],
+      "expected_support": [
+        "E1",
+        "E2"
+      ],
+      "label_origin": "preregistered_controlled_graph_invariant"
+    },
+    {
+      "case_id": "novel-04-clean",
+      "family": "verifier_conflict",
+      "anomaly_present": false,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "kind": "reported_outcome",
+          "status": "success"
+        },
+        {
+          "evidence_id": "E2",
+          "kind": "independent_verifier",
+          "status": "passed"
+        }
+      ],
+      "expected_support": [],
+      "label_origin": "preregistered_controlled_graph_invariant"
+    },
+    {
+      "case_id": "novel-05-anomaly",
+      "family": "capability_drift",
+      "anomaly_present": true,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "kind": "adapter_contract",
+          "outcome_events": "unsupported"
+        },
+        {
+          "evidence_id": "E2",
+          "kind": "normalized_event",
+          "event_type": "outcome.verified",
+          "adapter": "same"
+        }
+      ],
+      "expected_support": [
+        "E1",
+        "E2"
+      ],
+      "label_origin": "preregistered_controlled_graph_invariant"
+    },
+    {
+      "case_id": "novel-05-clean",
+      "family": "capability_drift",
+      "anomaly_present": false,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "kind": "adapter_contract",
+          "outcome_events": "supported"
+        },
+        {
+          "evidence_id": "E2",
+          "kind": "normalized_event",
+          "event_type": "outcome.verified",
+          "adapter": "same"
+        }
+      ],
+      "expected_support": [],
+      "label_origin": "preregistered_controlled_graph_invariant"
+    },
+    {
+      "case_id": "novel-06-anomaly",
+      "family": "orphan_reference",
+      "anomaly_present": true,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "kind": "session",
+          "session_key": "S1"
+        },
+        {
+          "evidence_id": "E2",
+          "kind": "attempt",
+          "session_key": "S2"
+        }
+      ],
+      "expected_support": [
+        "E1",
+        "E2"
+      ],
+      "label_origin": "preregistered_controlled_graph_invariant"
+    },
+    {
+      "case_id": "novel-06-clean",
+      "family": "orphan_reference",
+      "anomaly_present": false,
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "kind": "session",
+          "session_key": "S1"
+        },
+        {
+          "evidence_id": "E2",
+          "kind": "attempt",
+          "session_key": "S1"
+        }
+      ],
+      "expected_support": [],
+      "label_origin": "preregistered_controlled_graph_invariant"
+    }
+  ],
+  "gate": {
+    "name": "six balanced anomaly/clean families",
+    "passed": true
+  },
+  "created_at": "2026-08-01T02:36:46.442195+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "250fb9c5ab070e0c8a19d59f0e630f8fdefe2531",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

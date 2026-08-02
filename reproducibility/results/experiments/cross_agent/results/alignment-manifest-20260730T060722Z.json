@@ -1,0 +1,111 @@
+{
+  "schema_version": "sri.experiment.alignment-manifest.v1",
+  "experiment": {
+    "name": "cross-agent-alignment-manifest-conflict-contract",
+    "evidence_grade": "Experimental",
+    "clock_tolerance_seconds": 5,
+    "synthetic_contract_cases": true,
+    "limitations": [
+      "Contract cases do not establish real Agent behavior or schema compatibility.",
+      "The clock threshold is a test policy, not an estimated optimal value.",
+      "Comparability permits evidence comparison, not causal attribution.",
+      "Outcome verification quality is assumed by the fixture and not evaluated here."
+    ]
+  },
+  "metrics": {
+    "case_count": 9,
+    "exact_cases": 9,
+    "comparable_cases": 5,
+    "partially_comparable_cases": 2,
+    "not_comparable_cases": 2,
+    "unsupported_causal_attribution_cases": 0
+  },
+  "cases": [
+    {
+      "case": "equivalent",
+      "exact": true,
+      "decision": "comparable",
+      "dimension_count": 3,
+      "flag_count": 0,
+      "causal_attribution_allowed": false
+    },
+    {
+      "case": "clock-skew",
+      "exact": true,
+      "decision": "comparable",
+      "dimension_count": 2,
+      "flag_count": 1,
+      "causal_attribution_allowed": false
+    },
+    {
+      "case": "task-mismatch",
+      "exact": true,
+      "decision": "not_comparable",
+      "dimension_count": 0,
+      "flag_count": 1,
+      "causal_attribution_allowed": false
+    },
+    {
+      "case": "missing-terminal",
+      "exact": true,
+      "decision": "partially_comparable",
+      "dimension_count": 2,
+      "flag_count": 1,
+      "causal_attribution_allowed": false
+    },
+    {
+      "case": "reported-outcome-conflict",
+      "exact": true,
+      "decision": "comparable",
+      "dimension_count": 3,
+      "flag_count": 1,
+      "causal_attribution_allowed": false
+    },
+    {
+      "case": "verified-outcome-difference",
+      "exact": true,
+      "decision": "comparable",
+      "dimension_count": 3,
+      "flag_count": 1,
+      "causal_attribution_allowed": false
+    },
+    {
+      "case": "outcome-capability-mask",
+      "exact": true,
+      "decision": "partially_comparable",
+      "dimension_count": 2,
+      "flag_count": 1,
+      "causal_attribution_allowed": false
+    },
+    {
+      "case": "skill-version-mismatch-uncontrolled",
+      "exact": true,
+      "decision": "not_comparable",
+      "dimension_count": 0,
+      "flag_count": 1,
+      "causal_attribution_allowed": false
+    },
+    {
+      "case": "skill-version-comparison",
+      "exact": true,
+      "decision": "comparable",
+      "dimension_count": 3,
+      "flag_count": 1,
+      "causal_attribution_allowed": false
+    }
+  ],
+  "gate": {
+    "name": "field-level alignment decisions exact",
+    "passed": true
+  },
+  "created_at": "2026-07-30T06:07:22.928408+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "e3f47b3f3fe261f8e12b27815436c4b945679de7",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

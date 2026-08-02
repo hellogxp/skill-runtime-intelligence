@@ -1,0 +1,159 @@
+{
+  "schema_version": "sri.experiment.prospective-review-queue.v1",
+  "experiment": {
+    "name": "frozen-v3-local-conflict-selected-only-queue",
+    "evidence_grade": "derived",
+    "dataset_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/causal_claim_routing_holdout.jsonl",
+    "dataset_sha256": "fb2e166b245d4ddfb14b684cb6aa37ea0bf7cc0f2579d0ededadbc977cdfd6c1",
+    "producer_report_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/structured-claim-producer-routing-holdout-20260731.json",
+    "producer_report_sha256": "3d0218636dbf1cafdf905af92bb2be9b781ff761130aa62a758f346d0670c226",
+    "selection_timing": "manifest frozen after producer completion and before any selected-only or shadow verifier execution",
+    "selected_cases_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/selected-routing-holdout-20260731.jsonl",
+    "selected_cases_sha256": "a4b9d773134232fa4723c0ee8eab6c8da575f2853f2307a77a9948a3e696c157"
+  },
+  "metrics": {
+    "case_count": 16,
+    "selected_count": 1,
+    "selection_rate": 0.0625
+  },
+  "selections": [
+    {
+      "case_id": "routing_descriptive_temporal",
+      "producer_completed": true,
+      "producer_claim_kind": "descriptive",
+      "producer_allowed": true,
+      "local_router_claim_kind": "skill_outcome_effect",
+      "selected": true
+    },
+    {
+      "case_id": "routing_descriptive_license",
+      "producer_completed": true,
+      "producer_claim_kind": "descriptive",
+      "producer_allowed": true,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    },
+    {
+      "case_id": "routing_descriptive_zh",
+      "producer_completed": true,
+      "producer_claim_kind": "descriptive",
+      "producer_allowed": true,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    },
+    {
+      "case_id": "routing_descriptive_es",
+      "producer_completed": true,
+      "producer_claim_kind": "descriptive",
+      "producer_allowed": true,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    },
+    {
+      "case_id": "routing_source_nested",
+      "producer_completed": true,
+      "producer_claim_kind": "source_attribution",
+      "producer_allowed": true,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    },
+    {
+      "case_id": "routing_source_dashboard",
+      "producer_completed": true,
+      "producer_claim_kind": "descriptive",
+      "producer_allowed": true,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    },
+    {
+      "case_id": "routing_source_zh",
+      "producer_completed": true,
+      "producer_claim_kind": "source_attribution",
+      "producer_allowed": true,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    },
+    {
+      "case_id": "routing_source_es",
+      "producer_completed": true,
+      "producer_claim_kind": "source_attribution",
+      "producer_allowed": true,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    },
+    {
+      "case_id": "routing_effect_no_better",
+      "producer_completed": true,
+      "producer_claim_kind": "descriptive",
+      "producer_allowed": true,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    },
+    {
+      "case_id": "routing_effect_invariant",
+      "producer_completed": true,
+      "producer_claim_kind": "descriptive",
+      "producer_allowed": true,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    },
+    {
+      "case_id": "routing_effect_removal",
+      "producer_completed": true,
+      "producer_claim_kind": "skill_outcome_effect",
+      "producer_allowed": false,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    },
+    {
+      "case_id": "routing_effect_zero",
+      "producer_completed": true,
+      "producer_claim_kind": "skill_outcome_effect",
+      "producer_allowed": false,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    },
+    {
+      "case_id": "routing_effect_precipitated",
+      "producer_completed": true,
+      "producer_claim_kind": "skill_outcome_effect",
+      "producer_allowed": false,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    },
+    {
+      "case_id": "routing_effect_zh",
+      "producer_completed": true,
+      "producer_claim_kind": "skill_outcome_effect",
+      "producer_allowed": false,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    },
+    {
+      "case_id": "routing_experimental_zero",
+      "producer_completed": true,
+      "producer_claim_kind": "descriptive",
+      "producer_allowed": true,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    },
+    {
+      "case_id": "routing_experimental_es",
+      "producer_completed": true,
+      "producer_claim_kind": "skill_outcome_effect",
+      "producer_allowed": true,
+      "local_router_claim_kind": "unknown",
+      "selected": false
+    }
+  ],
+  "created_at": "2026-07-31T06:55:51.518286+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

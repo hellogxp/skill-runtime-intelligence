@@ -1,0 +1,71 @@
+{
+  "schema_version": "sri.experiment.native-sender-host-contract.v1",
+  "experiment": {
+    "name": "published-native-sender-current-host-contract",
+    "evidence_grade": "Experimental",
+    "manifest_path": "${REPO_ROOT}/experiments/product_lifecycle/native_sender_manifest_v0.1.6.json",
+    "manifest_sha256": "b6b63b8bff0707d5a759b2b761e9d6c34e190921ec3427fe3688208a9bf3c8a9",
+    "release_tag": "v0.1.6",
+    "limitations": [
+      "One host execution does not establish cross-host reliability.",
+      "Digest identity proves the release bytes, not hosted-builder reproducibility.",
+      "Protocol checks cover exact local Unix-socket delivery and silent failure semantics only."
+    ]
+  },
+  "artifact": {
+    "path": "${PAI_WORKSPACE}/artifacts/v0.1.6/skill-runtime-hook-native-linux-x86_64",
+    "manifest": {
+      "name": "skill-runtime-hook-native-linux-x86_64",
+      "os": "linux",
+      "label_architecture": "x86_64",
+      "bytes": 16632,
+      "sha256": "5a93f4b0b17fdcdb5295b53dbb4bc6623c3de17ba2f47c0a35b2c84f35d87ed0"
+    },
+    "observed": {
+      "bytes": 16632,
+      "sha256": "5a93f4b0b17fdcdb5295b53dbb4bc6623c3de17ba2f47c0a35b2c84f35d87ed0",
+      "host_os": "linux",
+      "host_architecture": "x86_64"
+    },
+    "identity_passed": true,
+    "host_compatible": true
+  },
+  "structure": [
+    {
+      "architecture": "x86_64",
+      "object_format": "elf",
+      "section_count": 27,
+      "section_fingerprint": "9ffe04c2fde6612f34acb8801cbdb55fc6fa9601217848552ca68391330dfbe0",
+      "symbol_count": 45,
+      "symbol_fingerprint": "2452f8e3004ada138fd6df18c59340e2cdfeb0ede03dbb2e25c6782718ced2a6",
+      "required_symbols": {"main": true},
+      "required_symbols_present": true,
+      "diagnostic_internal_symbols": {"argument_value": true, "write_all": true}
+    }
+  ],
+  "protocol": {
+    "status": "completed",
+    "repetitions": 40,
+    "exact_deliveries": 40,
+    "silent_successes": 40,
+    "missing_socket_exit": 1,
+    "missing_socket_silent": true,
+    "invalid_arguments_exit": 2,
+    "invalid_arguments_silent": true,
+    "passed": true
+  },
+  "gate": {
+    "name": "identity, host, structure, and protocol contract",
+    "passed": true
+  },
+  "created_at": "2026-07-31T21:32:53.951196+00:00",
+  "environment": {
+    "python": "3.12.13",
+    "platform": "Linux-5.10.134-18.0.11.lifsea8.x86_64-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "git_commit": "a1f2cfca6a4c7cc75e7a995ed54f48ca99c131f9",
+    "git_dirty": true,
+    "pai_dsw_instance_id": "dsw-2032100-64b9d7c65d-tg9lx",
+    "experiment_root": null
+  }
+}

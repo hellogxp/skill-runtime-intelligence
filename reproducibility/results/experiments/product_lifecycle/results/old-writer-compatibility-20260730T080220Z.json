@@ -1,0 +1,52 @@
+{
+  "schema_version": "sri.experiment.old-writer-compatibility.v1",
+  "experiment": {
+    "name": "timestamp-migration-old-writer-compatibility",
+    "evidence_grade": "Experimental",
+    "sqlite_busy_timeout_ms": 5000,
+    "live_database_used": false,
+    "row_level_records_included": false,
+    "limitations": [
+      "The legacy writer is a raw SQLite fixture, not a packaged old binary.",
+      "One writer and one migrator do not represent multi-writer workloads.",
+      "Default-compatible inserts preserve unknown provenance but cannot add new timestamp provenance.",
+      "Wall-clock lock holds are scheduler-sensitive."
+    ]
+  },
+  "environment": {
+    "platform_system": "Darwin",
+    "platform_machine": "arm64",
+    "python_version": "3.11.7",
+    "sqlite_version": "3.41.2",
+    "logical_cpu_count": 12,
+    "load_average_1m": 7.6328125,
+    "load_average_5m": 8.8447265625,
+    "load_average_15m": 9.609375
+  },
+  "metrics": {
+    "evaluations": 7,
+    "passed": 7,
+    "failed": 0,
+    "by_schedule": {
+      "writer_before_within_budget": {
+        "evaluations": 4,
+        "passed": 4
+      },
+      "writer_after_migration": {
+        "evaluations": 2,
+        "passed": 2
+      },
+      "writer_before_over_budget": {
+        "evaluations": 1,
+        "passed": 1
+      }
+    },
+    "all_old_writes_preserved": true,
+    "all_old_writes_remain_unknown": true
+  },
+  "gate": {
+    "name": "legacy writer preservation and bounded migration recovery",
+    "passed": true
+  },
+  "created_at": "2026-07-30T08:02:20.713980+00:00"
+}

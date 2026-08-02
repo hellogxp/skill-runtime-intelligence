@@ -1,0 +1,37 @@
+{
+  "schema_version": "sri.reproducibility.environment.v1",
+  "captured_at": "2026-08-02T10:54:42+08:00",
+  "evidence_grade": "Experimental",
+  "platform": {
+    "service": "PAI-DSW",
+    "operating_system": "Ubuntu 22.04.5 LTS",
+    "kernel": "5.10.134-18.0.11.lifsea8.x86_64",
+    "architecture": "x86_64",
+    "python": "3.12.13"
+  },
+  "accelerator": {
+    "name": "NVIDIA H20",
+    "memory_mib": 97871,
+    "driver": "550.163.01"
+  },
+  "model": {
+    "recorded_id": "Qwen3.6-35B-A3B",
+    "served_id": "qwen3.6-35b-a3b-dsw",
+    "weights_included": false,
+    "reason": "Model weights are third-party, approximately 67 GiB, and are not necessary to audit the frozen outputs."
+  },
+  "packages": {
+    "torch": "2.10.0",
+    "transformers": "5.8.1",
+    "vllm": "0.19.1",
+    "numpy": "2.5.0",
+    "scipy": "1.17.1",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.0"
+  },
+  "privacy": {
+    "host_name_included": false,
+    "instance_id_included": false,
+    "network_address_included": false
+  }
+}

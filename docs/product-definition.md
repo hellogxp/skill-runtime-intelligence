@@ -6,16 +6,19 @@ Working category: **Agent Skill Runtime Intelligence**
 
 ## 1. 产品定义
 
-> **面向所有 Agent Skill 用户的运行时全景与诊断系统，既能诊断单个
-> Agent 中的 Skill 执行，也能比较同一 Skill 在不同 Agent 中的运行差异。**
+> **让用户知道一个 Skill 是否按预期运行、从哪里开始偏离，以及这个判断
+> 基于什么证据。**
 
 英文价值表达：
 
-> **Understand and diagnose how Skills run—within one agent or across agents.**
+> **Know whether a Skill ran as expected, where it first diverged, and what
+> evidence supports that judgment.**
 
 用户继续正常使用 Codex、Claude Code、Gemini CLI、GitHub Copilot 等
 Agent。产品运行在 Agent 旁边，采集并关联真实运行信号，
 重建 Skill 从发现、激活、指令加载、资源使用、执行到结果之间的证据链。
+系统从当前 Skill 指令中提取保守、可检查的行为约束，并将“实际发生的活动”、
+“可确定判断的符合性”与“因为观测能力不足而无法判断的部分”明确分开。
 
 产品不代理模型请求，不接管 Agent loop，不要求用户从本产品发起任务，也不在
 默认模式下阻断或改变 Agent 行为。
@@ -201,6 +204,7 @@ Outcome
 - 人类可读的说明；
 - 原始来源和 source locator；
 - 证据等级、置信度和判断依据；
+- 与证据等级独立的因果作用域；
 - 相关父子事件、文件和产物；
 - 脱敏后的输入与输出；
 - 缺失的 telemetry；

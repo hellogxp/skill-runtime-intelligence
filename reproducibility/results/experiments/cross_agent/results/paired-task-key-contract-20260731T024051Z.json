@@ -1,0 +1,268 @@
+{
+  "schema_version": "sri.experiment.paired-task-key-contract.v1",
+  "experiment": {
+    "name": "privacy-safe-explicit-paired-task-key-contract",
+    "evidence_grade": "Experimental",
+    "trials": 5,
+    "agents_per_trial": 3,
+    "task_pool_size": 128,
+    "limitations": [
+      "Assignments and Agent names are synthetic.",
+      "The mechanism proves explicit assignment identity, not semantic task equivalence.",
+      "Study-secret distribution, rotation, consent, and recovery UX are untested.",
+      "The experiment runs on one local filesystem and does not integrate the key into production SkillRun storage.",
+      "Collision-free synthetic samples do not prove cryptographic collision impossibility."
+    ]
+  },
+  "contract": {
+    "assignment_schema": "sri.paired-task-assignment.v1",
+    "scheme": "sri-paired-task-hmac-sha256-v1",
+    "secret_origin": "random 256-bit study secret",
+    "derivation": "HMAC-SHA256(secret, length-prefixed study scope, protocol version, and opaque explicit task ID), truncated to 128 bits",
+    "agent_identity_in_derivation": false,
+    "raw_prompt_in_derivation": false,
+    "semantic_similarity_in_derivation": false,
+    "time_proximity_in_derivation": false
+  },
+  "metrics": {
+    "trials": 5,
+    "agent_derivations": 15,
+    "task_keys_generated": 660,
+    "passed_trials": 5,
+    "same_assignment_converged_trials": 5,
+    "cross_task_distinct_trials": 5,
+    "cross_scope_distinct_trials": 5,
+    "cross_protocol_distinct_trials": 5,
+    "all_domain_variants_distinct_trials": 5,
+    "task_pool_collision_free_trials": 5,
+    "permissions_private_trials": 5,
+    "secret_absent_from_export_trials": 5,
+    "task_id_absent_from_export_trials": 5,
+    "missing_task_fail_closed_trials": 5,
+    "prompt_only_fail_closed_trials": 5,
+    "corrupt_secret_fail_closed_trials": 5,
+    "permissive_secret_fail_closed_trials": 5,
+    "symlink_secret_fail_closed_trials": 5
+  },
+  "trials": [
+    {
+      "trial": 0,
+      "agent_derivations": 3,
+      "same_assignment_converged": true,
+      "cross_task_distinct": true,
+      "cross_scope_distinct": true,
+      "cross_protocol_distinct": true,
+      "all_domain_variants_distinct": true,
+      "task_pool_size": 128,
+      "task_pool_collision_free": true,
+      "secret_mode": "0o600",
+      "permissions_private": true,
+      "secret_absent_from_export": true,
+      "task_id_absent_from_export": true,
+      "missing_task": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "prompt_only": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "corrupt_secret": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "permissive_secret": {
+        "failure_type": "PermissionError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "symlink_secret": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "passed": true
+    },
+    {
+      "trial": 1,
+      "agent_derivations": 3,
+      "same_assignment_converged": true,
+      "cross_task_distinct": true,
+      "cross_scope_distinct": true,
+      "cross_protocol_distinct": true,
+      "all_domain_variants_distinct": true,
+      "task_pool_size": 128,
+      "task_pool_collision_free": true,
+      "secret_mode": "0o600",
+      "permissions_private": true,
+      "secret_absent_from_export": true,
+      "task_id_absent_from_export": true,
+      "missing_task": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "prompt_only": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "corrupt_secret": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "permissive_secret": {
+        "failure_type": "PermissionError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "symlink_secret": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "passed": true
+    },
+    {
+      "trial": 2,
+      "agent_derivations": 3,
+      "same_assignment_converged": true,
+      "cross_task_distinct": true,
+      "cross_scope_distinct": true,
+      "cross_protocol_distinct": true,
+      "all_domain_variants_distinct": true,
+      "task_pool_size": 128,
+      "task_pool_collision_free": true,
+      "secret_mode": "0o600",
+      "permissions_private": true,
+      "secret_absent_from_export": true,
+      "task_id_absent_from_export": true,
+      "missing_task": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "prompt_only": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "corrupt_secret": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "permissive_secret": {
+        "failure_type": "PermissionError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "symlink_secret": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "passed": true
+    },
+    {
+      "trial": 3,
+      "agent_derivations": 3,
+      "same_assignment_converged": true,
+      "cross_task_distinct": true,
+      "cross_scope_distinct": true,
+      "cross_protocol_distinct": true,
+      "all_domain_variants_distinct": true,
+      "task_pool_size": 128,
+      "task_pool_collision_free": true,
+      "secret_mode": "0o600",
+      "permissions_private": true,
+      "secret_absent_from_export": true,
+      "task_id_absent_from_export": true,
+      "missing_task": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "prompt_only": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "corrupt_secret": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "permissive_secret": {
+        "failure_type": "PermissionError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "symlink_secret": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "passed": true
+    },
+    {
+      "trial": 4,
+      "agent_derivations": 3,
+      "same_assignment_converged": true,
+      "cross_task_distinct": true,
+      "cross_scope_distinct": true,
+      "cross_protocol_distinct": true,
+      "all_domain_variants_distinct": true,
+      "task_pool_size": 128,
+      "task_pool_collision_free": true,
+      "secret_mode": "0o600",
+      "permissions_private": true,
+      "secret_absent_from_export": true,
+      "task_id_absent_from_export": true,
+      "missing_task": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "prompt_only": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "corrupt_secret": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "permissive_secret": {
+        "failure_type": "PermissionError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "symlink_secret": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "passed": true
+    }
+  ],
+  "gate": {
+    "name": "explicit paired-task identity is stable, scoped, private, and fail-closed",
+    "passed": true
+  },
+  "created_at": "2026-07-31T02:44:20.408472+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

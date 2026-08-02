@@ -1,0 +1,665 @@
+{
+  "schema_version": "sri.experiment.real-failure-semantic-study.v1",
+  "experiment": {
+    "name": "evidence-citing-model-vs-ordered-graph-real-run-holdout",
+    "evidence_grade": "Experimental",
+    "holdout_path": "${REPO_ROOT}/experiments/semantic_diagnosis/results/real-failure-holdout-20260801.json",
+    "holdout_sha256": "68889e90d533262aeb76db12644e9945867755d053ba03be0244f6e17cf00ccb",
+    "model": "qwen3.6-35b-a3b-dsw",
+    "server_version": "vllm-0.19.1",
+    "generation": {
+      "temperature": 0,
+      "enable_thinking": false,
+      "max_tokens": 512
+    },
+    "limitations": [
+      "Expected findings are deterministic production candidates, not independent human gold labels.",
+      "The real runs come from one local user's database and contain no explicit runtime_failure profile.",
+      "The prompt states the known diagnostic relations, so model agreement measures interface reproduction.",
+      "All model and graph outputs are Inferred and never modify source evidence."
+    ]
+  },
+  "ordered_graph_baseline": {
+    "case_count": 19,
+    "exact_matches": 19,
+    "exact_match_rate": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "evidence_citing_model": {
+    "case_count": 0,
+    "exact_matches": 0,
+    "exact_match_rate": 0.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "planned_cases": 19,
+    "completed_cases": 0,
+    "citation_valid_cases": 0,
+    "causal_safe_cases": 0,
+    "latency_p50_ms": null
+  },
+  "graph_rows": [
+    {
+      "case_id": "real-holdout-001",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-002",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-003",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-004",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-005",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-006",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-007",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-008",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-009",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-010",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-011",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-012",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-013",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-014",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-015",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-016",
+      "expected": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-017",
+      "expected": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-018",
+      "expected": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    },
+    {
+      "case_id": "real-holdout-019",
+      "expected": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "predicted": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "exact": true,
+      "citation_valid": true,
+      "inference_grade": "inferred"
+    }
+  ],
+  "model_rows": [
+    {
+      "case_id": "real-holdout-001",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 38.832779973745346
+    },
+    {
+      "case_id": "real-holdout-002",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 37.33766096411273
+    },
+    {
+      "case_id": "real-holdout-003",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 37.26950800046325
+    },
+    {
+      "case_id": "real-holdout-004",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 37.31173899723217
+    },
+    {
+      "case_id": "real-holdout-005",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 36.02367697749287
+    },
+    {
+      "case_id": "real-holdout-006",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 35.09202098939568
+    },
+    {
+      "case_id": "real-holdout-007",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 34.450948995072395
+    },
+    {
+      "case_id": "real-holdout-008",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 33.808087988290936
+    },
+    {
+      "case_id": "real-holdout-009",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 27.69967500353232
+    },
+    {
+      "case_id": "real-holdout-010",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 27.710375958122313
+    },
+    {
+      "case_id": "real-holdout-011",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 28.02790398709476
+    },
+    {
+      "case_id": "real-holdout-012",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 28.555738041177392
+    },
+    {
+      "case_id": "real-holdout-013",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 28.17125798901543
+    },
+    {
+      "case_id": "real-holdout-014",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 27.050022967159748
+    },
+    {
+      "case_id": "real-holdout-015",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 26.96176996687427
+    },
+    {
+      "case_id": "real-holdout-016",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 26.47029998479411
+    },
+    {
+      "case_id": "real-holdout-017",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 14.20397002948448
+    },
+    {
+      "case_id": "real-holdout-018",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 13.805283000692725
+    },
+    {
+      "case_id": "real-holdout-019",
+      "status": "execution_error",
+      "error": "HTTPError",
+      "elapsed_ms": 13.825972971972078
+    }
+  ],
+  "gate": {
+    "name": "completion, citation, causal-safety, and inference-layer separation",
+    "passed": false
+  },
+  "created_at": "2026-08-01T00:45:52.072225+00:00",
+  "environment": {
+    "python": "3.12.13",
+    "platform": "Linux-5.10.134-18.0.11.lifsea8.x86_64-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "git_commit": "a1f2cfca6a4c7cc75e7a995ed54f48ca99c131f9",
+    "git_dirty": true,
+    "pai_dsw_instance_id": "dsw-2032100-64b9d7c65d-tg9lx",
+    "experiment_root": null
+  }
+}

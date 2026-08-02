@@ -1,11 +1,14 @@
 # MVP specification
 
-Version target: v0.1  
-Theme: **Reconstruct what a Skill did**
+Version target: v0.3
+Theme: **Turn Skill instructions into checkable runtime evidence**
 
 ## 1. MVP outcome
 
-Given an existing or live local agent session, produce an accurate, evidence-graded Skill Run Panorama without modifying the agent, workspace, or model traffic.
+Given an existing or live local Agent session, extract conservative behavior
+constraints from the Skill definition, compare them with runtime evidence, and
+show what happened, where behavior first diverged, and which evidence supports
+the judgment—without modifying the Agent, workspace, or model traffic.
 
 ## 2. Supported environments
 
@@ -77,6 +80,9 @@ Reconstruct, when evidence exists:
 - Connect file outcomes to tool calls only when evidence supports the relationship.
 - Record missing telemetry explicitly.
 - Label every relationship with an evidence grade.
+- Label diagnostic Findings with a causal scope independent from evidence
+  grade; deterministic single-Run Findings never authorize Skill outcome
+  effects.
 
 ### F5. Runs UI
 
@@ -84,6 +90,10 @@ Reconstruct, when evidence exists:
 - Render a progressively collapsed Skill Run Panorama.
 - Render a chronological event timeline.
 - Show a node inspector with source evidence.
+- Extract conservative, checkable behavior constraints from the current
+  `SKILL.md` and show which are satisfied, need review, or cannot be evaluated.
+- Do not count an unconfigured outcome verifier as a run failure or verification
+  gap; a gap requires a declared verification expectation.
 - Filter by Skill, event type, status, and evidence grade.
 - Display raw records only on demand.
 

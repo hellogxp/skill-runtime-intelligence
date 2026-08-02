@@ -37,7 +37,7 @@ MAX_EVENT_BODY_BYTES = 1024 * 1024
 
 
 class PanoramaHandler(BaseHTTPRequestHandler):
-    server_version = "SkillRuntime/0.1"
+    server_version = f"SkillRuntime/{__version__}"
 
     def handle(self) -> None:
         try:
@@ -466,6 +466,7 @@ class PanoramaHandler(BaseHTTPRequestHandler):
             "/i18n.js": "i18n.js",
             "/app.js": "app.js",
             "/styles.css": "styles.css",
+            "/favicon.svg": "favicon.svg",
         }.get(path)
         if not filename:
             self.send_error(HTTPStatus.NOT_FOUND)

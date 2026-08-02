@@ -1,0 +1,62 @@
+{
+  "schema_version": "sri.experiment.timestamp-provenance-audit.v2",
+  "experiment": {
+    "name": "cross-agent-timestamp-provenance-capability-audit",
+    "evidence_grade": "Derived",
+    "temporary_database": true,
+    "controlled_hook_behavior_check": true,
+    "row_level_records_included": false,
+    "timestamp_values_included": false,
+    "limitations": [
+      "Schema capability does not establish timestamp accuracy.",
+      "Generated fallback timestamps are not compared with an external clock.",
+      "Hook fixtures do not validate live Agent timestamp schemas.",
+      "Capability absence is not evidence that an Agent event occurred at the wrong time.",
+      "Schema support and populated labels do not establish synchronized clocks."
+    ]
+  },
+  "capabilities": {
+    "event_timestamp": true,
+    "timestamp_origin": true,
+    "ingestion_timestamp": true,
+    "clock_domain": true,
+    "clock_sync_or_uncertainty": true,
+    "timestamp_precision": true,
+    "source_vs_fallback_marker": true
+  },
+  "metrics": {
+    "required_capability_count": 7,
+    "available_capability_count": 7,
+    "hook_behavior": {
+      "agent_profiles": 4,
+      "explicit_source_timestamp_preserved": 4,
+      "missing_timestamp_fallback_generated": 4,
+      "fallback_provenance_labeled": 4,
+      "normalized_event_count": 8,
+      "persisted_event_count": 8,
+      "ingestion_timestamp_labeled": 8,
+      "clock_domain_labeled": 8,
+      "timestamp_precision_labeled": 8,
+      "clock_uncertainty_labeled": 0
+    },
+    "cross_agent_absolute_time_ready": false
+  },
+  "gate": {
+    "name": "privacy-safe timestamp capability audit completed",
+    "passed": true
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "created_at": "2026-08-01T09:03:33.431825+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "15c256814aa411f757383dfeb1f14411f2e23b1d",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

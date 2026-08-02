@@ -1,0 +1,1 @@
+{"case_id": "routing_descriptive_temporal", "text": "The Skill loaded before the timeout. Temporal order by itself does not identify the cause.", "expected_claim_kind": "descriptive", "causal_scope": "none", "expected_allowed": true, "tags": ["routing-holdout", "evidence-boundary", "temporal-order"]}

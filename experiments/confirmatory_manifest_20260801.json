@@ -1,0 +1,137 @@
+{
+  "schema_version": "sri.experiment.confirmatory-manifest.v1",
+  "frozen_at": "2026-08-01",
+  "evidence_grade": "Experimental",
+  "claim_boundary": "The manifest records executed controlled and de-identified experiments. It does not convert synthetic faults into production incidents, model agreement into human gold labels, or one environment into deployment-wide reliability.",
+  "verification_suite": {
+    "result": "experiments/results/confirmatory-final-suite-20260801.json",
+    "sha256": "ede96886152be90104a17006731c9f8f2334dfbbd990d40e94ca392b2e5e5377",
+    "passed": 13,
+    "failed": 0
+  },
+  "experiments": [
+    {
+      "id": "balanced_failure_outcome",
+      "result": "experiments/live_agent/results/balanced-failure-outcome-confirmatory.json",
+      "sha256": "7929f01def4c2d33a5246e4029b2045ec8bb0c30f5ff009a4365ccf2bb881f70",
+      "planned": 60,
+      "completed": 60,
+      "gate_passed": true
+    },
+    {
+      "id": "catalog_factorial_2x2x2x2",
+      "result": "experiments/live_agent/results/catalog-factorial-confirmatory.json",
+      "sha256": "964967869c0935c4bc4c332308f36b09bf8dd95e0a41b8a797684a08eb46f626",
+      "planned": 48,
+      "completed": 48,
+      "gate_passed": true
+    },
+    {
+      "id": "second_linux_arm64_transport_native",
+      "result": "experiments/hook_transport/results/hook-transport-second-linux-arm64-confirmatory.json",
+      "sha256": "8f9574556f0c9d6e7e3c9d376c272ac211090d3718396f2a85f7c74af6d9e5b5",
+      "planned": 80,
+      "completed": 80,
+      "gate_passed": true
+    },
+    {
+      "id": "qwen_citation_entailment_rescore",
+      "result": "experiments/semantic_diagnosis/results/citation-entailment-qwen36-thinking-confirmatory.json",
+      "sha256": "d9f74704ef4313b9a8e230243a2245d729d85a6ebc1ed1c45a36bb1097a91041",
+      "planned": 19,
+      "completed": 19,
+      "gate_passed": false
+    },
+    {
+      "id": "deepseek_independent_adjudication",
+      "result": "experiments/semantic_diagnosis/results/real-failure-opencode-deepseek-confirmatory.json",
+      "sha256": "0bd9515ac8eab4a3c05809abad3820aa388f267a42db3100168bce4fefc1a627",
+      "planned": 19,
+      "completed": 19,
+      "gate_passed": false
+    },
+    {
+      "id": "double_model_adjudication",
+      "result": "experiments/semantic_diagnosis/results/double-model-adjudication-confirmatory.json",
+      "sha256": "761b07789e923b3ab5b2b83ffdfa7ea981356bc5fb6ad23fef46d96b3d3b0eaf",
+      "planned": 19,
+      "completed": 19,
+      "gate_passed": true,
+      "gate_meaning": "Both reports completed and disagreements were preserved; it is not an accuracy gate."
+    },
+    {
+      "id": "novel_pattern_qwen",
+      "result": "experiments/semantic_diagnosis/results/novel-pattern-qwen36-confirmatory.json",
+      "sha256": "5bfd04f8e9d707e05a8e4818fd4c6e3deae8da9f89295675bcf755f2591a8103",
+      "planned": 12,
+      "completed": 12,
+      "gate_passed": true
+    },
+    {
+      "id": "novel_pattern_deepseek",
+      "result": "experiments/semantic_diagnosis/results/novel-pattern-opencode-confirmatory.json",
+      "sha256": "41b26388d2985ea6ba4676bc553732d8edca2c593ff19ddb8624a8e5526002dd",
+      "planned": 12,
+      "completed": 12,
+      "gate_passed": true
+    },
+    {
+      "id": "novel_pattern_cross_model",
+      "result": "experiments/semantic_diagnosis/results/novel-pattern-cross-model-confirmatory.json",
+      "sha256": "11fd92a0321a4e66689bf354b8dcfde6fdf208c13ce28293b86bb6b746a09902",
+      "planned": 12,
+      "completed": 12,
+      "gate_passed": true
+    },
+    {
+      "id": "blinded_real_trace_holdout",
+      "result": "experiments/semantic_diagnosis/results/blinded-real-trace-holdout-20260801.json",
+      "sha256": "466bd1fbf3c1a13723eed80ae6254ae8c63884302ed28f3cc4831acd885501a8",
+      "planned": 19,
+      "completed": 19,
+      "gate_passed": true
+    },
+    {
+      "id": "blinded_real_trace_qwen36_v2",
+      "result": "experiments/semantic_diagnosis/results/blinded-trace-annotation-qwen36-v2-20260801.json",
+      "sha256": "dcae20b4df8ba706b43f4a8732c8ec5b8dd2044c5de823253d06c0c32928c42d",
+      "planned": 19,
+      "completed": 19,
+      "gate_passed": true,
+      "posthoc_protocol_valid": 15
+    },
+    {
+      "id": "blinded_real_trace_codex_v2",
+      "result": "experiments/semantic_diagnosis/results/blinded-trace-annotation-codex-v2-20260801.json",
+      "sha256": "e9b5b21153cea7118f00be30c32c1e49fe1785370d1599268dae0aa07cd7e585",
+      "planned": 19,
+      "completed": 19,
+      "gate_passed": true,
+      "posthoc_protocol_valid": 19
+    },
+    {
+      "id": "blinded_real_trace_double_adjudication_v2",
+      "result": "experiments/semantic_diagnosis/results/blinded-real-trace-double-adjudication-v2-20260801.json",
+      "sha256": "abc46dde85699149f811197240678290fc466bd4a04953602d60805f650c4264",
+      "planned": 19,
+      "completed": 19,
+      "strict_consensus": 11,
+      "strict_consensus_matches_hidden_candidate": 11,
+      "gate_passed": true,
+      "gate_meaning": "Both blinded annotators completed every case; this is not a human-gold accuracy gate."
+    }
+  ],
+  "retained_pilots": [
+    {
+      "id": "blinded_real_trace_ambiguous_rubric_pilot",
+      "first_result": "experiments/semantic_diagnosis/results/blinded-trace-annotation-qwen36-20260801.json",
+      "first_sha256": "05d29a4cb30398a3a298ea113a11538598411cdbb62ee97de0c7b408658951aa",
+      "second_result": "experiments/semantic_diagnosis/results/blinded-trace-annotation-codex-20260801.json",
+      "second_sha256": "32ae7207f98a614c26e489149542834a1e7319608e55f9b5a364997440e88227",
+      "summary_result": "experiments/semantic_diagnosis/results/blinded-real-trace-double-adjudication-20260801.json",
+      "summary_sha256": "c421d32d395baecb0a7e8beb10dbdd2edb5490b9de9001613fbe36da81882604",
+      "exact_agreement": 0,
+      "reason_not_primary": "The rubric did not specify earliest-only gap selection or the run-incomplete stage; retained as a protocol-design failure."
+    }
+  ]
+}

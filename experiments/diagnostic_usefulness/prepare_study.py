@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare and audit a counterbalanced diagnostic usefulness study packet."""
+"""Prepare and audit a counterbalanced model-agent usefulness study packet."""
 
 import argparse
 import json
@@ -51,20 +51,20 @@ def _raw_view(run: Dict[str, Any]) -> List[str]:
     return lines
 
 
-def _assignments(case_ids: List[str], participants: int, seed: int) -> List[dict]:
+def _assignments(case_ids: List[str], model_samples: int, seed: int) -> List[dict]:
     rows = []
-    for participant in range(participants):
+    for sample in range(model_samples):
         order = list(case_ids)
-        random.Random(seed + participant).shuffle(order)
+        random.Random(seed + sample).shuffle(order)
         rows.append(
             {
-                "participant_slot": participant + 1,
+                "model_sample_slot": sample + 1,
                 "case_order": [
                     {
                         "case_id": case_id,
                         "condition": (
                             "panorama"
-                            if (participant + case_ids.index(case_id)) % 2
+                            if (sample + case_ids.index(case_id)) % 2
                             else "raw"
                         ),
                     }
@@ -85,7 +85,17 @@ def main() -> int:
         / "runtime_diagnostics"
         / "cases.jsonl",
     )
-    parser.add_argument("--participants", type=int, default=24)
+    parser.add_argument(
+        "--model-samples",
+        "--participants",
+        dest="model_samples",
+        type=int,
+        default=24,
+        help=(
+            "Independent model-session sample slots. --participants is kept "
+            "only as a compatibility alias."
+        ),
+    )
     parser.add_argument("--seed", type=int, default=20260729)
     parser.add_argument("--output", type=Path)
     arguments = parser.parse_args()
@@ -123,6 +133,7 @@ def main() -> int:
                                 "stage",
                                 "severity",
                                 "evidence_grade",
+                                "causal_scope",
                                 "basis",
                                 "missing_signals",
                                 "recommended_actions",
@@ -135,7 +146,7 @@ def main() -> int:
         )
     assignments = _assignments(
         [stimulus["case_id"] for stimulus in stimuli],
-        arguments.participants,
+        arguments.model_samples,
         arguments.seed,
     )
     condition_counts = {
@@ -149,7 +160,11 @@ def main() -> int:
         for counts in condition_counts.values()
     )
     measurement_schema = [
-        "participant_slot",
+        "model_sample_slot",
+        "model_provider",
+        "model_id",
+        "model_cli_version",
+        "prompt_sha256",
         "case_id",
         "condition",
         "first_boundary_answer",
@@ -161,15 +176,15 @@ def main() -> int:
     ]
     metrics = {
         "case_count": len(stimuli),
-        "participant_slots": arguments.participants,
-        "assignment_count": len(stimuli) * arguments.participants,
+        "model_sample_slots": arguments.model_samples,
+        "planned_model_trials": len(stimuli) * arguments.model_samples,
         "condition_balance_passed": balanced,
         "first_visible_boundary_accuracy": boundary_matches / len(stimuli),
         "findings_with_evidence_rate": (
             cited_findings / finding_count if finding_count else 1.0
         ),
         "measurement_field_count": len(measurement_schema),
-        "human_responses_collected": 0,
+        "model_responses_collected": 0,
     }
     readiness_gate = (
         balanced
@@ -177,17 +192,18 @@ def main() -> int:
         and metrics["findings_with_evidence_rate"] == 1.0
     )
     report = {
-        "schema_version": "sri.experiment.diagnostic-usefulness-study.v1",
+        "schema_version": "sri.experiment.model-agent-usefulness-study.v1",
         "experiment": {
-            "name": "counterbalanced-within-subject-study-readiness",
+            "name": "counterbalanced-model-agent-study-readiness",
             "dataset_path": str(arguments.cases.resolve()),
             "dataset_sha256": sha256_path(arguments.cases),
             "seed": arguments.seed,
-            "status": "study-ready; no human utility claim",
+            "status": "model-agent study ready; no response or human utility claim",
             "limitations": [
-                "No participant responses have been collected.",
+                "No model responses are collected by this preparation step.",
                 "The readiness audit validates stimuli, balance, evidence, and display order only.",
-                "Time-to-diagnosis and correctness deltas require recruited participants.",
+                "Repeated sessions from one model are stochastic samples, not independent people or independent model families.",
+                "Any completed result applies to the recorded model and prompt protocol, not to human usability.",
             ],
         },
         "metrics": metrics,
@@ -211,4 +227,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

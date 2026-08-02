@@ -1,0 +1,1 @@
+Use the checksum-skill for this task. Follow its instructions exactly. Do not read or write outside this repository.

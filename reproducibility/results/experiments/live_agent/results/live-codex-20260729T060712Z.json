@@ -1,0 +1,148 @@
+{
+  "schema_version": "sri.experiment.live-agent.codex.v1",
+  "experiment": {
+    "name": "codex-same-skill-read-only-trials",
+    "agent": "codex",
+    "agent_version": "0.145.0",
+    "model": "gpt-5.6-sol",
+    "sandbox": "read-only",
+    "ignore_user_config": true,
+    "task_sha256": "2b0ad27d84064a5d843347336e5cdbff03762bea0f9bf1405d7d64088f1604c9",
+    "skill_sha256": "ae74262ef2e8abdca9ce49ad2b0de400f720e67902789c7668093b00de349116",
+    "fixture_sha256": "5bdcdd5d7cecc419ae3aa405786a1901e92a835955ae51f2dbd92a24ca911044",
+    "limitations": [
+      "Three trials are a harness validation, not a stable population estimate.",
+      "The task is deterministic and intentionally much smaller than real development work.",
+      "Input token counts include Codex runtime context beyond this one Skill."
+    ]
+  },
+  "metrics": {
+    "trial_count": 3,
+    "verified_outcomes": 3,
+    "workspace_mutations": 0,
+    "process_failures": 0,
+    "sessions_reconstructed": 3,
+    "skill_runs_reconstructed": 3,
+    "instruction_events_reconstructed": 3,
+    "resource_events_reconstructed": 3,
+    "wall_p50_ms": 23039.519125,
+    "wall_p95_ms": 24553.6796128,
+    "input_tokens_p50": 51705.0,
+    "input_tokens_p95": 52254.9
+  },
+  "trials": [
+    {
+      "trial": 1,
+      "thread_id": "019fac7a-ed93-7b81-9fe4-93a6d75df154",
+      "exit_code": 0,
+      "wall_ms": 24721.919667000002,
+      "usage": {
+        "input_tokens": 52316,
+        "cached_input_tokens": 42240,
+        "output_tokens": 259,
+        "reasoning_output_tokens": 8
+      },
+      "final_response_sha256": "083e7d8d82feddf117f682c1cca7d5a4f5f0701e17d1c82c9952bdd8ff05ab1d",
+      "expected_response_sha256": "083e7d8d82feddf117f682c1cca7d5a4f5f0701e17d1c82c9952bdd8ff05ab1d",
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "stderr_line_count": 0,
+      "reconstruction": {
+        "session_found": true,
+        "session_status": "completed",
+        "session_completeness": "complete",
+        "session_duration_ms": 15644,
+        "raw_record_count": 25,
+        "normalized_event_count": 12,
+        "skill_run_count": 1,
+        "skill_event_types": [
+          "instruction.loaded",
+          "resource.executed"
+        ],
+        "skill_run_evidence_grades": [
+          "derived"
+        ]
+      }
+    },
+    {
+      "trial": 2,
+      "thread_id": "019fac7b-46f5-7930-a757-f885faba5efa",
+      "exit_code": 0,
+      "wall_ms": 23039.519125,
+      "usage": {
+        "input_tokens": 51705,
+        "cached_input_tokens": 42240,
+        "output_tokens": 268,
+        "reasoning_output_tokens": 7
+      },
+      "final_response_sha256": "083e7d8d82feddf117f682c1cca7d5a4f5f0701e17d1c82c9952bdd8ff05ab1d",
+      "expected_response_sha256": "083e7d8d82feddf117f682c1cca7d5a4f5f0701e17d1c82c9952bdd8ff05ab1d",
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "stderr_line_count": 0,
+      "reconstruction": {
+        "session_found": true,
+        "session_status": "completed",
+        "session_completeness": "complete",
+        "session_duration_ms": 20063,
+        "raw_record_count": 25,
+        "normalized_event_count": 12,
+        "skill_run_count": 1,
+        "skill_event_types": [
+          "instruction.loaded",
+          "resource.executed"
+        ],
+        "skill_run_evidence_grades": [
+          "derived"
+        ]
+      }
+    },
+    {
+      "trial": 3,
+      "thread_id": "019fac7b-a1d3-7c31-8854-0f117390c0ae",
+      "exit_code": 0,
+      "wall_ms": 21600.847667,
+      "usage": {
+        "input_tokens": 51698,
+        "cached_input_tokens": 42240,
+        "output_tokens": 260,
+        "reasoning_output_tokens": 7
+      },
+      "final_response_sha256": "083e7d8d82feddf117f682c1cca7d5a4f5f0701e17d1c82c9952bdd8ff05ab1d",
+      "expected_response_sha256": "083e7d8d82feddf117f682c1cca7d5a4f5f0701e17d1c82c9952bdd8ff05ab1d",
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "stderr_line_count": 0,
+      "reconstruction": {
+        "session_found": true,
+        "session_status": "completed",
+        "session_completeness": "complete",
+        "session_duration_ms": 18561,
+        "raw_record_count": 25,
+        "normalized_event_count": 12,
+        "skill_run_count": 1,
+        "skill_event_types": [
+          "instruction.loaded",
+          "resource.executed"
+        ],
+        "skill_run_evidence_grades": [
+          "derived"
+        ]
+      }
+    }
+  ],
+  "gate": {
+    "name": "live reconstruction and outcome invariants",
+    "passed": true
+  },
+  "created_at": "2026-07-29T06:07:12.049410+00:00",
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "83952ea9a2010cea833d38cac67df4a2c1299165",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

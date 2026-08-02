@@ -1,0 +1,288 @@
+{
+  "schema_version": "sri.experiment.live-agent.cross-agent-cli.v1",
+  "experiment": {
+    "name": "cross-agent-same-skill-black-box-cli-pilot",
+    "evidence_grade": "Experimental",
+    "design": "installed Agent systems, same task and fixture, isolated workspaces, hidden deterministic verifier",
+    "agent_versions": {
+      "opencode": "1.18.5"
+    },
+    "models": {
+      "opencode": "opencode/deepseek-v4-flash-free"
+    },
+    "task_sha256": "94bca5b0a0309cb6596a2ea70c9dce702807f435b4cd1dd53d109eba59faea45",
+    "skill_sha256": "0df4598647f79d3553786cadbaecfb377cbddb079760881e975a8e9e458018ec",
+    "limitations": [
+      "This compares installed Agent systems, not isolated model or scaffold effects.",
+      "Four deterministic trials per Agent are a mechanism pilot, not a population estimate.",
+      "Different Agent products use different configured model families and runtime context.",
+      "Collector deltas establish observed ingestion counts, not exact task-level pairing."
+    ]
+  },
+  "metrics": {
+    "planned_calls": 4,
+    "completed_calls": 2,
+    "verified_outcomes": 2,
+    "workload_mutations": 0,
+    "runtime_metadata_mutations": 4,
+    "per_agent": {
+      "opencode": {
+        "planned": 4,
+        "completed": 2,
+        "verified_outcomes": 2,
+        "workload_mutations": 0,
+        "runtime_metadata_mutations": 4,
+        "process_failures": 2,
+        "precondition_failures": 0,
+        "invalid_responses": 0,
+        "wall_p50_ms": 98601.84983300132,
+        "wall_p95_ms": 120790.32103924765
+      }
+    },
+    "collector_before": {
+      "codex": {
+        "sessions": 197,
+        "skill_runs": 426,
+        "events": 61468
+      },
+      "opencode": {
+        "sessions": 37,
+        "skill_runs": 32,
+        "events": 229
+      },
+      "qoder": {
+        "sessions": 16,
+        "skill_runs": 1,
+        "events": 353
+      }
+    },
+    "collector_after": {
+      "codex": {
+        "sessions": 200,
+        "skill_runs": 426,
+        "events": 61522
+      },
+      "opencode": {
+        "sessions": 41,
+        "skill_runs": 36,
+        "events": 251
+      },
+      "qoder": {
+        "sessions": 16,
+        "skill_runs": 1,
+        "events": 353
+      }
+    },
+    "collector_deltas": {
+      "codex": {
+        "sessions": 3,
+        "skill_runs": 0,
+        "events": 54
+      },
+      "opencode": {
+        "sessions": 4,
+        "skill_runs": 4,
+        "events": 22
+      },
+      "qoder": {
+        "sessions": 0,
+        "skill_runs": 0,
+        "events": 0
+      }
+    }
+  },
+  "trials": [
+    {
+      "agent": "opencode",
+      "trial": 1,
+      "status": "execution_error",
+      "error": "TimeoutExpired",
+      "wall_ms": 120818.11770799686,
+      "workload_unchanged": true,
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ]
+    },
+    {
+      "agent": "opencode",
+      "trial": 2,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 76570.89308300056,
+      "outcome_verified": true,
+      "workload_unchanged": true,
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "session_id_sha256": "6f5325626912e748be7cfb509bdb3ed71754bb0886cbfcc9cbc562f5f7f99c94",
+      "response_sha256": "c1cdb758c9cc317a4fabe6b9b4e226008d82d3c89c82f968f2eeaaab5d6ed337",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16017,
+        "input": 113,
+        "output": 32,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 3,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 72669.31041699718,
+      "outcome_verified": true,
+      "workload_unchanged": true,
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "session_id_sha256": "9a03e1da7bdb47ff4c99a3a35a33c35fcfa1cf77b6bb86fd75ba02074433328e",
+      "response_sha256": "134c45121e43abf7db59283fea28b14e10a14ca5f6f5ce196cb8261381c79fa8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16040,
+        "input": 138,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 4,
+      "status": "execution_error",
+      "error": "TimeoutExpired",
+      "wall_ms": 120632.8065830021,
+      "workload_unchanged": true,
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ]
+    }
+  ],
+  "gate": {
+    "name": "opencode deterministic outcome and workload-integrity",
+    "passed": false
+  },
+  "created_at": "2026-07-31T19:35:44.258233+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "250fb9c5ab070e0c8a19d59f0e630f8fdefe2531",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

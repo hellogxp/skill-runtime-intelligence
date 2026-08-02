@@ -1,0 +1,199 @@
+{
+  "fault_families": {
+    "artifact_corruption": {
+      "boundary_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 0
+      },
+      "citation_entailment_valid": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 0
+      },
+      "exact": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 0
+      },
+      "status_exact": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 18
+      }
+    },
+    "clean": {
+      "boundary_exact": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 0
+      },
+      "citation_entailment_valid": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 0
+      },
+      "exact": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 0
+      },
+      "status_exact": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 0
+      }
+    },
+    "execution_failure": {
+      "boundary_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      },
+      "citation_entailment_valid": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 18
+      },
+      "exact": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 18
+      },
+      "status_exact": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 18
+      }
+    },
+    "instructions_failure": {
+      "boundary_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      },
+      "citation_entailment_valid": {
+        "n": 18,
+        "panorama": 9,
+        "raw": 18
+      },
+      "exact": {
+        "n": 18,
+        "panorama": 9,
+        "raw": 18
+      },
+      "status_exact": {
+        "n": 18,
+        "panorama": 9,
+        "raw": 18
+      }
+    },
+    "outcome_unverified": {
+      "boundary_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      },
+      "citation_entailment_valid": {
+        "n": 18,
+        "panorama": 13,
+        "raw": 8
+      },
+      "exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      },
+      "status_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      }
+    },
+    "resource_missing": {
+      "boundary_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      },
+      "citation_entailment_valid": {
+        "n": 18,
+        "panorama": 4,
+        "raw": 18
+      },
+      "exact": {
+        "n": 18,
+        "panorama": 4,
+        "raw": 18
+      },
+      "status_exact": {
+        "n": 18,
+        "panorama": 4,
+        "raw": 18
+      }
+    },
+    "verifier_conflict": {
+      "boundary_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 0
+      },
+      "citation_entailment_valid": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 0
+      },
+      "exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 0
+      },
+      "status_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 9
+      }
+    }
+  },
+  "left_view": "raw",
+  "metrics": {
+    "boundary_exact": {
+      "case_level_exact_mcnemar_p": 2.9103830456733704e-11,
+      "delta_percentage_points": 28.571428571428573,
+      "panorama": 108,
+      "panorama_only": 36,
+      "raw": 72,
+      "raw_only": 0,
+      "ties": 90
+    },
+    "citation_entailment_valid": {
+      "case_level_exact_mcnemar_p": 2.098677427397888e-07,
+      "delta_percentage_points": -28.571428571428573,
+      "panorama": 26,
+      "panorama_only": 7,
+      "raw": 62,
+      "raw_only": 43,
+      "ties": 76
+    },
+    "exact": {
+      "case_level_exact_mcnemar_p": 0.0037937056353716074,
+      "delta_percentage_points": -18.253968253968253,
+      "panorama": 49,
+      "panorama_only": 18,
+      "raw": 72,
+      "raw_only": 41,
+      "ties": 67
+    },
+    "status_exact": {
+      "case_level_exact_mcnemar_p": 3.914123197106857e-10,
+      "delta_percentage_points": -39.682539682539684,
+      "panorama": 49,
+      "panorama_only": 9,
+      "raw": 99,
+      "raw_only": 59,
+      "ties": 58
+    }
+  },
+  "paired_cases": 126,
+  "right_view": "raw_semantic"
+}

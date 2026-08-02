@@ -1,0 +1,3181 @@
+{
+  "schema_version": "sri.experiment.multirepo-diagnostic-cross-model.v1",
+  "experiment": {
+    "name": "paired-cross-model-multirepo-diagnostic-utility",
+    "evidence_grade": "Derived",
+    "first_sha256": "90979402255ee8ba0d7873ff5c5fb9ee7e9a9bd69188398123b44616f6fa159d",
+    "second_sha256": "08beaced3b5f3ca48f2cc12ddef0d42546664f5051e1903c4fb096dbbc0142c3",
+    "limitations": [
+      "Two models do not form a majority and share the same controlled gold.",
+      "Paired wins and losses are descriptive unless a separately preregistered inferential test is added.",
+      "Cross-model agreement never promotes an Inferred diagnosis to Observed or Derived."
+    ]
+  },
+  "per_model": [
+    {
+      "backend": "openai",
+      "model": "qwen3.6-35b-a3b-dsw",
+      "summary": {
+        "raw": {
+          "planned": 126,
+          "completed": 126,
+          "exact": 72,
+          "exact_rate": 0.5714285714285714,
+          "boundary_exact": 72,
+          "status_exact": 99,
+          "citation_id_valid": 126,
+          "citation_entailment_valid": 62,
+          "causal_safe": 126,
+          "latency_p50_ms": 2290.213660511654,
+          "input_tokens_total": 0
+        },
+        "panorama": {
+          "planned": 126,
+          "completed": 126,
+          "exact": 82,
+          "exact_rate": 0.6507936507936508,
+          "boundary_exact": 108,
+          "status_exact": 100,
+          "citation_id_valid": 126,
+          "citation_entailment_valid": 46,
+          "causal_safe": 126,
+          "latency_p50_ms": 2351.211561006494,
+          "input_tokens_total": 0
+        },
+        "graph_plus_model": {
+          "planned": 126,
+          "completed": 126,
+          "exact": 125,
+          "exact_rate": 0.9920634920634921,
+          "boundary_exact": 125,
+          "status_exact": 126,
+          "citation_id_valid": 126,
+          "citation_entailment_valid": 89,
+          "causal_safe": 126,
+          "latency_p50_ms": 2329.39537850325,
+          "input_tokens_total": 0
+        }
+      },
+      "panorama_vs_raw": {
+        "pair_count": 126,
+        "right_wins": 36,
+        "right_losses": 26,
+        "ties": 64,
+        "right_minus_left_exact": 10
+      },
+      "graph_plus_model_vs_panorama": {
+        "pair_count": 126,
+        "right_wins": 43,
+        "right_losses": 0,
+        "ties": 83,
+        "right_minus_left_exact": 43
+      }
+    },
+    {
+      "backend": "opencode",
+      "model": "opencode/deepseek-v4-flash-free",
+      "summary": {
+        "raw": {
+          "planned": 126,
+          "completed": 72,
+          "exact": 69,
+          "exact_rate": 0.9583333333333334,
+          "boundary_exact": 71,
+          "status_exact": 69,
+          "citation_id_valid": 72,
+          "citation_entailment_valid": 69,
+          "causal_safe": 72,
+          "latency_p50_ms": 30083.909187502286,
+          "input_tokens_total": 1031491
+        },
+        "panorama": {
+          "planned": 126,
+          "completed": 78,
+          "exact": 72,
+          "exact_rate": 0.9230769230769231,
+          "boundary_exact": 72,
+          "status_exact": 77,
+          "citation_id_valid": 77,
+          "citation_entailment_valid": 72,
+          "causal_safe": 77,
+          "latency_p50_ms": 26880.43829149683,
+          "input_tokens_total": 1107093
+        },
+        "graph_plus_model": {
+          "planned": 126,
+          "completed": 78,
+          "exact": 76,
+          "exact_rate": 0.9743589743589743,
+          "boundary_exact": 76,
+          "status_exact": 76,
+          "citation_id_valid": 76,
+          "citation_entailment_valid": 76,
+          "causal_safe": 76,
+          "latency_p50_ms": 28332.697750003717,
+          "input_tokens_total": 1117197
+        }
+      },
+      "panorama_vs_raw": {
+        "pair_count": 60,
+        "right_wins": 3,
+        "right_losses": 5,
+        "ties": 52,
+        "right_minus_left_exact": -2
+      },
+      "graph_plus_model_vs_panorama": {
+        "pair_count": 68,
+        "right_wins": 5,
+        "right_losses": 2,
+        "ties": 61,
+        "right_minus_left_exact": 3
+      }
+    }
+  ],
+  "metrics": {
+    "paired_prediction_count": 378,
+    "both_completed": 228,
+    "prediction_agreement": 170,
+    "both_exact": 169,
+    "both_entailment_valid": 114
+  },
+  "rows": [
+    {
+      "case_id": "codex-hello-skill-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-hello-skill-artifact_corruption",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-hello-skill-artifact_corruption",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-clean",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-hello-skill-clean",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-clean",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-hello-skill-execution_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-execution_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-hello-skill-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-instructions_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-instructions_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-outcome_unverified",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-outcome_unverified",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-resource_missing",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-resource_missing",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-verifier_conflict",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-hello-skill-verifier_conflict",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-artifact_corruption",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-artifact_corruption",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-clean",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-clean",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-clean",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-execution_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-execution_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-instructions_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-instructions_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-outcome_unverified",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-outcome_unverified",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-resource_missing",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-resource_missing",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-verifier_conflict",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-verifier_conflict",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mi-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mi-artifact_corruption",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mi-artifact_corruption",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mi-clean",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mi-clean",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mi-clean",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mi-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mi-execution_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mi-execution_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mi-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mi-instructions_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mi-instructions_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mi-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mi-outcome_unverified",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mi-outcome_unverified",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mi-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mi-resource_missing",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mi-resource_missing",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-llm-mi-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mi-verifier_conflict",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-llm-mi-verifier_conflict",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-agent-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-agent-artifact_corruption",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-agent-artifact_corruption",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-agent-clean",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-agent-clean",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-agent-clean",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-agent-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-agent-execution_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-agent-execution_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-agent-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-agent-instructions_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-agent-instructions_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-agent-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-agent-outcome_unverified",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-agent-outcome_unverified",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-agent-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-agent-resource_missing",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-agent-resource_missing",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-agent-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-agent-verifier_conflict",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-agent-verifier_conflict",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-tele-artifact_corruption",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-artifact_corruption",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-clean",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-tele-clean",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-clean",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-tele-execution_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-execution_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-tele-instructions_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-instructions_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-tele-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-outcome_unverified",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-outcome_unverified",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-resource_missing",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-resource_missing",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-rapid-tele-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-verifier_conflict",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-rapid-tele-verifier_conflict",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-tinylru-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-tinylru-artifact_corruption",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-tinylru-artifact_corruption",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-tinylru-clean",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-tinylru-clean",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-tinylru-clean",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-tinylru-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-tinylru-execution_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-tinylru-execution_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-tinylru-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-tinylru-instructions_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-tinylru-instructions_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-tinylru-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-tinylru-outcome_unverified",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-tinylru-outcome_unverified",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-tinylru-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-tinylru-resource_missing",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "codex-tinylru-resource_missing",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-tinylru-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-tinylru-verifier_conflict",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "codex-tinylru-verifier_conflict",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-hello-skill-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-hello-skill-artifact_corruption",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-hello-skill-artifact_corruption",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-hello-skill-clean",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-hello-skill-clean",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-hello-skill-clean",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-hello-skill-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-hello-skill-execution_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-hello-skill-execution_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-hello-skill-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-hello-skill-instructions_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-hello-skill-instructions_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-hello-skill-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-hello-skill-outcome_unverified",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-hello-skill-outcome_unverified",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-hello-skill-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-hello-skill-resource_missing",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-hello-skill-resource_missing",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-hello-skill-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-hello-skill-verifier_conflict",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-hello-skill-verifier_conflict",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-artifact_corruption",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-artifact_corruption",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-clean",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-clean",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-clean",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-execution_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-execution_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-instructions_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-instructions_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-outcome_unverified",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-outcome_unverified",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-resource_missing",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-resource_missing",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-verifier_conflict",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-verifier_conflict",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mi-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mi-artifact_corruption",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mi-artifact_corruption",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mi-clean",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mi-clean",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mi-clean",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mi-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mi-execution_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mi-execution_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mi-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mi-instructions_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mi-instructions_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mi-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mi-outcome_unverified",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mi-outcome_unverified",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mi-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mi-resource_missing",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mi-resource_missing",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-llm-mi-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mi-verifier_conflict",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-llm-mi-verifier_conflict",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-agent-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-artifact_corruption",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-artifact_corruption",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-agent-clean",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-agent-clean",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-agent-clean",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-agent-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-execution_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-agent-execution_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-instructions_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-agent-instructions_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-agent-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-agent-outcome_unverified",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-agent-outcome_unverified",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-resource_missing",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-resource_missing",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-agent-verifier_conflict",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-agent-verifier_conflict",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-tele-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-artifact_corruption",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-artifact_corruption",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-tele-clean",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-clean",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-tele-clean",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-tele-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-execution_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-execution_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-tele-instructions_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-tele-instructions_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-tele-outcome_unverified",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-tele-outcome_unverified",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-resource_missing",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-resource_missing",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-tele-verifier_conflict",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-rapid-tele-verifier_conflict",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-tinylru-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-tinylru-artifact_corruption",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-tinylru-artifact_corruption",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-tinylru-clean",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-tinylru-clean",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-tinylru-clean",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-tinylru-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-tinylru-execution_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-tinylru-execution_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-tinylru-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-tinylru-instructions_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-tinylru-instructions_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-tinylru-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-tinylru-outcome_unverified",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-tinylru-outcome_unverified",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-tinylru-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-tinylru-resource_missing",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-tinylru-resource_missing",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "opencode-tinylru-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-tinylru-verifier_conflict",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "opencode-tinylru-verifier_conflict",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-artifact_corruption",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-artifact_corruption",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-clean",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "qoder-hello-skill-clean",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-clean",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-execution_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-execution_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "qoder-hello-skill-instructions_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-instructions_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-outcome_unverified",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-outcome_unverified",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-resource_missing",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-resource_missing",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-verifier_conflict",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-hello-skill-verifier_conflict",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-artifact_corruption",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-artifact_corruption",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-clean",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-clean",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-clean",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-execution_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-execution_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-instructions_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-instructions_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-outcome_unverified",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-outcome_unverified",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-resource_missing",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-resource_missing",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-verifier_conflict",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-verifier_conflict",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "qoder-llm-mi-artifact_corruption",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "qoder-llm-mi-artifact_corruption",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-clean",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-clean",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-clean",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-execution_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-execution_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-instructions_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-instructions_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-outcome_unverified",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-outcome_unverified",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-resource_missing",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-resource_missing",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-verifier_conflict",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-llm-mi-verifier_conflict",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-artifact_corruption",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-artifact_corruption",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-clean",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-clean",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-clean",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-execution_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-execution_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-instructions_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-instructions_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-outcome_unverified",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-outcome_unverified",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-resource_missing",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-resource_missing",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-verifier_conflict",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-agent-verifier_conflict",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-artifact_corruption",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-artifact_corruption",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-clean",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-clean",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-clean",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-execution_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-execution_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-instructions_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-instructions_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-outcome_unverified",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-outcome_unverified",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-resource_missing",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-resource_missing",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-verifier_conflict",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-rapid-tele-verifier_conflict",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-artifact_corruption",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-artifact_corruption",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-artifact_corruption",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-clean",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-clean",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-clean",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-execution_failure",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-execution_failure",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-execution_failure",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-instructions_failure",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "qoder-tinylru-instructions_failure",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-instructions_failure",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": true
+    },
+    {
+      "case_id": "qoder-tinylru-outcome_unverified",
+      "view": "graph_plus_model",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-outcome_unverified",
+      "view": "panorama",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-outcome_unverified",
+      "view": "raw",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "both_exact": true,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-resource_missing",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-resource_missing",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-resource_missing",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-verifier_conflict",
+      "view": "graph_plus_model",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-verifier_conflict",
+      "view": "panorama",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    },
+    {
+      "case_id": "qoder-tinylru-verifier_conflict",
+      "view": "raw",
+      "both_completed": false,
+      "prediction_agreement": false,
+      "both_exact": false,
+      "both_entailment_valid": false
+    }
+  ],
+  "gate": {
+    "name": "both reports complete for every case-view pair",
+    "passed": false
+  },
+  "created_at": "2026-08-01T05:33:17.882311+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "80f070857f95fd8b50f73a87e60a447417aeb7e4",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

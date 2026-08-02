@@ -1,0 +1,5537 @@
+{
+  "schema_version": "sri.experiment.cross-agent-balanced-failure-outcome.v1",
+  "experiment": {
+    "name": "installed-agent-balanced-real-process-failure-and-verified-outcome",
+    "evidence_grade": "Experimental",
+    "agent_versions": {
+      "codex": "codex-cli 0.145.0",
+      "opencode": "1.18.5",
+      "qoder": "1.1.10"
+    },
+    "models": {
+      "codex": "gpt-5.6-sol",
+      "opencode": "opencode/deepseek-v4-flash-free",
+      "qoder": "performance"
+    },
+    "skill_sha256": "0e0a9ff42277582406a6bdfcb17acefa1eb466768e13d22d52adff7e06d93f93",
+    "trials_per_agent": 20,
+    "condition_schedule": [
+      "success",
+      "execution-failure",
+      "resource-failure"
+    ],
+    "limitations": [
+      "Failures are controlled real non-zero processes in isolated fixtures, not naturally occurring production incidents.",
+      "A nonce-bound verifier proves the returned result came from runtime access; it does not prove hidden model reasoning.",
+      "Different installed Agent systems use different models and scaffolds.",
+      "Collector session matching is exact by source-session digest; absent matches remain unresolved."
+    ]
+  },
+  "metrics": {
+    "planned_calls": 60,
+    "completed_calls": 60,
+    "verified_outcomes": 60,
+    "per_agent": {
+      "codex": {
+        "planned": 20,
+        "completed": 20,
+        "verified_outcomes": 20,
+        "verified_failure_outcomes": 13,
+        "collector_exact_session_matches": 20,
+        "collector_explicit_failure_runs": 0,
+        "workload_mutations": 0,
+        "wall_p50_ms": 51246.40945849387,
+        "wall_p95_ms": 65090.116270507875
+      },
+      "opencode": {
+        "planned": 20,
+        "completed": 20,
+        "verified_outcomes": 20,
+        "verified_failure_outcomes": 13,
+        "collector_exact_session_matches": 20,
+        "collector_explicit_failure_runs": 0,
+        "workload_mutations": 0,
+        "wall_p50_ms": 46706.43860450218,
+        "wall_p95_ms": 61150.89421249504
+      },
+      "qoder": {
+        "planned": 20,
+        "completed": 20,
+        "verified_outcomes": 20,
+        "verified_failure_outcomes": 13,
+        "collector_exact_session_matches": 20,
+        "collector_explicit_failure_runs": 0,
+        "workload_mutations": 0,
+        "wall_p50_ms": 29892.46383300633,
+        "wall_p95_ms": 35096.93478814443
+      }
+    },
+    "collector_before": {
+      "codex": {
+        "sessions": 247,
+        "skill_runs": 430,
+        "events": 62560
+      },
+      "opencode": {
+        "sessions": 44,
+        "skill_runs": 39,
+        "events": 275
+      },
+      "qoder": {
+        "sessions": 24,
+        "skill_runs": 8,
+        "events": 398
+      }
+    },
+    "collector_after": {
+      "codex": {
+        "sessions": 283,
+        "skill_runs": 430,
+        "events": 62997
+      },
+      "opencode": {
+        "sessions": 64,
+        "skill_runs": 59,
+        "events": 425
+      },
+      "qoder": {
+        "sessions": 44,
+        "skill_runs": 28,
+        "events": 518
+      }
+    },
+    "collector_deltas": {
+      "codex": {
+        "sessions": 36,
+        "skill_runs": 0,
+        "events": 437
+      },
+      "opencode": {
+        "sessions": 20,
+        "skill_runs": 20,
+        "events": 150
+      },
+      "qoder": {
+        "sessions": 20,
+        "skill_runs": 20,
+        "events": 120
+      }
+    }
+  },
+  "trials": [
+    {
+      "agent": "codex",
+      "trial": 1,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 63824.719084004755,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "93541372685a4d0f805d8220aaa5855d907577da680f2aa8d50fa3fe880f3b24",
+      "source_session_id_sha256": "1dd5931fd2c19bdfcdf152dfb77e67d0d1c3ae53032d2b850caf41f7ab7693b4",
+      "response_sha256": "dac6570b03424564d3f61338b98c007b9711a41c23e046a9f04f7069284257b9",
+      "stderr_sha256": "85b31e79800e0538712327f3fe54ebeca9ede52dcc1cfcbf77ebdff18e044102",
+      "usage": {
+        "input_tokens": 68044,
+        "cached_input_tokens": 59392,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 578,
+        "reasoning_output_tokens": 119
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 2,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 50084.870042002876,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "57079556943979c869d992d5f63630a7c91ef016b4c00db25c773b1d4a3c0ae7",
+      "source_session_id_sha256": "373659b5006854956f4dc2f422ff44db8f2d6bc25b48a533d17ac4fa11eaae9e",
+      "response_sha256": "f0eba35b97e5ce6fdf6f76cc196f036f16734e3e4ac7685628e55684358840ad",
+      "stderr_sha256": "f46cdf5c79dae8ea51e7e0b8a3d333a0087b15110299d4539559deeeffc2b3ab",
+      "usage": {
+        "input_tokens": 48382,
+        "cached_input_tokens": 41216,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 381,
+        "reasoning_output_tokens": 84
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 3,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 55507.82079099736,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "a976b39722a0a09d7c6748483a91450a4a216ea00857b6eb2ef63209224f8901",
+      "source_session_id_sha256": "f8b7dc338460313c21c9d886d99833bb7b987c49808e72195146453204578c76",
+      "response_sha256": "e5fa1c0a61ddb9f4e06cbf31c3c843892f947a10dd976372e3ed43d5a6212a4b",
+      "stderr_sha256": "3bbb25fd26b45b667ed0b8494240a59e73b412adfaffd75a21be0b923debdf24",
+      "usage": {
+        "input_tokens": 50717,
+        "cached_input_tokens": 43264,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 403,
+        "reasoning_output_tokens": 102
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 4,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 48407.80429200095,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "bae290190dfdfa37e3a8958a89f6433638fecf3d8ecc727194274cb88a650606",
+      "source_session_id_sha256": "d6aa0819e6450726d76a50eda987bba8d7546294b8c129050773830e30fccad8",
+      "response_sha256": "8893213af7178b0b6f40923147187a5248eca1295dbfc0b93141e78306e8c2a2",
+      "stderr_sha256": "1d8af440eb592625fb3f8339bc591a6bbd11965a9f1643839ca5c61ca0d7c0c7",
+      "usage": {
+        "input_tokens": 67789,
+        "cached_input_tokens": 54272,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 531,
+        "reasoning_output_tokens": 98
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 5,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 46853.44241700659,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "957d274b3bd89a61bb4515f338716e27c3566ba32ebd038cfcc583ca83d382bc",
+      "source_session_id_sha256": "7561b08bdfadc888d999f1d9087de43dd5f5615ec894440d164066a92408e9fb",
+      "response_sha256": "bd348b72b6d87e31594bca2c68825071d6eff6330eda5ab188abb78c620a7f48",
+      "stderr_sha256": "a8c7b128cd59b52be512165d4b9048aae53833d5bd4f505990e6b1f616444244",
+      "usage": {
+        "input_tokens": 67814,
+        "cached_input_tokens": 54272,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 476,
+        "reasoning_output_tokens": 34
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 6,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 63998.3933330077,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "ad98bc82ab7d92b362fa5e7e345dbd113c1b1264da2bd737bc4ecc6f51dfe935",
+      "source_session_id_sha256": "470a7578fc2a08c6448b7435d367d83bd4fe421607cada35087ef41031f38cc1",
+      "response_sha256": "13a6ba2c248f21a7c20ff2f11bd2e8053bdb9d6c141bb5e00f663c4ce9cf6cb5",
+      "stderr_sha256": "daa48110deda861ab898e8fc25a2e757e276423e3079aeb4705d982b9f9a1668",
+      "usage": {
+        "input_tokens": 67816,
+        "cached_input_tokens": 59392,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 488,
+        "reasoning_output_tokens": 56
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 7,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 61109.47879200103,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "a844c76b523adc40f4a2ca9ecd9dedf8150cb0f47472669a9b5bd9158633b7df",
+      "source_session_id_sha256": "6de8bf9c79fa648fab33f45dddbd4fcbd278cfa9524d0c26ad2aa73fd0fa82e3",
+      "response_sha256": "aeee845bb9664256df768beaee89eeede595f3f975cb7b9497bc034588965587",
+      "stderr_sha256": "716163139fa266be50f4260d8995f7632da3326d9722e84d3dbdf9ffb25139a2",
+      "usage": {
+        "input_tokens": 85533,
+        "cached_input_tokens": 70400,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 694,
+        "reasoning_output_tokens": 114
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 4
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 4
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 8,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 56386.89837499987,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "263cb5badc1e84b65fac834f78af6423b03f9cf7caac1369e7a56071a9d40a3e",
+      "source_session_id_sha256": "1423d57a52619660b5ade20229f682d68f72c725a33c14e9979719d5bf09fd9e",
+      "response_sha256": "ebf7c4ad494eeef8eee26e6eea5d3cfc6842db361a1141b3ba964689baa3551f",
+      "stderr_sha256": "b0edb68061ea4b4d44789461e751752aff6d5d485619c55dca84b3048e4b7878",
+      "usage": {
+        "input_tokens": 67718,
+        "cached_input_tokens": 54272,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 420,
+        "reasoning_output_tokens": 28
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 9,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 46375.274457997875,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "92f007b053a55ba69c457ccdb8441d35d07bcb9bab945a8c31fcad162fc3a4ad",
+      "source_session_id_sha256": "1bab1db9cfeeb6f2054aa15f505484b3227ecbc7b0841478234d7b00a960949a",
+      "response_sha256": "79efeffcc684178b4e39905e3718f873f8879a4bb31e239339e004a9756b4e82",
+      "stderr_sha256": "85a1e024de957a9eeb6fd0db0f1fed9551cf3daee24ecbd363ef20be18d435fe",
+      "usage": {
+        "input_tokens": 50578,
+        "cached_input_tokens": 43264,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 382,
+        "reasoning_output_tokens": 74
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 10,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 63001.73445799737,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "93246cf83c6174c52de03192a413ea0e4b1ce1dfbe63e58d13d0d5696ddc6801",
+      "source_session_id_sha256": "a09729d98e402350a73e82fb3ca8c62bdf506cc93b648c1f7713c30d3c0f097f",
+      "response_sha256": "f25390af4557c012071804ff0894cd1077882396daa6e08f1435627c848d07ef",
+      "stderr_sha256": "fc1e4cfa79c0858ba0c3d6a0c688b84596609a353c5e9e58858f5d1536a811dd",
+      "usage": {
+        "input_tokens": 67979,
+        "cached_input_tokens": 59392,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 578,
+        "reasoning_output_tokens": 125
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 11,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 48149.60958401207,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "ecffa1c98a0433f2fc2360f1429bb4ce20f58b3ff4dc6a852335782e373d2338",
+      "source_session_id_sha256": "30f5f059845e27ae18e4f87b9a98cd16fc5484859b5818a19e12af15d2e115b5",
+      "response_sha256": "0a76ac0ffa508b54bbb2d1bc969d6b8b27b20123ae984f5eb3e65eda9564a8d3",
+      "stderr_sha256": "0fa2a6466ca9d2221a8e8388582f4cbe8da10ac638e77036f8c9e2be808e0281",
+      "usage": {
+        "input_tokens": 50601,
+        "cached_input_tokens": 38144,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 378,
+        "reasoning_output_tokens": 45
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 12,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 85832.85208301095,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "5e67ef33a5976cec329c077ce72b9419682d19c5e2a13a476d672909ccc9ea97",
+      "source_session_id_sha256": "85e1b7ece15ccf0316f22ad6e87fd24d9369052396f93e54b56177602ae304e4",
+      "response_sha256": "ab79787745db45fe8a58f1aed06398f450e116e076eef3fc0e24ff6a1e7136eb",
+      "stderr_sha256": "2dfb1274f490b96df2369d630973195234cb9992d9f6ac95faeb9d8767bbfc73",
+      "usage": {
+        "input_tokens": 67875,
+        "cached_input_tokens": 59392,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 519,
+        "reasoning_output_tokens": 82
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 13,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 44184.708707995014,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "d49910fb1581acdd875f996111caf52bd2e9f592063ff0b235947d8d7a70de8c",
+      "source_session_id_sha256": "f9cd81e1231e98fd0124274ffa9c6b98133e6595198d8346f20d86aaf28d2090",
+      "response_sha256": "27f6235a01022882fc8fe2a1bb950171f312289e89dcc254f9d6a6c407a4f2b4",
+      "stderr_sha256": "cf7d822875482b87f49c8e92d172ba9ab5c7d975ddc390d0072c788b037c8615",
+      "usage": {
+        "input_tokens": 50491,
+        "cached_input_tokens": 43264,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 343,
+        "reasoning_output_tokens": 26
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 14,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 51722.07812499255,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "177b485cebb352151fb7245fc45722d13ccc18c6f3e7d93da367c86d9c22f0e8",
+      "source_session_id_sha256": "ad25db5887073edf221bd53c3365b822e5551c91ebb595572fb296f151e6b50c",
+      "response_sha256": "720f61af97e334ca1cfb5ed6061dffe9e3c266ad206765fb8b223e77ecbcaeb3",
+      "stderr_sha256": "421a1e22613fb51b033157fd5b500eb0234ef29689deafd66f73a3221608fbe1",
+      "usage": {
+        "input_tokens": 67645,
+        "cached_input_tokens": 59392,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 439,
+        "reasoning_output_tokens": 26
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 15,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 53972.01337500883,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "7d9d16898434c417d8817c6d1bc0b66e274b6fbe2176e21c75d0234cb2b7fa9b",
+      "source_session_id_sha256": "a402f907e7e0b15f609e5569d80498fb851087dd3efbdedd8c3dd0cb67c28c47",
+      "response_sha256": "9ca7888528447e06c409c63204925b8aaa9b321ebd335591fbdf0e6fb49aed03",
+      "stderr_sha256": "3bccdc089640a57fbf87c3ad1aadc1442cabd88c46e44526ed27ba127006e0db",
+      "usage": {
+        "input_tokens": 85460,
+        "cached_input_tokens": 70400,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 666,
+        "reasoning_output_tokens": 107
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 4
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 4
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 16,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 49394.9556669977,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "85c1ce2181dee852afad2e532c60d6086cc9bd5c560818dc5c6c97efbb694773",
+      "source_session_id_sha256": "f0926917f501918b812ee5ba1e6f3d024b1d86dbbaee1578cf85bfe5f0ec4d66",
+      "response_sha256": "91c1944559fa92887f33cc1c345d8035e7e77b66518a86f6500954ea3d5e7363",
+      "stderr_sha256": "1c076be44f1d89f8551289135ca9345ed9d4531010d69ccfe4c4a84a98ad09d8",
+      "usage": {
+        "input_tokens": 67898,
+        "cached_input_tokens": 54272,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 480,
+        "reasoning_output_tokens": 88
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 17,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 50770.740791995195,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "fbc2080f2d041eb86525abb404ef39e20f5e5a011d695e17c63f45b85e31d2d7",
+      "source_session_id_sha256": "73b3b779e1285796e21a271d7aff892f30b776461b71da88608167e9db517b4f",
+      "response_sha256": "c1c7bf3eb7e3894c2fc57b697ecba0f30afaca922a006ef15e3b57e1d02582bf",
+      "stderr_sha256": "90d4eb49c2d2f60d15941ee59fb106c7de5afd6aae51ac3b13836aa7aa85dae2",
+      "usage": {
+        "input_tokens": 50531,
+        "cached_input_tokens": 33024,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 322,
+        "reasoning_output_tokens": 16
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 18,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 52590.75049999228,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "d48f77727a6f91dac2167f3ba0b70aac5b49f4b8533f8e8f3cbe648b7a1f4474",
+      "source_session_id_sha256": "a3ade6008b4b971dc434de5ea82deda1b48a1f0526326eba821b8c0d2fa0a196",
+      "response_sha256": "da521d0df02ca9a994a9eb2bcec89eaa3a35871a2674ca0ae04c1f4d4f2ff18f",
+      "stderr_sha256": "e6f808c6ddcf6ced9353e2abb1f199a6142bf648d3918f9c33d11e3320570a16",
+      "usage": {
+        "input_tokens": 67804,
+        "cached_input_tokens": 59392,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 470,
+        "reasoning_output_tokens": 70
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 19,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 48863.75695800234,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "c7e3a9b06a55aef974625cfa3f7825b8510d1c398190e914efa3a32fba6b3858",
+      "source_session_id_sha256": "54e3cb5f04d756545e4ff7a843f84028d37083a80d7480508c57763fe479b440",
+      "response_sha256": "3f2e25576071780edbccc1dd9dc9ec02c1bce2dd5f6d12865bb6e69d7e361d7a",
+      "stderr_sha256": "44e7a2296e3f01309fdc55cd91213a11d97e1cdb79b76d8883e8324d3506b5ec",
+      "usage": {
+        "input_tokens": 67760,
+        "cached_input_tokens": 59392,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 475,
+        "reasoning_output_tokens": 76
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 20,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 36879.71641699551,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "4641baf3b7679676061684444d7d8e62f59daec1fbd699c405a079cbdda523c0",
+      "source_session_id_sha256": "b0204bf7e6c5843c8ded04c127dfb420ad0d85b78a6f4f975dad0863b7a9fbca",
+      "response_sha256": "20ed9449f446d5be4ea78cad1b8722dd8166a61c22e506f536cd55f7804a0a96",
+      "stderr_sha256": "0f596f9b8f0d6e9475dd4f080a80a14275df46fda1e1de26d41b3883639b3b47",
+      "usage": {
+        "input_tokens": 50621,
+        "cached_input_tokens": 38144,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 399,
+        "reasoning_output_tokens": 56
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 0,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "outcome.reported",
+            "stage": "outcome",
+            "status": "reported",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "request.received",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "observed",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 1,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 44104.21945800772,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "0313e3442499e8b7afbd7fdc9a7d2236f7c30c05d1f6f01825f369fdae8b1a23",
+      "source_session_id_sha256": "c40627f08f16a153e9f9c42a10ce43e7f79fc9f7767a0196bc07c956461e0590",
+      "response_sha256": "5e0eb9107ad693474eddde45050be9d7f442422cff89aa43ccd68566ccf873e2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16279,
+        "input": 113,
+        "output": 38,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16128
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 2,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 51034.97212500952,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "d65e7cbbb424d3fa8289197b8022ba9975814dd9575fc283608e90e07fe1b239",
+      "source_session_id_sha256": "572fb87c6ed65d42ee9e3a4cbe2d55fd96a3209e5972777bf9b0f3b0135b9a83",
+      "response_sha256": "d1b597610a9530741ed5c267e9498b90715e12fc10a64c92188edd7bc9f883cf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16330,
+        "input": 165,
+        "output": 37,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16128
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 3,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 47728.17191699869,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "a9d3bf0ecbbc400f66fedd97910539a7240af3414094d67367ed71ad8224b365",
+      "source_session_id_sha256": "bb435eb03b43926bf23801bd00173e27629973df1361f120de3aa2b74248847a",
+      "response_sha256": "30559286b7397d36637cd4db64ca915f89ad5853ee11260aac49019698ee7ed7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16360,
+        "input": 68,
+        "output": 36,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16256
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 4,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 51226.659708001534,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "246f344c92b02bf1d053f1e834b33f6e434b4e0d42d54765432d74f1e39e7d09",
+      "source_session_id_sha256": "ed0348a489cec2432e81bfb2cff3e95519ca85feacf40a8805b472c3cf2936f0",
+      "response_sha256": "c3ce0678607613370aa8ba6fac6433c594b86add54437783673832bfd7436e3d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16301,
+        "input": 135,
+        "output": 38,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16128
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 5,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 46567.91274998977,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "06f9315c6a21dc3ec8916029dfa919a46bd6e662eccfe74f02561660717f5feb",
+      "source_session_id_sha256": "96124637745267345af2af1173d9a195ffcf12cb35a05306fa7e272405ea2bda",
+      "response_sha256": "c0ea871bdad09e5d0754a3337d1f3cceddf8d2ddabcfbe78c3417691a3c11a43",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16380,
+        "input": 86,
+        "output": 38,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16256
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 6,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 50726.499416996376,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "5a5a7eeb68911c126f72736eb5e2c726a265bd3382ed570eefcb484647892660",
+      "source_session_id_sha256": "c7ab2b8d9c2c4dc71555aafbadce50214415693596d949c2f69b52fe7bc100b8",
+      "response_sha256": "5caa31ca4fe07de0c3905985c00a87292de6e8464020764bf02f2aa31f084323",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16412,
+        "input": 116,
+        "output": 40,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16256
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 7,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 46644.720791999134,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "3be88fee2c17c5bf899639c0d774c5dd6c3d2e3a59319b2f564ea8f4164e1c6d",
+      "source_session_id_sha256": "6877dbabc964a6cdd630d6335f99365e3cf17d5f4d2e462d3519f8f73aba317f",
+      "response_sha256": "3ed95091862200297f632c2c8b521613d76efedcecbcebb0d4fbed2e02c9d43d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16374,
+        "input": 77,
+        "output": 41,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16256
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 8,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 61125.91849999444,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "e28d428ac7d303fc871161917ad8b3cba6f1851adb432c4bb95219b3a5af0f7d",
+      "source_session_id_sha256": "14b44715e86552bd921580db33d6ae011302cfe4cb6429da5498325ee66090b5",
+      "response_sha256": "105a9973227d00d1a5ed122526dffaac9f8b02741341e5bd7945d83964a4bd6f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16971,
+        "input": 168,
+        "output": 35,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16768
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 9,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 50759.98800000525,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "80bed2dd96d9a5a6f5fb73091c9e6a74120511aa262cc0773c41a2b569ce9138",
+      "source_session_id_sha256": "c8eb9cdb21c9c375f7a0f57c12abc6adcb9aedc216a310c3ae1a619ee4cc180e",
+      "response_sha256": "f7499f9c3c0e2923c9d8031c5ca9da18e276d6bdd6f2ba97018aff15dfb36585",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16253,
+        "input": 48,
+        "output": 37,
+        "reasoning": 40,
+        "cache": {
+          "write": 0,
+          "read": 16128
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 10,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 46768.15641700523,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "960e3fd285b75e2a6de121cdf6078a03a2a3ae4b2a6700c6d8f8a9ce53c76817",
+      "source_session_id_sha256": "4e69376cff43ae8d94266dc35460a8e603db1a8a35dfda15b85ccb279654922e",
+      "response_sha256": "d516037c54cc157207b55d6925820a34fb0cacb4229d45df9c358924678c8283",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16497,
+        "input": 77,
+        "output": 36,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16384
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 11,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 61625.43275000644,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "bf206f20b8785bf008fd42fe4f6bef4e5fa0e2bda5675cad2b6ff5a7036162c8",
+      "source_session_id_sha256": "ed5ce5fd36aa2a49aa95ed79de83a6f7d60d179d3db71c417f19f669043050b1",
+      "response_sha256": "049accf71f8c2b1dd1b33f9166ba1fb24197c31900658e56d428d71d175f9d20",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16715,
+        "input": 164,
+        "output": 39,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16512
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 12,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 40371.06104200939,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "575bbd9ae8b83e2cbb82df23ee5b98dee91f505cbca495fbdd8c59e520819567",
+      "source_session_id_sha256": "5ff4bc1b04fa3b08fb0a440f4650af0606541d7c818cce9b01986f0090e44308",
+      "response_sha256": "baf894f5ec33725a1125ddd74f67f31941d7c479ff980a039294d6ee36098563",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16349,
+        "input": 57,
+        "output": 36,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16256
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 13,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 52262.95541599393,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "e5cf8ffcab55ca68adfc413932300b14e8d1031de460b43c7a1cc40497a0f7ba",
+      "source_session_id_sha256": "ad80976e83165db6c8ebdecc696dfa1a867e4ba47ad7990e73a841e8d89e1cd8",
+      "response_sha256": "83c838e2828aa8121cbdd9c6ccb4ec6f8d1c060e9de7f997dbb0ef5e055dd5d0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16457,
+        "input": 146,
+        "output": 39,
+        "reasoning": 16,
+        "cache": {
+          "write": 0,
+          "read": 16256
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 14,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 53404.4725420099,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "60ef9c9b7081578726e2d6aeb49ad768c155d87b1c6136ee7ce7b33077104389",
+      "source_session_id_sha256": "dbb093566813161965d0e17976f4232d3c11d9ca95d1884f6ff29d434e401b57",
+      "response_sha256": "5a5389c79f8286341769f1478676d1afba9b777e238c235e54c4f07c298cdf52",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16640,
+        "input": 90,
+        "output": 38,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16512
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 3
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 15,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 32682.415749994107,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "526dee8ab711601d44e87c404fffafe2dcf0aae462a35b4bb21a328ee402f988",
+      "source_session_id_sha256": "a343397284baa4fa34794380b9b59d2169509bc4b827579bbf391559805884ae",
+      "response_sha256": "14d0e1190a3e986bbe619b901c9c5b3278e07ce493e90c54ed0ca791558fbe1d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16078,
+        "input": 139,
+        "output": 35,
+        "reasoning": 32,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 16,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 34642.615332995774,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "51f23af2af455c74a656c135d3032f980e93c6995b2b135af85deca9adefc68e",
+      "source_session_id_sha256": "30c730307d02945c939d9662c68104b68e771e6e883b90efb1c132874923d872",
+      "response_sha256": "b13b86517105a12ce621b21e481e50781ded9574afe9696d2d562ea28f76e3f1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16082,
+        "input": 174,
+        "output": 36,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 17,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 35086.634291001246,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "18e6b17a9070bbe7c66c5acf76db37cc4f3beabb7f73b3d49cd41d6fa384ff67",
+      "source_session_id_sha256": "1025823d150a383fba82014ddbcc14e4778bb538d9c2c9f51df926fcf5f484dc",
+      "response_sha256": "2c48e6cc08c7d58224240da302b8c38218e013e6889985730038ae366a37c246",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16399,
+        "input": 59,
+        "output": 41,
+        "reasoning": 43,
+        "cache": {
+          "write": 0,
+          "read": 16256
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 18,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 35052.119500003755,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "696e4341f4a943e857795801a8da1aa7438ca9d1c4e4b25960968099cd63ef58",
+      "source_session_id_sha256": "054587ea72163d784b544ba2a8b21402779d8864a202a09958477b03be2be455",
+      "response_sha256": "76ede5abfc3e50e07edf1ada2bbf688394ddb4c2f63381c72106646d57aa3d10",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16443,
+        "input": 151,
+        "output": 36,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16256
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 19,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 31585.85000000312,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "e778dc91773b5bb55734c79b30721388395eeb76c6f7ba14023a8244f98390e6",
+      "source_session_id_sha256": "17830f251e01bdb38fd8b05ce6ce68d518b80a6f150fd685abc58e71cf075f89",
+      "response_sha256": "5d9c00ed8628e0307a29f3596a92bd4dd65de3610143b0a39e52294abfec7940",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16329,
+        "input": 165,
+        "output": 36,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16128
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 2
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "opencode",
+      "trial": 20,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 31957.12116600771,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "5352e1242586780d975c0969b4e9f4893eb60f98986e0adae8da28bad9a3cd8f",
+      "source_session_id_sha256": "4fe31eaf451440a54b73826d2cceaf494cab1fc8448d2865b21d0699ec73edc3",
+      "response_sha256": "7a629e1fa87d78e1969ca951326f1761423a19f27d7ed3a7402007618f2bb596",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "total": 16346,
+        "input": 53,
+        "output": 37,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16256
+        }
+      },
+      "workspace_change_count": 3655,
+      "workspace_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "workspace_change_sample": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules/.bin/download-msgpackr-prebuilds",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-optional",
+        ".opencode/node_modules/.bin/node-gyp-build-optional-packages-test",
+        ".opencode/node_modules/.bin/node-which",
+        ".opencode/node_modules/.bin/uuid",
+        ".opencode/node_modules/.bin/yaml",
+        ".opencode/node_modules/.package-lock.json",
+        ".opencode/node_modules/@ai-sdk/provider/CHANGELOG.md",
+        ".opencode/node_modules/@ai-sdk/provider/LICENSE",
+        ".opencode/node_modules/@ai-sdk/provider/README.md",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.mts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.d.ts",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.js.map",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs",
+        ".opencode/node_modules/@ai-sdk/provider/dist/index.mjs.map",
+        ".opencode/node_modules/@ai-sdk/provider/package.json",
+        ".opencode/node_modules/@ai-sdk/provider/src/embedding-model-middleware/index.ts"
+      ],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "session.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 1,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 34994.4072500075,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "9afefe5a868765ab4f4bf2168e4f65f15eafaa29eb828035885ec2f65690e280",
+      "source_session_id_sha256": "bb5c32849711d26c63a2183f5d0ada359327ffbd06932849d37cb79a8c96d7ab",
+      "response_sha256": "d65745806535e4f868ea9e7ac1fd8f2a1df1e42651927b1ab845c729c53b65b7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "211b60f0-d022-455f-a705-6f35cdc69115",
+        "context_usage_ratio": 0.017884
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 2,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 35302.25029200665,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "8e9459a2b3a8def624f24261cd0cd510feefdd6a059ec63bb19e72a6999dfdb6",
+      "source_session_id_sha256": "db435095fb221138ef3a665d05ee937b7595fb3a642b1750686843b24642296e",
+      "response_sha256": "28a0072fc4ce60d814b485e0be44c4cd0f051fd3e6bc23b7841019722d52a4b6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "a427b440-7937-45c6-818e-3eca5f7d9789",
+        "context_usage_ratio": 0.017876
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 3,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 35086.12870899378,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "a4c88c2979d6f054adcde517c5e8832d97f3b97f875d21ccc5e2d3c80543e209",
+      "source_session_id_sha256": "25f9a8fc634283ad38b0bdeb63cea97c4cffa007ee62d5c1099131b550b54595",
+      "response_sha256": "92e941e5ee1ddcd1a4b54d6d28d71cce5084829f47b93aaa6313208b14541067",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "d46eaf58-4a72-4747-8dac-1c281c32dc41",
+        "context_usage_ratio": 0.017889
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 4,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 33131.85462499678,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "c74b2fc54fd6b4ae970d4d2a82da1e48d379e845d5e912eae0cc9e9bb25f1195",
+      "source_session_id_sha256": "2460fe6c2eb3e77248798e486c9c8c62396812ab5adcbe89503a5180f14573d6",
+      "response_sha256": "355bd4c4e66383699378c3d4ac4c5514d90f49ee4feb4204d30d8baa696e0ab9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "83f743a7-120e-4b37-8bea-0bd7f863e280",
+        "context_usage_ratio": 0.017884
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 5,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 34832.472791997134,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "7a67f40ae43c6314c7c299961c0110fd9130a72db5b077a44e4d33eba7335d0d",
+      "source_session_id_sha256": "3dc819e99fa7d741badb10f54d2d7eaabfe82309f34386583b60604bfa20e112",
+      "response_sha256": "f2dcca7f13617707d193d31b9046a7d15d95b4e12ec442a1dbdd3a889d71d12a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "2d17764b-0c11-4f55-98ac-c3539a725af7",
+        "context_usage_ratio": 0.017934
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 6,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 34816.274667013204,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "dfdbb1b73b378e659f84e6e575a61b9329f7486c67604b7f07e03f50dd950f3b",
+      "source_session_id_sha256": "4b196055a10cd81ef19f9fdc9111a8c61e7fe2aecd863077561094e594120772",
+      "response_sha256": "fe1d5dffe01a5e1c2c33b99b675638cd21e9348a33f41ae4ad867721cd9c3645",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "eb134618-6744-44f6-be1d-1814f82d5027",
+        "context_usage_ratio": 0.017919
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 7,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 29718.827208009316,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "2b7fce326366b710a6eb3f4434a692ce9451d4f3764874d1854a7f482c4707e5",
+      "source_session_id_sha256": "e19dcfe1a41cb1a8423fd544d4e61260939c51702a0b0c51873698544b824370",
+      "response_sha256": "24e21f9568bc3f64260326890acf4cf82944c7e3ed9bebe2f2be96ac44896821",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "f2d95e79-d2f9-42ce-91e2-f1c69d35090d",
+        "context_usage_ratio": 0.017938
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 8,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 30078.779832998407,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "c94ef496cab28336d3a64c69edac59100a01683fae5da650680663b0e39ac0ab",
+      "source_session_id_sha256": "69a2c8b24731edfa3a70e78a7ec139c92e79397e567412bd563251db5734fea5",
+      "response_sha256": "9bbd75dc3d91276c97747a6a89448cf93a0d32bc8289fd9048ea7807be9cd8ee",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "cbba6f42-2c00-4253-838c-031ca8418468",
+        "context_usage_ratio": 0.017865
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 9,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 34828.51241699245,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "10aa2ec12789b9d18fac34e6eea121f02ccdf1dd9ea833e2d9254d8cf61c3a8a",
+      "source_session_id_sha256": "1cdea007a1e08711f77e541f124ade49cad0dfc560f7716343a21e77217e050d",
+      "response_sha256": "07c248d6a36b5ddb20a1e47ef929c8287a88fd68081cfc2ab8b436aec10c94eb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "a6c87326-653d-4cab-b44c-05f01d8f53b5",
+        "context_usage_ratio": 0.017881
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 10,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 31660.138999999617,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "1efe9c5a6ecf477dfa7d6afb06a45a6e935c548f7020f895c6aee8d35830ca94",
+      "source_session_id_sha256": "be3af640cf63e00ac58bef814ed138ec39dcda5e9271cb00e3494cd3c3e36997",
+      "response_sha256": "08b84712073d9febdacc9cc3fe6af2de12ad8cf3280480f23077a1f0c48946e8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "0b11b10d-09e0-447e-afa4-f5361849f9df",
+        "context_usage_ratio": 0.017909
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 11,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 28477.700499992352,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "7292141c94e8d30dd32fd07dde537ce96771a2adeb4c05d6fdaafa9851eaa597",
+      "source_session_id_sha256": "a29b0d6afa80e0bbf02d24a5be13f41103cdfdeb46f90518a8f7f98c041f3654",
+      "response_sha256": "f9382ad87e98bac0b1df24ce1e34bb5f904769fe40e94222965c802941b6c0cb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "f28de795-bed6-49aa-900e-30510f41468d",
+        "context_usage_ratio": 0.017892
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 12,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 30066.100458003348,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "035c5308c2404087fe4b1440869848cb66cbdec3f48e653017f516ffcc342519",
+      "source_session_id_sha256": "feda5741af2619a05884e1187ad6d5f6556930adc9fb6760c993f1974fe039e9",
+      "response_sha256": "11e6dd9089925639ac04ae19f3cf20bb6ae7b2d1c148f086145e74d1c1c46590",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "db4379e8-4536-4a4c-9ed4-d01e1d4a34a2",
+        "context_usage_ratio": 0.017917
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 13,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 27637.22320800298,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "4d85710e004e5e9cf435672290f7db4b0bfba3455194c2ec5d64882aa4eb4466",
+      "source_session_id_sha256": "beda3b274c0b234d2d23575ded5bad05057b2cc813a2b1effbb21ad263c005f3",
+      "response_sha256": "5f44d618a76801dbf1b6ee506fc42464644e58c4d811a279fcae5bc7ed687b95",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "b6134d2c-8e4d-4cbf-9244-64191c7c3ab9",
+        "context_usage_ratio": 0.01794
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 14,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 28236.939207999967,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "2cb50a309a0380b5dbee73d78099e52efa046fa2f9e1a8170c8c659e1a765545",
+      "source_session_id_sha256": "d98de1a8ebbb16159485e104185186123e40dd15989b7944a38a2f68c772a9c9",
+      "response_sha256": "90733f4d569aceb2e87479a9992626de05d795885e36bd8bfd0cabe9dddef6d9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "ca218a58-2a8d-4979-a9ca-7fe305e6ccc8",
+        "context_usage_ratio": 0.017913
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 15,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 25705.770291999215,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "7da4de00e00ad3c6fe99112f65dfbc5b7cd6524490b02384678c6aab93b4104b",
+      "source_session_id_sha256": "465481cd86d704d3e7b916c90355b1b34525e3ee9eb8d938712ed3d4ae08044b",
+      "response_sha256": "ac1ec7a9aed6e58578a398cecb407a8e161d5ce5b4ab33f99df1a9f2184c4f36",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "a687b3f9-b886-4cdf-8060-bb5b1dbac580",
+        "context_usage_ratio": 0.017872
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 16,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 27868.67662500299,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "49c6c21b154e7eacd379303b9de6efd98e627b7a448f975d17fa3105107e3198",
+      "source_session_id_sha256": "f19ed0595284a9f4bd0ff4ae3528f7a091761f24989ec5f3c4dd68fa4be5bead",
+      "response_sha256": "fa3e1035062f2160ca410b904fc13a0a5da643dbd907a2c4b7b6e79c42eacc7c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "eba6c4e1-8a74-4a7d-b4b5-fe14d08623ed",
+        "context_usage_ratio": 0.017885
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 17,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 22706.72724999895,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "fed0c745d1b8cbe5fe35fbf88c2dec06126a7d258e8471e4b5c56482b162147c",
+      "source_session_id_sha256": "c876de90271177ce0a63de60b568c5fcf0bca9ff5ca82604f28cf68fbaf39939",
+      "response_sha256": "453154fc94c1d613eaa1180400ade97f1a0820a28764d5cb8d2c9d6455217c60",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "35c6446d-b961-4f3b-a2ef-ea809ba2a861",
+        "context_usage_ratio": 0.017861
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 18,
+      "condition": "resource-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 22000.186374993064,
+      "outcome_verified": true,
+      "expected_process_exit": 8,
+      "expected_boundary": "resources",
+      "workload_unchanged": true,
+      "nonce_sha256": "481c9a7009c94cb83340ba038f40b25f373477f93cf4cc5fdba7a8eda92174f8",
+      "source_session_id_sha256": "e6a5d937021dc81d38ed8934c445c1c75acf75b99a54267ca2bdfa8249d78efc",
+      "response_sha256": "fc3e206b9be132663c5031a6a816ae54a9c944425b390cc7b301b71d507e505c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "42bf4674-85a4-44d5-9d99-1fb01a5daca2",
+        "context_usage_ratio": 0.017873
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 19,
+      "condition": "success",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 20011.640790995443,
+      "outcome_verified": true,
+      "expected_process_exit": 0,
+      "expected_boundary": "outcome",
+      "workload_unchanged": true,
+      "nonce_sha256": "6fbf86e73394258e12bedd98938625d813cf0b4df4cdddf2e1b15879d8f23a9e",
+      "source_session_id_sha256": "7cc76aa8d1b720a5ea9b61724f1f63af1509178daf97340dd2b9ef15a118bc99",
+      "response_sha256": "0276376690045b0bdd9f5c234db254c22e46dfe6b66e5bc6c03a91c930d5fa62",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "e59d5911-baa0-48ee-9ea2-64be924ea6c3",
+        "context_usage_ratio": 0.017884
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 20,
+      "condition": "execution-failure",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 20670.69320799783,
+      "outcome_verified": true,
+      "expected_process_exit": 7,
+      "expected_boundary": "execution",
+      "workload_unchanged": true,
+      "nonce_sha256": "264578d71094ab6b0773c0ddd64934914c16b4fad66d363bb9d719164bcb8358",
+      "source_session_id_sha256": "b44619fe699d610ea3b677612d4c5456305efe75bf1ac3de1f6fcdc368927836",
+      "response_sha256": "4fc8d7d6534ef93b898c9dc415d8c48458483725b8c2f7d271ccc67ae85d808c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "45821726-9d27-415c-aa93-cdbad0c1c4d1",
+        "context_usage_ratio": 0.017863
+      },
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "collector_evidence": {
+        "session_match_count": 1,
+        "skill_run_count": 1,
+        "explicit_failed_event_count": 0,
+        "event_signatures": [
+          {
+            "event_type": "skill.activated",
+            "stage": "activation",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "skill.activation_completed",
+            "stage": "activation",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.completed",
+            "stage": "execution",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "tool.started",
+            "stage": "execution",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.completed",
+            "stage": "outcome",
+            "status": "completed",
+            "evidence_grade": "observed",
+            "count": 1
+          },
+          {
+            "event_type": "turn.started",
+            "stage": "request",
+            "status": "started",
+            "evidence_grade": "observed",
+            "count": 1
+          }
+        ]
+      }
+    }
+  ],
+  "gate": {
+    "name": "balanced nonce-bound outcome and workload integrity",
+    "passed": true
+  },
+  "created_at": "2026-08-01T02:34:21.750972+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "250fb9c5ab070e0c8a19d59f0e630f8fdefe2531",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

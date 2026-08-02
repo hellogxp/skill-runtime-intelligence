@@ -1,0 +1,491 @@
+{
+  "schema_version": "sri.experiment.model-agent-failure-mode-analysis.v1",
+  "experiment": {
+    "name": "post-hoc-model-diagnostic-failure-mode-analysis",
+    "evidence_grade": "derived",
+    "dataset_path": "${REPO_ROOT}/experiments/runtime_diagnostics/cases.jsonl",
+    "dataset_sha256": "a7728ebae830fe9fa58b04a5865fa9ea344d1149ab2ea29075e366af194522e5",
+    "analysis_policy": "invalid responses count as incorrect; report model strata separately; no causal or population-generalization claim",
+    "limitations": [
+      "Finding families reuse deterministic corpus gold labels and were not independently annotated for this analysis.",
+      "The analysis is post-hoc and descriptive.",
+      "Trials from repeated sessions and cases are not independent population samples."
+    ]
+  },
+  "metrics": {
+    "report_count": 2,
+    "model_count": 2,
+    "difficult_condition_case_cell_count": 9
+  },
+  "reports": [
+    {
+      "report_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/model-agent-diagnostic-usefulness-deepseek-isolated-20260731.json",
+      "report_sha256": "d89f892f046c2edb745647acd58fa054d4ee3584bc0a95d8b9dab22459351315",
+      "model": "opencode/deepseek-v4-flash-free",
+      "by_finding_family": {
+        "panorama": {
+          "lifecycle_evidence_gap": {
+            "planned": 5,
+            "valid": 3,
+            "correct": 3,
+            "parse_or_execution_errors": 2,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 0.6
+          },
+          "outcome_unverified": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "run_incomplete": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "runtime_failure": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          }
+        },
+        "raw": {
+          "lifecycle_evidence_gap": {
+            "planned": 5,
+            "valid": 5,
+            "correct": 3,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 1,
+            "intention_to_treat_accuracy": 0.6
+          },
+          "outcome_unverified": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "run_incomplete": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 0,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 0.0
+          },
+          "runtime_failure": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          }
+        }
+      },
+      "by_gold_stage": {
+        "panorama": {
+          "activation": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "execution": {
+            "planned": 2,
+            "valid": 2,
+            "correct": 2,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "instructions": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "outcome": {
+            "planned": 2,
+            "valid": 2,
+            "correct": 2,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "request": {
+            "planned": 1,
+            "valid": 0,
+            "correct": 0,
+            "parse_or_execution_errors": 1,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 0.0
+          },
+          "resources": {
+            "planned": 4,
+            "valid": 3,
+            "correct": 3,
+            "parse_or_execution_errors": 1,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 0.75
+          }
+        },
+        "raw": {
+          "activation": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "execution": {
+            "planned": 2,
+            "valid": 2,
+            "correct": 2,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "instructions": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "outcome": {
+            "planned": 2,
+            "valid": 2,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 0.5
+          },
+          "request": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "resources": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 2,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 1,
+            "intention_to_treat_accuracy": 0.5
+          }
+        }
+      }
+    },
+    {
+      "report_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/model-agent-diagnostic-usefulness-mimo-isolated-20260731.json",
+      "report_sha256": "c81665a586cd10bdde29acbd4de851b6be5c8e1927eb3c4e321205aefb099b6c",
+      "model": "opencode/mimo-v2.5-free",
+      "by_finding_family": {
+        "panorama": {
+          "lifecycle_evidence_gap": {
+            "planned": 5,
+            "valid": 5,
+            "correct": 5,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "outcome_unverified": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "run_incomplete": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "runtime_failure": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 2,
+            "intention_to_treat_accuracy": 1.0
+          }
+        },
+        "raw": {
+          "lifecycle_evidence_gap": {
+            "planned": 5,
+            "valid": 5,
+            "correct": 2,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 0.4
+          },
+          "outcome_unverified": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "run_incomplete": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 0,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 0.0
+          },
+          "runtime_failure": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 1,
+            "intention_to_treat_accuracy": 1.0
+          }
+        }
+      },
+      "by_gold_stage": {
+        "panorama": {
+          "activation": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "execution": {
+            "planned": 2,
+            "valid": 2,
+            "correct": 2,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "instructions": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "outcome": {
+            "planned": 2,
+            "valid": 2,
+            "correct": 2,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "request": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "resources": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 2,
+            "intention_to_treat_accuracy": 1.0
+          }
+        },
+        "raw": {
+          "activation": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 0,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 0.0
+          },
+          "execution": {
+            "planned": 2,
+            "valid": 2,
+            "correct": 2,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "instructions": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "outcome": {
+            "planned": 2,
+            "valid": 2,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 0.5
+          },
+          "request": {
+            "planned": 1,
+            "valid": 1,
+            "correct": 1,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "resources": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 2,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 1,
+            "intention_to_treat_accuracy": 0.5
+          }
+        }
+      }
+    }
+  ],
+  "difficult_condition_case_cells": [
+    {
+      "case_id": "earliest_of_multiple_failures",
+      "condition": "panorama",
+      "finding_family": "runtime_failure",
+      "gold_stage": "resources",
+      "planned": 2,
+      "correct": 2,
+      "invalid": 0,
+      "unsupported_causal_claims": 1,
+      "intention_to_treat_accuracy": 1.0
+    },
+    {
+      "case_id": "failure_and_incomplete",
+      "condition": "panorama",
+      "finding_family": "lifecycle_evidence_gap",
+      "gold_stage": "resources",
+      "planned": 2,
+      "correct": 1,
+      "invalid": 1,
+      "unsupported_causal_claims": 0,
+      "intention_to_treat_accuracy": 0.5
+    },
+    {
+      "case_id": "request_gap_first",
+      "condition": "panorama",
+      "finding_family": "lifecycle_evidence_gap",
+      "gold_stage": "request",
+      "planned": 2,
+      "correct": 1,
+      "invalid": 1,
+      "unsupported_causal_claims": 0,
+      "intention_to_treat_accuracy": 0.5
+    },
+    {
+      "case_id": "resource_failure",
+      "condition": "panorama",
+      "finding_family": "runtime_failure",
+      "gold_stage": "resources",
+      "planned": 2,
+      "correct": 2,
+      "invalid": 0,
+      "unsupported_causal_claims": 1,
+      "intention_to_treat_accuracy": 1.0
+    },
+    {
+      "case_id": "activation_gap",
+      "condition": "raw",
+      "finding_family": "lifecycle_evidence_gap",
+      "gold_stage": "activation",
+      "planned": 2,
+      "correct": 1,
+      "invalid": 0,
+      "unsupported_causal_claims": 0,
+      "intention_to_treat_accuracy": 0.5
+    },
+    {
+      "case_id": "earliest_of_multiple_failures",
+      "condition": "raw",
+      "finding_family": "runtime_failure",
+      "gold_stage": "resources",
+      "planned": 2,
+      "correct": 2,
+      "invalid": 0,
+      "unsupported_causal_claims": 1,
+      "intention_to_treat_accuracy": 1.0
+    },
+    {
+      "case_id": "failure_and_incomplete",
+      "condition": "raw",
+      "finding_family": "lifecycle_evidence_gap",
+      "gold_stage": "resources",
+      "planned": 2,
+      "correct": 0,
+      "invalid": 0,
+      "unsupported_causal_claims": 1,
+      "intention_to_treat_accuracy": 0.0
+    },
+    {
+      "case_id": "incomplete_run",
+      "condition": "raw",
+      "finding_family": "run_incomplete",
+      "gold_stage": "outcome",
+      "planned": 2,
+      "correct": 0,
+      "invalid": 0,
+      "unsupported_causal_claims": 0,
+      "intention_to_treat_accuracy": 0.0
+    },
+    {
+      "case_id": "incomplete_with_report",
+      "condition": "raw",
+      "finding_family": "lifecycle_evidence_gap",
+      "gold_stage": "resources",
+      "planned": 2,
+      "correct": 0,
+      "invalid": 0,
+      "unsupported_causal_claims": 0,
+      "intention_to_treat_accuracy": 0.0
+    }
+  ],
+  "gate": {
+    "name": "failure-mode audit integrity",
+    "passed": true
+  },
+  "created_at": "2026-07-31T03:21:03.900294+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

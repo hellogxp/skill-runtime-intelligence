@@ -1,0 +1,376 @@
+{
+  "schema_version": "sri.experiment.dataset-cut-policy-curve.v1",
+  "experiment": {
+    "name": "privacy-safe-cut-policy-wait-curve",
+    "evidence_grade": "Experimental",
+    "row_level_records_included": false,
+    "limitations": [
+      "Intervals were observed sequentially, not randomized.",
+      "Ambient ingestion load can differ between interval conditions.",
+      "Repeated run observations are not independent participants.",
+      "The curve does not estimate a causal waiting-time effect."
+    ]
+  },
+  "curve": {
+    "interval_condition_count": 3,
+    "trial_count": 6,
+    "points": [
+      {
+        "requested_interval_seconds": 1.0,
+        "trial_count": 2,
+        "policies": {
+          "all_observed": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 176,
+            "pooled_stable_next_interval_count": 171,
+            "pooled_changed_next_interval_count": 5,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.9715909090909091,
+            "selection_fraction_across_trials": {
+              "mean": 1.0,
+              "minimum": 1.0,
+              "maximum": 1.0
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.9715909090909092,
+              "minimum": 0.9431818181818182,
+              "maximum": 1.0
+            }
+          },
+          "event_watermark": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 174,
+            "pooled_stable_next_interval_count": 169,
+            "pooled_changed_next_interval_count": 5,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.9712643678160919,
+            "selection_fraction_across_trials": {
+              "mean": 0.9886363636363636,
+              "minimum": 0.9886363636363636,
+              "maximum": 0.9886363636363636
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.9712643678160919,
+              "minimum": 0.9425287356321839,
+              "maximum": 1.0
+            }
+          },
+          "observed_quiescence": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 140,
+            "pooled_stable_next_interval_count": 135,
+            "pooled_changed_next_interval_count": 5,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.9642857142857143,
+            "selection_fraction_across_trials": {
+              "mean": 0.7954545454545454,
+              "minimum": 0.5909090909090909,
+              "maximum": 1.0
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.9715909090909092,
+              "minimum": 0.9431818181818182,
+              "maximum": 1.0
+            }
+          },
+          "terminal_and_watermark": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 166,
+            "pooled_stable_next_interval_count": 161,
+            "pooled_changed_next_interval_count": 5,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.9698795180722891,
+            "selection_fraction_across_trials": {
+              "mean": 0.9431818181818182,
+              "minimum": 0.9431818181818182,
+              "maximum": 0.9431818181818182
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.9698795180722892,
+              "minimum": 0.9397590361445783,
+              "maximum": 1.0
+            }
+          },
+          "terminal_status": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 166,
+            "pooled_stable_next_interval_count": 161,
+            "pooled_changed_next_interval_count": 5,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.9698795180722891,
+            "selection_fraction_across_trials": {
+              "mean": 0.9431818181818182,
+              "minimum": 0.9431818181818182,
+              "maximum": 0.9431818181818182
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.9698795180722892,
+              "minimum": 0.9397590361445783,
+              "maximum": 1.0
+            }
+          },
+          "terminal_watermark_and_quiescence": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 135,
+            "pooled_stable_next_interval_count": 130,
+            "pooled_changed_next_interval_count": 5,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.9629629629629629,
+            "selection_fraction_across_trials": {
+              "mean": 0.7670454545454546,
+              "minimum": 0.5909090909090909,
+              "maximum": 0.9431818181818182
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.9698795180722892,
+              "minimum": 0.9397590361445783,
+              "maximum": 1.0
+            }
+          }
+        }
+      },
+      {
+        "requested_interval_seconds": 3.0,
+        "trial_count": 2,
+        "policies": {
+          "all_observed": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 176,
+            "pooled_stable_next_interval_count": 156,
+            "pooled_changed_next_interval_count": 20,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.8863636363636364,
+            "selection_fraction_across_trials": {
+              "mean": 1.0,
+              "minimum": 1.0,
+              "maximum": 1.0
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.8863636363636364,
+              "minimum": 0.7727272727272727,
+              "maximum": 1.0
+            }
+          },
+          "event_watermark": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 174,
+            "pooled_stable_next_interval_count": 154,
+            "pooled_changed_next_interval_count": 20,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.8850574712643678,
+            "selection_fraction_across_trials": {
+              "mean": 0.9886363636363636,
+              "minimum": 0.9886363636363636,
+              "maximum": 0.9886363636363636
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.8850574712643677,
+              "minimum": 0.7701149425287356,
+              "maximum": 1.0
+            }
+          },
+          "observed_quiescence": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 140,
+            "pooled_stable_next_interval_count": 120,
+            "pooled_changed_next_interval_count": 20,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.8571428571428571,
+            "selection_fraction_across_trials": {
+              "mean": 0.7954545454545454,
+              "minimum": 0.5909090909090909,
+              "maximum": 1.0
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.8863636363636364,
+              "minimum": 0.7727272727272727,
+              "maximum": 1.0
+            }
+          },
+          "terminal_and_watermark": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 166,
+            "pooled_stable_next_interval_count": 148,
+            "pooled_changed_next_interval_count": 18,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.891566265060241,
+            "selection_fraction_across_trials": {
+              "mean": 0.9431818181818182,
+              "minimum": 0.9431818181818182,
+              "maximum": 0.9431818181818182
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.891566265060241,
+              "minimum": 0.7831325301204819,
+              "maximum": 1.0
+            }
+          },
+          "terminal_status": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 166,
+            "pooled_stable_next_interval_count": 148,
+            "pooled_changed_next_interval_count": 18,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.891566265060241,
+            "selection_fraction_across_trials": {
+              "mean": 0.9431818181818182,
+              "minimum": 0.9431818181818182,
+              "maximum": 0.9431818181818182
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.891566265060241,
+              "minimum": 0.7831325301204819,
+              "maximum": 1.0
+            }
+          },
+          "terminal_watermark_and_quiescence": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 135,
+            "pooled_stable_next_interval_count": 117,
+            "pooled_changed_next_interval_count": 18,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.8666666666666667,
+            "selection_fraction_across_trials": {
+              "mean": 0.7670454545454546,
+              "minimum": 0.5909090909090909,
+              "maximum": 0.9431818181818182
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.891566265060241,
+              "minimum": 0.7831325301204819,
+              "maximum": 1.0
+            }
+          }
+        }
+      },
+      {
+        "requested_interval_seconds": 8.0,
+        "trial_count": 2,
+        "policies": {
+          "all_observed": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 176,
+            "pooled_stable_next_interval_count": 156,
+            "pooled_changed_next_interval_count": 20,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.8863636363636364,
+            "selection_fraction_across_trials": {
+              "mean": 1.0,
+              "minimum": 1.0,
+              "maximum": 1.0
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.8863636363636364,
+              "minimum": 0.7727272727272727,
+              "maximum": 1.0
+            }
+          },
+          "event_watermark": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 174,
+            "pooled_stable_next_interval_count": 154,
+            "pooled_changed_next_interval_count": 20,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.8850574712643678,
+            "selection_fraction_across_trials": {
+              "mean": 0.9886363636363636,
+              "minimum": 0.9886363636363636,
+              "maximum": 0.9886363636363636
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.8850574712643677,
+              "minimum": 0.7701149425287356,
+              "maximum": 1.0
+            }
+          },
+          "observed_quiescence": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 150,
+            "pooled_stable_next_interval_count": 130,
+            "pooled_changed_next_interval_count": 20,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.8666666666666667,
+            "selection_fraction_across_trials": {
+              "mean": 0.8522727272727273,
+              "minimum": 0.7613636363636364,
+              "maximum": 0.9431818181818182
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.8507462686567164,
+              "minimum": 0.7014925373134329,
+              "maximum": 1.0
+            }
+          },
+          "terminal_and_watermark": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 166,
+            "pooled_stable_next_interval_count": 148,
+            "pooled_changed_next_interval_count": 18,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.891566265060241,
+            "selection_fraction_across_trials": {
+              "mean": 0.9431818181818182,
+              "minimum": 0.9431818181818182,
+              "maximum": 0.9431818181818182
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.891566265060241,
+              "minimum": 0.7831325301204819,
+              "maximum": 1.0
+            }
+          },
+          "terminal_status": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 166,
+            "pooled_stable_next_interval_count": 148,
+            "pooled_changed_next_interval_count": 18,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.891566265060241,
+            "selection_fraction_across_trials": {
+              "mean": 0.9431818181818182,
+              "minimum": 0.9431818181818182,
+              "maximum": 0.9431818181818182
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.891566265060241,
+              "minimum": 0.7831325301204819,
+              "maximum": 1.0
+            }
+          },
+          "terminal_watermark_and_quiescence": {
+            "trial_count": 2,
+            "pooled_selected_run_count": 143,
+            "pooled_stable_next_interval_count": 125,
+            "pooled_changed_next_interval_count": 18,
+            "pooled_missing_next_interval_count": 0,
+            "pooled_stable_next_interval_fraction": 0.8741258741258742,
+            "selection_fraction_across_trials": {
+              "mean": 0.8125,
+              "minimum": 0.7386363636363636,
+              "maximum": 0.8863636363636364
+            },
+            "stable_fraction_across_trials": {
+              "mean": 0.8615384615384616,
+              "minimum": 0.7230769230769231,
+              "maximum": 1.0
+            }
+          }
+        }
+      }
+    ]
+  },
+  "gate": {
+    "name": "multi-interval cut-policy curve completed",
+    "passed": true
+  },
+  "created_at": "2026-07-29T15:38:59.766003+00:00",
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "c6ddc8387b15e0333bbf350ef3aeb468049d4a66",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

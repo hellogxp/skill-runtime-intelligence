@@ -11,6 +11,8 @@ metrics remain the gate; post-first-five metrics are diagnostic only.
 Version 5 records start/end host load averages as descriptive covariates
 without changing the predeclared latency gate.
 Version 6 adds descriptive p99 metrics without changing that gate.
+Current reports also record OS, architecture, Python version, and a container
+marker so environment replication cannot be silently collapsed across hosts.
 `--prewarm-native` is a separately versioned mechanism probe: it executes the
 fresh binary once against a missing socket, expects a silent exit code `1`,
 then runs the unchanged balanced benchmark and gate. Prewarmed reports are not

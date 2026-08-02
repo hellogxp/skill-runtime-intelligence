@@ -1,0 +1,141 @@
+{
+  "schema_version": "sri.experiment.product-lifecycle.v1",
+  "experiment": {
+    "name": "packaged-product-lifecycle",
+    "evidence_grade": "Experimental",
+    "wheel": "skill_runtime_intelligence-0.1.0-py3-none-any.whl",
+    "offline": true,
+    "isolated_home": true,
+    "live_agent_calls": false,
+    "limitations": [
+      "No live Agent hook was enabled or trusted.",
+      "One local OS/Python environment is not cross-platform evidence.",
+      "A lifecycle smoke test does not measure diagnosis usefulness."
+    ]
+  },
+  "metrics": {
+    "expected_return_codes": {
+      "create_venv": 0,
+      "install_wheel": 0,
+      "install_product": 0,
+      "start": 0,
+      "status_running": 0,
+      "doctor": 1,
+      "stop": 0,
+      "status_stopped": 0,
+      "uninstall": 0
+    },
+    "actual_return_codes": {
+      "create_venv": 0,
+      "install_wheel": 0,
+      "install_product": 127,
+      "start": 127,
+      "status_running": 127,
+      "doctor": 127,
+      "stop": 127,
+      "status_stopped": 127,
+      "uninstall": 127
+    },
+    "native_sender_available": false,
+    "native_sender_reason": null,
+    "running_after_start": false,
+    "doctor_ready_for_live_collection": false,
+    "running_after_stop": false,
+    "project_unchanged": true,
+    "agent_configs_absent": true,
+    "state_removed": true,
+    "step_diagnostics": {
+      "create_venv": {
+        "return_code": 0,
+        "stdout_json": null,
+        "stdout_bytes": 0,
+        "stderr_bytes": 0,
+        "stderr_tail": []
+      },
+      "install_wheel": {
+        "return_code": 0,
+        "stdout_json": null,
+        "stdout_bytes": 222,
+        "stderr_bytes": 0,
+        "stderr_tail": []
+      },
+      "install_product": {
+        "return_code": 127,
+        "stdout_json": null,
+        "stdout_bytes": 0,
+        "stderr_bytes": 122,
+        "stderr_tail": [
+          "[Errno 2] No such file or directory: '/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpp083esw9/venv/bin/skill-runtime'"
+        ]
+      },
+      "start": {
+        "return_code": 127,
+        "stdout_json": null,
+        "stdout_bytes": 0,
+        "stderr_bytes": 122,
+        "stderr_tail": [
+          "[Errno 2] No such file or directory: '/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpp083esw9/venv/bin/skill-runtime'"
+        ]
+      },
+      "status_running": {
+        "return_code": 127,
+        "stdout_json": null,
+        "stdout_bytes": 0,
+        "stderr_bytes": 122,
+        "stderr_tail": [
+          "[Errno 2] No such file or directory: '/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpp083esw9/venv/bin/skill-runtime'"
+        ]
+      },
+      "doctor": {
+        "return_code": 127,
+        "stdout_json": null,
+        "stdout_bytes": 0,
+        "stderr_bytes": 122,
+        "stderr_tail": [
+          "[Errno 2] No such file or directory: '/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpp083esw9/venv/bin/skill-runtime'"
+        ]
+      },
+      "stop": {
+        "return_code": 127,
+        "stdout_json": null,
+        "stdout_bytes": 0,
+        "stderr_bytes": 122,
+        "stderr_tail": [
+          "[Errno 2] No such file or directory: '/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpp083esw9/venv/bin/skill-runtime'"
+        ]
+      },
+      "status_stopped": {
+        "return_code": 127,
+        "stdout_json": null,
+        "stdout_bytes": 0,
+        "stderr_bytes": 122,
+        "stderr_tail": [
+          "[Errno 2] No such file or directory: '/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpp083esw9/venv/bin/skill-runtime'"
+        ]
+      },
+      "uninstall": {
+        "return_code": 127,
+        "stdout_json": null,
+        "stdout_bytes": 0,
+        "stderr_bytes": 122,
+        "stderr_tail": [
+          "[Errno 2] No such file or directory: '/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpp083esw9/venv/bin/skill-runtime'"
+        ]
+      }
+    }
+  },
+  "gate": {
+    "name": "isolated offline packaged lifecycle",
+    "passed": false
+  },
+  "created_at": "2026-07-29T09:42:32.213659+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "07a7cf05b9f4233e37b4f3392ecd69be36fe8367",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

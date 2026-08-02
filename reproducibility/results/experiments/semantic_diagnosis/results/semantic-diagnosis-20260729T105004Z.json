@@ -1,0 +1,602 @@
+{
+  "schema_version": "sri.experiment.semantic-diagnosis.v3",
+  "experiment": {
+    "name": "leave-one-out-diagnosis-retrieval-baselines",
+    "dataset_path": "${REPO_ROOT}/experiments/runtime_diagnostics/cases.jsonl",
+    "dataset_sha256": "a7728ebae830fe9fa58b04a5865fa9ea344d1149ab2ea29075e366af194522e5",
+    "limitations": [
+      "This is a lexical retrieval lower bound, not an LLM diagnosis result.",
+      "Lifecycle-aware retrieval is a structured-feature ablation, not a semantic model.",
+      "Failed-stage features are close to deterministic labels and can overstate retrieval generalization.",
+      "The small synthetic corpus cannot estimate deployment generalization.",
+      "Retrieved predictions are Inferred and never mutate deterministic findings."
+    ]
+  },
+  "deterministic_rules": {
+    "case_count": 14,
+    "exact_matches": 14,
+    "exact_match_rate": 1.0,
+    "true_positive": 14,
+    "false_positive": 0,
+    "false_negative": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "lexical_retrieval": {
+    "case_count": 14,
+    "exact_matches": 3,
+    "exact_match_rate": 0.21428571428571427,
+    "true_positive": 6,
+    "false_positive": 9,
+    "false_negative": 8,
+    "precision": 0.4,
+    "recall": 0.42857142857142855,
+    "f1": 0.4137931034482759
+  },
+  "lifecycle_retrieval": {
+    "case_count": 14,
+    "exact_matches": 1,
+    "exact_match_rate": 0.07142857142857142,
+    "true_positive": 1,
+    "false_positive": 10,
+    "false_negative": 13,
+    "precision": 0.09090909090909091,
+    "recall": 0.07142857142857142,
+    "f1": 0.08
+  },
+  "rows": [
+    {
+      "case_id": "healthy_verified",
+      "nearest_case_id": "activation_gap",
+      "similarity": 0.47368421052631576,
+      "prediction_grade": "inferred",
+      "expected": [],
+      "deterministic": [],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "instructions_gap",
+      "lifecycle_similarity": 0.9821428571428571,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false
+    },
+    {
+      "case_id": "activation_gap",
+      "nearest_case_id": "instructions_gap",
+      "similarity": 0.5135135135135135,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "deterministic": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "healthy_verified",
+      "lifecycle_similarity": 0.9821428571428571,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [],
+      "lifecycle_retrieval_exact": false
+    },
+    {
+      "case_id": "instructions_gap",
+      "nearest_case_id": "activation_gap",
+      "similarity": 0.5135135135135135,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "deterministic": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "healthy_verified",
+      "lifecycle_similarity": 0.9821428571428571,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [],
+      "lifecycle_retrieval_exact": false
+    },
+    {
+      "case_id": "execution_failure",
+      "nearest_case_id": "resource_failure",
+      "similarity": 0.34615384615384615,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "deterministic": [
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "derived_failure_grade",
+      "lifecycle_similarity": 0.763888888888889,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "runtime_failure",
+          "execution",
+          "derived"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false
+    },
+    {
+      "case_id": "incomplete_run",
+      "nearest_case_id": "unsupported_is_not_gap",
+      "similarity": 0.21621621621621623,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "deterministic": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "lexical_retrieval": [],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "missing_tail_without_later_evidence",
+      "lifecycle_similarity": 0.9166666666666666,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [],
+      "lifecycle_retrieval_exact": false
+    },
+    {
+      "case_id": "reported_outcome_only",
+      "nearest_case_id": "activation_gap",
+      "similarity": 0.35714285714285715,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "outcome_unverified",
+          "outcome",
+          "derived"
+        ]
+      ],
+      "deterministic": [
+        [
+          "outcome_unverified",
+          "outcome",
+          "derived"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "incomplete_with_report",
+      "lifecycle_similarity": 0.8630952380952381,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false
+    },
+    {
+      "case_id": "unsupported_is_not_gap",
+      "nearest_case_id": "healthy_verified",
+      "similarity": 0.4,
+      "prediction_grade": "inferred",
+      "expected": [],
+      "deterministic": [],
+      "lexical_retrieval": [],
+      "deterministic_exact": true,
+      "retrieval_exact": true,
+      "lifecycle_nearest_case_id": "request_gap_first",
+      "lifecycle_similarity": 0.9500000000000001,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false
+    },
+    {
+      "case_id": "resource_failure",
+      "nearest_case_id": "earliest_of_multiple_failures",
+      "similarity": 0.38,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "deterministic": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": true,
+      "lifecycle_nearest_case_id": "earliest_of_multiple_failures",
+      "lifecycle_similarity": 0.548611111111111,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "lifecycle_retrieval_exact": true
+    },
+    {
+      "case_id": "derived_failure_grade",
+      "nearest_case_id": "earliest_of_multiple_failures",
+      "similarity": 0.34782608695652173,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "runtime_failure",
+          "execution",
+          "derived"
+        ]
+      ],
+      "deterministic": [
+        [
+          "runtime_failure",
+          "execution",
+          "derived"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "execution_failure",
+      "lifecycle_similarity": 0.763888888888889,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false
+    },
+    {
+      "case_id": "incomplete_with_report",
+      "nearest_case_id": "failure_and_incomplete",
+      "similarity": 0.29411764705882354,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "deterministic": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ],
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "reported_outcome_only",
+      "lifecycle_similarity": 0.8630952380952381,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "outcome_unverified",
+          "outcome",
+          "derived"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false
+    },
+    {
+      "case_id": "earliest_of_multiple_failures",
+      "nearest_case_id": "resource_failure",
+      "similarity": 0.38,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "deterministic": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": true,
+      "lifecycle_nearest_case_id": "execution_failure",
+      "lifecycle_similarity": 0.6319444444444444,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false
+    },
+    {
+      "case_id": "missing_tail_without_later_evidence",
+      "nearest_case_id": "activation_gap",
+      "similarity": 0.3142857142857143,
+      "prediction_grade": "inferred",
+      "expected": [],
+      "deterministic": [],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "incomplete_run",
+      "lifecycle_similarity": 0.9166666666666666,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false
+    },
+    {
+      "case_id": "request_gap_first",
+      "nearest_case_id": "instructions_gap",
+      "similarity": 0.36585365853658536,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ]
+      ],
+      "deterministic": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "unsupported_is_not_gap",
+      "lifecycle_similarity": 0.9500000000000001,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [],
+      "lifecycle_retrieval_exact": false
+    },
+    {
+      "case_id": "failure_and_incomplete",
+      "nearest_case_id": "incomplete_with_report",
+      "similarity": 0.29411764705882354,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ],
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "deterministic": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ],
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "derived_failure_grade",
+      "lifecycle_similarity": 0.6354166666666666,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "runtime_failure",
+          "execution",
+          "derived"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false
+    }
+  ],
+  "gate": {
+    "name": "inference-layer separation",
+    "passed": true
+  },
+  "created_at": "2026-07-29T10:50:04.144695+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "07a7cf05b9f4233e37b4f3392ecd69be36fe8367",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

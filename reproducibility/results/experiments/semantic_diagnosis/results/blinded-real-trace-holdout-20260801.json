@@ -1,0 +1,2356 @@
+{
+  "schema_version": "sri.experiment.blinded-real-trace-holdout.v1",
+  "experiment": {
+    "name": "rule-label-blinded-real-trace-annotation-holdout",
+    "evidence_grade": "Derived",
+    "source_holdout_sha256": "68889e90d533262aeb76db12644e9945867755d053ba03be0244f6e17cf00ccb",
+    "raw_content_included": false,
+    "rule_labels_included": false,
+    "limitations": [
+      "Cases are deidentified normalized evidence from one local runtime corpus.",
+      "Removing deterministic candidate labels prevents direct label leakage but does not make model adjudication human ground truth.",
+      "The evidence schema itself exposes lifecycle stages and capability states."
+    ]
+  },
+  "cases": [
+    {
+      "case_id": "real-holdout-001",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "complete"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "observed",
+          "event_count": 3,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "observed",
+          "event_count": 20,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "observed",
+          "event_count": 5,
+          "capability": "partial",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "instruction.loaded",
+          "stage": "instructions",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "outcome.reported",
+          "stage": "outcome",
+          "status": "reported",
+          "evidence_grade": "observed",
+          "count": 3
+        },
+        {
+          "evidence_id": "E013",
+          "kind": "event_signature",
+          "event_type": "resource.executed",
+          "stage": "resources",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 3
+        },
+        {
+          "evidence_id": "E014",
+          "kind": "event_signature",
+          "event_type": "tool.completed",
+          "stage": "execution",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 10
+        },
+        {
+          "evidence_id": "E015",
+          "kind": "event_signature",
+          "event_type": "tool.started",
+          "stage": "execution",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 10
+        },
+        {
+          "evidence_id": "E016",
+          "kind": "event_signature",
+          "event_type": "turn.completed",
+          "stage": "outcome",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-002",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "complete"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "observed",
+          "event_count": 6,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "observed",
+          "event_count": 5,
+          "capability": "partial",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "resource.executed",
+          "stage": "resources",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 2
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "tool.completed",
+          "stage": "execution",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 3
+        },
+        {
+          "evidence_id": "E013",
+          "kind": "event_signature",
+          "event_type": "tool.started",
+          "stage": "execution",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-003",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "complete"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "observed",
+          "event_count": 104,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "observed",
+          "event_count": 7,
+          "capability": "partial",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "instruction.loaded",
+          "stage": "instructions",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "outcome.reported",
+          "stage": "outcome",
+          "status": "reported",
+          "evidence_grade": "observed",
+          "count": 3
+        },
+        {
+          "evidence_id": "E013",
+          "kind": "event_signature",
+          "event_type": "tool.completed",
+          "stage": "execution",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 52
+        },
+        {
+          "evidence_id": "E014",
+          "kind": "event_signature",
+          "event_type": "tool.started",
+          "stage": "execution",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 52
+        },
+        {
+          "evidence_id": "E015",
+          "kind": "event_signature",
+          "event_type": "turn.completed",
+          "stage": "outcome",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-004",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "complete"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "observed",
+          "event_count": 30,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "observed",
+          "event_count": 7,
+          "capability": "partial",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "instruction.loaded",
+          "stage": "instructions",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "outcome.reported",
+          "stage": "outcome",
+          "status": "reported",
+          "evidence_grade": "observed",
+          "count": 5
+        },
+        {
+          "evidence_id": "E013",
+          "kind": "event_signature",
+          "event_type": "tool.completed",
+          "stage": "execution",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 15
+        },
+        {
+          "evidence_id": "E014",
+          "kind": "event_signature",
+          "event_type": "tool.started",
+          "stage": "execution",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 15
+        },
+        {
+          "evidence_id": "E015",
+          "kind": "event_signature",
+          "event_type": "turn.completed",
+          "stage": "outcome",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-005",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "incomplete"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "observed",
+          "event_count": 34,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "observed",
+          "event_count": 9,
+          "capability": "partial",
+          "evidence_grade": "derived"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "observed",
+          "event_count": 8,
+          "capability": "partial",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "file.created",
+          "stage": "artifacts",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 3
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "file.modified",
+          "stage": "artifacts",
+          "status": "completed",
+          "evidence_grade": "derived",
+          "count": 1
+        },
+        {
+          "evidence_id": "E013",
+          "kind": "event_signature",
+          "event_type": "file.modified",
+          "stage": "artifacts",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 5
+        },
+        {
+          "evidence_id": "E014",
+          "kind": "event_signature",
+          "event_type": "instruction.loaded",
+          "stage": "instructions",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E015",
+          "kind": "event_signature",
+          "event_type": "outcome.reported",
+          "stage": "outcome",
+          "status": "reported",
+          "evidence_grade": "observed",
+          "count": 6
+        },
+        {
+          "evidence_id": "E016",
+          "kind": "event_signature",
+          "event_type": "tool.completed",
+          "stage": "execution",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 17
+        },
+        {
+          "evidence_id": "E017",
+          "kind": "event_signature",
+          "event_type": "tool.started",
+          "stage": "execution",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 17
+        },
+        {
+          "evidence_id": "E018",
+          "kind": "event_signature",
+          "event_type": "turn.completed",
+          "stage": "outcome",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-006",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "incomplete"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "observed",
+          "event_count": 50,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "observed",
+          "event_count": 14,
+          "capability": "partial",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "observed",
+          "event_count": 6,
+          "capability": "partial",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "file.created",
+          "stage": "artifacts",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 2
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "file.modified",
+          "stage": "artifacts",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 12
+        },
+        {
+          "evidence_id": "E013",
+          "kind": "event_signature",
+          "event_type": "instruction.loaded",
+          "stage": "instructions",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E014",
+          "kind": "event_signature",
+          "event_type": "outcome.reported",
+          "stage": "outcome",
+          "status": "reported",
+          "evidence_grade": "observed",
+          "count": 4
+        },
+        {
+          "evidence_id": "E015",
+          "kind": "event_signature",
+          "event_type": "tool.completed",
+          "stage": "execution",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 25
+        },
+        {
+          "evidence_id": "E016",
+          "kind": "event_signature",
+          "event_type": "tool.started",
+          "stage": "execution",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 25
+        },
+        {
+          "evidence_id": "E017",
+          "kind": "event_signature",
+          "event_type": "turn.completed",
+          "stage": "outcome",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-007",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "incomplete"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "observed",
+          "event_count": 53,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "observed",
+          "event_count": 13,
+          "capability": "partial",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "observed",
+          "event_count": 8,
+          "capability": "partial",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "file.modified",
+          "stage": "artifacts",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 13
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "instruction.loaded",
+          "stage": "instructions",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E013",
+          "kind": "event_signature",
+          "event_type": "outcome.reported",
+          "stage": "outcome",
+          "status": "reported",
+          "evidence_grade": "observed",
+          "count": 6
+        },
+        {
+          "evidence_id": "E014",
+          "kind": "event_signature",
+          "event_type": "session.compacted",
+          "stage": "execution",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E015",
+          "kind": "event_signature",
+          "event_type": "tool.completed",
+          "stage": "execution",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 26
+        },
+        {
+          "evidence_id": "E016",
+          "kind": "event_signature",
+          "event_type": "tool.started",
+          "stage": "execution",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 26
+        },
+        {
+          "evidence_id": "E017",
+          "kind": "event_signature",
+          "event_type": "turn.completed",
+          "stage": "outcome",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-008",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "incomplete"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "observed",
+          "event_count": 49,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "observed",
+          "event_count": 8,
+          "capability": "partial",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "observed",
+          "event_count": 8,
+          "capability": "partial",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "file.created",
+          "stage": "artifacts",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 2
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "file.modified",
+          "stage": "artifacts",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 6
+        },
+        {
+          "evidence_id": "E013",
+          "kind": "event_signature",
+          "event_type": "instruction.loaded",
+          "stage": "instructions",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E014",
+          "kind": "event_signature",
+          "event_type": "outcome.reported",
+          "stage": "outcome",
+          "status": "reported",
+          "evidence_grade": "observed",
+          "count": 6
+        },
+        {
+          "evidence_id": "E015",
+          "kind": "event_signature",
+          "event_type": "session.compacted",
+          "stage": "execution",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E016",
+          "kind": "event_signature",
+          "event_type": "tool.completed",
+          "stage": "execution",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 24
+        },
+        {
+          "evidence_id": "E017",
+          "kind": "event_signature",
+          "event_type": "tool.started",
+          "stage": "execution",
+          "status": "observed",
+          "evidence_grade": "observed",
+          "count": 24
+        },
+        {
+          "evidence_id": "E018",
+          "kind": "event_signature",
+          "event_type": "turn.completed",
+          "stage": "outcome",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-009",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "partial"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "partial",
+          "evidence_grade": "derived"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "resource.executed",
+          "stage": "resources",
+          "status": "completed",
+          "evidence_grade": "derived",
+          "count": 1
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "skill.activated",
+          "stage": "activation",
+          "status": "started",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E013",
+          "kind": "event_signature",
+          "event_type": "skill.activation_completed",
+          "stage": "activation",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-010",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "partial"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "partial",
+          "evidence_grade": "derived"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "resource.executed",
+          "stage": "resources",
+          "status": "completed",
+          "evidence_grade": "derived",
+          "count": 1
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "skill.activated",
+          "stage": "activation",
+          "status": "started",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E013",
+          "kind": "event_signature",
+          "event_type": "skill.activation_completed",
+          "stage": "activation",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-011",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "partial"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "partial",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "skill.activated",
+          "stage": "activation",
+          "status": "started",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "skill.activation_completed",
+          "stage": "activation",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-012",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "partial"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "partial",
+          "evidence_grade": "derived"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "resource.executed",
+          "stage": "resources",
+          "status": "completed",
+          "evidence_grade": "derived",
+          "count": 1
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "skill.activated",
+          "stage": "activation",
+          "status": "started",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E013",
+          "kind": "event_signature",
+          "event_type": "skill.activation_completed",
+          "stage": "activation",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-013",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "incomplete"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "partial"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "derived"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "instruction.loaded",
+          "stage": "instructions",
+          "status": "completed",
+          "evidence_grade": "derived",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-014",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "incomplete"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "partial"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "partial",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "skill.activated",
+          "stage": "activation",
+          "status": "started",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-015",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "partial"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "partial",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "skill.activated",
+          "stage": "activation",
+          "status": "started",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "skill.activation_completed",
+          "stage": "activation",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-016",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "partial"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "skill.activated",
+          "stage": "activation",
+          "status": "started",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "skill.activation_completed",
+          "stage": "activation",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-017",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "partial"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "skill.activated",
+          "stage": "activation",
+          "status": "started",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "skill.activation_completed",
+          "stage": "activation",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-018",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "partial"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "skill.activated",
+          "stage": "activation",
+          "status": "started",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "skill.activation_completed",
+          "stage": "activation",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "case_id": "real-holdout-019",
+      "source": "deidentified_real_skill_run",
+      "evidence": [
+        {
+          "evidence_id": "E001",
+          "kind": "run_state",
+          "status": "completed"
+        },
+        {
+          "evidence_id": "E002",
+          "kind": "session_completeness",
+          "completeness": "partial"
+        },
+        {
+          "evidence_id": "E003",
+          "kind": "stage_state",
+          "stage": "request",
+          "status": "observed",
+          "event_count": 1,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E004",
+          "kind": "stage_state",
+          "stage": "discovery",
+          "status": "unsupported",
+          "event_count": 0,
+          "capability": "unsupported",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E005",
+          "kind": "stage_state",
+          "stage": "activation",
+          "status": "observed",
+          "event_count": 2,
+          "capability": "observed",
+          "evidence_grade": "observed"
+        },
+        {
+          "evidence_id": "E006",
+          "kind": "stage_state",
+          "stage": "instructions",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E007",
+          "kind": "stage_state",
+          "stage": "resources",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E008",
+          "kind": "stage_state",
+          "stage": "execution",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "observed",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E009",
+          "kind": "stage_state",
+          "stage": "artifacts",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E010",
+          "kind": "stage_state",
+          "stage": "outcome",
+          "status": "not_observed",
+          "event_count": 0,
+          "capability": "partial",
+          "evidence_grade": "unknown"
+        },
+        {
+          "evidence_id": "E011",
+          "kind": "event_signature",
+          "event_type": "skill.activated",
+          "stage": "activation",
+          "status": "started",
+          "evidence_grade": "observed",
+          "count": 1
+        },
+        {
+          "evidence_id": "E012",
+          "kind": "event_signature",
+          "event_type": "skill.activation_completed",
+          "stage": "activation",
+          "status": "completed",
+          "evidence_grade": "observed",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "privacy_and_blinding_audit": {
+    "case_count": 19,
+    "rule_label_tokens_absent": true,
+    "passed": true
+  },
+  "gate": {
+    "name": "non-empty holdout with rule labels removed",
+    "passed": true
+  },
+  "created_at": "2026-08-01T14:40:26.957240+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "93d2cc0433a3660f7c6993c8a29fb61e6b2d2950",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

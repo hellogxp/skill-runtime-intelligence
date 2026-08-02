@@ -1,13 +1,18 @@
 #include <errno.h>
+#include <fcntl.h>
+#include <poll.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
+#include <sys/time.h>
 #include <sys/un.h>
 #include <unistd.h>
 
 #define MAX_PAYLOAD (1024 * 1024)
 #define HEADER_SIZE 256
+#define IO_TIMEOUT_MS 1000
 
 static const char *argument_value(int argc, char **argv, const char *name) {
     int index;
@@ -35,6 +40,45 @@ static int write_all(int descriptor, const void *buffer, size_t length) {
     return 0;
 }
 
+static int connect_with_timeout(
+    int descriptor,
+    const struct sockaddr *address,
+    socklen_t address_length
+) {
+    int flags = fcntl(descriptor, F_GETFL, 0);
+    int socket_error = 0;
+    socklen_t socket_error_length = sizeof(socket_error);
+    struct pollfd writable;
+
+    if (flags < 0 || fcntl(descriptor, F_SETFL, flags | O_NONBLOCK) < 0) {
+        return -1;
+    }
+    if (connect(descriptor, address, address_length) < 0 && errno != EINPROGRESS) {
+        return -1;
+    }
+
+    writable.fd = descriptor;
+    writable.events = POLLOUT;
+    writable.revents = 0;
+    while (poll(&writable, 1, IO_TIMEOUT_MS) < 0) {
+        if (errno != EINTR) {
+            return -1;
+        }
+    }
+    if (!(writable.revents & POLLOUT) ||
+        getsockopt(
+            descriptor,
+            SOL_SOCKET,
+            SO_ERROR,
+            &socket_error,
+            &socket_error_length
+        ) < 0 ||
+        socket_error != 0) {
+        return -1;
+    }
+    return fcntl(descriptor, F_SETFL, flags);
+}
+
 int main(int argc, char **argv) {
     const char *agent = argument_value(argc, argv, "--agent");
     const char *event = argument_value(argc, argv, "--event");
@@ -45,6 +89,7 @@ int main(int argc, char **argv) {
     int result = 1;
     char header[HEADER_SIZE];
     struct sockaddr_un address;
+    struct timeval write_timeout;
 
     if (!agent || !event || !socket_path ||
         strlen(agent) > 64 || strlen(event) > 96 ||
@@ -78,13 +123,26 @@ int main(int argc, char **argv) {
     address.sun_family = AF_UNIX;
     memcpy(address.sun_path, socket_path, strlen(socket_path) + 1);
     descriptor = socket(AF_UNIX, SOCK_STREAM, 0);
-    if (descriptor < 0 || connect(
+    if (descriptor < 0) {
+        goto cleanup;
+    }
+    write_timeout.tv_sec = IO_TIMEOUT_MS / 1000;
+    write_timeout.tv_usec = (IO_TIMEOUT_MS % 1000) * 1000;
+    if (setsockopt(
+            descriptor,
+            SOL_SOCKET,
+            SO_SNDTIMEO,
+            &write_timeout,
+            sizeof(write_timeout)
+        ) < 0 || connect_with_timeout(
             descriptor,
             (struct sockaddr *)&address,
             sizeof(address)
         ) < 0) {
         goto cleanup;
     }
+
+    signal(SIGPIPE, SIG_IGN);
 
     {
         int header_length = snprintf(

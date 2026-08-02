@@ -1,0 +1,174 @@
+{
+  "schema_version": "sri.experiment.opencodelive-attempt-correlation.v1",
+  "experiment": {
+    "name": "opencode-official-hook-attempt-correlation-live-pilot",
+    "evidence_grade": "Experimental",
+    "agent_version": "1.18.5",
+    "model": "opencode/deepseek-v4-flash-free",
+    "skill_sha256": "0df4598647f79d3553786cadbaecfb377cbddb079760881e975a8e9e458018ec",
+    "limitations": [
+      "This is one installed OpenCode system on one local machine.",
+      "The project hook is Experimental instrumentation, not product rollout.",
+      "No no-token randomized control was run in this pilot.",
+      "Successful correlation does not establish Skill or outcome causality."
+    ]
+  },
+  "metrics": {
+    "planned_trials": 4,
+    "completed_contract_trials": 4,
+    "verified_outcomes": 4,
+    "verified_correlations": 4,
+    "raw_token_persistence_findings": 0,
+    "workload_mutations": 0,
+    "wall_p50_ms": 16686.07237499964,
+    "wall_p95_ms": 24165.123981203214
+  },
+  "trials": [
+    {
+      "trial": 1,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 25361.705000002985,
+      "outcome_verified": true,
+      "correlation_verified": true,
+      "evidence_event_count": 3,
+      "evidence_event_types": [
+        "session.created",
+        "tool.execute.before"
+      ],
+      "unique_evidence_sessions": 1,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 16039,
+        "input": 137,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      }
+    },
+    {
+      "trial": 2,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 14771.984042003169,
+      "outcome_verified": true,
+      "correlation_verified": true,
+      "evidence_event_count": 3,
+      "evidence_event_types": [
+        "session.created",
+        "tool.execute.before"
+      ],
+      "unique_evidence_sessions": 1,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 15978,
+        "input": 76,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      }
+    },
+    {
+      "trial": 3,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 15987.646541994764,
+      "outcome_verified": true,
+      "correlation_verified": true,
+      "evidence_event_count": 3,
+      "evidence_event_types": [
+        "session.created",
+        "tool.execute.before"
+      ],
+      "unique_evidence_sessions": 1,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 15982,
+        "input": 80,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      }
+    },
+    {
+      "trial": 4,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 17384.498208004516,
+      "outcome_verified": true,
+      "correlation_verified": true,
+      "evidence_event_count": 3,
+      "evidence_event_types": [
+        "session.created",
+        "tool.execute.before"
+      ],
+      "unique_evidence_sessions": 1,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 16029,
+        "input": 125,
+        "output": 32,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      }
+    }
+  ],
+  "gate": {
+    "name": "OpenCode propagates an attempt token to official hook evidence without raw persistence",
+    "passed": true
+  },
+  "created_at": "2026-07-31T15:27:51.714776+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "d8df7047db21d26568e805b8d2369ebf3a1306ca",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

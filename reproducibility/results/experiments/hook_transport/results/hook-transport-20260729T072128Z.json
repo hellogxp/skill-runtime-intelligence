@@ -1,0 +1,50 @@
+{
+  "schema_version": "sri.experiment.hook-transport.v1",
+  "experiment": {
+    "name": "hook-transport",
+    "repetitions": 50,
+    "payloads_contain_secrets": false
+  },
+  "metrics": {
+    "native_direct": {
+      "repetitions": 50,
+      "p50_ms": 19.874104,
+      "p95_ms": 33.67016424999997,
+      "max_ms": 587.541,
+      "exit_failures": 0,
+      "non_silent_invocations": 0
+    },
+    "native_via_shell": {
+      "repetitions": 50,
+      "p50_ms": 41.1950415,
+      "p95_ms": 47.17330869999999,
+      "max_ms": 54.077625,
+      "exit_failures": 0,
+      "non_silent_invocations": 0
+    },
+    "nc_via_shell": {
+      "repetitions": 50,
+      "p50_ms": 45.564521,
+      "p95_ms": 52.78663735,
+      "max_ms": 74.840083,
+      "exit_failures": 50,
+      "non_silent_invocations": 50
+    },
+    "expected_events": 150,
+    "accepted_events": 50
+  },
+  "gate": {
+    "name": "silent delivery with shell p95 below 250 ms",
+    "passed": false
+  },
+  "created_at": "2026-07-29T07:21:28.403759+00:00",
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "83952ea9a2010cea833d38cac67df4a2c1299165",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

@@ -32,8 +32,8 @@ Session fallback ─────┘          └─ redact/minimize ──┤
                                                       │
                                   ┌───────────────────┼───────────────────┐
                                   ▼                   ▼                   ▼
-                           Relationships        Deterministic        Inferred
-                                                diagnosis            analysis
+                           Relationships       Behavior checks       Inferred
+                                               and diagnosis         analysis
                                   └───────────────────┼───────────────────┘
                                                       ▼
                                   Local UI / REST / SSE / optional OTLP export
@@ -117,6 +117,25 @@ It applies four evidence grades:
 
 An event and its relationship to a SkillRun are different claims. For example,
 a tool call may be Observed while its active-scope attribution is Derived.
+
+### Behavior constraints and concrete activity
+
+The engine extracts only explicit, observable expectations from the current
+`SKILL.md`: named resources, tools, output files, and deterministic verification
+steps. It does not translate broad advice or subjective quality language into
+false pass/fail rules. `behavior_constraints.py` matches those expectations to
+runtime evidence, while `activity_summary.py` exposes the concrete instruction,
+resource, tool, artifact, and outcome records represented by lifecycle counts.
+
+Each behavior result preserves three separate questions:
+
+1. what the Skill required;
+2. what runtime evidence was matched;
+3. whether the available adapter signals can evaluate that requirement.
+
+A missing match is therefore `Needs review` or `Not evaluable` unless an
+observable event establishes a violation. Agent-reported completion remains
+separate from deterministic outcome verification.
 
 ### Boundary-first diagnosis
 

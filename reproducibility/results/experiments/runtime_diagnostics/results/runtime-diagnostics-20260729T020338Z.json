@@ -1,0 +1,147 @@
+{
+  "schema_version": "sri.experiment.runtime-diagnostics.v1",
+  "created_at": "2026-07-29T02:03:38.258517+00:00",
+  "experiment": {
+    "name": "runtime-diagnostics-fault-injection",
+    "diagnostic_engine": "deterministic-production-rules",
+    "dataset_path": "${REPO_ROOT}/experiments/runtime_diagnostics/cases.jsonl",
+    "dataset_sha256": "ca8685b806de944c0ee88ce444b658a04c00b2ba41ce53038d636046b7d148ed"
+  },
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "hostname": "U-9TM29J4W-235.local",
+    "git_commit": "unavailable",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  },
+  "metrics": {
+    "case_count": 6,
+    "exact_matches": 6,
+    "exact_match_rate": 1.0,
+    "true_positive": 5,
+    "false_positive": 0,
+    "false_negative": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "cases": [
+    {
+      "case_id": "healthy_verified",
+      "description": "A complete SkillRun with an independently verified outcome should not produce an actionable finding.",
+      "exact_match": true,
+      "expected": [],
+      "actual": [],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "activation_gap",
+      "description": "Missing activation evidence before later activity is a gap, not proof that activation did not happen.",
+      "exact_match": true,
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "actual": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "instructions_gap",
+      "description": "Missing instruction-load evidence before execution should identify instructions as the first observable boundary.",
+      "exact_match": true,
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "actual": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "execution_failure",
+      "description": "An explicit failed runtime event should remain an observed failure rather than an inferred Skill cause.",
+      "exact_match": true,
+      "expected": [
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "actual": [
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "incomplete_run",
+      "description": "A partial source should be diagnosed as incomplete without inventing a downstream failure.",
+      "exact_match": true,
+      "expected": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "actual": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "reported_outcome_only",
+      "description": "A source-reported outcome without a deterministic evaluation is explicitly unverified.",
+      "exact_match": true,
+      "expected": [
+        [
+          "outcome_unverified",
+          "outcome",
+          "derived"
+        ]
+      ],
+      "actual": [
+        [
+          "outcome_unverified",
+          "outcome",
+          "derived"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "schema_version": "sri.experiment.native-sender-contract.v1",
+  "experiment": {
+    "name": "published-native-sender-four-layer-contract",
+    "evidence_grade": "Experimental",
+    "raw_evidence_grade": "Observed",
+    "structure_evidence_grade": "Derived",
+    "functional_evidence_grade": "Experimental",
+    "repetitions_per_executed_asset": 20,
+    "limitations": [
+      "Functional protocol tests use a synthetic Unix-socket server, not a real Agent.",
+      "Darwin x86_64 and Linux x86_64 binaries are not executed.",
+      "Section/symbol fingerprints describe published files but do not prove source equivalence.",
+      "The Linux arm64 execution uses a Docker VM hosted on the same macOS machine.",
+      "Static helper symbols are diagnostic only because compiler optimization may inline them."
+    ],
+    "symbol_contract": {
+      "required_entry_points": [
+        "main"
+      ],
+      "diagnostic_internal_symbols": [
+        "argument_value",
+        "write_all"
+      ]
+    }
+  },
+  "environment": {
+    "host_system": "Darwin",
+    "host_machine": "arm64",
+    "linux_image_ref": "python@sha256:20080e807bfc404f8450b185cf0fc95d553462673598549613735f70a5b4d5d0"
+  },
+  "metrics": {
+    "manifest_assets": 4,
+    "completed_assets": 4,
+    "passed_assets": 4,
+    "identity_passed_assets": 4,
+    "structure_passed_assets": 4,
+    "structure_slices": 6,
+    "functional_completed_assets": 2,
+    "functional_not_run_assets": 2,
+    "functional_passed_assets": 2,
+    "functional_exact_deliveries": 40,
+    "darwin_assets_byte_identical": true
+  },
+  "assets": [
+    {
+      "name": "skill-runtime-hook-native-darwin-arm64",
+      "os": "darwin",
+      "label_architecture": "arm64",
+      "status": "completed",
+      "raw_sha256": "db4267ab98cca9cda634ec6aff9865882205e6c0722412fccf5779b1d716497e",
+      "identity_passed": true,
+      "structures": [
+        {
+          "architecture": "arm64",
+          "object_format": "macho",
+          "section_count": 5,
+          "section_fingerprint": "1e5021ea913c2bb67cadc9efc26b904d543120d9ccf7be99f9681161dec5f3cc",
+          "symbol_count": 18,
+          "symbol_fingerprint": "b19558101446756f5add2b2e0e0017f345e03de54db4fd2b53ea62c39812cdbf",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": false,
+            "write_all": true
+          }
+        },
+        {
+          "architecture": "x86_64",
+          "object_format": "macho",
+          "section_count": 5,
+          "section_fingerprint": "08ece1da18ede9b48401dedf6855b525b5089e3437027d359102152a8e56c617",
+          "symbol_count": 18,
+          "symbol_fingerprint": "b19558101446756f5add2b2e0e0017f345e03de54db4fd2b53ea62c39812cdbf",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": false,
+            "write_all": true
+          }
+        }
+      ],
+      "structure_passed": true,
+      "functional": {
+        "status": "completed",
+        "repetitions": 20,
+        "exact_deliveries": 20,
+        "silent_successes": 20,
+        "missing_socket_exit": 1,
+        "missing_socket_silent": true,
+        "invalid_arguments_exit": 2,
+        "invalid_arguments_silent": true,
+        "passed": true
+      },
+      "passed": true
+    },
+    {
+      "name": "skill-runtime-hook-native-darwin-x86_64",
+      "os": "darwin",
+      "label_architecture": "x86_64",
+      "status": "completed",
+      "raw_sha256": "db4267ab98cca9cda634ec6aff9865882205e6c0722412fccf5779b1d716497e",
+      "identity_passed": true,
+      "structures": [
+        {
+          "architecture": "arm64",
+          "object_format": "macho",
+          "section_count": 5,
+          "section_fingerprint": "1e5021ea913c2bb67cadc9efc26b904d543120d9ccf7be99f9681161dec5f3cc",
+          "symbol_count": 18,
+          "symbol_fingerprint": "b19558101446756f5add2b2e0e0017f345e03de54db4fd2b53ea62c39812cdbf",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": false,
+            "write_all": true
+          }
+        },
+        {
+          "architecture": "x86_64",
+          "object_format": "macho",
+          "section_count": 5,
+          "section_fingerprint": "08ece1da18ede9b48401dedf6855b525b5089e3437027d359102152a8e56c617",
+          "symbol_count": 18,
+          "symbol_fingerprint": "b19558101446756f5add2b2e0e0017f345e03de54db4fd2b53ea62c39812cdbf",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": false,
+            "write_all": true
+          }
+        }
+      ],
+      "structure_passed": true,
+      "functional": {
+        "status": "not_run",
+        "reason": "architecture_not_executed"
+      },
+      "passed": true
+    },
+    {
+      "name": "skill-runtime-hook-native-linux-arm64",
+      "os": "linux",
+      "label_architecture": "arm64",
+      "status": "completed",
+      "raw_sha256": "26ecac96ba167264c65348d74a597bd7a52b33f5ebdae0741e10d48dee79265f",
+      "identity_passed": true,
+      "structures": [
+        {
+          "architecture": "arm64",
+          "object_format": "elf",
+          "section_count": 28,
+          "section_fingerprint": "438401538f7703aa1413e8234a040183dd9289fb55e0db16883eafe14e269192",
+          "symbol_count": 52,
+          "symbol_fingerprint": "da0ba24095169ccc318307660d1ae5d10cc47f08e9d440f0b7e5593eeec6d385",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": true,
+            "write_all": true
+          }
+        }
+      ],
+      "structure_passed": true,
+      "functional": {
+        "status": "completed",
+        "repetitions": 20,
+        "exact_deliveries": 20,
+        "silent_successes": 20,
+        "missing_socket_exit": 1,
+        "missing_socket_silent": true,
+        "invalid_arguments_exit": 2,
+        "invalid_arguments_silent": true,
+        "passed": true
+      },
+      "passed": true
+    },
+    {
+      "name": "skill-runtime-hook-native-linux-x86_64",
+      "os": "linux",
+      "label_architecture": "x86_64",
+      "status": "completed",
+      "raw_sha256": "5a93f4b0b17fdcdb5295b53dbb4bc6623c3de17ba2f47c0a35b2c84f35d87ed0",
+      "identity_passed": true,
+      "structures": [
+        {
+          "architecture": "x86_64",
+          "object_format": "elf",
+          "section_count": 31,
+          "section_fingerprint": "c337f789a4e27a1655746771fb72e08f92851407f499e89f6b18076f7c7a5897",
+          "symbol_count": 45,
+          "symbol_fingerprint": "2452f8e3004ada138fd6df18c59340e2cdfeb0ede03dbb2e25c6782718ced2a6",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": true,
+            "write_all": true
+          }
+        }
+      ],
+      "structure_passed": true,
+      "functional": {
+        "status": "not_run",
+        "reason": "architecture_not_executed"
+      },
+      "passed": true
+    }
+  ],
+  "gate": {
+    "name": "published native identity, structure, and supported protocol contracts",
+    "passed": true
+  },
+  "created_at": "2026-07-30T12:48:19.140862+00:00"
+}

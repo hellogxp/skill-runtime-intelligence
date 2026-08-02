@@ -1,0 +1,94 @@
+{
+  "schema_version": "sri.experiment.native-path-launch-summary.v1",
+  "experiment": {
+    "name": "native-sender-path-reuse-launch-repeated-summary",
+    "evidence_grade": "Derived",
+    "limitations": [
+      "Runs are repeated on one host and are not independent machines.",
+      "Blocks within a run share binaries, caches, and scheduling context.",
+      "Pooled latency and direction counts are descriptive, not causal estimates."
+    ]
+  },
+  "metrics": {
+    "report_count": 3,
+    "total_trials": 144,
+    "correct_trials": 144,
+    "all_run_gates_passed": true,
+    "pooled_summaries": {
+      "published:stable_path": {
+        "count": 36,
+        "min_ms": 19.455708,
+        "p50_ms": 28.2265415,
+        "p95_ms": 261.055437,
+        "max_ms": 787.654917
+      },
+      "rebuilt:stable_path": {
+        "count": 36,
+        "min_ms": 18.846625,
+        "p50_ms": 29.881916500000003,
+        "p95_ms": 216.31627025,
+        "max_ms": 632.576208
+      },
+      "published:fresh_path_copy": {
+        "count": 36,
+        "min_ms": 190.038791,
+        "p50_ms": 212.973542,
+        "p95_ms": 260.50591675,
+        "max_ms": 281.316167
+      },
+      "rebuilt:fresh_path_copy": {
+        "count": 36,
+        "min_ms": 189.513667,
+        "p50_ms": 220.59785399999998,
+        "p95_ms": 270.24522874999997,
+        "max_ms": 305.64275
+      }
+    },
+    "per_run_p50_ranges": {
+      "published:stable_path": {
+        "p50_min_ms": 23.18,
+        "p50_median_ms": 27.671292,
+        "p50_max_ms": 47.846000000000004
+      },
+      "rebuilt:stable_path": {
+        "p50_min_ms": 23.3929585,
+        "p50_median_ms": 29.881916500000003,
+        "p50_max_ms": 46.6294165
+      },
+      "published:fresh_path_copy": {
+        "p50_min_ms": 199.0388125,
+        "p50_median_ms": 212.973542,
+        "p50_max_ms": 235.1067295
+      },
+      "rebuilt:fresh_path_copy": {
+        "p50_min_ms": 198.5386455,
+        "p50_median_ms": 216.3049585,
+        "p50_max_ms": 241.105646
+      }
+    },
+    "paired_directions": {
+      "published": {
+        "fresh_slower_blocks": 33,
+        "total_blocks": 36
+      },
+      "rebuilt": {
+        "fresh_slower_blocks": 34,
+        "total_blocks": 36
+      }
+    }
+  },
+  "gate": {
+    "name": "three-run path launch integrity summary",
+    "passed": true
+  },
+  "created_at": "2026-07-30T13:45:46.035136+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

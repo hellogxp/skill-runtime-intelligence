@@ -1,0 +1,132 @@
+{
+  "schema_version": "sri.experiment.host-identity-contract.v1",
+  "experiment": {
+    "name": "privacy-safe-scoped-host-identity-contract",
+    "evidence_grade": "Experimental",
+    "trials": 3,
+    "workers_per_trial": 8,
+    "limitations": [
+      "All trials run on one filesystem and operating system.",
+      "Scope-specific aliases reduce linkability but are still identifiers within a scope.",
+      "The experiment does not test secret backup, user consent, or rotation UX.",
+      "Passing this contract does not retroactively identify earlier reports."
+    ]
+  },
+  "identity_contract": {
+    "scheme": "sri-host-scope-hmac-sha256-v1",
+    "local_origin": "random UUIDv4 secret",
+    "export_derivation": "HMAC-SHA256(secret, scope), truncated to 128 bits",
+    "forbidden_inputs": [
+      "hostname",
+      "hardware serial",
+      "MAC address",
+      "username"
+    ]
+  },
+  "metrics": {
+    "trials": 3,
+    "worker_initializations": 24,
+    "passed_trials": 3,
+    "stable_same_scope_trials": 3,
+    "distinct_cross_scope_trials": 3,
+    "private_permission_trials": 3,
+    "redacted_export_trials": 3,
+    "corrupt_fail_closed_trials": 3,
+    "permissive_fail_closed_trials": 3,
+    "symlink_fail_closed_trials": 3
+  },
+  "trials": [
+    {
+      "trial": 0,
+      "workers": 8,
+      "same_scope_alias_count": 1,
+      "same_scope_stable": true,
+      "cross_scope_distinct": true,
+      "identity_mode": "0o600",
+      "permissions_private": true,
+      "secret_absent_from_export": true,
+      "corrupt_identity": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "permissive_identity": {
+        "failure_type": "PermissionError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "symlink_identity": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "passed": true
+    },
+    {
+      "trial": 1,
+      "workers": 8,
+      "same_scope_alias_count": 1,
+      "same_scope_stable": true,
+      "cross_scope_distinct": true,
+      "identity_mode": "0o600",
+      "permissions_private": true,
+      "secret_absent_from_export": true,
+      "corrupt_identity": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "permissive_identity": {
+        "failure_type": "PermissionError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "symlink_identity": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "passed": true
+    },
+    {
+      "trial": 2,
+      "workers": 8,
+      "same_scope_alias_count": 1,
+      "same_scope_stable": true,
+      "cross_scope_distinct": true,
+      "identity_mode": "0o600",
+      "permissions_private": true,
+      "secret_absent_from_export": true,
+      "corrupt_identity": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "permissive_identity": {
+        "failure_type": "PermissionError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "symlink_identity": {
+        "failure_type": "ValueError",
+        "failed_closed": true,
+        "bytes_unchanged": true
+      },
+      "passed": true
+    }
+  ],
+  "gate": {
+    "name": "stable scoped host identity without local-secret export",
+    "passed": true
+  },
+  "created_at": "2026-07-30T15:49:35.318761+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

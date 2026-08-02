@@ -22,7 +22,7 @@ from ..redaction import compact_text, redact, redacted_json
 
 
 ADAPTER_NAME = "codex"
-ADAPTER_VERSION = "0.3.0"
+ADAPTER_VERSION = "0.3.1"
 SOURCE_FORMAT_VERSION = "codex-jsonl-source-instance-2026-07"
 
 
@@ -142,6 +142,21 @@ def _resource_kind(skill_file: str, input_text: str, cwd: str = "") -> str:
         ):
             return kind
     return "other"
+
+
+def _matched_resource(
+    skill: SkillDefinition, input_text: str, cwd: str = ""
+) -> Tuple[Optional[str], str]:
+    """Return the exact declared resource path when the tool input contains it."""
+    skill_dir = Path(skill.source_path).parent
+    for resource in skill.resources:
+        relative = str(resource.get("path") or "")
+        if not relative:
+            continue
+        path = str(skill_dir / relative)
+        if _path_or_relative_in_text(path, input_text, cwd):
+            return path, str(resource.get("kind") or "other")
+    return None, _resource_kind(skill.source_path, input_text, cwd)
 
 
 def _resolve_artifact_path(value: Any, cwd: str) -> str:
@@ -719,6 +734,9 @@ class CodexAdapter:
             instruction_loaded = _path_or_relative_in_text(
                 skill_file, input_text, cwd
             )
+            resource_path, resource_kind = _matched_resource(
+                skill, input_text, cwd
+            )
             resource_accessed = (
                 _path_or_relative_in_text(skill_dir, input_text, cwd)
                 and not instruction_loaded
@@ -769,6 +787,7 @@ class CodexAdapter:
                 basis = "Observed tool input contains the exact SKILL.md path"
                 summary = f"`{skill.name}` instructions loaded"
                 resource_kind = "skill_body"
+                file_path = skill_file
             else:
                 event_type = (
                     "resource.executed"
@@ -776,9 +795,16 @@ class CodexAdapter:
                     else "resource.read"
                 )
                 stage = "resources"
-                basis = "Observed tool input contains the exact Skill directory path"
-                resource_kind = _resource_kind(skill_file, input_text, cwd)
+                basis = (
+                    "Observed tool input contains an exact declared Skill resource path"
+                    if resource_path
+                    else "Observed tool input contains the exact Skill directory path"
+                )
                 summary = f"`{skill.name}` {resource_kind} accessed"
+                file_path = resource_path
+
+            if explicit:
+                file_path = None
 
             events.append(
                 self._event(
@@ -799,6 +825,7 @@ class CodexAdapter:
                         "skill_name": skill.name,
                         "tool_name": tool_name,
                         "resource_kind": resource_kind,
+                        "file_path": file_path,
                     },
                     suffix=skill.skill_id,
                 )

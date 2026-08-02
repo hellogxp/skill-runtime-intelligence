@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="dark">
     <title>Skill Runtime Intelligence</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css?v=20260731-behavior6">
   </head>
   <body>
     <div class="ambient ambient-a"></div>
@@ -170,6 +171,149 @@
             </article>
           </section>
 
+          <section class="panel assessment-panel" aria-labelledby="assessment-heading">
+            <div class="section-head assessment-head">
+              <div>
+                <p class="eyebrow">RUN DIAGNOSIS</p>
+                <h3 id="assessment-heading">This Skill run diagnosis</h3>
+              </div>
+              <span id="assessment-verdict" class="assessment-verdict">—</span>
+            </div>
+            <div class="diagnosis-summary">
+              <div class="diagnosis-summary-copy">
+                <span id="diagnosis-status-label" class="diagnosis-status-label">Assessing</span>
+                <strong id="assessment-title">Assessing available evidence…</strong>
+                <p id="assessment-summary"></p>
+              </div>
+              <div id="diagnosis-counts" class="diagnosis-counts"></div>
+            </div>
+            <section class="behavior-assessment" aria-labelledby="behavior-heading">
+              <div class="diagnosis-section-head behavior-head">
+                <div>
+                  <span>SKILL BEHAVIOR CHECK</span>
+                  <strong id="behavior-heading">Did the run follow checkable Skill instructions?</strong>
+                </div>
+                <span id="behavior-status" class="behavior-status">—</span>
+              </div>
+              <div id="behavior-counts" class="behavior-counts"></div>
+              <div id="behavior-list" class="behavior-list"></div>
+              <details id="behavior-more" class="behavior-more hidden">
+                <summary id="behavior-more-label">View all constraints</summary>
+                <div id="behavior-all" class="behavior-list"></div>
+              </details>
+              <p id="behavior-limitation" class="behavior-limitation"></p>
+            </section>
+            <div class="diagnosis-columns">
+              <section class="diagnosis-section diagnosis-attention">
+                <div class="diagnosis-section-head">
+                  <div>
+                    <span>NEEDS ATTENTION</span>
+                    <strong>Problems requiring action</strong>
+                  </div>
+                  <span id="diagnosis-attention-count" class="count">—</span>
+                </div>
+                <div id="diagnosis-attention" class="diagnosis-list"></div>
+              </section>
+              <section class="diagnosis-section diagnosis-limits">
+                <div class="diagnosis-section-head">
+                  <div>
+                    <span>OBSERVABILITY LIMITS</span>
+                    <strong>What this run cannot answer</strong>
+                  </div>
+                  <span id="diagnosis-limit-count" class="count">—</span>
+                </div>
+                <div id="diagnosis-limits" class="diagnosis-list"></div>
+              </section>
+            </div>
+            <section class="diagnosis-facts">
+              <div class="diagnosis-section-head">
+                <div>
+                  <span>CONFIRMED ACTIVITY</span>
+                  <strong>What the evidence directly supports</strong>
+                </div>
+              </div>
+              <div id="diagnosis-facts" class="diagnosis-fact-grid"></div>
+            </section>
+            <details class="diagnosis-reasoning">
+              <summary>
+                <span>
+                  <strong>Why did the system reach this judgment?</strong>
+                  <small id="diagnosis-method">Calculated by system rules</small>
+                </span>
+                <span>View basis</span>
+              </summary>
+              <div class="diagnosis-reasoning-body">
+                <p id="diagnosis-reasoning-summary"></p>
+                <ol id="diagnosis-reasoning-steps"></ol>
+                <div class="diagnosis-boundary">
+                  <strong>This judgment does not establish</strong>
+                  <ul id="diagnosis-does-not-establish"></ul>
+                </div>
+              </div>
+            </details>
+            <details class="assessment-details">
+              <summary>View lifecycle signal matrix</summary>
+              <div class="assessment-table" role="table" aria-label="Expected and observed run evidence">
+                <div class="assessment-row assessment-columns" role="row">
+                  <span role="columnheader">Check</span>
+                  <span role="columnheader">Expected evidence</span>
+                  <span role="columnheader">Actually observed</span>
+                  <span role="columnheader">Judgment</span>
+                </div>
+                <div id="assessment-checks"></div>
+              </div>
+            </details>
+            <p id="assessment-discipline" class="assessment-discipline"></p>
+          </section>
+
+          <section class="panel activity-panel" aria-labelledby="activity-heading">
+            <div class="section-head activity-head">
+              <div>
+                <p class="eyebrow">WHAT ACTUALLY HAPPENED</p>
+                <h3 id="activity-heading">Concrete objects, not just event counts</h3>
+              </div>
+              <span class="grade-pill derived">Derived summary</span>
+            </div>
+            <div id="activity-summary" class="activity-summary"></div>
+            <p id="activity-discipline" class="activity-discipline"></p>
+          </section>
+
+          <details class="panel run-glossary">
+            <summary>
+              <span>
+                <span class="eyebrow">READING GUIDE</span>
+                <strong>What do these terms mean?</strong>
+              </span>
+              <small>Evidence grade, activation, attribution, and gaps</small>
+            </summary>
+            <div class="glossary-grid">
+              <article>
+                <strong>Observed</strong>
+                <p>A direct source record says the event happened, with a time and source locator.</p>
+              </article>
+              <article>
+                <strong>Derived</strong>
+                <p>A deterministic rule links or summarizes observed records; it adds no hidden fact.</p>
+              </article>
+              <article>
+                <strong>Unsupported</strong>
+                <p>This adapter cannot expose the signal, so the product makes no occurrence judgment.</p>
+              </article>
+              <article>
+                <strong>Skill enablement (Activation)</strong>
+                <p>How this Skill became active for the request: explicitly invoked, automatically selected, always enabled, or unknown. It does not mean the first tool call.</p>
+              </article>
+              <article>
+                <strong>Attributed events</strong>
+                <p>Events linked to this SkillRun by source identity, exact Skill path, or active run scope. Attribution is association, not causality.</p>
+              </article>
+              <article>
+                <strong>First evidence gap</strong>
+                <p>The earliest observable stage with no matching signal before later evidence appears. Missing evidence is not proof the step did not happen.</p>
+              </article>
+            </div>
+          </details>
+
           <section id="compare-panel" class="panel compare-panel hidden">
             <div class="section-head">
               <div>
@@ -251,7 +395,7 @@
           <section class="panel narrative-panel">
             <div class="narrative-mark">∴</div>
             <div>
-              <p class="eyebrow">EVIDENCE-BACKED RECONSTRUCTION</p>
+              <p class="eyebrow">RUN FACT SUMMARY</p>
               <p id="narrative" class="narrative"></p>
             </div>
           </section>
@@ -398,8 +542,8 @@
         </article>
       </section>
     </main>
-    <script src="/locale-packs.js" defer></script>
-    <script src="/i18n.js" defer></script>
-    <script src="/app.js" defer></script>
+    <script src="/locale-packs.js?v=20260731-behavior6" defer></script>
+    <script src="/i18n.js?v=20260731-behavior6" defer></script>
+    <script src="/app.js?v=20260731-behavior6" defer></script>
   </body>
 </html>

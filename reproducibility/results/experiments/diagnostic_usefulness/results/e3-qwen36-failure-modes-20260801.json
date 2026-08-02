@@ -1,0 +1,270 @@
+{
+  "schema_version": "sri.experiment.model-agent-failure-mode-analysis.v1",
+  "experiment": {
+    "name": "post-hoc-model-diagnostic-failure-mode-analysis",
+    "evidence_grade": "derived",
+    "dataset_path": "${REPO_ROOT}/experiments/runtime_diagnostics/cases.jsonl",
+    "dataset_sha256": "fb6df9f9445fd354d7abbb371b26e008011ca6a4f4e277db98f0ed02ee5d4a11",
+    "analysis_policy": "invalid responses count as incorrect; report model strata separately; no causal or population-generalization claim",
+    "limitations": [
+      "Finding families reuse deterministic corpus gold labels and were not independently annotated for this analysis.",
+      "The analysis is post-hoc and descriptive.",
+      "Trials from repeated sessions and cases are not independent population samples."
+    ]
+  },
+  "metrics": {
+    "report_count": 1,
+    "model_count": 1,
+    "difficult_condition_case_cell_count": 5
+  },
+  "reports": [
+    {
+      "report_path": "${PAI_WORKSPACE}/results/e3-qwen36-dsw-8x11-20260801.json",
+      "report_sha256": "094a023a80f954bc841695190519a532e1ebdcbea226f593614c116b7a81a09a",
+      "model": "qwen3.6-35b-a3b-dsw",
+      "by_finding_family": {
+        "panorama": {
+          "lifecycle_evidence_gap": {
+            "planned": 20,
+            "valid": 20,
+            "correct": 20,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "outcome_unverified": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "run_incomplete": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "runtime_failure": {
+            "planned": 16,
+            "valid": 16,
+            "correct": 16,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 1,
+            "intention_to_treat_accuracy": 1.0
+          }
+        },
+        "raw": {
+          "lifecycle_evidence_gap": {
+            "planned": 20,
+            "valid": 20,
+            "correct": 12,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 2,
+            "intention_to_treat_accuracy": 0.6
+          },
+          "outcome_unverified": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "run_incomplete": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 0,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 0.0
+          },
+          "runtime_failure": {
+            "planned": 16,
+            "valid": 16,
+            "correct": 16,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 4,
+            "intention_to_treat_accuracy": 1.0
+          }
+        }
+      },
+      "by_gold_stage": {
+        "panorama": {
+          "activation": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "execution": {
+            "planned": 8,
+            "valid": 8,
+            "correct": 8,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 1,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "instructions": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "outcome": {
+            "planned": 8,
+            "valid": 8,
+            "correct": 8,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "request": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "resources": {
+            "planned": 16,
+            "valid": 16,
+            "correct": 16,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          }
+        },
+        "raw": {
+          "activation": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "execution": {
+            "planned": 8,
+            "valid": 8,
+            "correct": 8,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 4,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "instructions": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "outcome": {
+            "planned": 8,
+            "valid": 8,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 0.5
+          },
+          "request": {
+            "planned": 4,
+            "valid": 4,
+            "correct": 4,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 0,
+            "intention_to_treat_accuracy": 1.0
+          },
+          "resources": {
+            "planned": 16,
+            "valid": 16,
+            "correct": 8,
+            "parse_or_execution_errors": 0,
+            "unsupported_causal_claims": 2,
+            "intention_to_treat_accuracy": 0.5
+          }
+        }
+      }
+    }
+  ],
+  "difficult_condition_case_cells": [
+    {
+      "case_id": "derived_failure_grade",
+      "condition": "panorama",
+      "finding_family": "runtime_failure",
+      "gold_stage": "execution",
+      "planned": 4,
+      "correct": 4,
+      "invalid": 0,
+      "unsupported_causal_claims": 1,
+      "intention_to_treat_accuracy": 1.0
+    },
+    {
+      "case_id": "derived_failure_grade",
+      "condition": "raw",
+      "finding_family": "runtime_failure",
+      "gold_stage": "execution",
+      "planned": 4,
+      "correct": 4,
+      "invalid": 0,
+      "unsupported_causal_claims": 4,
+      "intention_to_treat_accuracy": 1.0
+    },
+    {
+      "case_id": "failure_and_incomplete",
+      "condition": "raw",
+      "finding_family": "lifecycle_evidence_gap",
+      "gold_stage": "resources",
+      "planned": 4,
+      "correct": 0,
+      "invalid": 0,
+      "unsupported_causal_claims": 2,
+      "intention_to_treat_accuracy": 0.0
+    },
+    {
+      "case_id": "incomplete_run",
+      "condition": "raw",
+      "finding_family": "run_incomplete",
+      "gold_stage": "outcome",
+      "planned": 4,
+      "correct": 0,
+      "invalid": 0,
+      "unsupported_causal_claims": 0,
+      "intention_to_treat_accuracy": 0.0
+    },
+    {
+      "case_id": "incomplete_with_report",
+      "condition": "raw",
+      "finding_family": "lifecycle_evidence_gap",
+      "gold_stage": "resources",
+      "planned": 4,
+      "correct": 0,
+      "invalid": 0,
+      "unsupported_causal_claims": 0,
+      "intention_to_treat_accuracy": 0.0
+    }
+  ],
+  "gate": {
+    "name": "failure-mode audit integrity",
+    "passed": true
+  },
+  "created_at": "2026-07-31T18:46:11.446168+00:00",
+  "environment": {
+    "python": "3.12.13",
+    "platform": "Linux-5.10.134-18.0.11.lifsea8.x86_64-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "git_commit": "a1f2cfca6a4c7cc75e7a995ed54f48ca99c131f9",
+    "git_dirty": true,
+    "pai_dsw_instance_id": "dsw-2032100-64b9d7c65d-tg9lx",
+    "experiment_root": null
+  }
+}

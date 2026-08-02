@@ -1,0 +1,86 @@
+{
+  "schema_version": "sri.experiment.claim-output-mode-study.v1",
+  "experiment": {
+    "name": "structured-only-claim-study",
+    "evidence_grade": "experimental",
+    "dataset_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/selected-routing-holdout-20260731.jsonl",
+    "dataset_sha256": "a4b9d773134232fa4723c0ee8eab6c8da575f2853f2307a77a9948a3e696c157",
+    "model": "opencode/mimo-v2.5-free",
+    "model_cli": "opencode",
+    "model_cli_version": "1.18.5",
+    "seed": 2026073107,
+    "session_policy": "fresh pure session per trial; stdin prompt; isolated temporary XDG state",
+    "modes": [
+      "structured"
+    ],
+    "limitations": [
+      "The corpus is small and hand-authored.",
+      "One response per model and case does not estimate repeated-run variance.",
+      "The recorded model ID does not independently verify model-family identity."
+    ]
+  },
+  "metrics": {
+    "structured": {
+      "planned": 1,
+      "completed": 1,
+      "response_completion_rate": 1.0,
+      "claim_kind_correct": 1,
+      "guard_decision_correct": 1,
+      "false_allows": 0,
+      "false_denies": 0,
+      "input_tokens": 7994,
+      "total_tokens": 10765
+    }
+  },
+  "trials": [
+    {
+      "case_id": "routing_descriptive_temporal",
+      "mode": "structured",
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "expected_allowed": true,
+      "prompt_sha256": "fe5d8af405a9cf44b08e0b942ec124872506466c5af82548abfbed246e0cd385",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 23636.945374993957,
+      "session_id_sha256": "cf419ab5b3cf694842c8f8d03f46bda11ff833560e09f969bcd5dc88f3fbc609",
+      "usage": {
+        "total": 10765,
+        "input": 7994,
+        "output": 16,
+        "reasoning": 963,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        },
+        "reported_cost": 0
+      },
+      "response_sha256": "3c9313af90d3cacc82cbbdcfe0300cb09dd0b2bf13cfb4de22135f986abed98a",
+      "status": "completed",
+      "predicted_claim_kind": "descriptive",
+      "claim_kind_correct": true,
+      "predicted_allowed": true,
+      "guard_decision_correct": true,
+      "false_allow": false,
+      "false_deny": false,
+      "classifier_basis": "schema-constrained model enum",
+      "model_allowed": true,
+      "model_allowed_agrees_guard": true,
+      "free_text_response": null
+    }
+  ],
+  "gates": {
+    "response_completion": true,
+    "no_false_allow": true
+  },
+  "created_at": "2026-07-31T06:56:30.412069+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

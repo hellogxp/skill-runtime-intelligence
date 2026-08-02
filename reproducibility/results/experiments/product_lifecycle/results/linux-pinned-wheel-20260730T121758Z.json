@@ -1,0 +1,203 @@
+{
+  "schema_version": "sri.experiment.linux-pinned-wheel.v1",
+  "experiment": {
+    "name": "digest-pinned-linux-normalized-wheel-content",
+    "evidence_grade": "Experimental",
+    "source_date_epoch": "315532800",
+    "build_repetitions": 2,
+    "container_network": "none",
+    "limitations": [
+      "Docker runs a Linux arm64 VM hosted by one macOS machine.",
+      "Only pure-Python wheels and one container image are covered.",
+      "Dependencies are version-pinned but their wheel digests are not yet in the report.",
+      "Normalized equivalence is diagnostic, not release authentication."
+    ]
+  },
+  "container": {
+    "requested_image_ref": "python@sha256:20080e807bfc404f8450b185cf0fc95d553462673598549613735f70a5b4d5d0",
+    "image_id": "sha256:dc8dae3d854db32995baf98f0230777729a1166080a9a50b41b2c0ba00c122a2",
+    "repo_digests": [
+      "python@sha256:20080e807bfc404f8450b185cf0fc95d553462673598549613735f70a5b4d5d0"
+    ],
+    "architecture": "arm64",
+    "os": "linux",
+    "builder": {
+      "platform": "Linux-6.8.0-50-generic-aarch64-with-glibc2.36",
+      "python": "3.13.11",
+      "pip": "25.3",
+      "setuptools": "83.0.0",
+      "wheel": "0.46.1",
+      "packaging": "26.2"
+    },
+    "builder_requirements": [
+      "setuptools==83.0.0",
+      "wheel==0.46.1",
+      "packaging==26.2"
+    ]
+  },
+  "host": {
+    "platform_system": "Darwin",
+    "platform_machine": "arm64",
+    "logical_cpu_count": 12,
+    "load_average_1m": 8.17138671875,
+    "load_average_5m": 7.1689453125,
+    "load_average_15m": 6.693359375
+  },
+  "comparison_report": {
+    "schema_version": "sri.experiment.normalized-wheel-content.v1",
+    "created_at": "2026-07-30T11:44:54.993568+00:00",
+    "builder": {
+      "python": "3.13.11",
+      "pip": "26.2",
+      "setuptools": "83.0.0",
+      "wheel": "0.46.1"
+    }
+  },
+  "metrics": {
+    "version_pairs": 7,
+    "completed_pairs": 7,
+    "not_run_pairs": 0,
+    "passed_pairs": 7,
+    "failed_pairs": 0,
+    "raw_digest_match_pairs": 0,
+    "normalized_content_match_pairs": 7,
+    "member_name_match_pairs": 7,
+    "repeated_digest_match_pairs": 7,
+    "contract_parity_pairs": 7,
+    "total_timestamp_differences": 249,
+    "cross_environment_raw_digest_match_pairs": 7
+  },
+  "pairs": [
+    {
+      "version": "0.1.0",
+      "status": "completed",
+      "published_sha256": "23b707b3de8cd8561e07285e6904cf5b25ad68b0910a8d7c4e38e68826825d09",
+      "rebuilt_sha256": "03d9a20cf7753f798e9f14c694140a76cc85756269faa779794c89ff84949a79",
+      "raw_digest_match": false,
+      "normalized_content_fingerprint": "60b6d4d084a8001e14a326d97f6978840ec95e64f4588f7485dc1e71bcb45a89",
+      "normalized_content_match": true,
+      "member_name_match": true,
+      "repeated_digest_match": true,
+      "contract_parity": true,
+      "timestamp_differences": 35,
+      "passed": true,
+      "comparison_rebuilt_sha256": "03d9a20cf7753f798e9f14c694140a76cc85756269faa779794c89ff84949a79",
+      "cross_environment_raw_digest_match": true
+    },
+    {
+      "version": "0.1.1",
+      "status": "completed",
+      "published_sha256": "68802796404c41166a03fa56ec1b5e3437bdce01dd40728a69f1676af318e1cf",
+      "rebuilt_sha256": "ac4679ccf832c22d511ec732f6f91271b16c6322b5914838b7c6ea1782a74992",
+      "raw_digest_match": false,
+      "normalized_content_fingerprint": "977fe5e34085ae0d3c5db001261330f09ee4760a33fb1e3da8d44c270b53b5fb",
+      "normalized_content_match": true,
+      "member_name_match": true,
+      "repeated_digest_match": true,
+      "contract_parity": true,
+      "timestamp_differences": 35,
+      "passed": true,
+      "comparison_rebuilt_sha256": "ac4679ccf832c22d511ec732f6f91271b16c6322b5914838b7c6ea1782a74992",
+      "cross_environment_raw_digest_match": true
+    },
+    {
+      "version": "0.1.2",
+      "status": "completed",
+      "published_sha256": "617f4b2adfb77c8ef6a951d2ffe9b40c57c5ad27674d49d7866dc09eff1db7bc",
+      "rebuilt_sha256": "4cf88ae5b13274c2d4c8195b603468678130a2822c38cd35545579d2abacaef1",
+      "raw_digest_match": false,
+      "normalized_content_fingerprint": "47c03cdcb8b257d9cdbfd1ccd819a7769bd6127b3502f9183ffd357907e615ea",
+      "normalized_content_match": true,
+      "member_name_match": true,
+      "repeated_digest_match": true,
+      "contract_parity": true,
+      "timestamp_differences": 35,
+      "passed": true,
+      "comparison_rebuilt_sha256": "4cf88ae5b13274c2d4c8195b603468678130a2822c38cd35545579d2abacaef1",
+      "cross_environment_raw_digest_match": true
+    },
+    {
+      "version": "0.1.3",
+      "status": "completed",
+      "published_sha256": "6e18e979303ad8bd55cd5092a3bba4f76826ab4c177bf22136ed659c17b0a4e8",
+      "rebuilt_sha256": "b74acd13c14de64a54bf8baeb5713451503b697741336345255211c67a6aa1fa",
+      "raw_digest_match": false,
+      "normalized_content_fingerprint": "fdcc9db394ef0f3cbb5d76aa7c8da06f53fc3a2cd583d90eb2ce08849a8e4987",
+      "normalized_content_match": true,
+      "member_name_match": true,
+      "repeated_digest_match": true,
+      "contract_parity": true,
+      "timestamp_differences": 36,
+      "passed": true,
+      "comparison_rebuilt_sha256": "b74acd13c14de64a54bf8baeb5713451503b697741336345255211c67a6aa1fa",
+      "cross_environment_raw_digest_match": true
+    },
+    {
+      "version": "0.1.4",
+      "status": "completed",
+      "published_sha256": "67de8bc0d09af87a79d7811f6347a74f219c6d1844e1d4b9755ee43f24636b5e",
+      "rebuilt_sha256": "a103cdb1f412bc3097f2017e07eab11b22b4b39121b033d38c9b21543ac32ba4",
+      "raw_digest_match": false,
+      "normalized_content_fingerprint": "20263176dc41c0719c701fa3065a0499a881f47d6643b0ac4a58c4e667eccbf3",
+      "normalized_content_match": true,
+      "member_name_match": true,
+      "repeated_digest_match": true,
+      "contract_parity": true,
+      "timestamp_differences": 36,
+      "passed": true,
+      "comparison_rebuilt_sha256": "a103cdb1f412bc3097f2017e07eab11b22b4b39121b033d38c9b21543ac32ba4",
+      "cross_environment_raw_digest_match": true
+    },
+    {
+      "version": "0.1.5",
+      "status": "completed",
+      "published_sha256": "fb7f11fe566d5e85bf5a506949b7f6e4ace71e8dcff0adc9db48aadc2d17e806",
+      "rebuilt_sha256": "31cadd20e575ada9c674a1cb1f236c45cfa9c1ebed464cdf09ee201265bc04c1",
+      "raw_digest_match": false,
+      "normalized_content_fingerprint": "61e542c7c328f7df9d3a3bb576b83c957263409acd5c9a937e86eb4a547a4f52",
+      "normalized_content_match": true,
+      "member_name_match": true,
+      "repeated_digest_match": true,
+      "contract_parity": true,
+      "timestamp_differences": 36,
+      "passed": true,
+      "comparison_rebuilt_sha256": "31cadd20e575ada9c674a1cb1f236c45cfa9c1ebed464cdf09ee201265bc04c1",
+      "cross_environment_raw_digest_match": true
+    },
+    {
+      "version": "0.1.6",
+      "status": "completed",
+      "published_sha256": "05503df8987d98e752c3094d1ae23c7bbc664e98a8750cd012c9056b0ec680cf",
+      "rebuilt_sha256": "9bdbf6f7df9a318eea47c7d3f442a5598823d64a8849da668083dac970e13d20",
+      "raw_digest_match": false,
+      "normalized_content_fingerprint": "897ecec892946d09112878f23ed5647b0b63a2a7b6199c07732ab11b7ab6128b",
+      "normalized_content_match": true,
+      "member_name_match": true,
+      "repeated_digest_match": true,
+      "contract_parity": true,
+      "timestamp_differences": 36,
+      "passed": true,
+      "comparison_rebuilt_sha256": "9bdbf6f7df9a318eea47c7d3f442a5598823d64a8849da668083dac970e13d20",
+      "cross_environment_raw_digest_match": true
+    }
+  ],
+  "cross_environment_gate": {
+    "name": "Linux rebuild digests match comparison environment",
+    "applicable": true,
+    "passed": true
+  },
+  "gate": {
+    "name": "Linux normalized wheel content and contracts match",
+    "passed": true
+  },
+  "created_at": "2026-07-30T12:17:58.776323+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

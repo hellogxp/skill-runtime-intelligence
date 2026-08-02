@@ -1,0 +1,254 @@
+{
+  "schema_version": "sri.experiment.live-agent.cross-agent-cli.v1",
+  "experiment": {
+    "name": "cross-agent-same-skill-black-box-cli-pilot",
+    "evidence_grade": "Experimental",
+    "design": "installed Agent systems, same task and fixture, isolated workspaces, hidden deterministic verifier",
+    "agent_versions": {
+      "qoder": "1.1.10"
+    },
+    "models": {
+      "qoder": "performance"
+    },
+    "task_sha256": "94bca5b0a0309cb6596a2ea70c9dce702807f435b4cd1dd53d109eba59faea45",
+    "skill_sha256": "0df4598647f79d3553786cadbaecfb377cbddb079760881e975a8e9e458018ec",
+    "limitations": [
+      "This compares installed Agent systems, not isolated model or scaffold effects.",
+      "Four deterministic trials per Agent are a mechanism pilot, not a population estimate.",
+      "Different Agent products use different configured model families and runtime context.",
+      "Collector deltas establish observed ingestion counts, not exact task-level pairing."
+    ]
+  },
+  "metrics": {
+    "planned_calls": 4,
+    "completed_calls": 4,
+    "verified_outcomes": 4,
+    "workload_mutations": 0,
+    "runtime_metadata_mutations": 0,
+    "per_agent": {
+      "qoder": {
+        "planned": 4,
+        "completed": 4,
+        "verified_outcomes": 4,
+        "workload_mutations": 0,
+        "runtime_metadata_mutations": 0,
+        "process_failures": 0,
+        "precondition_failures": 0,
+        "invalid_responses": 0,
+        "wall_p50_ms": 18901.830686998437,
+        "wall_p95_ms": 22823.406543652527
+      }
+    },
+    "collector_before": {
+      "codex": {
+        "sessions": 212,
+        "skill_runs": 427,
+        "events": 61992
+      },
+      "opencode": {
+        "sessions": 41,
+        "skill_runs": 36,
+        "events": 251
+      },
+      "qoder": {
+        "sessions": 16,
+        "skill_runs": 1,
+        "events": 353
+      }
+    },
+    "collector_after": {
+      "codex": {
+        "sessions": 212,
+        "skill_runs": 427,
+        "events": 61997
+      },
+      "opencode": {
+        "sessions": 41,
+        "skill_runs": 36,
+        "events": 251
+      },
+      "qoder": {
+        "sessions": 20,
+        "skill_runs": 5,
+        "events": 377
+      }
+    },
+    "collector_deltas": {
+      "codex": {
+        "sessions": 0,
+        "skill_runs": 0,
+        "events": 5
+      },
+      "opencode": {
+        "sessions": 0,
+        "skill_runs": 0,
+        "events": 0
+      },
+      "qoder": {
+        "sessions": 4,
+        "skill_runs": 4,
+        "events": 24
+      }
+    }
+  },
+  "trials": [
+    {
+      "agent": "qoder",
+      "trial": 1,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 17862.80645801162,
+      "outcome_verified": true,
+      "workload_unchanged": true,
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "session_id_sha256": "428626fd25f8adf4271379ac97123bb5f377988bacb71c537a360de900d50325",
+      "response_sha256": "439373d321641882b9e1c791ba2877f4f9d5571990257ca103108a52df356993",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "9d578c60-8cee-448a-a181-585fa8566a42",
+        "context_usage_ratio": 0.020284
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 2,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 18497.569458006183,
+      "outcome_verified": true,
+      "workload_unchanged": true,
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "session_id_sha256": "9521bfdbd94d8c856e0f552702f4ff02c5fdacf97c460d60a8b4123c49d5c543",
+      "response_sha256": "d5ac9ff0a4c2ca1ea6150732e484b1b2b04645da121e0400915e7688398dc92a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "c5fc1f3a-c035-4e20-a279-27977df69f91",
+        "context_usage_ratio": 0.017626
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 3,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 19306.09191599069,
+      "outcome_verified": true,
+      "workload_unchanged": true,
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "session_id_sha256": "9c4e406b52bfcf98a09b4986d32b7b70379c71303754db3aa2de93f0df4167b4",
+      "response_sha256": "6d5fc3168ad9b7b85d5d19811e6a720bf2db48d08bbef1b4747c6557c1382740",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "004b36d3-fc49-412c-ac8b-68e2497bfb65",
+        "context_usage_ratio": 0.01764
+      }
+    },
+    {
+      "agent": "qoder",
+      "trial": 4,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 23444.109125004616,
+      "outcome_verified": true,
+      "workload_unchanged": true,
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "session_id_sha256": "9a5fdb9e9aa8259f401d3e52868f4d0f4ab762c5e72809e1264927374ab036b5",
+      "response_sha256": "55724ee1b3e4c514eb5cebafe0506de6fc2c85d875f99c0fbd5257b4a21642fe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "",
+        "iterations": [],
+        "speed": "standard",
+        "request_id": "a4f19866-cedc-4cc6-a185-9d14719136f4",
+        "context_usage_ratio": 0.017635
+      }
+    }
+  ],
+  "gate": {
+    "name": "qoder deterministic outcome and workload-integrity",
+    "passed": true
+  },
+  "created_at": "2026-08-01T02:00:10.384669+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "250fb9c5ab070e0c8a19d59f0e630f8fdefe2531",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

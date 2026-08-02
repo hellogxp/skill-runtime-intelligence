@@ -1,0 +1,566 @@
+{
+  "schema_version": "sri.experiment.product-lifecycle.v1",
+  "experiment": {
+    "name": "packaged-product-lifecycle",
+    "evidence_grade": "Experimental",
+    "wheel": "skill_runtime_intelligence-0.1.0-py3-none-any.whl",
+    "offline": true,
+    "isolated_home": true,
+    "live_agent_calls": false,
+    "limitations": [
+      "No live Agent hook was enabled or trusted.",
+      "One local OS/Python environment is not cross-platform evidence.",
+      "A lifecycle smoke test does not measure diagnosis usefulness."
+    ]
+  },
+  "metrics": {
+    "expected_return_codes": {
+      "create_venv": 0,
+      "install_wheel": 0,
+      "install_product": 0,
+      "start": 0,
+      "status_running": 0,
+      "doctor": 1,
+      "stop": 0,
+      "status_stopped": 0,
+      "uninstall": 0
+    },
+    "actual_return_codes": {
+      "create_venv": 0,
+      "install_wheel": 0,
+      "install_product": 0,
+      "start": 0,
+      "status_running": 0,
+      "doctor": 1,
+      "stop": 0,
+      "status_stopped": 0,
+      "uninstall": 0
+    },
+    "native_sender_available": true,
+    "native_sender_reason": "built",
+    "running_after_start": true,
+    "doctor_ready_for_live_collection": false,
+    "running_after_stop": false,
+    "project_unchanged": true,
+    "agent_configs_absent": true,
+    "state_removed": true,
+    "step_diagnostics": {
+      "create_venv": {
+        "return_code": 0,
+        "stdout_json": null,
+        "stdout_bytes": 0,
+        "stderr_bytes": 0,
+        "stderr_tail": []
+      },
+      "install_wheel": {
+        "return_code": 0,
+        "stdout_json": null,
+        "stdout_bytes": 182,
+        "stderr_bytes": 0,
+        "stderr_tail": []
+      },
+      "install_product": {
+        "return_code": 0,
+        "stdout_json": {
+          "installed": true,
+          "config_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/config.json",
+          "database": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/data/panorama.db",
+          "projects": [
+            "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/project"
+          ],
+          "excluded_paths": [],
+          "integrations": [
+            {
+              "agent": "codex",
+              "detected": true,
+              "config_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.codex/hooks.json",
+              "config_exists": false,
+              "config_valid": true,
+              "executable": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/venv/bin/skill-runtime",
+              "installed": false,
+              "cli_path": "${LOCAL_HOME}/.npm-global/bin/codex",
+              "agent_version": "",
+              "version_status": "unavailable",
+              "version_source": "executable_presence",
+              "installed_events": [],
+              "planned_events": [
+                "PostCompact",
+                "PostToolUse",
+                "PreCompact",
+                "PreToolUse",
+                "SessionEnd",
+                "SessionStart",
+                "Stop",
+                "SubagentStart",
+                "SubagentStop",
+                "UserPromptSubmit"
+              ],
+              "collection_mode": "official_hook",
+              "selected_collection_mode": "transcript_fallback",
+              "available_collection_modes": [
+                "official_hook",
+                "transcript_fallback",
+                "observability_import"
+              ],
+              "native_skill_telemetry": "not_detected",
+              "fail_open": true,
+              "collector_endpoint": "http://127.0.0.1:4317/api/events",
+              "fast_path": "unix_socket",
+              "hook_socket": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/run/hook.sock",
+              "hook_socket_active": false,
+              "native_sender": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/bin/skill-runtime-hook-native",
+              "native_sender_available": true,
+              "offline_queue": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/queue/events.jsonl",
+              "paths_read": [
+                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.codex/sessions",
+                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.codex/skills",
+                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.codex/hooks.json"
+              ],
+              "changes_without_consent": []
+            },
+            {
+              "agent": "claude-code",
+              "detected": true,
+              "config_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.claude/settings.json",
+              "config_exists": false,
+              "config_valid": true,
+              "executable": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/venv/bin/skill-runtime",
+              "installed": false,
+              "cli_path": "/opt/homebrew/bin/claude",
+              "agent_version": "",
+              "version_status": "unavailable",
+              "version_source": "executable_presence",
+              "installed_events": [],
+              "planned_events": [
+                "InstructionsLoaded",
+                "PostToolUse",
+                "PostToolUseFailure",
+                "PreToolUse",
+                "SessionEnd",
+                "SessionStart",
+                "Stop",
+                "SubagentStart",
+                "SubagentStop",
+                "UserPromptExpansion",
+                "UserPromptSubmit"
+              ],
+              "available_unmanaged_events": [
+                "FileChanged"
+              ],
+              "collection_mode": "official_hook",
+              "selected_collection_mode": "not_configured",
+              "available_collection_modes": [
+                "official_hook",
+                "observability_import"
+              ],
+              "native_skill_telemetry": "not_detected",
+              "fail_open": true,
+              "async": true,
+              "collector_endpoint": "http://127.0.0.1:4317/api/events",
+              "fast_path": "unix_socket",
+              "hook_socket": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/run/hook.sock",
+              "hook_socket_active": false,
+              "native_sender": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/bin/skill-runtime-hook-native",
+              "native_sender_available": true,
+              "offline_queue": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/queue/events.jsonl",
+              "paths_read": [
+                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.claude/projects",
+                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.claude/skills",
+                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.claude/settings.json"
+              ],
+              "changes_without_consent": [],
+              "note": "FileChanged is supported when emitted, but is not installed with a global wildcard because Claude Code watch paths are literal filenames."
+            }
+          ],
+          "hooks": [],
+          "native_hook_sender": {
+            "available": true,
+            "built": true,
+            "path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/bin/skill-runtime-hook-native",
+            "reason": "built",
+            "download_fallback": "download_failed"
+          },
+          "consent_required": [],
+          "index": {
+            "sessions": 0,
+            "skills": 0,
+            "normalized_events": 0,
+            "skill_runs": 0,
+            "derived_relationships": 0,
+            "inferences": 0,
+            "imported": 0,
+            "failed": 0
+          },
+          "next": "skill-runtime start",
+          "codex_trust_required": false,
+          "codex_trust_action": ""
+        },
+        "stdout_bytes": 5316,
+        "stderr_bytes": 0,
+        "stderr_tail": []
+      },
+      "start": {
+        "return_code": 0,
+        "stdout_json": {
+          "running": true,
+          "process_alive": true,
+          "collector_healthy": true,
+          "pid": 82598,
+          "url": "http://127.0.0.1:63401",
+          "state_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/run/runtime.json",
+          "log_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/logs/runtime.log",
+          "started_at": "2026-07-29T09:43:57Z",
+          "database": "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/data/panorama.db",
+          "config_path": "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/config.json",
+          "health": {
+            "ok": true,
+            "local": true,
+            "revision": 3,
+            "counts": {
+              "sessions": 0,
+              "skills": 0,
+              "normalized_events": 0,
+              "skill_runs": 0,
+              "derived_relationships": 0,
+              "inferences": 0
+            }
+          },
+          "changed": true,
+          "reason": "started"
+        },
+        "stdout_bytes": 929,
+        "stderr_bytes": 0,
+        "stderr_tail": []
+      },
+      "status_running": {
+        "return_code": 0,
+        "stdout_json": {
+          "running": true,
+          "process_alive": true,
+          "collector_healthy": true,
+          "pid": 82598,
+          "url": "http://127.0.0.1:63401",
+          "state_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/run/runtime.json",
+          "log_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/logs/runtime.log",
+          "started_at": "2026-07-29T09:43:57Z",
+          "database": "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/data/panorama.db",
+          "config_path": "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/config.json",
+          "health": {
+            "ok": true,
+            "local": true,
+            "revision": 3,
+            "counts": {
+              "sessions": 0,
+              "skills": 0,
+              "normalized_events": 0,
+              "skill_runs": 0,
+              "derived_relationships": 0,
+              "inferences": 0
+            }
+          }
+        },
+        "stdout_bytes": 887,
+        "stderr_bytes": 0,
+        "stderr_tail": []
+      },
+      "doctor": {
+        "return_code": 1,
+        "stdout_json": {
+          "ok": false,
+          "ready_for_live_collection": false,
+          "checks": [
+            {
+              "name": "config",
+              "status": "pass",
+              "detail": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/config.json"
+            },
+            {
+              "name": "state_directory",
+              "status": "pass",
+              "detail": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime"
+            },
+            {
+              "name": "collector",
+              "status": "pass",
+              "detail": "http://127.0.0.1:63401"
+            },
+            {
+              "name": "hook_transport",
+              "status": "pass",
+              "detail": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/run/hook.sock"
+            },
+            {
+              "name": "offline_queue",
+              "status": "pass",
+              "detail": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/queue/events.jsonl"
+            },
+            {
+              "name": "database",
+              "status": "pass",
+              "detail": "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/data/panorama.db"
+            },
+            {
+              "name": "official_runtime_evidence",
+              "status": "fail",
+              "detail": "no detected Agent has managed hooks configured"
+            },
+            {
+              "name": "native_sender",
+              "status": "pass",
+              "detail": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/bin/skill-runtime-hook-native"
+            }
+          ],
+          "runtime": {
+            "running": true,
+            "process_alive": true,
+            "collector_healthy": true,
+            "pid": 82598,
+            "url": "http://127.0.0.1:63401",
+            "state_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/run/runtime.json",
+            "log_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/logs/runtime.log",
+            "started_at": "2026-07-29T09:43:57Z",
+            "database": "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/data/panorama.db",
+            "config_path": "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/config.json",
+            "health": {
+              "ok": true,
+              "local": true,
+              "revision": 3,
+              "counts": {
+                "sessions": 0,
+                "skills": 0,
+                "normalized_events": 0,
+                "skill_runs": 0,
+                "derived_relationships": 0,
+                "inferences": 0
+              }
+            }
+          },
+          "integrations": [
+            {
+              "agent": "codex",
+              "detected": true,
+              "config_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.codex/hooks.json",
+              "config_exists": false,
+              "config_valid": true,
+              "executable": "",
+              "installed": false,
+              "cli_path": "${LOCAL_HOME}/.npm-global/bin/codex",
+              "agent_version": "",
+              "version_status": "unavailable",
+              "version_source": "executable_presence",
+              "installed_events": [],
+              "planned_events": [
+                "PostCompact",
+                "PostToolUse",
+                "PreCompact",
+                "PreToolUse",
+                "SessionEnd",
+                "SessionStart",
+                "Stop",
+                "SubagentStart",
+                "SubagentStop",
+                "UserPromptSubmit"
+              ],
+              "collection_mode": "official_hook",
+              "selected_collection_mode": "transcript_fallback",
+              "available_collection_modes": [
+                "official_hook",
+                "transcript_fallback",
+                "observability_import"
+              ],
+              "native_skill_telemetry": "not_detected",
+              "fail_open": true,
+              "collector_endpoint": "http://127.0.0.1:4317/api/events",
+              "fast_path": "unix_socket",
+              "hook_socket": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/run/hook.sock",
+              "hook_socket_active": true,
+              "native_sender": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/bin/skill-runtime-hook-native",
+              "native_sender_available": true,
+              "offline_queue": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/queue/events.jsonl",
+              "paths_read": [
+                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.codex/sessions",
+                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.codex/skills",
+                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.codex/hooks.json"
+              ],
+              "changes_without_consent": [],
+              "live_evidence_seen": false,
+              "live_evidence": [],
+              "connection_status": "not_configured"
+            },
+            {
+              "agent": "claude-code",
+              "detected": true,
+              "config_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.claude/settings.json",
+              "config_exists": false,
+              "config_valid": true,
+              "executable": "",
+              "installed": false,
+              "cli_path": "/opt/homebrew/bin/claude",
+              "agent_version": "",
+              "version_status": "unavailable",
+              "version_source": "executable_presence",
+              "installed_events": [],
+              "planned_events": [
+                "InstructionsLoaded",
+                "PostToolUse",
+                "PostToolUseFailure",
+                "PreToolUse",
+                "SessionEnd",
+                "SessionStart",
+                "Stop",
+                "SubagentStart",
+                "SubagentStop",
+                "UserPromptExpansion",
+                "UserPromptSubmit"
+              ],
+              "available_unmanaged_events": [
+                "FileChanged"
+              ],
+              "collection_mode": "official_hook",
+              "selected_collection_mode": "not_configured",
+              "available_collection_modes": [
+                "official_hook",
+                "observability_import"
+              ],
+              "native_skill_telemetry": "not_detected",
+              "fail_open": true,
+              "async": true,
+              "collector_endpoint": "http://127.0.0.1:4317/api/events",
+              "fast_path": "unix_socket",
+              "hook_socket": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/run/hook.sock",
+              "hook_socket_active": true,
+              "native_sender": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/bin/skill-runtime-hook-native",
+              "native_sender_available": true,
+              "offline_queue": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/queue/events.jsonl",
+              "paths_read": [
+                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.claude/projects",
+                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.claude/skills",
+                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.claude/settings.json"
+              ],
+              "changes_without_consent": [],
+              "note": "FileChanged is supported when emitted, but is not installed with a global wildcard because Claude Code watch paths are literal filenames.",
+              "live_evidence_seen": false,
+              "live_evidence": [],
+              "connection_status": "not_configured"
+            }
+          ],
+          "sources": []
+        },
+        "stdout_bytes": 6774,
+        "stderr_bytes": 0,
+        "stderr_tail": []
+      },
+      "stop": {
+        "return_code": 0,
+        "stdout_json": {
+          "running": false,
+          "process_alive": false,
+          "collector_healthy": false,
+          "pid": null,
+          "url": "http://127.0.0.1:63401",
+          "state_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/run/runtime.json",
+          "log_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/logs/runtime.log",
+          "started_at": null,
+          "database": "",
+          "config_path": "",
+          "health": {},
+          "changed": true,
+          "reason": "stopped"
+        },
+        "stdout_bytes": 480,
+        "stderr_bytes": 0,
+        "stderr_tail": []
+      },
+      "status_stopped": {
+        "return_code": 0,
+        "stdout_json": {
+          "running": false,
+          "process_alive": false,
+          "collector_healthy": false,
+          "pid": null,
+          "url": "http://127.0.0.1:63401",
+          "state_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/run/runtime.json",
+          "log_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/logs/runtime.log",
+          "started_at": null,
+          "database": "",
+          "config_path": "",
+          "health": {}
+        },
+        "stdout_bytes": 438,
+        "stderr_bytes": 0,
+        "stderr_tail": []
+      },
+      "uninstall": {
+        "return_code": 0,
+        "stdout_json": {
+          "uninstalled": true,
+          "runtime": {
+            "running": false,
+            "process_alive": false,
+            "collector_healthy": true,
+            "pid": null,
+            "url": "http://127.0.0.1:4317",
+            "state_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/run/runtime.json",
+            "log_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime/logs/runtime.log",
+            "started_at": null,
+            "database": "",
+            "config_path": "",
+            "health": {
+              "ok": true,
+              "local": true,
+              "revision": 4262,
+              "counts": {
+                "sessions": 53,
+                "skills": 44,
+                "normalized_events": 9838,
+                "skill_runs": 90,
+                "derived_relationships": 8721,
+                "inferences": 0
+              }
+            },
+            "changed": false,
+            "reason": "not_running"
+          },
+          "hooks": [
+            {
+              "agent": "codex",
+              "changed": false,
+              "removed_events": [],
+              "config_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.codex/hooks.json",
+              "backup_path": null
+            },
+            {
+              "agent": "claude-code",
+              "changed": false,
+              "removed_events": [],
+              "config_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.claude/settings.json",
+              "backup_path": null
+            }
+          ],
+          "removed_paths": [
+            "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpusxysylt/home/.skill-runtime"
+          ],
+          "data_kept": false,
+          "agent_source_files_modified": false
+        },
+        "stdout_bytes": 1463,
+        "stderr_bytes": 0,
+        "stderr_tail": []
+      }
+    }
+  },
+  "gate": {
+    "name": "isolated offline packaged lifecycle",
+    "passed": true
+  },
+  "created_at": "2026-07-29T09:43:58.691438+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "07a7cf05b9f4233e37b4f3392ecd69be36fe8367",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

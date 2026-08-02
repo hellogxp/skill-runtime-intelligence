@@ -14,28 +14,29 @@
 [Magyar](README.hu.md)
 <!-- locale-switcher:end -->
 
-> 定位 Agent Skill 执行最早发生偏差的位置，并检查每项结论背后的证据。
+> 将 `SKILL.md` 转化为可检查的运行预期：看清实际发生了什么、行为从哪里开始
+> 偏离，以及判断所依据的证据。
 
 Agent Skill Runtime Intelligence 是面向 Agent Skills 的只读运行时证据与诊断系统。
-它将 Skill 定义、Agent 官方运行事件、导入的 Trace、会话回退数据和可观察的工作区
-结果，重建为证据分级的 Skill Run Panorama。
+它从当前 Skill 定义中提取保守、可检查的行为约束，与真实运行活动进行匹配，再将
+Agent 官方事件、导入 Trace、明确标识的 session fallback 和可观察工作区结果重建为
+证据分级的 Skill Run Panorama。它不代理模型请求，也不接管 Agent loop。
 
 ![Skill Run Panorama](docs/assets/skill-run-panorama.png)
 
 ## 快速开始
 
-在 macOS 或 Linux 上安装并启动最新发行版：
+在 macOS 或 Linux 上安装最新公开版本并启动：
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
-不需要克隆仓库、账号、`sudo` 或 GitHub CLI。安装器会校验发行产物，检测支持的
-Agent 与 Skills，明确说明会读取的每个路径，在启用只观测 Hook 前只询问一次，
-然后打开本地 UI：[http://127.0.0.1:4317](http://127.0.0.1:4317)。除非显式配置
-导出，否则所有运行数据都保存在 `~/.skill-runtime`。
+不需要克隆仓库、`sudo` 或 GitHub CLI。安装器会自动选择当前系统和架构，并在启用
+fail-open 只观测 Hook 前请求一次明确授权。本地 UI 地址为
+[http://127.0.0.1:4317](http://127.0.0.1:4317)。除非显式配置导出，否则所有
+运行数据都保存在 `~/.skill-runtime`。
 
-运行前可以先[检查安装脚本](scripts/install.sh)。
 
 ### 查看第一个实时 SkillRun
 
@@ -66,7 +67,9 @@ python3 -m venv .venv
 | 产品界面 | 回答的问题 |
 |---|---|
 | Runtime Overview | 哪些 SkillRun 值得关注？ |
-| First Observable Boundary | 证据最早从哪个边界开始缺失或失败？ |
+| Skill 行为检查 | 哪些可检查指令已经满足、需要复核或无法评估？ |
+| 实际发生了什么 | 观察到了哪些指令、资源、工具、产物和结果？ |
+| First Observable Boundary | 单次运行的证据最早从哪个边界开始缺失或失败？ |
 | Skill Run Panorama | 请求、激活、资源、工具、产物与结果如何连接？ |
 | Evidence Inspector | 哪个来源、证据等级、判断依据和适配器能力支持这项结论？ |
 | Compare | 差异来自行为本身，还是仅来自可观测能力不同？ |
@@ -79,8 +82,9 @@ python3 -m venv .venv
 
 Skill Runtime 伴随观察用户原有的 Agent 工作流。版本化 adapter 将 Agent
 原生事件转换为稳定的 Skill 生命周期，同时把来源事件、标准化事件、关系与推断
-分别保存。诊断引擎首先寻找证据最早缺失或失败的边界，不编造模型意图，也不从
-单次运行推断因果有效性。
+分别保存。诊断引擎用这些证据检查 Skill 的显式行为约束，定位最早可观察偏离，
+并将系统性 adapter 盲区与单次运行问题分开。它不编造模型意图，也不从单次运行
+推断因果有效性。
 
 | 数据来源 | 作用 | 时效性 | UI 标识 |
 |---|---|---|---|
@@ -107,13 +111,14 @@ Skill Runtime 伴随观察用户原有的 Agent 工作流。版本化 adapter �
 ## 要解决的问题
 
 安装了 Skill，不代表 Agent 发现了它；发现不代表激活；激活不代表完整指令和资源
-已加载；执行完成也不代表 Skill 改善了结果。
+已加载；加载指令也不代表 Agent 遵守了指令；执行完成更不代表 Skill 改善了结果。
 
 这些问题通常静默发生，开发者只能反复猜测：
 
 - Agent 当时能否发现这个 Skill？
 - 它是否针对该请求被激活？
 - 哪些指令、references、scripts 和 assets 被加载？
+- 哪些明确的 Skill 要求被遵守、遗漏，或因为证据不足无法评估？
 - 哪些工具、MCP 调用、子 Agent、文件和产物参与了执行？
 - 执行在哪一步失败、重试或丢失上下文？
 - Skill 真正产生了帮助，还是只增加了成本和延迟？
@@ -175,7 +180,11 @@ UI 绝不能把推断伪装成运行事实：
 - Skill 激活、资源加载和工具调用时间线；
 - 子 Agent、MCP、文件和产物关系；
 - 来源提供时的耗时、token、错误、重试和状态摘要；
-- Runtime Overview 与 First Observable Boundary 诊断；
+- 从当前 `SKILL.md` 提取的保守、可检查行为约束；
+- 证据边界内的符合性、结果验证与运行失败检查；
+- 具体的指令、资源、工具、产物与结果清单；
+- 将系统性采集限制与单次运行问题分开的 Runtime Overview；
+- First Observable Boundary 诊断；
 - 全景 DAG、事件时间线与 Evidence Inspector；
 - 能力感知的同 Agent 与跨 Agent 对比；
 - 不能改写运行事实的独立 Inferred Analysis；
@@ -208,6 +217,9 @@ python3 -m venv .venv
 4. 优先下载带校验和的低启动开销原生 sender；不可用时回退到本地 C 编译，
    最后回退到 Python sender，并在安装阶段完成一次预热；
 5. 创建 `~/.skill-runtime/config.json` 与本地 SQLite 索引。
+
+首次索引会导入已有的兼容 Agent 会话。长期使用的工作站可能比全新环境耗时更长；
+后续启动采用增量刷新，UI 会先就绪，后台再继续更新索引。
 
 交互安装会在添加 fail-open Hook 前征求一次同意。`--no-hooks` 会将会话导入保留为
 明确标注的 fallback；`--enable-hooks` 会记录用户授权，并只安装带管理标记的条目。
@@ -391,18 +403,18 @@ PYTHONPATH=src python3 experiments/product_lifecycle/run_benchmark.py
 
 ## 实验驱动的产品设计
 
-产品行为受[实验驱动的产品设计哲学](docs/experiment-driven-product-philosophy.md)
-约束：证据先于结论，最早可观察边界先于严重度，类型化关系先于平面日志，确定性
-重建先于概率性辅助。
+产品行为遵循四条实验驱动约束：证据先于结论，最早可观察边界先于严重度，类型化
+关系先于平面日志，确定性重建先于概率性辅助。
 
-当前可复现的本地证据包括：
+可复现实验及其限制统一维护在
+[实验报告](docs/experiment-results-2026-07-29.md)中。目前有边界的结果包括：
 
-- 7/7 本地实验门禁通过；
 - Collector 接收 2,400/2,400 个事件，未修改输入或输出；
 - 确定性诊断在 14/14 个故障语料案例上正确，且没有不受支持的因果断言；
 - 关系诊断表示达到 13/14 exact、F1 0.963；平面生命周期检索仅为
   1/14 exact、F1 0.080；
-- 11/11 个学习材料案例将最早可观察边界置于首位。
+- 隐私安全的真实运行审计明确显示：因为缺少已验证结果、均衡的跨 Agent 覆盖和
+  人工标签，当前数据不能支持产品效果的确认性结论。
 
 这些结果验证的是机制与表示选择，不是部署泛化能力或总体用户收益。真实第二 Agent、
 跨平台尾延迟、真实故障校准和参与者诊断研究仍是明确的证据缺口。
@@ -424,19 +436,28 @@ PYTHONPATH=src python3 experiments/product_lifecycle/run_benchmark.py
 | [可观测平台接入](docs/observability-platform-setup.md) | 连接 OTLP 平台并导入支持的 Trace |
 | [运行时事件模型](docs/runtime-event-model.md) | 稳定事件词表、溯源、关系与证据等级 |
 | [UI 信息架构](docs/ui-information-architecture.md) | Overview、首边界、Panorama、Inspector、Compare 与 Inferred Analysis |
+| [变更记录](CHANGELOG.md) | 按版本整理的用户可见变化 |
+| [v0.3.0 发行说明](docs/releases/v0.3.0.md) | 升级方法、核心变化与已知限制 |
 
 产品与研究资料包括：[产品定义](docs/product-definition.md)、
 [MVP 规格](docs/mvp-specification.md)、
 [可观测互操作](docs/observability-interoperability.md)、
-[实验驱动的产品设计哲学](docs/experiment-driven-product-philosophy.md)、
 [实验结果](docs/experiment-results-2026-07-29.md)和
 [研究论文议程](docs/research-paper-agenda.md)。
 
+## 社区与治理
+
+- 修改证据语义、adapter 或产品行为前，请先阅读[贡献指南](CONTRIBUTING.md)。
+- 在所有项目空间遵守[行为准则](CODE_OF_CONDUCT.md)。
+- 安全问题请按[安全策略](SECURITY.md)私下报告，不要创建公开 issue。
+- 可复现缺陷和范围明确的功能建议请使用结构化的
+  [issue tracker](https://github.com/hellogxp/skill-runtime-intelligence/issues)。
+  不要上传私有运行数据库或 session 记录。
+
 ## 路线
 
-1. **v0.2.0 — 已发布：** 实时 fail-open 采集、四个版本化 Agent adapter、
-   Runtime Overview、首边界诊断、Panorama、Evidence Inspector、能力感知
-   Compare、Inferred Analysis 与 OTLP 互操作。
+1. **v0.3.0 — 下一发行版：** 可检查的 Skill 行为约束、具体运行活动、证据边界内的
+   判断、系统性采集限制诊断，以及既有的实时 Panorama 与 Compare 工作流。
 2. **下一步 — Adapter 与诊断加固：** 扩展 Agent／版本覆盖，开展真实故障校准、
    跨平台尾延迟验证与参与者诊断研究。
 3. **后续 — 效果评估：** 受控的有 Skill／无 Skill 配对实验，并与单次运行诊断
@@ -444,9 +465,11 @@ PYTHONPATH=src python3 experiments/product_lifecycle/run_benchmark.py
 
 ## 项目状态
 
-`v0.2.0` 已发布。Runtime 包含已安装定义清单、经用户同意的 Codex、Claude Code
-与 Qoder 官方 Hook adapter、只观测 OpenCode 插件、明确标识的 session fallback、
-active-scope 归因、精确文件／产物路径、脱敏、独立
+当前源码以 `v0.3.0` 为发行目标；最新公开构建请以页面顶部的 release badge 为准。
+Runtime 包含可检查的 Skill 行为约束、具体活动摘要、
+已安装定义清单、经用户同意的 Codex、Claude Code 与 Qoder 官方 Hook adapter、
+只观测 OpenCode 插件、明确标识的 session fallback、active-scope 归因、精确
+文件／产物路径、脱敏、独立
 source／relationship／inference 数据层、SQLite、保留策略、确定性诊断、实时 UI
 以及跨运行和跨 Agent 对比。
 

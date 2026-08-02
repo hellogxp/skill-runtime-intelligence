@@ -1,0 +1,201 @@
+{
+    "schema_version": "sri.experiment.suite.v2",
+    "experiment": {
+        "name": "local-reproducibility-gates",
+        "includes_live_agent_calls": false
+    },
+    "metrics": {
+        "experiment_count": 13,
+        "passed": 13,
+        "failed": 0,
+        "by_gate_class": {
+            "correctness": {
+                "experiment_count": 12,
+                "passed": 12,
+                "failed": 0
+            },
+            "environment_sensitive": {
+                "experiment_count": 1,
+                "passed": 1,
+                "failed": 0
+            }
+        },
+        "correctness_core_passed": true
+    },
+    "experiments": [
+        {
+            "experiment_id": "E0",
+            "runner": "runtime_diagnostics/run_benchmark.py",
+            "gate_class": "correctness",
+            "exit_code": 0,
+            "passed": true,
+            "stdout_tail": [
+                "Report: ${REPO_ROOT}/experiments/runtime_diagnostics/results/runtime-diagnostics-20260731T162703Z.json",
+                "Gate: PASS"
+            ],
+            "stderr_line_count": 0
+        },
+        {
+            "experiment_id": "E1",
+            "runner": "adapter_reconstruction/run_benchmark.py",
+            "gate_class": "correctness",
+            "exit_code": 0,
+            "passed": true,
+            "stdout_tail": [
+                "Report: ${REPO_ROOT}/experiments/adapter_reconstruction/results/adapter-reconstruction-20260731T162703Z.json",
+                "Gate: PASS"
+            ],
+            "stderr_line_count": 0
+        },
+        {
+            "experiment_id": "E2",
+            "runner": "non_interference/run_benchmark.py",
+            "gate_class": "correctness",
+            "exit_code": 0,
+            "passed": true,
+            "stdout_tail": [
+                "}",
+                "Report: ${REPO_ROOT}/experiments/non_interference/results/non-interference-20260731T162705Z.json"
+            ],
+            "stderr_line_count": 0
+        },
+        {
+            "experiment_id": "E2-transport",
+            "runner": "hook_transport/run_benchmark.py",
+            "gate_class": "environment_sensitive",
+            "exit_code": 0,
+            "passed": true,
+            "stdout_tail": [
+                "}",
+                "Report: ${REPO_ROOT}/experiments/hook_transport/results/hook-transport-20260731T162706Z.json"
+            ],
+            "stderr_line_count": 0
+        },
+        {
+            "experiment_id": "E3",
+            "runner": "diagnostic_usefulness/prepare_study.py",
+            "gate_class": "correctness",
+            "exit_code": 0,
+            "passed": true,
+            "stdout_tail": [
+                "}",
+                "Report: ${REPO_ROOT}/experiments/diagnostic_usefulness/results/diagnostic-usefulness-study-20260731T162706Z.json"
+            ],
+            "stderr_line_count": 0
+        },
+        {
+            "experiment_id": "E4",
+            "runner": "cross_agent/run_benchmark.py",
+            "gate_class": "correctness",
+            "exit_code": 0,
+            "passed": true,
+            "stdout_tail": [
+                "Report: ${REPO_ROOT}/experiments/cross_agent/results/cross-agent-20260731T162706Z.json",
+                "Gate: PASS"
+            ],
+            "stderr_line_count": 0
+        },
+        {
+            "experiment_id": "E4-source-contract",
+            "runner": "cross_agent/source_instance_contract_benchmark.py",
+            "gate_class": "correctness",
+            "exit_code": 0,
+            "passed": true,
+            "stdout_tail": [
+                "}",
+                "Report: ${REPO_ROOT}/experiments/cross_agent/results/source-instance-contract-20260731T162706Z.json"
+            ],
+            "stderr_line_count": 0
+        },
+        {
+            "experiment_id": "E4-alignment-contract",
+            "runner": "cross_agent/alignment_manifest_benchmark.py",
+            "gate_class": "correctness",
+            "exit_code": 0,
+            "passed": true,
+            "stdout_tail": [
+                "}",
+                "Report: ${REPO_ROOT}/experiments/cross_agent/results/alignment-manifest-20260731T162706Z.json"
+            ],
+            "stderr_line_count": 0
+        },
+        {
+            "experiment_id": "E4-clock-sensitivity",
+            "runner": "cross_agent/alignment_clock_sensitivity.py",
+            "gate_class": "correctness",
+            "exit_code": 0,
+            "passed": true,
+            "stdout_tail": [
+                "}",
+                "Report: ${REPO_ROOT}/experiments/cross_agent/results/alignment-clock-sensitivity-20260731T162706Z.json"
+            ],
+            "stderr_line_count": 0
+        },
+        {
+            "experiment_id": "E4-timestamp-capability",
+            "runner": "cross_agent/timestamp_provenance_audit.py",
+            "gate_class": "correctness",
+            "exit_code": 0,
+            "passed": true,
+            "stdout_tail": [
+                "}",
+                "Report: ${REPO_ROOT}/experiments/cross_agent/results/timestamp-provenance-audit-20260731T162706Z.json"
+            ],
+            "stderr_line_count": 0
+        },
+        {
+            "experiment_id": "E4-timestamp-partial-migration",
+            "runner": "product_lifecycle/migration_partial_state_benchmark.py",
+            "gate_class": "correctness",
+            "exit_code": 0,
+            "passed": true,
+            "stdout_tail": [
+                "}",
+                "Report: ${REPO_ROOT}/experiments/product_lifecycle/results/partial-migration-matrix-20260731T162707Z.json"
+            ],
+            "stderr_line_count": 0
+        },
+        {
+            "experiment_id": "E4-timestamp-kill-recovery",
+            "runner": "product_lifecycle/migration_kill_recovery_benchmark.py",
+            "gate_class": "correctness",
+            "exit_code": 0,
+            "passed": true,
+            "stdout_tail": [
+                "}",
+                "Report: ${REPO_ROOT}/experiments/product_lifecycle/results/migration-kill-recovery-20260731T162708Z.json"
+            ],
+            "stderr_line_count": 0
+        },
+        {
+            "experiment_id": "E5",
+            "runner": "semantic_diagnosis/run_benchmark.py",
+            "gate_class": "correctness",
+            "exit_code": 0,
+            "passed": true,
+            "stdout_tail": [
+                "}",
+                "Report: ${REPO_ROOT}/experiments/semantic_diagnosis/results/semantic-diagnosis-20260731T162708Z.json"
+            ],
+            "stderr_line_count": 0
+        }
+    ],
+    "gate": {
+        "name": "all selected experiment gates",
+        "passed": true
+    },
+    "correctness_core_gate": {
+        "name": "all deterministic correctness gates",
+        "passed": true
+    },
+    "created_at": "2026-07-31T16:27:08.160877+00:00",
+    "environment": {
+        "python": "3.12.13",
+        "platform": "Linux-5.10.134-18.0.11.lifsea8.x86_64-x86_64-with-glibc2.35",
+        "machine": "x86_64",
+        "git_commit": "a1f2cfca6a4c7cc75e7a995ed54f48ca99c131f9",
+        "git_dirty": true,
+        "pai_dsw_instance_id": "dsw-2032100-64b9d7c65d-tg9lx",
+        "experiment_root": null
+    }
+}

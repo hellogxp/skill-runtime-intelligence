@@ -1,0 +1,135 @@
+{
+  "schema_version": "sri.experiment.model-agent-usefulness-summary.v1",
+  "experiment": {
+    "name": "per-model-diagnostic-usefulness-replication-summary",
+    "evidence_grade": "experimental",
+    "dataset_sha256": "a7728ebae830fe9fa58b04a5865fa9ea344d1149ab2ea29075e366af194522e5",
+    "aggregation_policy": "recompute each model separately; do not pool effect sizes",
+    "limitations": [
+      "Recorded model IDs are not independent verification of underlying model-family identity.",
+      "The corpus is synthetic and diagnostic-interface specific.",
+      "Direction replication does not override a failed response-integrity or causal-safety gate."
+    ]
+  },
+  "metrics": {
+    "study_count": 2,
+    "distinct_recorded_model_count": 2,
+    "recorded_models": [
+      "opencode/deepseek-v4-flash-free",
+      "opencode/mimo-v2.5-free"
+    ],
+    "positive_panorama_direction_count": 2,
+    "integrity_gate_pass_count": 0
+  },
+  "studies": [
+    {
+      "report_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/model-agent-diagnostic-usefulness-20260731T025722Z.json",
+      "report_sha256": "f3a1b7d0758bde75827a2877a913dec23f8d9d377b65d0cd7029f9b1416de2fb",
+      "model": "opencode/deepseek-v4-flash-free",
+      "model_cli_version": "1.18.5",
+      "metrics": {
+        "planned_trials": 22,
+        "completed_trials": 21,
+        "response_completion_rate": 0.9545454545454546,
+        "unique_session_count": 21,
+        "overall_accuracy": 0.8571428571428571,
+        "overall_unsupported_causal_claim_rate": 0.047619047619047616,
+        "by_condition": {
+          "raw": {
+            "planned": 11,
+            "completed": 11,
+            "correct": 8,
+            "complete_case_accuracy": 0.7272727272727273,
+            "intention_to_treat_accuracy": 0.7272727272727273,
+            "unsupported_causal_claim_rate": 0.09090909090909091,
+            "mean_confidence_0_100": 83.18181818181819,
+            "brier_score": 0.16886363636363635,
+            "latency_p50_ms": 11920.54054098844
+          },
+          "panorama": {
+            "planned": 11,
+            "completed": 10,
+            "correct": 10,
+            "complete_case_accuracy": 1.0,
+            "intention_to_treat_accuracy": 0.9090909090909091,
+            "unsupported_causal_claim_rate": 0.0,
+            "mean_confidence_0_100": 84.5,
+            "brier_score": 0.029250000000000005,
+            "latency_p50_ms": 10556.580374999612
+          }
+        },
+        "panorama_minus_raw_complete_case_accuracy": 0.2727272727272727,
+        "panorama_minus_raw_intention_to_treat_accuracy": 0.18181818181818177,
+        "matched_case_count": 10,
+        "matched_case_direction": {
+          "panorama_wins": 3,
+          "raw_wins": 0,
+          "ties": 7
+        }
+      },
+      "source_integrity_gate_passed": false
+    },
+    {
+      "report_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/model-agent-diagnostic-usefulness-20260731T030223Z.json",
+      "report_sha256": "dec9a19114c5d3231d1f0eaf76832ce8e0dc52733a33f14307e51f8830c2c7ab",
+      "model": "opencode/mimo-v2.5-free",
+      "model_cli_version": "1.18.5",
+      "metrics": {
+        "planned_trials": 22,
+        "completed_trials": 22,
+        "response_completion_rate": 1.0,
+        "unique_session_count": 22,
+        "overall_accuracy": 0.7727272727272727,
+        "overall_unsupported_causal_claim_rate": 0.09090909090909091,
+        "by_condition": {
+          "raw": {
+            "planned": 11,
+            "completed": 11,
+            "correct": 6,
+            "complete_case_accuracy": 0.5454545454545454,
+            "intention_to_treat_accuracy": 0.5454545454545454,
+            "unsupported_causal_claim_rate": 0.18181818181818182,
+            "mean_confidence_0_100": 67.27272727272727,
+            "brier_score": 0.2468181818181818,
+            "latency_p50_ms": 21342.668415993103
+          },
+          "panorama": {
+            "planned": 11,
+            "completed": 11,
+            "correct": 11,
+            "complete_case_accuracy": 1.0,
+            "intention_to_treat_accuracy": 1.0,
+            "unsupported_causal_claim_rate": 0.0,
+            "mean_confidence_0_100": 75.0,
+            "brier_score": 0.09931818181818182,
+            "latency_p50_ms": 27120.540250005433
+          }
+        },
+        "panorama_minus_raw_complete_case_accuracy": 0.4545454545454546,
+        "panorama_minus_raw_intention_to_treat_accuracy": 0.4545454545454546,
+        "matched_case_count": 11,
+        "matched_case_direction": {
+          "panorama_wins": 5,
+          "raw_wins": 0,
+          "ties": 6
+        }
+      },
+      "source_integrity_gate_passed": false
+    }
+  ],
+  "gates": {
+    "same_dataset": true,
+    "exploratory_direction_replicated": true,
+    "confirmatory_claim_ready": false
+  },
+  "created_at": "2026-07-31T03:10:37.079734+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

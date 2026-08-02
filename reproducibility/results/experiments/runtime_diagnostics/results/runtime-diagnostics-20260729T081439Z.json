@@ -1,0 +1,326 @@
+{
+  "schema_version": "sri.experiment.runtime-diagnostics.v1",
+  "created_at": "2026-07-29T08:14:39.284396+00:00",
+  "experiment": {
+    "name": "runtime-diagnostics-fault-injection",
+    "diagnostic_engine": "deterministic-production-rules",
+    "dataset_path": "${REPO_ROOT}/experiments/runtime_diagnostics/cases.jsonl",
+    "dataset_sha256": "a7728ebae830fe9fa58b04a5865fa9ea344d1149ab2ea29075e366af194522e5"
+  },
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "hostname": "U-9TM29J4W-235.local",
+    "git_commit": "07a7cf05b9f4233e37b4f3392ecd69be36fe8367",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  },
+  "metrics": {
+    "case_count": 14,
+    "exact_matches": 14,
+    "exact_match_rate": 1.0,
+    "true_positive": 14,
+    "false_positive": 0,
+    "false_negative": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "first_boundary_accuracy": 1.0,
+    "unsupported_causal_claim_count": 0
+  },
+  "cases": [
+    {
+      "case_id": "healthy_verified",
+      "description": "A complete SkillRun with an independently verified outcome should not produce an actionable finding.",
+      "exact_match": true,
+      "expected": [],
+      "actual": [],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "activation_gap",
+      "description": "Missing activation evidence before later activity is a gap, not proof that activation did not happen.",
+      "exact_match": true,
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "actual": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "instructions_gap",
+      "description": "Missing instruction-load evidence before execution should identify instructions as the first observable boundary.",
+      "exact_match": true,
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "actual": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "execution_failure",
+      "description": "An explicit failed runtime event should remain an observed failure rather than an inferred Skill cause.",
+      "exact_match": true,
+      "expected": [
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "actual": [
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "incomplete_run",
+      "description": "A partial source should be diagnosed as incomplete without inventing a downstream failure.",
+      "exact_match": true,
+      "expected": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "actual": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "reported_outcome_only",
+      "description": "A source-reported outcome without a deterministic evaluation is explicitly unverified.",
+      "exact_match": true,
+      "expected": [
+        [
+          "outcome_unverified",
+          "outcome",
+          "derived"
+        ]
+      ],
+      "actual": [
+        [
+          "outcome_unverified",
+          "outcome",
+          "derived"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "unsupported_is_not_gap",
+      "description": "An unsupported discovery capability must remain explicit and must not be diagnosed as a missing lifecycle event.",
+      "exact_match": true,
+      "expected": [],
+      "actual": [],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "resource_failure",
+      "description": "An observed missing resource is the earliest failed boundary even when execution and outcome evidence follow.",
+      "exact_match": true,
+      "expected": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "actual": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "derived_failure_grade",
+      "description": "A failure deterministically derived from a span status must retain the Derived grade.",
+      "exact_match": true,
+      "expected": [
+        [
+          "runtime_failure",
+          "execution",
+          "derived"
+        ]
+      ],
+      "actual": [
+        [
+          "runtime_failure",
+          "execution",
+          "derived"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "incomplete_with_report",
+      "description": "A partial run can contain both an earlier evidence gap and an incompleteness warning, but a report must not be promoted to a verified outcome.",
+      "exact_match": true,
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "actual": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "earliest_of_multiple_failures",
+      "description": "When multiple failures are observed, diagnosis should identify only the earliest lifecycle boundary.",
+      "exact_match": true,
+      "expected": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "actual": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "missing_tail_without_later_evidence",
+      "description": "Missing tail stages without later observed activity are not evidence gaps.",
+      "exact_match": true,
+      "expected": [],
+      "actual": [],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "request_gap_first",
+      "description": "The earliest missing supported stage before later activity should be request, even if additional stages are also missing.",
+      "exact_match": true,
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ]
+      ],
+      "actual": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    },
+    {
+      "case_id": "failure_and_incomplete",
+      "description": "An interrupted run with an explicit failure should preserve the earlier evidence gap, observed failure, and incompleteness warning as separate claims.",
+      "exact_match": true,
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ],
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "actual": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ],
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "missed": [],
+      "unexpected": []
+    }
+  ],
+  "policy_audit": {
+    "unsupported_causal_claims": []
+  }
+}

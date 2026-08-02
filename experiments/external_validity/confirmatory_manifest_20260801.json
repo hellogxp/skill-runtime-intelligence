@@ -1,0 +1,109 @@
+{
+  "schema_version": "sri.experiment.multirepo-confirmatory-manifest.v1",
+  "frozen_at": "2026-08-01",
+  "evidence_grade": "Experimental",
+  "claim_boundary": "Controlled mechanism coverage across six frozen three-file repository profiles, three installed Agent systems, seven conditions, and two model backends. This does not estimate natural incident prevalence, human usability, causal Skill effectiveness, or unconstrained production diagnosis accuracy.",
+  "verification_suite": {
+    "result": "experiments/results/confirmatory-final-suite-20260801.json",
+    "sha256": "ede96886152be90104a17006731c9f8f2334dfbbd990d40e94ca392b2e5e5377",
+    "passed": 13,
+    "failed": 0
+  },
+  "fixtures": [
+    {
+      "path": "experiments/external_validity/multirepo_profiles.json",
+      "sha256": "5bc57022ee14f8688707af5c919bb1cf8e9fa5608c1186ca3732a14c54ac8883"
+    },
+    {
+      "path": "experiments/external_validity/probe.py",
+      "sha256": "fba7ec4fdad468854974758751245298c9cfacef54928680c6dae0e974ca011f"
+    }
+  ],
+  "experiments": [
+    {
+      "id": "multirepo_agent_matrix",
+      "result": "experiments/external_validity/results/multirepo-agent-confirmatory.json",
+      "sha256": "7641cad65ce52d971092e04a48c3f13c2285bdee38009a0f83bd15dde5175352",
+      "planned": 126,
+      "source_sessions_exactly_correlated": 126,
+      "oracle_responses_valid": 122,
+      "integrity_gate_passed": true,
+      "response_gate_passed": false
+    },
+    {
+      "id": "multirepo_reconstruction_fidelity",
+      "result": "experiments/external_validity/results/multirepo-reconstruction-confirmatory.json",
+      "sha256": "4bab854c4a4c92e8558595b5bd993aa83fd87f5c0f1b69e3406a80aefd598b88",
+      "planned": 126,
+      "completed": 126,
+      "gate_passed": true
+    },
+    {
+      "id": "multirepo_privacy_safe_holdout",
+      "result": "experiments/external_validity/results/multirepo-diagnostic-holdout-confirmatory.json",
+      "sha256": "91620a415dce265fe76109aa680d6a890ffd1b15ea454c651633a3f4c193e019",
+      "planned": 126,
+      "completed": 126,
+      "gate_passed": true
+    },
+    {
+      "id": "multirepo_diagnostic_qwen36",
+      "result": "experiments/external_validity/results/multirepo-diagnostic-qwen36-confirmatory.json",
+      "sha256": "90979402255ee8ba0d7873ff5c5fb9ee7e9a9bd69188398123b44616f6fa159d",
+      "planned": 378,
+      "completed": 378,
+      "gate_passed": true
+    },
+    {
+      "id": "multirepo_diagnostic_qwen36_semantics_matched_raw",
+      "result": "experiments/external_validity/results/multirepo-diagnostic-qwen36-raw-semantic-inline-20260801.json",
+      "sha256": "1adfeb15b55c7fb3c1629f8dca559ff776ca34a16979170cf906aef4633693cf",
+      "planned": 126,
+      "completed": 126,
+      "exact": 49,
+      "boundary_exact": 108,
+      "status_exact": 49,
+      "citation_entailment_valid": 26,
+      "gate_passed": true
+    },
+    {
+      "id": "multirepo_diagnostic_qwen36_template_level_comparison",
+      "result": "experiments/external_validity/results/template-raw-semantic-vs-panorama-20260802.json",
+      "sha256": "542d575a2e97e94115aa545093c01adce7ba391702c2f141bcb260fdef8518e9",
+      "paired_cases": 126,
+      "fault_family_templates": 7,
+      "exact_template_directions_panorama_higher_semantic_raw_higher_equal": [3, 1, 3],
+      "boundary_template_directions_panorama_higher_semantic_raw_higher_equal": [0, 0, 7],
+      "inference_boundary": "Descriptive frozen-matrix counts only; rows within condition templates are not independent and no case-level population p-value is reported."
+    },
+    {
+      "id": "multirepo_diagnostic_deepseek",
+      "result": "experiments/external_validity/results/multirepo-diagnostic-deepseek-confirmatory.json",
+      "sha256": "08beaced3b5f3ca48f2cc12ddef0d42546664f5051e1903c4fb096dbbc0142c3",
+      "planned": 378,
+      "completed": 228,
+      "timeout": 111,
+      "invalid_structured_output": 39,
+      "gate_passed": false
+    },
+    {
+      "id": "multirepo_diagnostic_cross_model",
+      "result": "experiments/external_validity/results/multirepo-diagnostic-cross-model-confirmatory.json",
+      "sha256": "53f8a18a6f45afb73262b7c5a9b4de45ee0fa080fa5186a536bc969dd8634ee5",
+      "planned_pairs": 378,
+      "both_completed": 228,
+      "gate_passed": false
+    }
+  ],
+  "retained_pilots": [
+    {
+      "id": "raw_semantic_natural_language_legend_pilot",
+      "result": "experiments/external_validity/results/multirepo-diagnostic-qwen36-raw-semantic-20260801.json",
+      "sha256": "ab90b206e3b1284101cda502c73652873ff4fb15df3b17b00326f6ac27c3d3fd",
+      "planned": 126,
+      "completed": 126,
+      "exact": 26,
+      "reason_not_primary": "Natural-language semantic instructions introduced a verifier-conflict priming artifact; retained as a failed design pilot."
+    }
+  ]
+}

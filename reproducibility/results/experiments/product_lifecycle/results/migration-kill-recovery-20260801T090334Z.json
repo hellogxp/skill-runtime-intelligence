@@ -1,0 +1,47 @@
+{
+  "schema_version": "sri.experiment.migration-kill-recovery.v1",
+  "experiment": {
+    "name": "timestamp-migration-process-kill-recovery",
+    "evidence_grade": "Experimental",
+    "kill_boundaries": 6,
+    "trials_per_boundary": 3,
+    "live_database_used": false,
+    "row_level_records_included": false,
+    "limitations": [
+      "Kills occur after committed DDL boundaries, not inside SQLite atomic DDL.",
+      "SIGKILL is not equivalent to power loss or filesystem corruption.",
+      "The experiment covers one local OS, SQLite, and Python environment."
+    ]
+  },
+  "environment": {
+    "platform_system": "Darwin",
+    "platform_machine": "arm64",
+    "python_version": "3.11.7",
+    "sqlite_version": "3.41.2",
+    "logical_cpu_count": 12,
+    "load_average_1m": 7.54833984375,
+    "load_average_5m": 5.55126953125,
+    "load_average_15m": 4.748046875
+  },
+  "metrics": {
+    "evaluations": 18,
+    "workers_terminated_by_signal": 18,
+    "passed": 18,
+    "failed": 0,
+    "passes_by_committed_prefix": {
+      "0": 3,
+      "1": 3,
+      "2": 3,
+      "3": 3,
+      "4": 3,
+      "5": 3
+    },
+    "legacy_unknown_preserved": true,
+    "idempotent_second_open": true
+  },
+  "gate": {
+    "name": "all committed-boundary process kills recover",
+    "passed": true
+  },
+  "created_at": "2026-08-01T09:03:34.899107+00:00"
+}

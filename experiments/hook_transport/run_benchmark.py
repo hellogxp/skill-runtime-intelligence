@@ -4,6 +4,7 @@
 import argparse
 import json
 import os
+import platform
 import shlex
 import subprocess
 import sys
@@ -339,6 +340,12 @@ def main() -> int:
                 "logical_cpu_count": os.cpu_count(),
                 "ambient_at_start": ambient_at_start,
                 "ambient_at_end": load_average(),
+            },
+            "runtime_environment": {
+                "system": platform.system().lower(),
+                "machine": platform.machine().lower(),
+                "python": platform.python_version(),
+                "container_marker_present": Path("/.dockerenv").exists(),
             },
             "limitations": [
                 "The SLO is a local engineering gate, not a cross-platform claim.",

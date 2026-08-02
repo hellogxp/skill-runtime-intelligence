@@ -1,0 +1,62 @@
+{
+  "schema_version": "sri.experiment.host-identity-cross-environment-summary.v1",
+  "created_at": "2026-07-31T01:46:39Z",
+  "evidence_grade": "Derived",
+  "experiment": {
+    "name": "privacy-safe-scoped-host-identity-cross-environment-summary",
+    "physical_host_count": 1,
+    "os_environments": [
+      "macOS arm64",
+      "Linux arm64 container"
+    ],
+    "limitations": [
+      "The Linux container and macOS runs share one physical host.",
+      "The Linux raw report could not record a Git commit because Git was absent from the pinned runtime image.",
+      "Windows permissions and reparse-point behavior remain untested.",
+      "Passing mechanism gates does not establish anonymity, consent usability, rotation safety, or independent-host replication."
+    ]
+  },
+  "inputs": [
+    {
+      "path": "host-identity-contract-20260730T154935Z.json",
+      "sha256": "9d62986e45ff2ce5af6a7da6a580e84e5dd7d498e4f04ec11475e3e5accc193a",
+      "environment": "macOS arm64",
+      "trials": 3,
+      "workers_per_trial": 8
+    },
+    {
+      "path": "host-identity-contract-20260730T162616Z.json",
+      "sha256": "b6bfc13c9f3c0cfc4668302b2a6f6c09bbd4d12eb825c94a6398291d82e68218",
+      "environment": "macOS arm64",
+      "trials": 5,
+      "workers_per_trial": 12
+    },
+    {
+      "path": "host-identity-contract-linux-20260731T014035Z.json",
+      "sha256": "d2cdfc359f1eb97880b3c345f58667f019bd915d7861a8b90ccb63d68fcf39f8",
+      "environment": "Linux arm64 container",
+      "trials": 5,
+      "workers_per_trial": 12,
+      "container_image": "python@sha256:20080e807bfc404f8450b185cf0fc95d553462673598549613735f70a5b4d5d0",
+      "container_image_id": "sha256:dc8dae3d854db32995baf98f0230777729a1166080a9a50b41b2c0ba00c122a2",
+      "network": "none"
+    }
+  ],
+  "metrics": {
+    "trials": 13,
+    "worker_initializations": 144,
+    "passed_trials": 13,
+    "stable_same_scope_trials": 13,
+    "distinct_cross_scope_trials": 13,
+    "private_permission_trials": 13,
+    "redacted_export_trials": 13,
+    "corrupt_fail_closed_trials": 13,
+    "permissive_fail_closed_trials": 13,
+    "symlink_fail_closed_trials": 13
+  },
+  "gate": {
+    "name": "cross-environment descriptive mechanism replication",
+    "passed": true,
+    "confirmatory_independent_host_replication": false
+  }
+}

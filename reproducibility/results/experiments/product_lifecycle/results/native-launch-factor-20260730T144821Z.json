@@ -1,0 +1,471 @@
+{
+  "schema_version": "sri.experiment.native-launch-factor.v1",
+  "experiment": {
+    "name": "native-sender-placement-provenance-signature-factorial",
+    "evidence_grade": "Experimental",
+    "repetitions_per_cell": 1,
+    "primary_endpoint": "missing_socket_launch_wall_ms",
+    "latency_gate": "descriptive_not_predeclared",
+    "limitations": [
+      "All cells run on one host and share system scheduling context.",
+      "Temporary-path manipulation does not create a fresh machine or OS cache.",
+      "Factor contrasts are descriptive until repeated across runs and hosts.",
+      "Only the missing-socket prewarm contract is measured."
+    ]
+  },
+  "artifact_identity": {
+    "name": "skill-runtime-hook-native-darwin-arm64",
+    "sha256": "db4267ab98cca9cda634ec6aff9865882205e6c0722412fccf5779b1d716497e",
+    "bytes": 50520,
+    "passed": true
+  },
+  "factor_manifest": {
+    "schema_version": "sri.native-sender-launch-factor-manifest.v1",
+    "name": "native-sender-placement-provenance-signature-factorial",
+    "artifact": "skill-runtime-hook-native-darwin-arm64",
+    "release_manifest": "native_sender_manifest_v0.1.6.json",
+    "factors": {
+      "placement": [
+        "direct_copy",
+        "atomic_replace"
+      ],
+      "provenance": [
+        "preserved",
+        "removed"
+      ],
+      "signature": [
+        "original_linker",
+        "adhoc_resigned"
+      ]
+    },
+    "repetitions_per_cell": 8,
+    "primary_endpoint": "missing_socket_launch_wall_ms",
+    "correctness_contract": {
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0
+    },
+    "latency_gate": "descriptive_not_predeclared",
+    "analysis": [
+      "cell p50/p95/max",
+      "within-block marginal factor deltas",
+      "factor-application audit"
+    ],
+    "evidence_grade": "Experimental"
+  },
+  "metrics": {
+    "total_trials": 8,
+    "correct_trials": 8,
+    "factor_setup_passed_trials": 4,
+    "cell_summaries": {
+      "direct_copy:preserved:original_linker": {
+        "count": 1,
+        "min_ms": 1026.084666,
+        "p50_ms": 1026.084666,
+        "p95_ms": 1026.084666,
+        "max_ms": 1026.084666
+      },
+      "direct_copy:preserved:adhoc_resigned": {
+        "count": 1,
+        "min_ms": 4152.65025,
+        "p50_ms": 4152.65025,
+        "p95_ms": 4152.65025,
+        "max_ms": 4152.65025
+      },
+      "direct_copy:removed:original_linker": {
+        "count": 1,
+        "min_ms": 345.358,
+        "p50_ms": 345.358,
+        "p95_ms": 345.358,
+        "max_ms": 345.358
+      },
+      "direct_copy:removed:adhoc_resigned": {
+        "count": 1,
+        "min_ms": 3483.773709,
+        "p50_ms": 3483.773709,
+        "p95_ms": 3483.773709,
+        "max_ms": 3483.773709
+      },
+      "atomic_replace:preserved:original_linker": {
+        "count": 1,
+        "min_ms": 307.119625,
+        "p50_ms": 307.119625,
+        "p95_ms": 307.119625,
+        "max_ms": 307.119625
+      },
+      "atomic_replace:preserved:adhoc_resigned": {
+        "count": 1,
+        "min_ms": 3232.26425,
+        "p50_ms": 3232.26425,
+        "p95_ms": 3232.26425,
+        "max_ms": 3232.26425
+      },
+      "atomic_replace:removed:original_linker": {
+        "count": 1,
+        "min_ms": 335.842375,
+        "p50_ms": 335.842375,
+        "p95_ms": 335.842375,
+        "max_ms": 335.842375
+      },
+      "atomic_replace:removed:adhoc_resigned": {
+        "count": 1,
+        "min_ms": 2992.692167,
+        "p50_ms": 2992.692167,
+        "p95_ms": 2992.692167,
+        "max_ms": 2992.692167
+      }
+    },
+    "factor_deltas": {
+      "placement": {
+        "contrast": "atomic_replace_minus_direct_copy",
+        "delta_ms": {
+          "count": 1,
+          "min_ms": -534.987052,
+          "p50_ms": -534.987052,
+          "p95_ms": -534.987052,
+          "max_ms": -534.987052
+        },
+        "positive_blocks": 0
+      },
+      "provenance": {
+        "contrast": "removed_minus_preserved",
+        "delta_ms": {
+          "count": 1,
+          "min_ms": -390.1131349999996,
+          "p50_ms": -390.1131349999996,
+          "p95_ms": -390.1131349999996,
+          "max_ms": -390.1131349999996
+        },
+        "positive_blocks": 0
+      },
+      "signature": {
+        "contrast": "adhoc_resigned_minus_original_linker",
+        "delta_ms": {
+          "count": 1,
+          "min_ms": 2961.7439275,
+          "p50_ms": 2961.7439275,
+          "p95_ms": 2961.7439275,
+          "max_ms": 2961.7439275
+        },
+        "positive_blocks": 1
+      }
+    },
+    "provenance_reappeared_after_launch": 4
+  },
+  "trials": [
+    {
+      "block": 0,
+      "position": 0,
+      "placement": "direct_copy",
+      "provenance": "preserved",
+      "signature": "original_linker",
+      "factor_setup": {
+        "setup_wall_ms": 156.098708,
+        "sha256": "db4267ab98cca9cda634ec6aff9865882205e6c0722412fccf5779b1d716497e",
+        "resign": null,
+        "xattr_mutation": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "xattrs_before_launch": [
+          "com.apple.provenance"
+        ],
+        "strict_verification": {
+          "exit_code": 1,
+          "message": "${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-0-direct_copy-preserved-original_linker: code object is not signed at all"
+        },
+        "signature_applied": true,
+        "provenance_applied": true,
+        "placement_applied": true,
+        "passed": true
+      },
+      "xattrs_after_launch": [
+        "com.apple.provenance"
+      ],
+      "wall_ms": 1026.084666,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 0,
+      "position": 1,
+      "placement": "direct_copy",
+      "provenance": "preserved",
+      "signature": "adhoc_resigned",
+      "factor_setup": {
+        "setup_wall_ms": 102.446125,
+        "sha256": "1d3eb7f73277a10addae380ffa809895a96f4c4afb0dbaa27d533e314a2c24d0",
+        "resign": {
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-1-direct_copy-preserved-adhoc_resigned: replacing existing signature"
+        },
+        "xattr_mutation": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "xattrs_before_launch": [
+          "com.apple.provenance"
+        ],
+        "strict_verification": {
+          "exit_code": 0,
+          "message": "${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-1-direct_copy-preserved-adhoc_resigned: valid on disk\n${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-1-direct_copy-preserved-adhoc_resigned: satisfies its Designated Requirement"
+        },
+        "signature_applied": true,
+        "provenance_applied": true,
+        "placement_applied": true,
+        "passed": true
+      },
+      "xattrs_after_launch": [
+        "com.alibaba.security.edr.antivirus.cloudquery",
+        "com.apple.provenance"
+      ],
+      "wall_ms": 4152.65025,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 0,
+      "position": 2,
+      "placement": "direct_copy",
+      "provenance": "removed",
+      "signature": "original_linker",
+      "factor_setup": {
+        "setup_wall_ms": 70.009125,
+        "sha256": "db4267ab98cca9cda634ec6aff9865882205e6c0722412fccf5779b1d716497e",
+        "resign": null,
+        "xattr_mutation": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "xattrs_before_launch": [
+          "com.apple.provenance"
+        ],
+        "strict_verification": {
+          "exit_code": 1,
+          "message": "${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-2-direct_copy-removed-original_linker: code object is not signed at all"
+        },
+        "signature_applied": true,
+        "provenance_applied": false,
+        "placement_applied": true,
+        "passed": false
+      },
+      "xattrs_after_launch": [
+        "com.apple.provenance"
+      ],
+      "wall_ms": 345.358,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 0,
+      "position": 3,
+      "placement": "direct_copy",
+      "provenance": "removed",
+      "signature": "adhoc_resigned",
+      "factor_setup": {
+        "setup_wall_ms": 81.102958,
+        "sha256": "fa4a66b1e03a5a6e41b1e6a33253dd5d8d5a2bc34953a0f034a8613968bb2e48",
+        "resign": {
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-3-direct_copy-removed-adhoc_resigned: replacing existing signature"
+        },
+        "xattr_mutation": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "xattrs_before_launch": [
+          "com.apple.provenance"
+        ],
+        "strict_verification": {
+          "exit_code": 0,
+          "message": "${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-3-direct_copy-removed-adhoc_resigned: valid on disk\n${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-3-direct_copy-removed-adhoc_resigned: satisfies its Designated Requirement"
+        },
+        "signature_applied": true,
+        "provenance_applied": false,
+        "placement_applied": true,
+        "passed": false
+      },
+      "xattrs_after_launch": [
+        "com.alibaba.security.edr.antivirus.cloudquery",
+        "com.apple.provenance"
+      ],
+      "wall_ms": 3483.773709,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 0,
+      "position": 4,
+      "placement": "atomic_replace",
+      "provenance": "preserved",
+      "signature": "original_linker",
+      "factor_setup": {
+        "setup_wall_ms": 45.794083,
+        "sha256": "db4267ab98cca9cda634ec6aff9865882205e6c0722412fccf5779b1d716497e",
+        "resign": null,
+        "xattr_mutation": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "xattrs_before_launch": [
+          "com.apple.provenance"
+        ],
+        "strict_verification": {
+          "exit_code": 1,
+          "message": "${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-4-atomic_replace-preserved-original_linker: code object is not signed at all"
+        },
+        "signature_applied": true,
+        "provenance_applied": true,
+        "placement_applied": true,
+        "passed": true
+      },
+      "xattrs_after_launch": [
+        "com.apple.provenance"
+      ],
+      "wall_ms": 307.119625,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 0,
+      "position": 5,
+      "placement": "atomic_replace",
+      "provenance": "preserved",
+      "signature": "adhoc_resigned",
+      "factor_setup": {
+        "setup_wall_ms": 60.217583,
+        "sha256": "06ec05910b0f2bff27a9c940ce8e07b972117d4e5d37691f1cd7ee8870c36f36",
+        "resign": {
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-5-atomic_replace-preserved-adhoc_resigned: replacing existing signature"
+        },
+        "xattr_mutation": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "xattrs_before_launch": [
+          "com.apple.provenance"
+        ],
+        "strict_verification": {
+          "exit_code": 0,
+          "message": "${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-5-atomic_replace-preserved-adhoc_resigned: valid on disk\n${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-5-atomic_replace-preserved-adhoc_resigned: satisfies its Designated Requirement"
+        },
+        "signature_applied": true,
+        "provenance_applied": true,
+        "placement_applied": true,
+        "passed": true
+      },
+      "xattrs_after_launch": [
+        "com.alibaba.security.edr.antivirus.cloudquery",
+        "com.apple.provenance"
+      ],
+      "wall_ms": 3232.26425,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 0,
+      "position": 6,
+      "placement": "atomic_replace",
+      "provenance": "removed",
+      "signature": "original_linker",
+      "factor_setup": {
+        "setup_wall_ms": 66.411625,
+        "sha256": "db4267ab98cca9cda634ec6aff9865882205e6c0722412fccf5779b1d716497e",
+        "resign": null,
+        "xattr_mutation": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "xattrs_before_launch": [
+          "com.apple.provenance"
+        ],
+        "strict_verification": {
+          "exit_code": 1,
+          "message": "${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-6-atomic_replace-removed-original_linker: code object is not signed at all"
+        },
+        "signature_applied": true,
+        "provenance_applied": false,
+        "placement_applied": true,
+        "passed": false
+      },
+      "xattrs_after_launch": [
+        "com.apple.provenance"
+      ],
+      "wall_ms": 335.842375,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 0,
+      "position": 7,
+      "placement": "atomic_replace",
+      "provenance": "removed",
+      "signature": "adhoc_resigned",
+      "factor_setup": {
+        "setup_wall_ms": 84.357958,
+        "sha256": "b44c7d91023dcf094f7f0144f0a3c4e30912579078091121805bd7244ec13e9a",
+        "resign": {
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-7-atomic_replace-removed-adhoc_resigned: replacing existing signature"
+        },
+        "xattr_mutation": {
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "xattrs_before_launch": [
+          "com.apple.provenance"
+        ],
+        "strict_verification": {
+          "exit_code": 0,
+          "message": "${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-7-atomic_replace-removed-adhoc_resigned: valid on disk\n${LOCAL_HOME}/.codex/sri-native-launch-factor-q_q187xp/trial-000-7-atomic_replace-removed-adhoc_resigned: satisfies its Designated Requirement"
+        },
+        "signature_applied": true,
+        "provenance_applied": false,
+        "placement_applied": true,
+        "passed": false
+      },
+      "xattrs_after_launch": [
+        "com.alibaba.security.edr.antivirus.cloudquery",
+        "com.apple.provenance"
+      ],
+      "wall_ms": 2992.692167,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    }
+  ],
+  "gate": {
+    "name": "temporary launch-factor integrity",
+    "passed": false
+  },
+  "created_at": "2026-07-30T14:48:21.669757+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

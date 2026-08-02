@@ -1,0 +1,5390 @@
+{
+  "schema_version": "sri.experiment.multirepo-diagnostic-utility.v1",
+  "experiment": {
+    "name": "raw-semantics-matched-panorama-graph-plus-model-multirepo-diagnosis",
+    "evidence_grade": "Experimental",
+    "backend": "openai",
+    "model": "qwen3.6-35b-a3b-dsw",
+    "runtime_version": "openai-compatible",
+    "holdout_sha256": "91620a415dce265fe76109aa680d6a890ffd1b15ea454c651633a3f4c193e019",
+    "views": [
+      "raw_semantic"
+    ],
+    "limitations": [
+      "Gold is programmatic controlled-fault truth, not natural production-incident annotation.",
+      "Raw and Panorama are two representations of the same executed oracle trace.",
+      "Raw-semantic preserves the raw record structure while supplying the same named lifecycle, record-kind, and evidence-grade semantics exposed by Panorama; it isolates structure from semantic scaffolding only within this prompt contract.",
+      "Graph-plus-model exposes a correct deterministic candidate; it tests interface preservation, not independent discovery.",
+      "All model conclusions remain Inferred even when exact."
+    ]
+  },
+  "graph_only": {
+    "planned": 126,
+    "exact": 126,
+    "exact_rate": 1.0
+  },
+  "model_summary": {
+    "raw": {
+      "planned": 0,
+      "completed": 0,
+      "exact": 0,
+      "exact_rate": 0.0,
+      "boundary_exact": 0,
+      "status_exact": 0,
+      "citation_id_valid": 0,
+      "citation_entailment_valid": 0,
+      "causal_safe": 0,
+      "latency_p50_ms": null,
+      "input_tokens_total": 0
+    },
+    "raw_semantic": {
+      "planned": 126,
+      "completed": 126,
+      "exact": 26,
+      "exact_rate": 0.20634920634920634,
+      "boundary_exact": 80,
+      "status_exact": 54,
+      "citation_id_valid": 126,
+      "citation_entailment_valid": 26,
+      "causal_safe": 126,
+      "latency_p50_ms": 2182.0396654948127,
+      "input_tokens_total": 0
+    },
+    "panorama": {
+      "planned": 0,
+      "completed": 0,
+      "exact": 0,
+      "exact_rate": 0.0,
+      "boundary_exact": 0,
+      "status_exact": 0,
+      "citation_id_valid": 0,
+      "citation_entailment_valid": 0,
+      "causal_safe": 0,
+      "latency_p50_ms": null,
+      "input_tokens_total": 0
+    },
+    "graph_plus_model": {
+      "planned": 0,
+      "completed": 0,
+      "exact": 0,
+      "exact_rate": 0.0,
+      "boundary_exact": 0,
+      "status_exact": 0,
+      "citation_id_valid": 0,
+      "citation_entailment_valid": 0,
+      "causal_safe": 0,
+      "latency_p50_ms": null,
+      "input_tokens_total": 0
+    }
+  },
+  "graph_rows": [
+    {
+      "case_id": "codex-llm-mi-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-llm-mi-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-rapid-tele-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-llm-mi-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-hello-skill-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-rapid-agent-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-tinylru-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-rapid-tele-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-rapid-tele-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-rapid-agent-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-tinylru-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-tinylru-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-hello-skill-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-llm-mi-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-rapid-tele-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-rapid-tele-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-hello-skill-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-rapid-agent-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-hello-skill-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-hello-skill-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-llm-mi-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-hello-skill-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-rapid-agent-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-rapid-agent-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-tinylru-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-tinylru-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-tinylru-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-rapid-tele-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-rapid-agent-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-llm-mi-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-tinylru-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-rapid-tele-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-hello-skill-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-llm-mi-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "codex-rapid-agent-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-llm-mi-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-hello-skill-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-llm-mi-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-llm-mi-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-hello-skill-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-hello-skill-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-hello-skill-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-tinylru-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-tinylru-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-tinylru-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-tinylru-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-tinylru-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-hello-skill-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-llm-mi-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-llm-mi-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-llm-mi-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-rapid-tele-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-tinylru-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-hello-skill-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-rapid-agent-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-tinylru-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-llm-mi-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-hello-skill-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-llm-mi-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-tinylru-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-tinylru-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-llm-mi-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-rapid-tele-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-hello-skill-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-hello-skill-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-rapid-agent-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-hello-skill-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-rapid-tele-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-llm-mi-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-llm-mi-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-tinylru-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-rapid-agent-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-rapid-agent-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-tinylru-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-llm-mi-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-rapid-agent-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-llm-mi-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-hello-skill-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-tinylru-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-rapid-agent-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-hello-skill-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-tinylru-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-llm-mi-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-rapid-tele-clean",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-tinylru-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-verifier_conflict",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-rapid-tele-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-rapid-tele-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-rapid-agent-execution_failure",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-hello-skill-resource_missing",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-rapid-tele-instructions_failure",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-hello-skill-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-rapid-tele-artifact_corruption",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "exact": true
+    },
+    {
+      "case_id": "qoder-rapid-agent-outcome_unverified",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true
+    }
+  ],
+  "rows": [
+    {
+      "case_id": "codex-hello-skill-artifact_corruption",
+      "agent": "codex",
+      "repo_key": "hello-skill",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2535.3360679582693,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-hello-skill-clean",
+      "agent": "codex",
+      "repo_key": "hello-skill",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2640.4761309968308,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 900,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-hello-skill-execution_failure",
+      "agent": "codex",
+      "repo_key": "hello-skill",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2506.012563011609,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-hello-skill-instructions_failure",
+      "agent": "codex",
+      "repo_key": "hello-skill",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1799.6604940271936,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-hello-skill-outcome_unverified",
+      "agent": "codex",
+      "repo_key": "hello-skill",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1785.7616030378267,
+      "usage": {
+        "prompt_tokens": 795,
+        "total_tokens": 875,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-hello-skill-resource_missing",
+      "agent": "codex",
+      "repo_key": "hello-skill",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1613.6846529552713,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 867,
+        "completion_tokens": 74,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-hello-skill-verifier_conflict",
+      "agent": "codex",
+      "repo_key": "hello-skill",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1839.05034995405,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-artifact_corruption",
+      "agent": "codex",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2529.8908289987594,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-clean",
+      "agent": "codex",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 3394.8075599619187,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 900,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-execution_failure",
+      "agent": "codex",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2533.5708560305648,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-instructions_failure",
+      "agent": "codex",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1796.9471190008335,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-outcome_unverified",
+      "agent": "codex",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2515.538878971711,
+      "usage": {
+        "prompt_tokens": 795,
+        "total_tokens": 875,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-resource_missing",
+      "agent": "codex",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1215.385135030374,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 867,
+        "completion_tokens": 74,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-llm-mechanistic-interpretability-verifier_conflict",
+      "agent": "codex",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1796.647766022943,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-llm-mi-artifact_corruption",
+      "agent": "codex",
+      "repo_key": "llm-mi",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2505.3744059987366,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-llm-mi-clean",
+      "agent": "codex",
+      "repo_key": "llm-mi",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2631.4610469853505,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 900,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-llm-mi-execution_failure",
+      "agent": "codex",
+      "repo_key": "llm-mi",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1839.032493007835,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-llm-mi-instructions_failure",
+      "agent": "codex",
+      "repo_key": "llm-mi",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2531.5519589930773,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-llm-mi-outcome_unverified",
+      "agent": "codex",
+      "repo_key": "llm-mi",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1784.880090970546,
+      "usage": {
+        "prompt_tokens": 795,
+        "total_tokens": 875,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-llm-mi-resource_missing",
+      "agent": "codex",
+      "repo_key": "llm-mi",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2268.177825026214,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 867,
+        "completion_tokens": 74,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-llm-mi-verifier_conflict",
+      "agent": "codex",
+      "repo_key": "llm-mi",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2528.3907019766048,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-rapid-agent-artifact_corruption",
+      "agent": "codex",
+      "repo_key": "rapid-agent",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2523.1037579942495,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-rapid-agent-clean",
+      "agent": "codex",
+      "repo_key": "rapid-agent",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2683.397673012223,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 900,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-rapid-agent-execution_failure",
+      "agent": "codex",
+      "repo_key": "rapid-agent",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1800.359912973363,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-rapid-agent-instructions_failure",
+      "agent": "codex",
+      "repo_key": "rapid-agent",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1796.749172033742,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-rapid-agent-outcome_unverified",
+      "agent": "codex",
+      "repo_key": "rapid-agent",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1745.9493320202455,
+      "usage": {
+        "prompt_tokens": 795,
+        "total_tokens": 875,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-rapid-agent-resource_missing",
+      "agent": "codex",
+      "repo_key": "rapid-agent",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2289.170364034362,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 867,
+        "completion_tokens": 74,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-rapid-agent-verifier_conflict",
+      "agent": "codex",
+      "repo_key": "rapid-agent",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1789.1719969920814,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-rapid-tele-artifact_corruption",
+      "agent": "codex",
+      "repo_key": "rapid-tele",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1849.9408980133012,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-rapid-tele-clean",
+      "agent": "codex",
+      "repo_key": "rapid-tele",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2727.3831199854612,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 900,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-rapid-tele-execution_failure",
+      "agent": "codex",
+      "repo_key": "rapid-tele",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2528.623357997276,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-rapid-tele-instructions_failure",
+      "agent": "codex",
+      "repo_key": "rapid-tele",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2523.928966023959,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-rapid-tele-outcome_unverified",
+      "agent": "codex",
+      "repo_key": "rapid-tele",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1745.9614850231446,
+      "usage": {
+        "prompt_tokens": 795,
+        "total_tokens": 875,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-rapid-tele-resource_missing",
+      "agent": "codex",
+      "repo_key": "rapid-tele",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1649.000731005799,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 867,
+        "completion_tokens": 74,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-rapid-tele-verifier_conflict",
+      "agent": "codex",
+      "repo_key": "rapid-tele",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2522.7675659698434,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-tinylru-artifact_corruption",
+      "agent": "codex",
+      "repo_key": "tinylru",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1790.3803419903852,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-tinylru-clean",
+      "agent": "codex",
+      "repo_key": "tinylru",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 3391.9232800253667,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 900,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-tinylru-execution_failure",
+      "agent": "codex",
+      "repo_key": "tinylru",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2529.9717980087735,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-tinylru-instructions_failure",
+      "agent": "codex",
+      "repo_key": "tinylru",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1787.9076430108398,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-tinylru-outcome_unverified",
+      "agent": "codex",
+      "repo_key": "tinylru",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1777.7171020279638,
+      "usage": {
+        "prompt_tokens": 795,
+        "total_tokens": 875,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-tinylru-resource_missing",
+      "agent": "codex",
+      "repo_key": "tinylru",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 3102.9077919665724,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 881,
+        "completion_tokens": 88,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "codex-tinylru-verifier_conflict",
+      "agent": "codex",
+      "repo_key": "tinylru",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1819.1568139591254,
+      "usage": {
+        "prompt_tokens": 793,
+        "total_tokens": 874,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-hello-skill-artifact_corruption",
+      "agent": "opencode",
+      "repo_key": "hello-skill",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1839.1938650165685,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 871,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-hello-skill-clean",
+      "agent": "opencode",
+      "repo_key": "hello-skill",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2737.6399760250933,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 897,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-hello-skill-execution_failure",
+      "agent": "opencode",
+      "repo_key": "hello-skill",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2214.256038016174,
+      "usage": {
+        "prompt_tokens": 852,
+        "total_tokens": 933,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-hello-skill-instructions_failure",
+      "agent": "opencode",
+      "repo_key": "hello-skill",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2098.0147480149753,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 871,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-hello-skill-outcome_unverified",
+      "agent": "opencode",
+      "repo_key": "hello-skill",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2112.1064969920553,
+      "usage": {
+        "prompt_tokens": 792,
+        "total_tokens": 872,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-hello-skill-resource_missing",
+      "agent": "opencode",
+      "repo_key": "hello-skill",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2531.4624210004695,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 909,
+        "completion_tokens": 88,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-hello-skill-verifier_conflict",
+      "agent": "opencode",
+      "repo_key": "hello-skill",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1841.4925030083396,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 871,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-artifact_corruption",
+      "agent": "opencode",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1841.3263109978288,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-clean",
+      "agent": "opencode",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2511.238445993513,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 928,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-execution_failure",
+      "agent": "opencode",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2260.677195037715,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-instructions_failure",
+      "agent": "opencode",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2211.3604489713907,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 871,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-outcome_unverified",
+      "agent": "opencode",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1760.6508889584802,
+      "usage": {
+        "prompt_tokens": 823,
+        "total_tokens": 903,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-resource_missing",
+      "agent": "opencode",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2193.8527589663863,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 878,
+        "completion_tokens": 88,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-llm-mechanistic-interpretability-verifier_conflict",
+      "agent": "opencode",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2181.813689006958,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 871,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-llm-mi-artifact_corruption",
+      "agent": "opencode",
+      "repo_key": "llm-mi",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2118.5898080002517,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 871,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-llm-mi-clean",
+      "agent": "opencode",
+      "repo_key": "llm-mi",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2683.287097956054,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 897,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-llm-mi-execution_failure",
+      "agent": "opencode",
+      "repo_key": "llm-mi",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2092.278414987959,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-llm-mi-instructions_failure",
+      "agent": "opencode",
+      "repo_key": "llm-mi",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2212.4779550358653,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 871,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-llm-mi-outcome_unverified",
+      "agent": "opencode",
+      "repo_key": "llm-mi",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2200.573100009933,
+      "usage": {
+        "prompt_tokens": 823,
+        "total_tokens": 903,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-llm-mi-resource_missing",
+      "agent": "opencode",
+      "repo_key": "llm-mi",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2229.2189610307105,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 878,
+        "completion_tokens": 88,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-llm-mi-verifier_conflict",
+      "agent": "opencode",
+      "repo_key": "llm-mi",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1840.5979410163127,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-rapid-agent-artifact_corruption",
+      "agent": "opencode",
+      "repo_key": "rapid-agent",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2214.2949620028958,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 871,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-rapid-agent-clean",
+      "agent": "opencode",
+      "repo_key": "rapid-agent",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2783.6934759980068,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 897,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-rapid-agent-execution_failure",
+      "agent": "opencode",
+      "repo_key": "rapid-agent",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2050.1065040007234,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 871,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-rapid-agent-instructions_failure",
+      "agent": "opencode",
+      "repo_key": "rapid-agent",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2150.865801027976,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-rapid-agent-outcome_unverified",
+      "agent": "opencode",
+      "repo_key": "rapid-agent",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1827.9147029970773,
+      "usage": {
+        "prompt_tokens": 792,
+        "total_tokens": 872,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-rapid-agent-resource_missing",
+      "agent": "opencode",
+      "repo_key": "rapid-agent",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2469.732424011454,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 878,
+        "completion_tokens": 88,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-rapid-agent-verifier_conflict",
+      "agent": "opencode",
+      "repo_key": "rapid-agent",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2212.8776000463404,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-rapid-tele-artifact_corruption",
+      "agent": "opencode",
+      "repo_key": "rapid-tele",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2150.858003005851,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-rapid-tele-clean",
+      "agent": "opencode",
+      "repo_key": "rapid-tele",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2613.4410120430402,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 928,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-rapid-tele-execution_failure",
+      "agent": "opencode",
+      "repo_key": "rapid-tele",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2214.3757130252197,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 871,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-rapid-tele-instructions_failure",
+      "agent": "opencode",
+      "repo_key": "rapid-tele",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2149.911802029237,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 871,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-rapid-tele-outcome_unverified",
+      "agent": "opencode",
+      "repo_key": "rapid-tele",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2084.753639996052,
+      "usage": {
+        "prompt_tokens": 855,
+        "total_tokens": 935,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-rapid-tele-resource_missing",
+      "agent": "opencode",
+      "repo_key": "rapid-tele",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1933.6749369977042,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 878,
+        "completion_tokens": 88,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-rapid-tele-verifier_conflict",
+      "agent": "opencode",
+      "repo_key": "rapid-tele",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2150.8973359595984,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 871,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-tinylru-artifact_corruption",
+      "agent": "opencode",
+      "repo_key": "tinylru",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2124.6922950376756,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-tinylru-clean",
+      "agent": "opencode",
+      "repo_key": "tinylru",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2964.1016929526813,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 928,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-tinylru-execution_failure",
+      "agent": "opencode",
+      "repo_key": "tinylru",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2149.9273980152793,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 871,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-tinylru-instructions_failure",
+      "agent": "opencode",
+      "repo_key": "tinylru",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2124.779904028401,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-tinylru-outcome_unverified",
+      "agent": "opencode",
+      "repo_key": "tinylru",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2137.013097992167,
+      "usage": {
+        "prompt_tokens": 792,
+        "total_tokens": 872,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-tinylru-resource_missing",
+      "agent": "opencode",
+      "repo_key": "tinylru",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2544.8549860157073,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 878,
+        "completion_tokens": 88,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "opencode-tinylru-verifier_conflict",
+      "agent": "opencode",
+      "repo_key": "tinylru",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2214.2919279867783,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-hello-skill-artifact_corruption",
+      "agent": "qoder",
+      "repo_key": "hello-skill",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1089.824137976393,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-hello-skill-clean",
+      "agent": "qoder",
+      "repo_key": "hello-skill",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2682.542407012079,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 928,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-hello-skill-execution_failure",
+      "agent": "qoder",
+      "repo_key": "hello-skill",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2267.017356993165,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-hello-skill-instructions_failure",
+      "agent": "qoder",
+      "repo_key": "hello-skill",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2114.777075999882,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-hello-skill-outcome_unverified",
+      "agent": "qoder",
+      "repo_key": "hello-skill",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2177.124277979601,
+      "usage": {
+        "prompt_tokens": 823,
+        "total_tokens": 903,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-hello-skill-resource_missing",
+      "agent": "qoder",
+      "repo_key": "hello-skill",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1445.8009059890173,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 909,
+        "completion_tokens": 88,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-hello-skill-verifier_conflict",
+      "agent": "qoder",
+      "repo_key": "hello-skill",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2266.4956729859114,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-artifact_corruption",
+      "agent": "qoder",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1482.4071699986234,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-clean",
+      "agent": "qoder",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2757.0781329995953,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 928,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-execution_failure",
+      "agent": "qoder",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2186.0666070133448,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-instructions_failure",
+      "agent": "qoder",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2132.745787035674,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-outcome_unverified",
+      "agent": "qoder",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2100.5567459505983,
+      "usage": {
+        "prompt_tokens": 823,
+        "total_tokens": 903,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-resource_missing",
+      "agent": "qoder",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1735.9897979767993,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 909,
+        "completion_tokens": 88,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-llm-mechanistic-interpretability-verifier_conflict",
+      "agent": "qoder",
+      "repo_key": "llm-mechanistic-interpretability",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1792.3554449807853,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-llm-mi-artifact_corruption",
+      "agent": "qoder",
+      "repo_key": "llm-mi",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2211.358265951276,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-llm-mi-clean",
+      "agent": "qoder",
+      "repo_key": "llm-mi",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2993.4991460177116,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 928,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-llm-mi-execution_failure",
+      "agent": "qoder",
+      "repo_key": "llm-mi",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2183.1158439745195,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-llm-mi-instructions_failure",
+      "agent": "qoder",
+      "repo_key": "llm-mi",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2167.8101050201803,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-llm-mi-outcome_unverified",
+      "agent": "qoder",
+      "repo_key": "llm-mi",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2254.539499990642,
+      "usage": {
+        "prompt_tokens": 823,
+        "total_tokens": 903,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-llm-mi-resource_missing",
+      "agent": "qoder",
+      "repo_key": "llm-mi",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2330.4988449672237,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 909,
+        "completion_tokens": 88,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-llm-mi-verifier_conflict",
+      "agent": "qoder",
+      "repo_key": "llm-mi",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1994.3812109995633,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-rapid-agent-artifact_corruption",
+      "agent": "qoder",
+      "repo_key": "rapid-agent",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2267.434832989238,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-rapid-agent-clean",
+      "agent": "qoder",
+      "repo_key": "rapid-agent",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 3044.703115010634,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 928,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-rapid-agent-execution_failure",
+      "agent": "qoder",
+      "repo_key": "rapid-agent",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1675.4422659869306,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-rapid-agent-instructions_failure",
+      "agent": "qoder",
+      "repo_key": "rapid-agent",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2187.5531660043634,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-rapid-agent-outcome_unverified",
+      "agent": "qoder",
+      "repo_key": "rapid-agent",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 802.8494769823737,
+      "usage": {
+        "prompt_tokens": 823,
+        "total_tokens": 903,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-rapid-agent-resource_missing",
+      "agent": "qoder",
+      "repo_key": "rapid-agent",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2532.9944000113755,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 909,
+        "completion_tokens": 88,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-rapid-agent-verifier_conflict",
+      "agent": "qoder",
+      "repo_key": "rapid-agent",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2157.948572013993,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-rapid-tele-artifact_corruption",
+      "agent": "qoder",
+      "repo_key": "rapid-tele",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1030.293952964712,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-rapid-tele-clean",
+      "agent": "qoder",
+      "repo_key": "rapid-tele",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2270.2531300019473,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 928,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-rapid-tele-execution_failure",
+      "agent": "qoder",
+      "repo_key": "rapid-tele",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1677.973239973653,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-rapid-tele-instructions_failure",
+      "agent": "qoder",
+      "repo_key": "rapid-tele",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1220.8942970028147,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-rapid-tele-outcome_unverified",
+      "agent": "qoder",
+      "repo_key": "rapid-tele",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1780.7322400039993,
+      "usage": {
+        "prompt_tokens": 823,
+        "total_tokens": 903,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-rapid-tele-resource_missing",
+      "agent": "qoder",
+      "repo_key": "rapid-tele",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2463.5140860336833,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 909,
+        "completion_tokens": 88,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-rapid-tele-verifier_conflict",
+      "agent": "qoder",
+      "repo_key": "rapid-tele",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2293.415146006737,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-tinylru-artifact_corruption",
+      "agent": "qoder",
+      "repo_key": "tinylru",
+      "fault_mode": "artifact_corruption",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "artifacts",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1992.8374469745904,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-tinylru-clean",
+      "agent": "qoder",
+      "repo_key": "tinylru",
+      "fault_mode": "clean",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "predicted": {
+        "boundary": "none",
+        "diagnosis_status": "verified_success"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2558.4178079734556,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 928,
+        "completion_tokens": 107,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-tinylru-execution_failure",
+      "agent": "qoder",
+      "repo_key": "tinylru",
+      "fault_mode": "execution_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "execution",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2132.9596120049246,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-tinylru-instructions_failure",
+      "agent": "qoder",
+      "repo_key": "tinylru",
+      "fault_mode": "instructions_failure",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "instructions",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "instructions",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2184.2539199860767,
+      "usage": {
+        "prompt_tokens": 790,
+        "total_tokens": 871,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-tinylru-outcome_unverified",
+      "agent": "qoder",
+      "repo_key": "tinylru",
+      "fault_mode": "outcome_unverified",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "predicted": {
+        "boundary": "outcome",
+        "diagnosis_status": "outcome_unverified"
+      },
+      "exact": true,
+      "boundary_exact": true,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": true,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2173.868596961256,
+      "usage": {
+        "prompt_tokens": 823,
+        "total_tokens": 903,
+        "completion_tokens": 80,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-tinylru-resource_missing",
+      "agent": "qoder",
+      "repo_key": "tinylru",
+      "fault_mode": "resource_missing",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "resources",
+        "diagnosis_status": "observed_failure"
+      },
+      "predicted": {
+        "boundary": "resources",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": true,
+      "status_exact": false,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2288.0966829834506,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 909,
+        "completion_tokens": 88,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "qoder-tinylru-verifier_conflict",
+      "agent": "qoder",
+      "repo_key": "tinylru",
+      "fault_mode": "verifier_conflict",
+      "view": "raw_semantic",
+      "status": "completed",
+      "gold": {
+        "boundary": "outcome",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "predicted": {
+        "boundary": "execution",
+        "diagnosis_status": "verifier_conflict"
+      },
+      "exact": false,
+      "boundary_exact": false,
+      "status_exact": true,
+      "citation_id_valid": true,
+      "citation_entailment_valid": false,
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 2182.265641982667,
+      "usage": {
+        "prompt_tokens": 821,
+        "total_tokens": 902,
+        "completion_tokens": 81,
+        "prompt_tokens_details": null
+      }
+    }
+  ],
+  "gate": {
+    "name": "all requested calls complete with ID-valid citations and causal safety",
+    "passed": true
+  },
+  "created_at": "2026-08-01T14:38:13.368148+00:00",
+  "environment": {
+    "python": "3.12.13",
+    "platform": "Linux-5.10.134-18.0.11.lifsea8.x86_64-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "git_commit": "a1f2cfca6a4c7cc75e7a995ed54f48ca99c131f9",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

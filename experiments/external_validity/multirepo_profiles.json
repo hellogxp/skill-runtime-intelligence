@@ -1,0 +1,41 @@
+{
+  "schema_version": "sri.experiment.multirepo-profiles.v1",
+  "profiles": [
+    {
+      "repo_key": "tinylru",
+      "skill_id": "go-cache-contract-audit",
+      "description": "Audit a real Go cache repository through module, implementation, test, artifact, and outcome checks.",
+      "files": ["go.mod", "lru.go", "lru_test.go"]
+    },
+    {
+      "repo_key": "rapid-tele",
+      "skill_id": "telemetry-agent-contract-audit",
+      "description": "Audit a real telemetry agent repository through documentation, module, implementation, artifact, and outcome checks.",
+      "files": ["README.md", "go.mod", "cmd/rapid-tele/agent.go"]
+    },
+    {
+      "repo_key": "llm-mi",
+      "skill_id": "python-research-package-audit",
+      "description": "Audit a real Python research package through packaging, configuration, analysis, artifact, and outcome checks.",
+      "files": ["pyproject.toml", "src/mechlens/config.py", "src/mechlens/analysis/activation.py"]
+    },
+    {
+      "repo_key": "llm-mechanistic-interpretability",
+      "skill_id": "research-app-contract-audit",
+      "description": "Audit a real research application through documentation, dependency, application, artifact, and outcome checks.",
+      "files": ["README.md", "requirements.txt", "app.py"]
+    },
+    {
+      "repo_key": "hello-skill",
+      "skill_id": "spec-workflow-contract-audit",
+      "description": "Audit a real specification workflow through constitution, shared shell helper, prerequisite, artifact, and outcome checks.",
+      "files": [".specify/memory/constitution.md", ".specify/scripts/bash/common.sh", ".specify/scripts/bash/check-prerequisites.sh"]
+    },
+    {
+      "repo_key": "rapid-agent",
+      "skill_id": "agent-skill-catalog-audit",
+      "description": "Audit a real Agent and Skill catalog through top-level guidance, Skill definition, helper, artifact, and outcome checks.",
+      "files": ["README.md", "skills/adle/spec-harness/SKILL.md", "skills/adle/spec-harness-creator/scripts/bash/common.sh"]
+    }
+  ]
+}

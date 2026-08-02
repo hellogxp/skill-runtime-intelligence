@@ -261,6 +261,9 @@ class CodexAdapterTests(unittest.TestCase):
                 "---\nname: pdf\ndescription: Inspect PDFs\n---\nInstructions.\n",
                 encoding="utf-8",
             )
+            script_file = skill_dir / "scripts" / "render.py"
+            script_file.parent.mkdir()
+            script_file.write_text("print('render')\n", encoding="utf-8")
             session_file = root / "session.jsonl"
             records = [
                 {
@@ -307,6 +310,9 @@ class CodexAdapterTests(unittest.TestCase):
             ]
             self.assertEqual(len(resource), 1)
             self.assertEqual(resource[0]["payload"]["resource_kind"], "script")
+            self.assertEqual(
+                resource[0]["payload"]["file_path"], str(script_file.resolve())
+            )
 
     def test_derives_exact_artifact_from_completed_file_tool(self):
         with tempfile.TemporaryDirectory() as directory:

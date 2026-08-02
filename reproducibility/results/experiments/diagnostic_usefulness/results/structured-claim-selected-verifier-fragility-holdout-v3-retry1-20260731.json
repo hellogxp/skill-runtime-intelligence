@@ -1,0 +1,115 @@
+{
+  "schema_version": "sri.experiment.claim-output-mode-study.v1",
+  "experiment": {
+    "name": "structured-only-claim-study",
+    "evidence_grade": "experimental",
+    "dataset_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/selected-fragility-holdout-v3-20260731.jsonl",
+    "dataset_sha256": "174cc3755379a0fe6eef3740f81e3b818bda3da3f60f61b71323d3ed9592f109",
+    "model": "opencode/mimo-v2-flash-free",
+    "model_cli": "opencode",
+    "model_cli_version": "1.18.5",
+    "seed": 2026073117,
+    "session_policy": "fresh pure session per trial; stdin prompt; isolated temporary XDG state",
+    "modes": [
+      "structured"
+    ],
+    "limitations": [
+      "The corpus is small and hand-authored.",
+      "One response per model and case does not estimate repeated-run variance.",
+      "The recorded model ID does not independently verify model-family identity."
+    ]
+  },
+  "metrics": {
+    "structured": {
+      "planned": 4,
+      "completed": 0,
+      "response_completion_rate": 0.0,
+      "claim_kind_correct": 0,
+      "guard_decision_correct": 0,
+      "false_allows": 0,
+      "false_denies": 0,
+      "input_tokens": 0,
+      "total_tokens": 0
+    }
+  },
+  "trials": [
+    {
+      "case_id": "fragility3_none_descriptive_ar",
+      "mode": "structured",
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "expected_allowed": true,
+      "prompt_sha256": "76d427a55babe800055260f7d6a6bc86d7fd8dd7fbed8a01dc5ac005e24d88a3",
+      "model_id": "opencode/mimo-v2-flash-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 3461.7924579943065,
+      "session_id_sha256": "9c3577fe43857b24172fe62510dd71686fbf11cdbdc70f2ec90b478d09511a26",
+      "usage": {},
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "execution_error",
+      "error": "opencode_exit_1"
+    },
+    {
+      "case_id": "fragility3_none_descriptive_ko",
+      "mode": "structured",
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "expected_allowed": true,
+      "prompt_sha256": "f7c3999589875606c9ec5bbcb7da235cc67e7a92932df9427b426415b32422aa",
+      "model_id": "opencode/mimo-v2-flash-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 2963.538875002996,
+      "session_id_sha256": "1b63d9e66e7890b3b11a108cce7168c1b71855936d47dea683f20639d9dd2fa3",
+      "usage": {},
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "execution_error",
+      "error": "opencode_exit_1"
+    },
+    {
+      "case_id": "fragility3_none_descriptive_limit",
+      "mode": "structured",
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "expected_allowed": true,
+      "prompt_sha256": "7e0f28564b637ace70c55fd1ce08a4e8d6cb5c9167ae6435c36b996fd4a2f4e8",
+      "model_id": "opencode/mimo-v2-flash-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 2761.1249159963336,
+      "session_id_sha256": "f5c5a799263b0ac3a29688e9edf2123d718b18260520589febebdca033c38a81",
+      "usage": {},
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "execution_error",
+      "error": "opencode_exit_1"
+    },
+    {
+      "case_id": "fragility3_none_effect_unchanged",
+      "mode": "structured",
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "expected_allowed": false,
+      "prompt_sha256": "204406fe4e597e405e8c82175f30ad1a89c3449354318cc1955b20181e819b2f",
+      "model_id": "opencode/mimo-v2-flash-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 2000.8338330080733,
+      "session_id_sha256": "537547553b9506298f1c5d7aef5541f09adf44ba42cbe74bccb4fea08df6afef",
+      "usage": {},
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "execution_error",
+      "error": "opencode_exit_1"
+    }
+  ],
+  "gates": {
+    "response_completion": false,
+    "no_false_allow": true
+  },
+  "created_at": "2026-07-31T09:00:22.131181+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

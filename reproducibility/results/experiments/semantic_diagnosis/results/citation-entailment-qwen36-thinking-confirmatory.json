@@ -1,0 +1,145 @@
+{
+  "schema_version": "sri.experiment.citation-entailment-rescore.v1",
+  "experiment": {
+    "name": "stored-model-output-relation-specific-citation-rescore",
+    "evidence_grade": "Derived",
+    "source_report_sha256": "af515b3e7c5435cc89c3fa57d21115c06cdd00b377f763407748de52c0bda31a",
+    "holdout_sha256": "68889e90d533262aeb76db12644e9945867755d053ba03be0244f6e17cf00ccb"
+  },
+  "metrics": {
+    "planned": 19,
+    "completed": 19,
+    "citation_id_valid": 19,
+    "citation_entailment_valid": 0
+  },
+  "rows": [
+    {
+      "case_id": "real-holdout-001",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-002",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-003",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-004",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-005",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-006",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-007",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-008",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-009",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-010",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-011",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-012",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-013",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-014",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-015",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-016",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-017",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-018",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    },
+    {
+      "case_id": "real-holdout-019",
+      "status": "completed",
+      "citation_id_valid": true,
+      "citation_entailment_valid": false
+    }
+  ],
+  "gate": {
+    "name": "all completed citations entail asserted relations",
+    "passed": false
+  },
+  "created_at": "2026-08-01T02:34:20.976142+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "250fb9c5ab070e0c8a19d59f0e630f8fdefe2531",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

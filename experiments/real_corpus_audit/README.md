@@ -42,6 +42,21 @@ Population drift is reported as Derived aggregate evidence. The comparison
 cannot identify changed runs or attribute the drift to restart, re-indexing,
 source availability, or retention.
 
+Measure whether runtime terminality and evidence sufficiency move together
+inside one snapshot-A cohort:
+
+```bash
+PYTHONPATH=src python3 \
+  experiments/real_corpus_audit/cohort_evidence_transition_benchmark.py \
+  --database .sri/panorama.db \
+  --interval-seconds 2
+```
+
+The experiment uses private run keys only inside the process to align two
+query-only snapshots. Its report contains four-state transition counts, never
+run keys or row-level content. “Evidence sufficient” requires an observed
+Skill activation plus either a verified outcome or an explicit failed event.
+
 Version 3 also records SHA-256 fingerprints for the exact temporary snapshot,
 its SQLite schema, and the privacy-safe aggregate. These are locally linkable
 identifiers: sharing reports can reveal that two reports used the same

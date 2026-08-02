@@ -83,6 +83,59 @@ Example:
 
 Every sentence is assembled from evidence-backed facts and links to the corresponding nodes.
 
+### Evidence-bounded run assessment
+
+The run overview separates observability from conformance:
+
+- evidence coverage reports how much of the observable lifecycle has records;
+  it is not a pass score;
+- the run assessment compares the lifecycle evidence needed for inspection
+  with what was actually observed;
+- an explicit runtime failure may be labeled as an observable failure, while a
+  missing or unsupported signal remains unconfirmed or unobservable;
+- “no observable deviation” is never presented as proof that the Skill caused
+  the outcome or that the result is correct;
+- attribution links an event to a SkillRun scope by a recorded identity,
+  exact Skill path, source relationship, or active run boundary. It is an
+  association and does not establish causality.
+
+Each assessment check links back to the corresponding lifecycle stage and
+evidence inspector. The expected-evidence column names the signal required to
+make a judgment; it does not claim that every Skill must perform every stage.
+
+### What actually happened
+
+Immediately after the assessment, the overview translates stage counts into
+concrete objects:
+
+- instruction and resource paths when the normalized source retained them;
+- paired tool calls grouped by tool, while preserving the underlying start and
+  terminal events;
+- logical artifacts grouped by canonical path, including temporary
+  create/delete lifecycles and retained final state;
+- agent-reported outcomes kept separate from independent verification.
+
+Each row exposes its evidence grade, source-record count, limitation, and links
+to the evidence inspector. The compact summary never exposes full home paths by
+default and never turns SkillRun attribution into a causal claim.
+
+### Skill behavior check
+
+The overview places behavior conformance between the run diagnosis and the
+activity inventory. It extracts only checkable constraints from the current
+Skill definition and displays:
+
+- the number extracted, checked, satisfied, and requiring review;
+- a localized constraint summary plus the exact `SKILL.md` source line;
+- the lifecycle stage and matching evidence when available;
+- `not_evaluable` for conditional rules whose trigger is unknown or for
+  command/resource details intentionally removed by redaction.
+
+Unconfigured outcome verification is a neutral capability state. It becomes a
+verification gap only when the Skill or task declares that a verifier is
+expected. Systemic adapter limits remain in the observability section rather
+than being repeated as run-specific failures.
+
 ## 6. First Observable Boundary
 
 Each SkillRun exposes the first lifecycle stage at which evidence becomes
@@ -158,6 +211,7 @@ Selecting any node opens a side panel with:
 - human-readable explanation;
 - status and duration;
 - evidence grade;
+- causal scope, shown independently from evidence grade;
 - source adapter;
 - source record locator;
 - redacted input and output;

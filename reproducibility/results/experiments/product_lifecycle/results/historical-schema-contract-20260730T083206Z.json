@@ -1,0 +1,86 @@
+{
+  "schema_version": "sri.experiment.historical-schema-contract.v1",
+  "experiment": {
+    "name": "timestamp-migration-historical-schema-contract",
+    "evidence_grade": "Experimental",
+    "history_source": "local verified Git commit objects",
+    "snapshot_count": 3,
+    "trials_per_snapshot": 3,
+    "live_database_used": false,
+    "row_level_records_included": false,
+    "limitations": [
+      "Historical source snapshots are executed directly, not installed from released wheels.",
+      "Only three repository points and one controlled event shape are covered.",
+      "The current working-tree migrator is evaluated on one local platform.",
+      "This does not exercise concurrent writers or filesystem faults."
+    ]
+  },
+  "environment": {
+    "platform_system": "Darwin",
+    "platform_machine": "arm64",
+    "python_version": "3.9.6",
+    "sqlite_version": "3.51.0",
+    "logical_cpu_count": 12,
+    "load_average_1m": 9.08837890625,
+    "load_average_5m": 10.4111328125,
+    "load_average_15m": 10.37841796875
+  },
+  "snapshots": [
+    {
+      "label": "bootstrap-panorama",
+      "requested_revision": "f8ca39a",
+      "revision": "f8ca39ad4aed8623894224fc6bb46659ca54c0a2",
+      "committed_at": "2026-07-28T16:10:48+08:00",
+      "subject": "feat: bootstrap Skill Run Panorama",
+      "schema_contract": {
+        "fingerprint": "865461e7fc1f91c785e91d6372631879ecee2a7d40dd83c90b3b79a4473dce78",
+        "table_count": 5,
+        "has_skill_run_id": false,
+        "has_runtime_state": false,
+        "provenance_columns_present": 0
+      }
+    },
+    {
+      "label": "skill-run-core",
+      "requested_revision": "85f97a8",
+      "revision": "85f97a886069945262ed6fccf185b3dd4efefa57",
+      "committed_at": "2026-07-28T17:09:14+08:00",
+      "subject": "feat: make SkillRun the runtime intelligence core",
+      "schema_contract": {
+        "fingerprint": "073bb70db2d1d859ca6ca8d2343ea3cd4a09be0872fc7abb4d4f99a9852d7637",
+        "table_count": 8,
+        "has_skill_run_id": true,
+        "has_runtime_state": false,
+        "provenance_columns_present": 0
+      }
+    },
+    {
+      "label": "release-v0.1.0",
+      "requested_revision": "5ab6252",
+      "revision": "5ab6252795226e9e6b9adb43d3b114e9950ddbb7",
+      "committed_at": "2026-07-29T23:14:24+08:00",
+      "subject": "release: Skill Runtime Intelligence v0.1.0",
+      "schema_contract": {
+        "fingerprint": "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0",
+        "table_count": 9,
+        "has_skill_run_id": true,
+        "has_runtime_state": true,
+        "provenance_columns_present": 0
+      }
+    }
+  ],
+  "metrics": {
+    "evaluations": 9,
+    "passed": 9,
+    "failed": 0,
+    "distinct_historical_schema_fingerprints": 3,
+    "snapshots_without_time_provenance": 3,
+    "legacy_events_preserved_as_unknown": true,
+    "idempotent_second_open": true
+  },
+  "gate": {
+    "name": "all verified historical schema contracts migrate conservatively",
+    "passed": true
+  },
+  "created_at": "2026-07-30T08:32:06.103289+00:00"
+}

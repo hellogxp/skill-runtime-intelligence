@@ -1,0 +1,198 @@
+{
+  "schema_version": "sri.experiment.cross-agent-coverage-readiness.v2",
+  "experiment": {
+    "name": "privacy-safe-cross-agent-coverage-readiness-audit",
+    "evidence_grade": "Derived",
+    "source_database_basename": "panorama.db",
+    "consistent_snapshot": true,
+    "snapshot_backup_attempts": 1,
+    "row_level_records_included": false,
+    "raw_content_included": false,
+    "limitations": [
+      "Thresholds are exploratory and were not preregistered.",
+      "Adapter counts do not establish task alignment or outcome equivalence.",
+      "The database contains one local user's runs.",
+      "Independently adjudicated labels are not represented by the current runtime audit.",
+      "Model adjudication must preserve model, prompt, sampling, and disagreement provenance and is not human evidence.",
+      "Passing presence or descriptive gates does not authorize causal claims."
+    ]
+  },
+  "metrics": {
+    "run_count": 468,
+    "adapter_count": 3,
+    "adapter_coverage": [
+      {
+        "adapter": "codex",
+        "run_count": 427,
+        "session_count": 50,
+        "skill_digest_count": 24,
+        "event_type_count": 18,
+        "event_stage_count": 7,
+        "observed_activation_runs": 2,
+        "verified_outcome_runs": 0,
+        "explicit_failed_event_runs": 0,
+        "adjudicated_label_count": 0
+      },
+      {
+        "adapter": "opencode",
+        "run_count": 36,
+        "session_count": 36,
+        "skill_digest_count": 1,
+        "event_type_count": 6,
+        "event_stage_count": 4,
+        "observed_activation_runs": 36,
+        "verified_outcome_runs": 0,
+        "explicit_failed_event_runs": 0,
+        "adjudicated_label_count": 0
+      },
+      {
+        "adapter": "qoder",
+        "run_count": 5,
+        "session_count": 5,
+        "skill_digest_count": 2,
+        "event_type_count": 4,
+        "event_stage_count": 3,
+        "observed_activation_runs": 5,
+        "verified_outcome_runs": 0,
+        "explicit_failed_event_runs": 0,
+        "adjudicated_label_count": 0
+      }
+    ],
+    "adapters_with_descriptive_run_count": 3,
+    "adapters_with_confirmatory_run_count": 2,
+    "run_count_imbalance_ratio": 85.4,
+    "shared_skill_digest_count": 0,
+    "shared_event_stages": [
+      "activation",
+      "outcome"
+    ],
+    "task_alignment_key_available": false
+  },
+  "readiness": {
+    "thresholds": {
+      "minimum_adapter_count": 2,
+      "descriptive_runs_per_adapter": 5,
+      "confirmatory_runs_per_adapter": 20,
+      "maximum_run_imbalance_ratio": 3.0,
+      "minimum_shared_skill_digests": 2,
+      "minimum_shared_event_stages": 3,
+      "minimum_activation_runs_per_adapter": 2,
+      "minimum_verified_outcome_runs_per_adapter": 2,
+      "minimum_failed_event_runs_per_adapter": 2,
+      "minimum_adjudicated_labels_per_adapter": 20
+    },
+    "presence": {
+      "checks": [
+        {
+          "name": "minimum_adapter_count",
+          "passed": true,
+          "detail": "3/2 adapters"
+        },
+        {
+          "name": "each_present_adapter_has_a_run",
+          "passed": true,
+          "detail": "support presence only; no balance or quality implication"
+        }
+      ],
+      "passed_count": 2,
+      "criterion_count": 2,
+      "multi_adapter_presence": true
+    },
+    "descriptive": {
+      "checks": [
+        {
+          "name": "minimum_adapters_with_descriptive_runs",
+          "passed": true,
+          "detail": "3/2 adapters have >= 5 runs"
+        },
+        {
+          "name": "shared_skill_digest_available",
+          "passed": false,
+          "detail": "0 shared digest groups"
+        },
+        {
+          "name": "minimum_shared_event_stages",
+          "passed": false,
+          "detail": "2/3 shared stages"
+        }
+      ],
+      "passed_count": 1,
+      "criterion_count": 3,
+      "cross_agent_descriptive_ready": false
+    },
+    "confirmatory": {
+      "checks": [
+        {
+          "name": "minimum_adapters_with_confirmatory_runs",
+          "passed": true,
+          "detail": "2/2 adapters have >= 20 runs"
+        },
+        {
+          "name": "run_count_balance",
+          "passed": false,
+          "detail": "max/min=85.400; limit=3.0"
+        },
+        {
+          "name": "minimum_shared_skill_digests",
+          "passed": false,
+          "detail": "0/2 shared groups"
+        },
+        {
+          "name": "activation_coverage_per_adapter",
+          "passed": true,
+          "detail": "requires observed activation evidence in every eligible adapter"
+        },
+        {
+          "name": "verified_outcome_coverage_per_adapter",
+          "passed": false,
+          "detail": "requires verified outcomes in every eligible adapter"
+        },
+        {
+          "name": "failed_event_coverage_per_adapter",
+          "passed": false,
+          "detail": "requires explicit failures in every eligible adapter"
+        },
+        {
+          "name": "task_alignment_key_available",
+          "passed": false,
+          "detail": "current SkillRun schema has no privacy-safe paired-task key"
+        },
+        {
+          "name": "adjudicated_labels_per_adapter",
+          "passed": false,
+          "detail": "current runtime audit has 0 independently adjudicated labels; requires 20 per adapter"
+        }
+      ],
+      "passed_count": 2,
+      "criterion_count": 8,
+      "cross_agent_confirmatory_ready": false
+    }
+  },
+  "dataset_manifest": {
+    "snapshot_sha256": "cafab431e740f87716b0607a2054dadfa1a6baf2237d1c010f3b9381e1abc659",
+    "snapshot_bytes": 159125504,
+    "schema_sha256": "5da83878de8aa40cd68dce6eb175235581345699e02520e8491fa9bf99779687",
+    "privacy_safe_aggregate_sha256": "943f4ede173f7b41672844cf6a0709b40f12ca250f49c4900c1ce5c3a44f2ccb",
+    "integrity_check": "ok",
+    "row_level_content_in_report": false,
+    "interpretation": "Local linkable fingerprints for snapshot identity and aggregate comparison; they do not retain or reconstruct the source rows."
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "gate": {
+    "name": "privacy-safe cross-Agent coverage audit completed",
+    "passed": true
+  },
+  "created_at": "2026-08-01T02:01:59.298229+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "250fb9c5ab070e0c8a19d59f0e630f8fdefe2531",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

@@ -1,0 +1,1023 @@
+{
+  "schema_version": "sri.experiment.blinded-real-trace-annotation.v1",
+  "experiment": {
+    "name": "rule-label-blinded-model-trace-annotation",
+    "evidence_grade": "Experimental",
+    "backend": "codex",
+    "model": "gpt-5.6-sol",
+    "runtime_version": "codex-cli 0.145.0",
+    "holdout_sha256": "466bd1fbf3c1a13723eed80ae6254ae8c63884302ed28f3cc4831acd885501a8",
+    "annotation_protocol_sha256": "bcc8f3ce79de63cd81f517cabaf812d57bd73b8d23ce2037e9007329154335ea",
+    "generation": {
+      "temperature": 0,
+      "max_tokens": 512
+    },
+    "blinded_to_rule_labels": true,
+    "limitations": [
+      "Model annotations are independent of the hidden rule outputs but are not human or production ground truth.",
+      "The category definitions encode the intended diagnostic ontology.",
+      "The selected traces come from one local corpus and may share adapter patterns.",
+      "Annotations remain Inferred and never overwrite source or deterministic records."
+    ]
+  },
+  "summary": {
+    "planned_cases": 19,
+    "completed_cases": 19,
+    "citation_id_valid_cases": 19,
+    "causal_safe_cases": 19,
+    "abstentions": 1,
+    "latency_p50_ms": 12346.871375018964
+  },
+  "rows": [
+    {
+      "case_id": "real-holdout-001",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "activation",
+          "citations": [
+            "E005",
+            "E006"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "artifacts",
+          "citations": [
+            "E009",
+            "E010"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 98,
+      "elapsed_ms": 10634.32612500037,
+      "usage": {
+        "input_tokens": 15896,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 167,
+        "reasoning_output_tokens": 76
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-002",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "activation",
+          "citations": [
+            "E005",
+            "E007"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "instructions",
+          "citations": [
+            "E006",
+            "E007"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "artifacts",
+          "citations": [
+            "E009",
+            "E010"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 99,
+      "elapsed_ms": 12312.969666003482,
+      "usage": {
+        "input_tokens": 15738,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 247,
+        "reasoning_output_tokens": 134
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-003",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "activation",
+          "citations": [
+            "E005",
+            "E006",
+            "E008"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "resources",
+          "citations": [
+            "E007",
+            "E008"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "artifacts",
+          "citations": [
+            "E009",
+            "E010",
+            "E012",
+            "E015"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 98,
+      "elapsed_ms": 13810.26795800426,
+      "usage": {
+        "input_tokens": 15843,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 237,
+        "reasoning_output_tokens": 115
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-004",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "activation",
+          "citations": [
+            "E005",
+            "E006",
+            "E008"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "resources",
+          "citations": [
+            "E007",
+            "E008"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "artifacts",
+          "citations": [
+            "E009",
+            "E010",
+            "E012",
+            "E015"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 99,
+      "elapsed_ms": 12172.43066598894,
+      "usage": {
+        "input_tokens": 15843,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 206,
+        "reasoning_output_tokens": 84
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-005",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "run_incomplete",
+          "stage": "outcome",
+          "citations": [
+            "E002"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "activation",
+          "citations": [
+            "E005",
+            "E006",
+            "E008"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "resources",
+          "citations": [
+            "E007",
+            "E008"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 98,
+      "elapsed_ms": 9194.900666014291,
+      "usage": {
+        "input_tokens": 15790,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 206,
+        "reasoning_output_tokens": 95
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-006",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "run_incomplete",
+          "stage": "outcome",
+          "citations": [
+            "E002"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "activation",
+          "citations": [
+            "E005",
+            "E006",
+            "E008"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "resources",
+          "citations": [
+            "E007",
+            "E008"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 98,
+      "elapsed_ms": 15322.245000017574,
+      "usage": {
+        "input_tokens": 15740,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 216,
+        "reasoning_output_tokens": 105
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-007",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "run_incomplete",
+          "stage": "execution",
+          "citations": [
+            "E002"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "activation",
+          "citations": [
+            "E005",
+            "E006",
+            "E008"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "resources",
+          "citations": [
+            "E007",
+            "E008"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ],
+        [
+          "run_incomplete",
+          "execution"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 97,
+      "elapsed_ms": 11418.045916012488,
+      "usage": {
+        "input_tokens": 15741,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 230,
+        "reasoning_output_tokens": 120
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-008",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "run_incomplete",
+          "stage": "execution",
+          "citations": [
+            "E002"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "activation",
+          "citations": [
+            "E005",
+            "E006",
+            "E008"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "resources",
+          "citations": [
+            "E007",
+            "E008"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ],
+        [
+          "run_incomplete",
+          "execution"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 98,
+      "elapsed_ms": 10813.511999993352,
+      "usage": {
+        "input_tokens": 15793,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 220,
+        "reasoning_output_tokens": 110
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-009",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "run_incomplete",
+          "stage": "outcome",
+          "citations": [
+            "E002"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "instructions",
+          "citations": [
+            "E006",
+            "E007",
+            "E011"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 94,
+      "elapsed_ms": 14326.28162499168,
+      "usage": {
+        "input_tokens": 15527,
+        "cached_input_tokens": 13056,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 280,
+        "reasoning_output_tokens": 191
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-010",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "run_incomplete",
+          "stage": "outcome",
+          "citations": [
+            "E002"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "instructions",
+          "citations": [
+            "E006",
+            "E007",
+            "E011"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 97,
+      "elapsed_ms": 14377.05429099151,
+      "usage": {
+        "input_tokens": 15527,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 197,
+        "reasoning_output_tokens": 108
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-011",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "run_incomplete",
+          "stage": "outcome",
+          "citations": [
+            "E002"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "instructions",
+          "citations": [
+            "E006",
+            "E010"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "resources",
+          "citations": [
+            "E007",
+            "E010"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "execution",
+          "citations": [
+            "E008",
+            "E010"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "artifacts",
+          "citations": [
+            "E009",
+            "E010"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "execution"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 96,
+      "elapsed_ms": 13007.666416990105,
+      "usage": {
+        "input_tokens": 15477,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 319,
+        "reasoning_output_tokens": 166
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-012",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "instructions",
+          "citations": [
+            "E006",
+            "E007",
+            "E011"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 97,
+      "elapsed_ms": 9813.069833006011,
+      "usage": {
+        "input_tokens": 15527,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 160,
+        "reasoning_output_tokens": 89
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-013",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "run_incomplete",
+          "stage": "outcome",
+          "citations": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "request",
+          "citations": [
+            "E003",
+            "E006",
+            "E011"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "activation",
+          "citations": [
+            "E005",
+            "E006",
+            "E011"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "request"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 97,
+      "elapsed_ms": 10902.091249998193,
+      "usage": {
+        "input_tokens": 15424,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 212,
+        "reasoning_output_tokens": 95
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-014",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "run_incomplete",
+          "stage": "execution",
+          "citations": [
+            "E001",
+            "E002"
+          ]
+        },
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "request",
+          "citations": [
+            "E003",
+            "E005",
+            "E011"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "request"
+        ],
+        [
+          "run_incomplete",
+          "execution"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 96,
+      "elapsed_ms": 12346.871375018964,
+      "usage": {
+        "input_tokens": 15427,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 163,
+        "reasoning_output_tokens": 72
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-015",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "lifecycle_evidence_gap",
+          "stage": "request",
+          "citations": [
+            "E003",
+            "E011",
+            "E012"
+          ]
+        },
+        {
+          "code": "run_incomplete",
+          "stage": "outcome",
+          "citations": [
+            "E002"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "lifecycle_evidence_gap",
+          "request"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 96,
+      "elapsed_ms": 12893.849249987397,
+      "usage": {
+        "input_tokens": 15478,
+        "cached_input_tokens": 9984,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 234,
+        "reasoning_output_tokens": 145
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-016",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "run_incomplete",
+          "stage": "outcome",
+          "citations": [
+            "E002"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 94,
+      "elapsed_ms": 14351.78129200358,
+      "usage": {
+        "input_tokens": 15477,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 222,
+        "reasoning_output_tokens": 158
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-017",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "run_incomplete",
+          "stage": "outcome",
+          "citations": [
+            "E002"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 88,
+      "elapsed_ms": 19330.096292018425,
+      "usage": {
+        "input_tokens": 15477,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 323,
+        "reasoning_output_tokens": 259
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-018",
+      "status": "completed",
+      "findings": [],
+      "signature": [],
+      "citation_id_valid": true,
+      "abstain": true,
+      "abstain_consistent": true,
+      "uncertainty_reason": "insufficient_evidence",
+      "causal_safe": true,
+      "confidence_0_100": 95,
+      "elapsed_ms": 13981.64420799003,
+      "usage": {
+        "input_tokens": 15477,
+        "cached_input_tokens": 9984,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 197,
+        "reasoning_output_tokens": 149
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    },
+    {
+      "case_id": "real-holdout-019",
+      "status": "completed",
+      "findings": [
+        {
+          "code": "run_incomplete",
+          "stage": "outcome",
+          "citations": [
+            "E002"
+          ]
+        }
+      ],
+      "signature": [
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "citation_id_valid": true,
+      "abstain": false,
+      "abstain_consistent": true,
+      "uncertainty_reason": "none",
+      "causal_safe": true,
+      "confidence_0_100": 97,
+      "elapsed_ms": 10054.683166992618,
+      "usage": {
+        "input_tokens": 15477,
+        "cached_input_tokens": 13056,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 175,
+        "reasoning_output_tokens": 111
+      },
+      "inference_grade": "inferred",
+      "source_session_present": true
+    }
+  ],
+  "gate": {
+    "name": "complete, ID-valid, abstention-consistent, causal-safe blinded annotations",
+    "passed": true
+  },
+  "created_at": "2026-08-01T14:41:48.375015+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "93d2cc0433a3660f7c6993c8a29fb61e6b2d2950",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

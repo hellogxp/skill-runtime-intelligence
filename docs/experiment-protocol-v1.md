@@ -28,7 +28,7 @@ experimental results remain separate.
 | E0 | deterministic diagnosis | first observable boundary and evidence wording | 100% exact match; zero unsupported causal claims |
 | E1 | adapter reconstruction | source-to-event/run reconstruction | reviewed fixture precision/recall and exact match; real-corpus results reported separately |
 | E2 | non-interference/overhead | collection is fail-open and observational | identical workload outputs/control-flow digest; overhead distribution and loss/duplicate rate disclosed |
-| E3 | diagnostic usefulness | panorama improves diagnosis | offline proxy reported as proxy; confirmatory participant study pre-registered before recruitment |
+| E3 | model-Agent diagnostic usefulness | Panorama changes boundary diagnosis under a pinned model protocol | fresh-session counterbalanced trials; exact model/prompt identity; structured-response, correctness, calibration, and causal-safety gates; second-model replication before cross-model claim |
 | E4 | cross-Agent comparability | only capability-equivalent fields are compared | field coverage and false-equivalence audit, per adapter/version |
 | E5 | semantic diagnosis | inferred layer adds value above deterministic rules | evidence citations, calibration, and no mutation of Observed/Derived layers |
 
@@ -61,15 +61,18 @@ path, or sensitive raw content is present.
 
 ## Current execution tiers
 
-1. **Local deterministic**: E0, fixture E1, E2 microbenchmark, E3 offline
-   proxy, E4 export-profile fixtures, and E5 baselines.
+1. **Local deterministic**: E0, fixture E1, E2 microbenchmark, E3 study
+   readiness, E4 export-profile fixtures, and E5 baselines.
 2. **Public-artifact replication**: immutable published trajectories and
    artifact verifiers, with upstream version/digest.
 3. **Live stochastic**: pinned Agent/model/workspace trials on local or PAI-DSW
    infrastructure.
-4. **Human study**: pre-registered tasks, randomized counterbalancing, consent,
-   and de-identified responses.
+4. **Model-Agent study**: fresh isolated sessions, pinned model and prompt,
+   randomized counterbalancing, structured responses, and model-level
+   replication.
+
+Human usability is a separate optional research question, not an E3 completion
+dependency. Model-Agent results are never relabeled as human evidence.
 
 Results from one tier are not promoted into claims belonging to a stronger
 tier.
-

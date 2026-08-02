@@ -1,0 +1,64 @@
+{
+  "schema_version": "sri.experiment.cross-agent-source-contract.v1",
+  "experiment": {
+    "name": "cross-agent-official-hook-source-instance-contract",
+    "evidence_grade": "Experimental",
+    "agents": [
+      "qoder",
+      "opencode",
+      "claude-code"
+    ],
+    "adapter_versions": {
+      "qoder": "0.2.0",
+      "opencode": "0.2.0",
+      "claude-code": "0.2.0"
+    },
+    "production_hook_builders": true,
+    "production_collector_and_storage": true,
+    "synthetic_hook_payloads": true,
+    "row_level_records_included": false,
+    "raw_content_included": false,
+    "identifiers_included": false,
+    "limitations": [
+      "Repeated trials exercise deterministic code paths and are not independent Agent workloads.",
+      "Synthetic hooks do not establish live Agent schema compatibility.",
+      "Agent-scoped identity does not solve semantic cross-Agent task alignment.",
+      "Zero cross-source relationships is a safety result, not a complete correlation view."
+    ]
+  },
+  "metrics": {
+    "trials": 8,
+    "exact_contract_trials": 8,
+    "agent_profiles_per_trial": 3,
+    "same_agent_append_without_new_session_trials": 8,
+    "cross_agent_event_identity_collision_trials": 0,
+    "cross_source_relationship_trials": 0,
+    "repeated_turn_event_label_groups_per_trial": [
+      2
+    ]
+  },
+  "gates": {
+    "agent_scoped_session_identity": true,
+    "same_agent_stream_is_append_only": true,
+    "no_cross_agent_event_id_collision": true,
+    "no_implicit_cross_source_causal_edges": true
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "gate": {
+    "name": "cross-Agent source-instance contract",
+    "passed": true
+  },
+  "created_at": "2026-07-30T07:02:01.253381+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "e3f47b3f3fe261f8e12b27815436c4b945679de7",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

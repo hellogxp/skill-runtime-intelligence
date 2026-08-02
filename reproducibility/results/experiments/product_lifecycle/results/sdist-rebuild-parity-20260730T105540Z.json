@@ -1,0 +1,202 @@
+{
+  "schema_version": "sri.experiment.sdist-rebuild-parity.v1",
+  "experiment": {
+    "name": "offline-sdist-rebuild-release-wheel-parity",
+    "evidence_grade": "Experimental",
+    "migration_trials_per_wheel": 1,
+    "build_repetitions": 2,
+    "build_network_disabled": true,
+    "build_isolation_disabled": true,
+    "live_database_used": false,
+    "row_level_records_included": false,
+    "limitations": [
+      "One local Python, setuptools, wheel, and pip toolchain is used.",
+      "No-build-isolation uses recorded host build dependencies.",
+      "Contract parity covers selected metadata, CLI entry points, wheel tags, and schema.",
+      "Byte mismatch is diagnostic and is not itself a contract failure."
+    ]
+  },
+  "build_environment": {
+    "platform_system": "Darwin",
+    "platform_machine": "arm64",
+    "python_version": "3.11.7",
+    "sqlite_version": "3.41.2",
+    "pip_version": "23.3.1",
+    "setuptools_version": "68.2.2",
+    "wheel_version": "0.41.2",
+    "logical_cpu_count": 12,
+    "load_average_1m": 5.53369140625,
+    "load_average_5m": 6.64013671875,
+    "load_average_15m": 6.841796875
+  },
+  "metrics": {
+    "version_pairs": 7,
+    "completed_pairs": 7,
+    "not_run_pairs": 0,
+    "passed_pairs": 7,
+    "failed_pairs": 0,
+    "metadata_cli_contract_parity_pairs": 7,
+    "schema_parity_pairs": 7,
+    "rebuilt_digest_matches_release_pairs": 0,
+    "repeated_build_digest_match_pairs": 2,
+    "repeated_build_pairs": 7,
+    "migration_evaluations": 14,
+    "migration_passed": 14
+  },
+  "pairs": [
+    {
+      "version": "0.1.0",
+      "status": "completed",
+      "release_wheel_sha256": "23b707b3de8cd8561e07285e6904cf5b25ad68b0910a8d7c4e38e68826825d09",
+      "sdist_sha256": "2574a172fe5355c5121245b499945206a76b903bdb1401a06eff6eea77199af6",
+      "rebuilt_wheel_sha256": "866538b7614db8c4b28b817465bbe7734dbdb80d59563a4fa2e00f6c699c4ed8",
+      "rebuilt_matches_release_digest": false,
+      "repeated_build_digest_match": false,
+      "metadata_cli_contract_parity": true,
+      "schema_parity": true,
+      "release_schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "rebuilt_schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "migration_evaluations": 2,
+      "migration_passed": 2,
+      "passed": true
+    },
+    {
+      "version": "0.1.1",
+      "status": "completed",
+      "release_wheel_sha256": "68802796404c41166a03fa56ec1b5e3437bdce01dd40728a69f1676af318e1cf",
+      "sdist_sha256": "ef672ac59833203b820561f33d75c49ecb54c17d33ac9742790c4b4b57b4ba13",
+      "rebuilt_wheel_sha256": "1ae6c4f63d501025e20e05dc5fff04a932012fadd8f072da1bec2cd70d622004",
+      "rebuilt_matches_release_digest": false,
+      "repeated_build_digest_match": false,
+      "metadata_cli_contract_parity": true,
+      "schema_parity": true,
+      "release_schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "rebuilt_schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "migration_evaluations": 2,
+      "migration_passed": 2,
+      "passed": true
+    },
+    {
+      "version": "0.1.2",
+      "status": "completed",
+      "release_wheel_sha256": "617f4b2adfb77c8ef6a951d2ffe9b40c57c5ad27674d49d7866dc09eff1db7bc",
+      "sdist_sha256": "4a5aa4cd7a5e67ffeca91a003c0afee0c9922acb88050ef266ffb9c1208b84e1",
+      "rebuilt_wheel_sha256": "10542ec3f9bc2bfae5a4132b523cae50caf1c4f97c6c49afadb3f150706f320e",
+      "rebuilt_matches_release_digest": false,
+      "repeated_build_digest_match": false,
+      "metadata_cli_contract_parity": true,
+      "schema_parity": true,
+      "release_schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "rebuilt_schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "migration_evaluations": 2,
+      "migration_passed": 2,
+      "passed": true
+    },
+    {
+      "version": "0.1.3",
+      "status": "completed",
+      "release_wheel_sha256": "6e18e979303ad8bd55cd5092a3bba4f76826ab4c177bf22136ed659c17b0a4e8",
+      "sdist_sha256": "7d0b5e516ea28ed957c8d088a6d21797f0e04887d3e468543876a42099f1c50a",
+      "rebuilt_wheel_sha256": "a73b7afeb5a5c0f8e928b998be9724797cee6b25db6fc8b1e09bf6b91e5f5031",
+      "rebuilt_matches_release_digest": false,
+      "repeated_build_digest_match": true,
+      "metadata_cli_contract_parity": true,
+      "schema_parity": true,
+      "release_schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "rebuilt_schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "migration_evaluations": 2,
+      "migration_passed": 2,
+      "passed": true
+    },
+    {
+      "version": "0.1.4",
+      "status": "completed",
+      "release_wheel_sha256": "67de8bc0d09af87a79d7811f6347a74f219c6d1844e1d4b9755ee43f24636b5e",
+      "sdist_sha256": "9a6e985492cc843857bfdb23364dc69b31750e4255190cc2d295f657edc03c01",
+      "rebuilt_wheel_sha256": "568c1d843d1dda600ad036f63d34654467210bf26f8a85df32c39efdd43fe96b",
+      "rebuilt_matches_release_digest": false,
+      "repeated_build_digest_match": false,
+      "metadata_cli_contract_parity": true,
+      "schema_parity": true,
+      "release_schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "rebuilt_schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "migration_evaluations": 2,
+      "migration_passed": 2,
+      "passed": true
+    },
+    {
+      "version": "0.1.5",
+      "status": "completed",
+      "release_wheel_sha256": "fb7f11fe566d5e85bf5a506949b7f6e4ace71e8dcff0adc9db48aadc2d17e806",
+      "sdist_sha256": "37cdd0df8841a598594470dd4856d40f528c8da47afbe119c0a99e846c9b718a",
+      "rebuilt_wheel_sha256": "79bdee541b6c4692734446b05e4dacc1ae7db36e31385daf5fa8e5547e8e3057",
+      "rebuilt_matches_release_digest": false,
+      "repeated_build_digest_match": false,
+      "metadata_cli_contract_parity": true,
+      "schema_parity": true,
+      "release_schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "rebuilt_schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "migration_evaluations": 2,
+      "migration_passed": 2,
+      "passed": true
+    },
+    {
+      "version": "0.1.6",
+      "status": "completed",
+      "release_wheel_sha256": "05503df8987d98e752c3094d1ae23c7bbc664e98a8750cd012c9056b0ec680cf",
+      "sdist_sha256": "01a8860694a8c8c82bc5efa835cc66c02dd2f2ef31bb72bba8b8a7fc8cf73dac",
+      "rebuilt_wheel_sha256": "477bdd542adc5601e21151a9c12201d3260fb63aa9156a2f1c6fa2292a84dd98",
+      "rebuilt_matches_release_digest": false,
+      "repeated_build_digest_match": true,
+      "metadata_cli_contract_parity": true,
+      "schema_parity": true,
+      "release_schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "rebuilt_schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "migration_evaluations": 2,
+      "migration_passed": 2,
+      "passed": true
+    }
+  ],
+  "gate": {
+    "name": "all offline rebuilds match release behavior contracts",
+    "passed": true
+  },
+  "created_at": "2026-07-30T10:55:40.245672+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "105d820b08101c38bf0e6600fca3ad2dce7d3abb",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

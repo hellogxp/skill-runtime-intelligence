@@ -1,0 +1,88 @@
+{
+  "schema_version": "sri.experiment.provenance-reindex-drift.v1",
+  "experiment": {
+    "name": "privacy-safe-provenance-reindex-drift",
+    "evidence_grade": "Experimental",
+    "source_query_only_snapshot": true,
+    "isolated_working_copy": true,
+    "raw_source_copy_persisted": false,
+    "row_level_records_included": false,
+    "raw_content_included": false,
+    "snapshot_backup_attempts": 1,
+    "limitations": [
+      "One local database and host do not estimate a field failure rate.",
+      "Source changes during a reindex make that comparison non-identifiable.",
+      "A live snapshot without a completed zero-late checkpoint makes its comparison with a full reindex non-identifiable.",
+      "Aggregate deltas do not identify individual records.",
+      "The experiment reads live transcripts but never modifies them."
+    ]
+  },
+  "metrics": {
+    "source_count_before_first": 135,
+    "source_boundary_changes_first": 1,
+    "source_boundary_changes_second": 1,
+    "snapshot_checkpoint": {
+      "status": "completed",
+      "epoch": 474,
+      "source_count": 135,
+      "processed_source_count": 1,
+      "changed_source_count": 1,
+      "removed_source_count": 0,
+      "failed_source_count": 0,
+      "late_arrival_count": 0,
+      "start_revision": 8098,
+      "end_revision": 8099
+    },
+    "snapshot_checkpoint_converged": true,
+    "first_index_imported": 135,
+    "first_index_failed": 0,
+    "second_index_imported": 135,
+    "second_index_failed": 0,
+    "first_reindex_delta_by_provenance": {
+      "transcript_fallback": {
+        "raw_records": 5,
+        "events": 3,
+        "relationships": 4
+      }
+    },
+    "second_reindex_delta_by_provenance": {
+      "transcript_fallback": {
+        "raw_records": 4,
+        "events": 2,
+        "relationships": 3
+      }
+    }
+  },
+  "gates": {
+    "official_hook_preserved": {
+      "identifiable": true,
+      "passed": true
+    },
+    "live_snapshot_to_first_reindex_stable": {
+      "identifiable": false,
+      "passed": false
+    },
+    "second_reindex_idempotent": {
+      "identifiable": false,
+      "passed": false
+    }
+  },
+  "gate": {
+    "name": "provenance-localized reindex stability",
+    "passed": false
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "created_at": "2026-07-30T03:05:20.612956+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "507017a72ae904278b66b4611817bf77fdc978c6",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

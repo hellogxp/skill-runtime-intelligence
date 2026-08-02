@@ -14,8 +14,10 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 
+from .activity_summary import build_activity_summary
+from .behavior_constraints import assess_skill_behavior
 from .comparison import build_comparison
-from .diagnostics import diagnose_skill_run
+from .diagnostics import assess_skill_run, diagnose_skill_run
 
 
 _STORAGE_INIT_LOCK = threading.Lock()
@@ -1329,16 +1331,13 @@ class Storage:
             """,
             (limit,),
         ).fetchall()
-        result = []
-        for row in rows:
-            item = dict(row)
-            stage_summary = self._stage_summary(
-                item["skill_run_id"], item["adapter"]
-            )
+        result = [dict(row) for row in rows]
+        summaries = self._stage_summaries(result)
+        for item in result:
+            stage_summary = summaries[item["skill_run_id"]]
             item["stage_summary"] = stage_summary
             item["evidence_completeness"] = self._evidence_completeness(stage_summary)
             item["first_gap"] = self._first_gap(stage_summary)
-            result.append(item)
         return result
 
     def compare_skill_runs(
@@ -1494,7 +1493,10 @@ class Storage:
         result["first_gap"] = self._first_gap(result["stage_summary"])
         result["narrative"] = self._narrative(result)
         result["adapter_capabilities"] = self.capabilities_for(result["adapter"])
+        result["activity_summary"] = build_activity_summary(result)
+        result["behavior_assessment"] = assess_skill_behavior(result)
         result["findings"] = diagnose_skill_run(result)
+        result["assessment"] = assess_skill_run(result, result["findings"])
         return result
 
     def get_run(self, session_id: str) -> Optional[Dict[str, Any]]:
@@ -1556,7 +1558,56 @@ class Storage:
             """,
             (skill_run_id,),
         ).fetchall()
-        by_stage = {row["stage"]: dict(row) for row in rows}
+        return self._build_stage_summary(
+            {row["stage"]: dict(row) for row in rows}, adapter
+        )
+
+    def _stage_summaries(
+        self, runs: List[Dict[str, Any]]
+    ) -> Dict[str, List[Dict[str, Any]]]:
+        """Compute list-row lifecycle summaries in one query, not one per run."""
+        if not runs:
+            return {}
+        run_ids = [str(run["skill_run_id"]) for run in runs]
+        placeholders = ",".join("?" for _ in run_ids)
+        rows = self.connection.execute(
+            f"""
+            WITH run_events AS (
+                SELECT DISTINCT skill_run_id, target_event_id
+                FROM derived_relationships
+                WHERE skill_run_id IN ({placeholders})
+            )
+            SELECT re.skill_run_id, e.stage, COUNT(*) AS event_count,
+                   SUM(CASE WHEN e.evidence_grade = 'observed' THEN 1 ELSE 0 END)
+                       AS observed_count,
+                   SUM(CASE WHEN e.evidence_grade = 'derived' THEN 1 ELSE 0 END)
+                       AS derived_count,
+                   SUM(CASE WHEN e.evidence_grade = 'inferred' THEN 1 ELSE 0 END)
+                       AS inferred_count,
+                   SUM(CASE WHEN e.status = 'failed' THEN 1 ELSE 0 END)
+                       AS failed_count
+            FROM run_events re
+            JOIN normalized_events e ON e.event_id = re.target_event_id
+            GROUP BY re.skill_run_id, e.stage
+            """,
+            run_ids,
+        ).fetchall()
+        grouped: Dict[str, Dict[str, Dict[str, Any]]] = {
+            run_id: {} for run_id in run_ids
+        }
+        for row in rows:
+            grouped[str(row["skill_run_id"])][str(row["stage"])] = dict(row)
+        adapters = {
+            str(run["skill_run_id"]): str(run["adapter"]) for run in runs
+        }
+        return {
+            run_id: self._build_stage_summary(by_stage, adapters[run_id])
+            for run_id, by_stage in grouped.items()
+        }
+
+    def _build_stage_summary(
+        self, by_stage: Dict[str, Dict[str, Any]], adapter: str
+    ) -> List[Dict[str, Any]]:
         capabilities = self.capabilities_for(adapter)
         result = []
         for stage in STAGES:
@@ -1570,7 +1621,10 @@ class Storage:
                     for grade in ("observed", "derived", "inferred")
                     if values.get(f"{grade}_count")
                 ]
-                grade = grades[0] if grades else "observed"
+                # A stage badge summarizes the whole group, so retain the
+                # weakest evidence grade instead of allowing one direct event
+                # to make derived or inferred records look observed.
+                grade = grades[-1] if grades else "observed"
             elif capability == "unsupported":
                 status = "unsupported"
                 grade = None

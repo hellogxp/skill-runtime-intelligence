@@ -1,0 +1,172 @@
+{
+  "schema_version": "sri.experiment.live-agent.cross-agent-cli.v1",
+  "experiment": {
+    "name": "cross-agent-same-skill-black-box-cli-pilot",
+    "evidence_grade": "Experimental",
+    "design": "installed Agent systems, same task and fixture, isolated workspaces, hidden deterministic verifier",
+    "agent_versions": {
+      "qoder": "0.1.26"
+    },
+    "models": {
+      "qoder": "performance"
+    },
+    "task_sha256": "94bca5b0a0309cb6596a2ea70c9dce702807f435b4cd1dd53d109eba59faea45",
+    "skill_sha256": "0df4598647f79d3553786cadbaecfb377cbddb079760881e975a8e9e458018ec",
+    "limitations": [
+      "This compares installed Agent systems, not isolated model or scaffold effects.",
+      "Four deterministic trials per Agent are a mechanism pilot, not a population estimate.",
+      "Different Agent products use different configured model families and runtime context.",
+      "Collector deltas establish observed ingestion counts, not exact task-level pairing."
+    ]
+  },
+  "metrics": {
+    "planned_calls": 4,
+    "completed_calls": 3,
+    "verified_outcomes": 3,
+    "workload_mutations": 0,
+    "runtime_metadata_mutations": 0,
+    "per_agent": {
+      "qoder": {
+        "planned": 4,
+        "completed": 3,
+        "verified_outcomes": 3,
+        "workload_mutations": 0,
+        "runtime_metadata_mutations": 0,
+        "process_failures": 1,
+        "precondition_failures": 0,
+        "invalid_responses": 0,
+        "wall_p50_ms": 156688.38679149485,
+        "wall_p95_ms": 227747.95704996065
+      }
+    },
+    "collector_before": {
+      "codex": {
+        "sessions": 186,
+        "skill_runs": 409,
+        "events": 59370
+      },
+      "opencode": {
+        "sessions": 9,
+        "skill_runs": 6,
+        "events": 47
+      },
+      "qoder": {
+        "sessions": 11,
+        "skill_runs": 1,
+        "events": 348
+      }
+    },
+    "collector_after": {
+      "codex": {
+        "sessions": 186,
+        "skill_runs": 409,
+        "events": 59402
+      },
+      "opencode": {
+        "sessions": 9,
+        "skill_runs": 6,
+        "events": 47
+      },
+      "qoder": {
+        "sessions": 14,
+        "skill_runs": 1,
+        "events": 351
+      }
+    },
+    "collector_deltas": {
+      "codex": {
+        "sessions": 0,
+        "skill_runs": 0,
+        "events": 32
+      },
+      "opencode": {
+        "sessions": 0,
+        "skill_runs": 0,
+        "events": 0
+      },
+      "qoder": {
+        "sessions": 3,
+        "skill_runs": 0,
+        "events": 3
+      }
+    }
+  },
+  "trials": [
+    {
+      "agent": "qoder",
+      "trial": 1,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 158151.2514579954,
+      "outcome_verified": true,
+      "workload_unchanged": true,
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "session_id_sha256": "f4decc13611483c458813651505fb014e94cb87c9fee74c23cd9e1a634e19934",
+      "response_sha256": "f7d2d6353ef477c6ca14794b2b339b3c9107ae75a564ec3b89188acc355a3b2b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {}
+    },
+    {
+      "agent": "qoder",
+      "trial": 2,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 155225.5221249943,
+      "outcome_verified": true,
+      "workload_unchanged": true,
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "session_id_sha256": "75f735ca6b2ba28732fc30effb3957a256deebe13430fbc4630d490c5ab82cce",
+      "response_sha256": "47411a53ca0010189b3b586c874370e3f4d46f3d8de8f2572c7321a1260bbf1f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {}
+    },
+    {
+      "agent": "qoder",
+      "trial": 3,
+      "status": "execution_error",
+      "error": "TimeoutExpired",
+      "wall_ms": 240029.72862501338,
+      "workload_unchanged": true,
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": []
+    },
+    {
+      "agent": "qoder",
+      "trial": 4,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 26448.515625001164,
+      "outcome_verified": true,
+      "workload_unchanged": true,
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "session_id_sha256": "4daf5443b8843d39b86b73c609dafc93bdf8b12f58d7469b132e04c424919eb2",
+      "response_sha256": "540ee711f475625d129299ff4ee6bc3d7daee623077db10989490e8a1827af99",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {}
+    }
+  ],
+  "gate": {
+    "name": "qoder deterministic outcome and workload-integrity",
+    "passed": false
+  },
+  "created_at": "2026-07-31T12:42:05.443306+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "d8df7047db21d26568e805b8d2369ebf3a1306ca",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

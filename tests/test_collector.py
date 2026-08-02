@@ -167,6 +167,12 @@ class CollectorTests(unittest.TestCase):
                 self.assertIn("SkillRuntimeLocalePacks", locale_packs)
                 self.assertIn('"pt-BR"', locale_packs)
 
+                with urlopen(f"{base_url}/favicon.svg", timeout=3) as response:
+                    favicon = response.read().decode("utf-8")
+                    content_type = response.headers["Content-Type"]
+                self.assertIn("image/svg+xml", content_type)
+                self.assertIn("<svg", favicon)
+
                 invalid = fixture_event("evt-invalid")
                 invalid["event_type"] = "model.secret_thought"
                 request = Request(

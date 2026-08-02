@@ -1,0 +1,106 @@
+{
+  "schema_version": "sri.experiment.dataset-cut-policy-summary.v1",
+  "experiment": {
+    "name": "privacy-safe-dataset-cut-policy-pilot-summary",
+    "evidence_grade": "Experimental",
+    "row_level_records_included": false,
+    "limitations": [
+      "Three trials from one local database are exploratory.",
+      "Pooled run observations are not independent participants.",
+      "No policy was randomized and no causal effect is estimated.",
+      "Short-window stability does not prove source completeness."
+    ]
+  },
+  "aggregate": {
+    "trial_count": 3,
+    "policy_count": 4,
+    "policies": {
+      "all_observed": {
+        "trial_count": 3,
+        "pooled_selected_run_count": 240,
+        "pooled_stable_next_interval_count": 222,
+        "pooled_changed_next_interval_count": 18,
+        "pooled_missing_next_interval_count": 0,
+        "pooled_stable_next_interval_fraction": 0.925,
+        "selection_fraction_across_trials": {
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "stable_fraction_across_trials": {
+          "mean": 0.9249999999999999,
+          "minimum": 0.8,
+          "maximum": 1.0
+        }
+      },
+      "event_watermark": {
+        "trial_count": 3,
+        "pooled_selected_run_count": 230,
+        "pooled_stable_next_interval_count": 215,
+        "pooled_changed_next_interval_count": 15,
+        "pooled_missing_next_interval_count": 0,
+        "pooled_stable_next_interval_fraction": 0.9347826086956522,
+        "selection_fraction_across_trials": {
+          "mean": 0.9583333333333334,
+          "minimum": 0.95,
+          "maximum": 0.9625
+        },
+        "stable_fraction_across_trials": {
+          "mean": 0.935064935064935,
+          "minimum": 0.8181818181818182,
+          "maximum": 1.0
+        }
+      },
+      "observed_quiescence": {
+        "trial_count": 3,
+        "pooled_selected_run_count": 206,
+        "pooled_stable_next_interval_count": 188,
+        "pooled_changed_next_interval_count": 18,
+        "pooled_missing_next_interval_count": 0,
+        "pooled_stable_next_interval_fraction": 0.912621359223301,
+        "selection_fraction_across_trials": {
+          "mean": 0.8583333333333334,
+          "minimum": 0.75,
+          "maximum": 1.0
+        },
+        "stable_fraction_across_trials": {
+          "mean": 0.9222222222222222,
+          "minimum": 0.8,
+          "maximum": 1.0
+        }
+      },
+      "terminal_status": {
+        "trial_count": 3,
+        "pooled_selected_run_count": 216,
+        "pooled_stable_next_interval_count": 205,
+        "pooled_changed_next_interval_count": 11,
+        "pooled_missing_next_interval_count": 0,
+        "pooled_stable_next_interval_fraction": 0.9490740740740741,
+        "selection_fraction_across_trials": {
+          "mean": 0.9,
+          "minimum": 0.9,
+          "maximum": 0.9
+        },
+        "stable_fraction_across_trials": {
+          "mean": 0.9490740740740741,
+          "minimum": 0.8472222222222222,
+          "maximum": 1.0
+        }
+      }
+    }
+  },
+  "gate": {
+    "name": "privacy-safe cut-policy reports aggregated",
+    "passed": true
+  },
+  "created_at": "2026-07-29T14:40:19.446978+00:00",
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "007638973d2fec5a7bf25f30555e23576a8ed2fb",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

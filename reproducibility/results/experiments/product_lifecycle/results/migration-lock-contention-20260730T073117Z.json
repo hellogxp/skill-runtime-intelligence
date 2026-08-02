@@ -1,0 +1,51 @@
+{
+  "schema_version": "sri.experiment.migration-lock-contention.v1",
+  "experiment": {
+    "name": "timestamp-migration-lock-contention",
+    "evidence_grade": "Experimental",
+    "sqlite_busy_timeout_ms": 5000,
+    "live_database_used": false,
+    "row_level_records_included": false,
+    "limitations": [
+      "Wall-clock lock holds are scheduler-sensitive.",
+      "One writer lock does not represent all concurrent workload patterns.",
+      "The experiment does not inject disk-full or I/O faults."
+    ]
+  },
+  "environment": {
+    "platform_system": "Darwin",
+    "platform_machine": "arm64",
+    "python_version": "3.11.7",
+    "sqlite_version": "3.41.2",
+    "logical_cpu_count": 12,
+    "load_average_1m": 13.46044921875,
+    "load_average_5m": 12.125,
+    "load_average_15m": 11.00634765625
+  },
+  "metrics": {
+    "evaluations": 7,
+    "passed": 7,
+    "failed": 0,
+    "within_budget_evaluations": 6,
+    "within_budget_initial_successes": 6,
+    "over_budget_evaluations": 1,
+    "over_budget_initial_failures": 1,
+    "clean_recovery_successes": 7,
+    "within_budget_elapsed_ms": [
+      445.638,
+      445.749,
+      535.642,
+      324.88,
+      1083.362,
+      1086.967
+    ],
+    "over_budget_elapsed_ms": [
+      5506.553
+    ]
+  },
+  "gate": {
+    "name": "lock-budget behavior and clean recovery",
+    "passed": true
+  },
+  "created_at": "2026-07-30T07:31:17.879914+00:00"
+}

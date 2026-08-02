@@ -14,31 +14,34 @@
 [Magyar](README.hu.md)
 <!-- locale-switcher:end -->
 
-> Diagnose where an Agent Skill run first diverged—and inspect the evidence
-> behind every conclusion.
+> Turn `SKILL.md` into checkable runtime expectations. See what actually
+> happened, where behavior first diverged, and the evidence behind the judgment.
 
 Agent Skill Runtime Intelligence is a read-only runtime evidence and diagnosis
-system for Agent Skills. It combines Skill definitions, official Agent runtime
-events, imported traces, session fallback, and observable workspace outcomes
-into an evidence-graded Skill Run Panorama.
+system for Agent Skills. It extracts conservative, inspectable constraints from
+the current Skill definition, matches them to runtime activity, and reconstructs
+the result as an evidence-graded Skill Run Panorama. It combines official Agent
+events, imported traces, labeled session fallback, and observable workspace
+outcomes without proxying model requests or taking over the Agent loop.
 
 ![Skill Run Panorama](docs/assets/skill-run-panorama.png)
 
 ## Quick start
 
-Install and start the latest release on macOS or Linux:
+Install and start the latest public release on macOS or Linux:
 
 ```bash
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
 No clone, account, `sudo`, or GitHub CLI is required. The installer verifies
-the release checksum, detects supported Agents and Skills, explains every path
-it will read, asks once before enabling observation-only hooks, and opens the
-local UI at [http://127.0.0.1:4317](http://127.0.0.1:4317). Runtime data stays
-under `~/.skill-runtime` unless you explicitly configure an export.
+the GitHub Release checksum, detects supported Agents and Skills, explains
+every path it will read, asks once before enabling observation-only hooks, and
+opens the local UI at
+[http://127.0.0.1:4317](http://127.0.0.1:4317). Runtime data stays under
+`~/.skill-runtime` unless you explicitly configure an export.
 
-You can [inspect the installer](scripts/install.sh) before running it.
+You can [inspect the public installer](scripts/install.sh) before running it.
 
 ### See your first live SkillRun
 
@@ -70,7 +73,9 @@ python3 -m venv .venv
 | Product surface | What it answers |
 |---|---|
 | Runtime Overview | Which SkillRuns need attention? |
-| First Observable Boundary | Where did evidence first become missing or failed? |
+| Skill Behavior Check | Which checkable instructions were satisfied, need review, or cannot be evaluated? |
+| What Actually Happened | Which instructions, resources, tools, artifacts, and outcomes were observed? |
+| First Observable Boundary | Where does run-specific evidence first become missing or failed? |
 | Skill Run Panorama | How did request, activation, resources, tools, artifacts, and outcome connect? |
 | Evidence Inspector | What source, grade, basis, and adapter capability support this claim? |
 | Compare | Is a difference behavioral, or only an observability difference? |
@@ -84,8 +89,10 @@ python3 -m venv .venv
 Skill Runtime observes the workflow you already use. Versioned adapters turn
 Agent-native events into a stable Skill lifecycle, while raw source envelopes,
 normalized events, relationships, and inferences remain separate. The
-diagnosis engine first identifies the earliest boundary where evidence becomes
-missing or failed; it does not invent model intent or causal effectiveness.
+diagnosis engine checks explicit Skill constraints against that evidence,
+identifies the earliest observable deviation, and keeps systemic adapter blind
+spots separate from run-specific findings. It does not invent model intent or
+causal effectiveness.
 
 | Data source | Role | Freshness | UI label |
 |---|---|---|---|
@@ -111,13 +118,17 @@ not-observed stages stay visible instead of being converted into failures.
 
 ## The problem
 
-Installing a Skill does not prove that an agent discovered it. Discovery does not prove activation. Activation does not prove that the full instructions and resources were loaded. Execution does not prove that the Skill improved the outcome.
+Installing a Skill does not prove that an agent discovered it. Discovery does
+not prove activation. Activation does not prove that the full instructions and
+resources were loaded. Loading instructions does not prove that the Agent
+followed them. Execution does not prove that the Skill improved the outcome.
 
 Today, these failures are often silent. Developers are left asking:
 
 - Was the Skill available to this agent?
 - Did it activate for this request?
 - Which instructions, references, scripts, and assets were loaded?
+- Which explicit Skill requirements were followed, missed, or impossible to evaluate?
 - Which tools, MCP calls, subagents, files, and artifacts were involved?
 - Where did the run fail, retry, or lose context?
 - Did the Skill help, or did it only add cost and latency?
@@ -179,7 +190,11 @@ independent, versioned adapters and provides:
 - Skill activation, resource loading, and tool-call timelines;
 - subagent, MCP, file, and artifact relationships;
 - duration, token, error, retry, and status summaries when available;
-- Runtime Overview and first-boundary diagnosis;
+- conservative behavior constraints extracted from the current `SKILL.md`;
+- evidence-bounded conformance, verification, and runtime-failure checks;
+- concrete instruction, resource, tool, artifact, and outcome inventories;
+- Runtime Overview with systemic coverage limits separated from run findings;
+- first-boundary diagnosis;
 - a panorama DAG, event timeline, and evidence inspector;
 - capability-aware same-Agent and cross-Agent comparison;
 - a separate Inferred Analysis surface that cannot rewrite runtime facts;
@@ -216,6 +231,10 @@ The one-time `install` command:
    platform, falling back to a local C build and finally the Python sender,
    and prewarms a fresh native binary once during installation;
 5. creates `~/.skill-runtime/config.json` and the local SQLite index.
+
+The first index imports existing compatible Agent sessions. On a long-lived
+workstation this can take longer than a fresh installation; later starts are
+incremental and the UI becomes available while the background refresh runs.
 
 When run interactively, it asks once before adding fail-open Agent hooks.
 `--no-hooks` keeps transcript import as the labeled fallback, while
@@ -420,20 +439,22 @@ Agent configuration non-interference.
 
 ## Experiment-driven product design
 
-Product behavior is constrained by the
-[experiment-driven product philosophy](docs/experiment-driven-product-philosophy.md):
-evidence before conclusions, the first observable boundary before severity,
-typed relationships before flat logs, and deterministic reconstruction before
-probabilistic assistance.
+Product behavior follows four experiment-driven constraints: evidence before
+conclusions, the first observable boundary before severity, typed relationships
+before flat logs, and deterministic reconstruction before probabilistic
+assistance.
 
-Current reproducible local evidence includes:
+Reproducible evidence and its limitations are maintained in the
+[experiment report](docs/experiment-results-2026-07-29.md). Bounded results
+include:
 
-- 7/7 local experiment gates passed;
 - 2,400/2,400 Collector events accepted without input/output mutation;
 - 14/14 deterministic fault-corpus diagnoses with no unsupported causal claim;
 - relational diagnosis representation at 13/14 exact and F1 0.963, while flat
   lifecycle retrieval reached 1/14 exact and F1 0.080;
-- 11/11 study-material cases place the earliest observable boundary first.
+- a privacy-safe real-run audit that explicitly remains unsuitable for
+  confirmatory product-effect claims because verified outcomes, balanced
+  cross-Agent coverage, and human labels are missing.
 
 These results validate mechanisms and representation choices, not deployment
 generalization or human benefit. Real second-Agent studies, cross-platform
@@ -458,20 +479,31 @@ evidence relations, trace provenance, and privacy-aware audit infrastructure.
 | [Observability platform setup](docs/observability-platform-setup.md) | Connect OTLP-compatible platforms and import supported traces |
 | [Runtime event model](docs/runtime-event-model.md) | Stable event vocabulary, provenance, relationships, and evidence grades |
 | [UI information architecture](docs/ui-information-architecture.md) | Overview, first boundary, Panorama, Inspector, Compare, and Inferred Analysis |
+| [Changelog](CHANGELOG.md) | Versioned user-visible changes |
+| [v0.3.0 release notes](docs/releases/v0.3.0.md) | Upgrade guidance, highlights, and known limits |
 
 Product and research references: [product definition](docs/product-definition.md),
 [MVP specification](docs/mvp-specification.md),
 [observability interoperability](docs/observability-interoperability.md),
-[experiment-driven product philosophy](docs/experiment-driven-product-philosophy.md),
 [experiment results](docs/experiment-results-2026-07-29.md), and the
 [research agenda](docs/research-paper-agenda.md).
 
+## Community and governance
+
+- Read [Contributing](CONTRIBUTING.md) before changing evidence semantics,
+  adapters, or product behavior.
+- Follow the [Code of Conduct](CODE_OF_CONDUCT.md) in all project spaces.
+- Report vulnerabilities privately through the [Security policy](SECURITY.md),
+  not a public issue.
+- Use the structured [issue tracker](https://github.com/hellogxp/skill-runtime-intelligence/issues)
+  for reproducible bugs and scoped feature proposals. Never attach private
+  runtime databases or session transcripts.
+
 ## Roadmap
 
-1. **v0.2.1 — Available now:** live fail-open collection, four versioned Agent
-   adapters, Runtime Overview, first-boundary diagnosis, Panorama, Evidence
-   Inspector, capability-aware Compare, Inferred Analysis, and OTLP
-   interoperability.
+1. **v0.3.0 — Next release:** checkable Skill behavior constraints, concrete runtime
+   activity, evidence-bounded assessment, systemic coverage diagnosis, and the
+   existing live Panorama and Compare workflow.
 2. **Next — Adapter and diagnosis hardening:** broader Agent/version coverage,
    real-fault calibration, cross-platform tail-latency validation, and
    participant diagnosis studies.
@@ -480,7 +512,9 @@ Product and research references: [product definition](docs/product-definition.md
 
 ## Project status
 
-Version `v0.2.1` is published. The runtime includes installed-definition
+The current source tree targets `v0.3.0`; use the release badge above to identify
+the latest published build. The runtime includes checkable
+Skill behavior constraints, concrete activity summaries, installed-definition
 inventory, consent-driven official Hook adapters for Codex, Claude Code, and
 Qoder, an observation-only OpenCode plugin, labeled transcript fallback,
 active-scope attribution, exact file/artifact paths, redaction, separate

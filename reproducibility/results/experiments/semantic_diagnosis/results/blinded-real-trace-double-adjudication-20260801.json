@@ -1,0 +1,783 @@
+{
+  "schema_version": "sri.experiment.blinded-real-trace-double-adjudication.v1",
+  "experiment": {
+    "name": "post-hoc-reveal-of-two-rule-label-blinded-model-annotations",
+    "evidence_grade": "Experimental",
+    "reference_sha256": "68889e90d533262aeb76db12644e9945867755d053ba03be0244f6e17cf00ccb",
+    "first_sha256": "05d29a4cb30398a3a298ea113a11538598411cdbb62ee97de0c7b408658951aa",
+    "second_sha256": "32ae7207f98a614c26e489149542834a1e7319608e55f9b5a364997440e88227",
+    "limitations": [
+      "This is independent model adjudication, not human-labeled diagnostic accuracy.",
+      "Agreement with hidden deterministic candidates may reflect the shared ontology and explicit evidence schema.",
+      "Wilson intervals describe this selected 19-case corpus and do not establish population performance.",
+      "Consensus outputs remain Inferred and cannot overwrite deterministic findings."
+    ]
+  },
+  "rows": [
+    {
+      "case_id": "real-holdout-001",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": false,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ]
+      ],
+      "first_signature": [],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-002",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": false,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ]
+      ],
+      "first_signature": [],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-003",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": false,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ]
+      ],
+      "first_signature": [],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-004",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": false,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ]
+      ],
+      "first_signature": [],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-005",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": false,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "run_incomplete",
+          "execution"
+        ]
+      ],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-006",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": false,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "run_incomplete",
+          "execution"
+        ]
+      ],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-007",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": false,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "run_incomplete",
+          "execution"
+        ]
+      ],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ],
+        [
+          "run_incomplete",
+          "execution"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-008",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": false,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "run_incomplete",
+          "execution"
+        ]
+      ],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ],
+        [
+          "run_incomplete",
+          "execution"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-009",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": true,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "execution"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "outcome"
+        ],
+        [
+          "run_incomplete",
+          "execution"
+        ]
+      ],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-010",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": true,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "execution"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "outcome"
+        ],
+        [
+          "run_incomplete",
+          "resources"
+        ]
+      ],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-011",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": false,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "run_incomplete",
+          "activation"
+        ]
+      ],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "execution"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-012",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": false,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "execution"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "outcome"
+        ],
+        [
+          "run_incomplete",
+          "resources"
+        ]
+      ],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-013",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": false,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "request"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "execution"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "outcome"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "request"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ],
+        [
+          "run_incomplete",
+          "execution"
+        ]
+      ],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "request"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-014",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": false,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "request"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "activation"
+        ],
+        [
+          "run_incomplete",
+          "activation"
+        ]
+      ],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "request"
+        ],
+        [
+          "run_incomplete",
+          "execution"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-015",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": true,
+      "hidden_candidate": [
+        [
+          "lifecycle_evidence_gap",
+          "request"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "artifacts"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "execution"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "instructions"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "outcome"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "request"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "resources"
+        ],
+        [
+          "run_incomplete",
+          "activation"
+        ]
+      ],
+      "second_signature": [
+        [
+          "lifecycle_evidence_gap",
+          "request"
+        ],
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-016",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": true,
+      "hidden_candidate": [
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "run_incomplete",
+          "activation"
+        ]
+      ],
+      "second_signature": [
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-017",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": true,
+      "hidden_candidate": [
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "run_incomplete",
+          "activation"
+        ]
+      ],
+      "second_signature": [
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-018",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": false,
+      "hidden_candidate": [
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "run_incomplete",
+          "activation"
+        ]
+      ],
+      "second_signature": []
+    },
+    {
+      "case_id": "real-holdout-019",
+      "both_completed": true,
+      "annotator_exact_agreement": false,
+      "strict_consensus_available": false,
+      "strict_consensus_matches_hidden_candidate": false,
+      "first_matches_hidden_candidate": false,
+      "second_matches_hidden_candidate": true,
+      "hidden_candidate": [
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ],
+      "first_signature": [
+        [
+          "run_incomplete",
+          "activation"
+        ]
+      ],
+      "second_signature": [
+        [
+          "run_incomplete",
+          "outcome"
+        ]
+      ]
+    }
+  ],
+  "summary": {
+    "case_count": 19,
+    "both_completed": 19,
+    "annotator_exact_agreement": 0,
+    "annotator_exact_agreement_rate": 0.0,
+    "annotator_exact_agreement_wilson95": [
+      0.0,
+      0.16817922405261626
+    ],
+    "strict_consensus_cases": 0,
+    "strict_consensus_matches_hidden_candidate": 0,
+    "strict_consensus_match_rate": 0.0,
+    "strict_consensus_match_wilson95": [
+      0.0,
+      0.0
+    ],
+    "first_matches_hidden_candidate": 0,
+    "second_matches_hidden_candidate": 6
+  },
+  "gate": {
+    "name": "both annotators completed every frozen case",
+    "passed": true
+  },
+  "created_at": "2026-08-01T14:42:46.360872+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "93d2cc0433a3660f7c6993c8a29fb61e6b2d2950",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

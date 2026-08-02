@@ -29,6 +29,9 @@ let activeView = "runs";
 let selectedComparisonId = null;
 let streamConnected = false;
 let streamRefreshTimer = null;
+let streamRefreshInFlight = false;
+let lastStreamRefreshAt = 0;
+const STREAM_REFRESH_INTERVAL_MS = 1500;
 const graphEventHistory = new Map();
 
 const esc = (value) => String(value ?? "")
@@ -62,43 +65,16 @@ async function getJSON(path) {
 }
 
 async function loadIndex(isBackground = false) {
-  const previousSelected = skillRuns.find((run) => run.skill_run_id === selectedRunId);
-  const [
-    runsResponse,
-    sourcesResponse,
-    integrationsResponse,
-    skillsResponse,
-    conflictsResponse,
-    settingsResponse,
-    exportersResponse,
-  ] = await Promise.all([
-    getJSON("/api/skill-runs"),
-    getJSON("/api/sources"),
-    getJSON("/api/integrations"),
-    getJSON("/api/skills"),
-    getJSON("/api/skill-conflicts"),
-    getJSON("/api/settings"),
-    getJSON("/api/exporters"),
-  ]);
-  skillRuns = runsResponse.skill_runs || [];
-  runtimeSources = sourcesResponse.sources || [];
-  runtimeIntegrations = integrationsResponse.integrations || [];
-  skillInventory = skillsResponse.skills || [];
-  skillConflicts = conflictsResponse.conflicts || [];
-  runtimeSettings = settingsResponse;
-  runtimeExporters = exportersResponse.exporters || [];
-  populateRunFilters();
-  renderSourceSummary();
-  renderRuns();
-  renderRuntimeOverview();
-  renderSkills();
-  renderSettings();
   if (!selectedRunId && location.hash.startsWith("#/runs/")) {
     selectedRunId = decodeURIComponent(location.hash.slice("#/runs/".length));
   }
-  if (selectedRunId && !isBackground) {
-    await loadSkillRun(selectedRunId, false);
-  } else if (selectedRunId && isBackground) {
+  const previousSelected = skillRuns.find((run) => run.skill_run_id === selectedRunId);
+  if (isBackground) {
+    const runsResponse = await getJSON("/api/skill-runs");
+    skillRuns = runsResponse.skill_runs || [];
+    populateRunFilters();
+    renderRuns();
+    renderRuntimeOverview();
     const currentSelected = skillRuns.find((run) => run.skill_run_id === selectedRunId);
     const previousSignature = previousSelected
       ? `${previousSelected.event_count}:${previousSelected.status}:${previousSelected.evidence_completeness}`
@@ -114,8 +90,68 @@ async function loadIndex(isBackground = false) {
     ) {
       await loadSkillRun(selectedRunId);
     }
+    return;
   }
-  if (!isBackground) routeFromLocation();
+  const detailPromise = selectedRunId
+    ? getJSON(`/api/skill-runs/${encodeURIComponent(selectedRunId)}`)
+    : Promise.resolve(null);
+  const requestedRunId = selectedRunId;
+  const earlyDetailPromise = detailPromise.then((detail) => {
+    if (
+      detail
+      && requestedRunId === selectedRunId
+      && location.hash.startsWith("#/runs/")
+      && decodeURIComponent(location.hash.slice("#/runs/".length)) === requestedRunId
+    ) {
+      showSkillRunDetail(detail);
+    }
+    return detail;
+  });
+  // Agent binary/version inspection can take seconds on a cold host. It is
+  // useful header/settings metadata, not a prerequisite for the run index or
+  // detail diagnosis, so keep it out of the critical rendering path.
+  const integrationsPromise = getJSON("/api/integrations")
+    .catch(() => ({integrations: []}));
+  const [
+    runsResponse,
+    sourcesResponse,
+    skillsResponse,
+    conflictsResponse,
+    settingsResponse,
+    exportersResponse,
+    initialDetail,
+  ] = await Promise.all([
+    getJSON("/api/skill-runs"),
+    getJSON("/api/sources"),
+    getJSON("/api/skills"),
+    getJSON("/api/skill-conflicts"),
+    getJSON("/api/settings"),
+    getJSON("/api/exporters"),
+    earlyDetailPromise,
+  ]);
+  skillRuns = runsResponse.skill_runs || [];
+  runtimeSources = sourcesResponse.sources || [];
+  skillInventory = skillsResponse.skills || [];
+  skillConflicts = conflictsResponse.conflicts || [];
+  runtimeSettings = settingsResponse;
+  runtimeExporters = exportersResponse.exporters || [];
+  populateRunFilters();
+  renderSourceSummary();
+  renderRuns();
+  renderRuntimeOverview();
+  renderSkills();
+  renderSettings();
+  if (initialDetail && selectedRun?.skill_run_id !== initialDetail.skill_run_id) {
+    showSkillRunDetail(initialDetail);
+  } else if (initialDetail) {
+    renderComparePicker(initialDetail);
+  }
+  routeFromLocation();
+  integrationsPromise.then((integrationsResponse) => {
+    runtimeIntegrations = integrationsResponse.integrations || [];
+    renderSourceSummary();
+    renderSettings();
+  });
 }
 
 function sourceModeLabel(mode) {
@@ -189,11 +225,24 @@ function setConnectionState(state, label) {
 
 function scheduleStreamRefresh() {
   window.clearTimeout(streamRefreshTimer);
+  const elapsed = Date.now() - lastStreamRefreshAt;
+  const delay = Math.max(150, STREAM_REFRESH_INTERVAL_MS - elapsed);
   streamRefreshTimer = window.setTimeout(() => {
-    if (document.visibilityState === "visible") {
-      loadIndex(true).catch(() => setConnectionState("offline", "Collector unavailable"));
+    if (document.visibilityState !== "visible") return;
+    if (streamRefreshInFlight) {
+      scheduleStreamRefresh();
+      return;
     }
-  }, 120);
+    streamRefreshInFlight = true;
+    loadIndex(true)
+      .then(() => {
+        lastStreamRefreshAt = Date.now();
+      })
+      .catch(() => setConnectionState("offline", "Collector unavailable"))
+      .finally(() => {
+        streamRefreshInFlight = false;
+      });
+  }, delay);
 }
 
 function connectRuntimeStream() {
@@ -679,7 +728,12 @@ async function loadSkillRun(skillRunId, navigate = false) {
   selectedRunId = skillRunId;
   if (navigate) history.pushState({}, "", `#/runs/${encodeURIComponent(skillRunId)}`);
   renderRuns();
-  selectedRun = await getJSON(`/api/skill-runs/${encodeURIComponent(skillRunId)}`);
+  const run = await getJSON(`/api/skill-runs/${encodeURIComponent(skillRunId)}`);
+  showSkillRunDetail(run);
+}
+
+function showSkillRunDetail(run) {
+  selectedRun = run;
   document.body.classList.add("detail-mode");
   document.querySelector("#empty-detail").classList.add("hidden");
   document.querySelector("#run-detail").classList.remove("hidden");
@@ -702,6 +756,42 @@ function showRunIndex(navigate = false) {
   window.scrollTo({top: 0, behavior: "smooth"});
 }
 
+function renderRunFactSummary(run) {
+  const entries = new Map(
+    (run.activity_summary?.entries || []).map((entry) => [entry.stage, entry])
+  );
+  const execution = entries.get("execution");
+  const artifacts = entries.get("artifacts");
+  const outcome = entries.get("outcome");
+  const calls = execution?.objects?.reduce(
+    (total, object) => total + (object.call_count || 0), 0
+  ) || 0;
+  const finalResponses = outcome?.objects?.find(
+    (object) => object.label === "Final response"
+  )?.count || 0;
+  const facts = [
+    `<strong>Skill</strong> ${esc(run.name)}`,
+  ];
+  if (entries.get("instructions")?.event_count) {
+    facts.push(esc(tr("Primary instructions loaded")));
+  }
+  if (entries.get("resources")?.objects?.length) {
+    facts.push(`${esc(entries.get("resources").objects.length)} ${esc(tr("Skill resources accessed"))}`);
+  }
+  if (calls) facts.push(`${esc(calls)} ${esc(tr("tool calls"))}`);
+  if (artifacts?.objects?.length) {
+    facts.push(`${esc(artifacts.objects.length)} ${esc(tr("logical artifacts"))}`);
+  }
+  if (finalResponses) facts.push(esc(tr("Final response available")));
+  if (run.first_gap) {
+    const separator = window.SkillRuntimeI18n?.locale?.startsWith("zh") ? "：" : ": ";
+    facts.push(`${esc(tr("First observable boundary"))}${separator}${esc(tr(stageLabels[run.first_gap] || run.first_gap))}`);
+  }
+  document.querySelector("#narrative").innerHTML = facts
+    .map((fact) => `<span>${fact}</span>`)
+    .join('<i aria-hidden="true">·</i>');
+}
+
 function renderDetail(run) {
   document.querySelector("#detail-context").textContent =
     `${run.adapter} ${run.adapter_version} · ${run.model || "model unavailable"} · ${formatTime(run.started_at)}`;
@@ -721,7 +811,9 @@ function renderDetail(run) {
   document.querySelector("#metric-gap").textContent = run.first_gap
     ? stageLabels[run.first_gap] || pretty(run.first_gap)
     : "No gap";
-  document.querySelector("#narrative").textContent = run.narrative;
+  renderRunFactSummary(run);
+  renderAssessment(run);
+  renderActivitySummary(run);
   fillSelect(
     "#event-type-filter",
     run.events.map((event) => event.event_type),
@@ -744,6 +836,576 @@ function renderDetail(run) {
   renderTimeline(run);
   renderCapabilities(run);
   resetInspector();
+}
+
+function activityObjectLabel(object) {
+  if (object.kind === "tool") {
+    const terminal = object.failed_count
+      ? `${object.failed_count} ${tr("failed")}`
+      : `${object.completed_count || 0} ${tr("completed")}`;
+    return `${object.label} ×${object.call_count} · ${terminal}`;
+  }
+  if (object.kind === "artifact") {
+    return `${object.label} · ${tr(object.final_state)}`;
+  }
+  if (object.kind === "outcome") {
+    return `${tr(object.label)} · ${object.count}`;
+  }
+  const location = object.location && object.location !== "not recorded"
+    ? ` · ${tr(object.location)}`
+    : "";
+  return `${tr(object.label)} · ${tr(object.action || object.kind)}${location}`;
+}
+
+function activityHeadline(entry) {
+  if (entry.stage === "activation") {
+    if (entry.status === "observed") {
+      const mode = entry.headline.split(" · ").slice(1).join(" · ");
+      return `${tr("Activation signal observed")} · ${tr(pretty(mode || "unknown"))}`;
+    }
+    return tr("Activation method is unconfirmed");
+  }
+  if (entry.stage === "instructions") {
+    return `${entry.objects.length} ${tr(entry.objects.length === 1 ? "instruction source loaded" : "instruction sources loaded")}`;
+  }
+  if (entry.stage === "resources") {
+    return `${entry.objects.length} ${tr(entry.objects.length === 1 ? "Skill resource accessed" : "Skill resources accessed")}`;
+  }
+  if (entry.stage === "execution") {
+    const calls = entry.objects.reduce((total, object) => total + (object.call_count || 0), 0);
+    return `${calls} ${tr("tool calls")} · ${entry.event_count} ${tr("lifecycle events")}`;
+  }
+  if (entry.stage === "artifacts") {
+    return `${entry.objects.length} ${tr("logical artifacts")} · ${entry.event_count} ${tr("evidence records")}`;
+  }
+  if (entry.stage === "outcome") {
+    const finalResponse = entry.objects.find((object) => object.label === "Final response")?.count || 0;
+    const progress = entry.objects.find((object) => object.label === "Progress updates")?.count || 0;
+    const verified = entry.objects.find((object) => object.label === "Independent verification")?.count || 0;
+    return `${finalResponse} ${tr("final response")} · ${progress} ${tr("progress updates")} · ${verified} ${tr("independently verified")}`;
+  }
+  return tr(entry.headline);
+}
+
+function activityObjectDetails(object) {
+  const rows = [];
+  if (object.path_hint && object.path_hint !== "not recorded") {
+    rows.push(`<dt>${esc(tr("Location"))}</dt><dd class="mono">${esc(object.path_hint)}</dd>`);
+  } else if (object.location) {
+    rows.push(`<dt>${esc(tr("Location"))}</dt><dd>${esc(tr(object.location))}</dd>`);
+  }
+  if (object.final_state) {
+    rows.push(`<dt>${esc(tr("Final state"))}</dt><dd>${esc(tr(object.final_state))}</dd>`);
+  }
+  if (object.action) {
+    rows.push(`<dt>${esc(tr("Observed action"))}</dt><dd>${esc(tr(object.action))}</dd>`);
+  }
+  if (object.call_count != null) {
+    rows.push(`<dt>${esc(tr("Tool calls"))}</dt><dd>${esc(object.call_count)} · ${esc(object.completed_count || 0)} ${esc(tr("completed"))} · ${esc(object.failed_count || 0)} ${esc(tr("failed"))}</dd>`);
+  }
+  if (object.source_event_count != null) {
+    rows.push(`<dt>${esc(tr("Evidence"))}</dt><dd>${esc(object.source_event_count)} ${esc(tr("records"))} · ${esc(object.observed_event_count || 0)} ${esc(tr("observed"))} · ${esc(object.derived_event_count || 0)} ${esc(tr("derived"))}</dd>`);
+  }
+  if (object.count != null) {
+    rows.push(`<dt>${esc(tr("Count"))}</dt><dd>${esc(object.count)}</dd>`);
+  }
+  if (object.occurred_at) {
+    rows.push(`<dt>${esc(tr("Last observed"))}</dt><dd>${esc(formatTime(object.occurred_at))}</dd>`);
+  }
+  return rows.join("");
+}
+
+function activityObjectMarkup(object) {
+  const content = object.content
+    ? `<div class="report-content">
+        <span>${esc(tr("Available report content"))} · ${esc(tr(object.content_scope || "redacted normalized excerpt"))}</span>
+        <p>${esc(object.content)}</p>
+      </div>`
+    : "";
+  return `<article class="object-evidence-card">
+    <strong>${esc(tr(activityObjectLabel(object)))}</strong>
+    <dl class="kv finding-kv">${activityObjectDetails(object)}</dl>
+    ${object.basis ? `<p class="basis">${esc(tr(object.basis))}</p>` : ""}
+    ${content}
+  </article>`;
+}
+
+function renderActivitySummary(run) {
+  const summary = run.activity_summary;
+  const target = document.querySelector("#activity-summary");
+  if (!summary) {
+    target.innerHTML = `<div class="empty-inspector"><p>No object summary is available.</p></div>`;
+    document.querySelector("#activity-discipline").textContent = "";
+    return;
+  }
+  target.innerHTML = summary.entries.map((entry) => `
+    <button class="activity-row" type="button" data-activity-stage="${esc(entry.stage)}">
+      <span class="activity-stage">${esc(tr(stageLabels[entry.stage] || entry.stage))}</span>
+      <span class="activity-main">
+        <strong>${esc(activityHeadline(entry))}</strong>
+        <span class="activity-objects">
+          ${(entry.objects || []).map((object) =>
+            `<span class="activity-object">${esc(tr(activityObjectLabel(object)))}</span>`
+          ).join("") || `<span class="activity-empty">${esc(tr(entry.limitation || (
+            entry.status === "observed"
+              ? "Direct lifecycle evidence is available."
+              : "No matching evidence."
+          )))}</span>`}
+        </span>
+        ${entry.limitation ? `<small>${esc(tr(entry.limitation))}</small>` : ""}
+      </span>
+      <span class="activity-evidence">
+        ${entry.evidence_grade
+          ? `<span class="grade-pill ${esc(entry.evidence_grade)}">${esc(tr(pretty(entry.evidence_grade)))}</span>`
+          : `<span class="activity-status">${esc(tr(pretty(entry.status)))}</span>`}
+        <small>${esc(entry.event_count)} ${esc(tr("records"))}</small>
+      </span>
+    </button>
+  `).join("");
+  document.querySelector("#activity-discipline").textContent = summary.discipline;
+  document.querySelectorAll("[data-activity-stage]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const entry = summary.entries.find(
+        (item) => item.stage === button.dataset.activityStage
+      );
+      if (!entry) return;
+      document.querySelectorAll(".activity-row").forEach(
+        (item) => item.classList.remove("active")
+      );
+      button.classList.add("active");
+      inspectActivityEntry(entry, run);
+      document.querySelector(".inspector-pane")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  });
+}
+
+function inspectActivityEntry(entry, run) {
+  const evidenceEvents = run.events.filter((event) =>
+    entry.event_ids.includes(event.event_id)
+  );
+  const grade = entry.evidence_grade || "unknown";
+  document.querySelector("#inspector-grade").innerHTML =
+    `<span class="grade-pill ${esc(grade)}">${esc(grade)}</span>`;
+  document.querySelector("#inspector").className = "inspector";
+  document.querySelector("#inspector").innerHTML = `
+    <h3 class="inspector-title">${esc(activityHeadline(entry))}</h3>
+    <p class="inspector-type">${esc(tr(stageLabels[entry.stage] || entry.stage))} · ${esc(tr("object summary"))}</p>
+    <section class="fact-block">
+      <h4>Concrete objects</h4>
+      <div class="object-evidence-list">${(entry.objects || []).map(activityObjectMarkup).join("")
+        || `<p class="basis">${esc(tr(entry.limitation || "No matching evidence."))}</p>`}</div>
+    </section>
+    <section class="fact-block">
+      <h4>Evidence boundary</h4>
+      <dl class="kv finding-kv">
+        <dt>Source records</dt><dd>${esc(evidenceEvents.length)}</dd>
+        <dt>Evidence grade</dt><dd>${esc(grade)}</dd>
+        <dt>Causal scope</dt><dd>${esc(entry.causal_scope)}</dd>
+      </dl>
+      <p class="basis">${esc(tr(entry.limitation || run.activity_summary.discipline))}</p>
+    </section>
+    <section class="fact-block">
+      <h4>Underlying facts</h4>
+      <ul class="evidence-list">${evidenceEvents.slice(0, 12).map((event) =>
+        `<li><strong>${esc(event.summary)}</strong><br>${esc(event.evidence_grade)} · ${esc(formatTime(event.occurred_at, false))}</li>`
+      ).join("")}</ul>
+    </section>`;
+}
+
+function diagnosisTitle(diagnosis) {
+  const titles = {
+    explicit_failure: "An explicit runtime failure was observed",
+    behavior_deviation: "Checkable Skill behavior needs review",
+    result_unverified: "No explicit execution failure was observed; result correctness is unverified",
+    result_verified: "No explicit execution failure was observed; result verified",
+    result_not_observed: "No explicit execution failure was observed; no result is available",
+    no_observed_issue: "No observable runtime issue was found",
+  };
+  return tr(titles[diagnosis.status] || diagnosis.title);
+}
+
+function diagnosisSummary(diagnosis) {
+  const summaries = {
+    explicit_failure: "Inspect the earliest failed lifecycle boundary. The record does not establish that the Skill caused the failure.",
+    behavior_deviation: "One or more checkable constraints from the current Skill definition do not match the observable runtime evidence.",
+    result_unverified: "Instructions, runtime activity, artifacts, and a final response are available for inspection. No deterministic verifier confirms the Agent's completion claims.",
+    result_verified: "The runtime record contains an independent verification signal. This still does not establish that the Skill caused the outcome.",
+    result_not_observed: "The available runtime record contains no explicit failed event, but there is no final result to inspect.",
+    no_observed_issue: "Skill activity and a final response are visible. Result verification is not configured and is not counted as a failure.",
+  };
+  return tr(summaries[diagnosis.status] || diagnosis.summary);
+}
+
+function diagnosisItemCopy(item) {
+  const titles = {
+    runtime_failure: "Explicit runtime failure observed",
+    skill_behavior_deviation: "A Skill behavior constraint needs review",
+    result_not_verified: "Reported result is not independently verified",
+    result_not_observed: "No final result was observed",
+    source_incomplete: "The source may be incomplete",
+    enablement_unconfirmed: "Skill enablement method is unconfirmed",
+  };
+  const summaries = {
+    result_not_verified: "The final response can be inspected, but no deterministic test or explicit evaluation verifies its claims.",
+    result_not_observed: "The source contains no inspectable final response.",
+    source_incomplete: "Core activity is present, but the source is marked partial or incomplete; intermediate or later events may be missing.",
+    enablement_unconfirmed: "Later Skill activity is visible, but no direct signal identifies how this Skill became active for the request.",
+    skill_behavior_deviation: "The observable run does not match a checkable behavior constraint from the current SKILL.md.",
+  };
+  const impacts = {
+    result_not_verified: "Impact: execution can be diagnosed, but result correctness cannot be concluded.",
+    result_not_observed: "Impact: completion and result quality cannot be assessed.",
+    source_incomplete: "Impact: an absent event cannot be treated as proof that it did not occur.",
+    enablement_unconfirmed: "Impact: explicit invocation, automatic selection, and always-on enablement cannot be distinguished.",
+    skill_behavior_deviation: "Impact: inspect the linked lifecycle stage and the source constraint before changing the Skill.",
+  };
+  return {
+    title: tr(titles[item.code] || item.title),
+    summary: tr(summaries[item.code] || item.summary),
+    impact: tr(impacts[item.code] || item.impact || ""),
+  };
+}
+
+function diagnosisFactCopy(fact, run) {
+  const entry = run.activity_summary?.entries?.find(
+    (item) => item.stage === fact.stage
+  );
+  const titles = {
+    instructions_loaded: "Primary instructions loaded",
+    resources_accessed: "Skill resource access recorded",
+    tool_calls_recorded: "Tool execution recorded",
+    artifacts_recorded: "Artifacts recorded",
+    final_response_available: "Final response available",
+  };
+  return {
+    title: tr(titles[fact.code] || fact.title),
+    summary: entry ? activityHeadline(entry) : tr(fact.summary),
+  };
+}
+
+function diagnosisReasoningStep(step, run) {
+  const sentenceEnd = window.SkillRuntimeI18n?.locale?.startsWith("zh")
+    ? "。"
+    : ".";
+  const execution = run.activity_summary?.entries?.find(
+    (entry) => entry.stage === "execution"
+  );
+  const artifacts = run.activity_summary?.entries?.find(
+    (entry) => entry.stage === "artifacts"
+  );
+  const outcome = run.activity_summary?.entries?.find(
+    (entry) => entry.stage === "outcome"
+  );
+  if (step.code === "pair_tool_calls") {
+    const calls = execution?.objects?.reduce(
+      (total, object) => total + (object.call_count || 0), 0
+    ) || 0;
+    return `${execution?.event_count || 0} ${tr("tool lifecycle records were paired by source call ID into")} ${calls} ${tr("calls")}${sentenceEnd}`;
+  }
+  if (step.code === "group_artifacts") {
+    return `${artifacts?.event_count || 0} ${tr("file records were grouped by canonical path into")} ${artifacts?.objects?.length || 0} ${tr("logical artifacts")}${sentenceEnd}`;
+  }
+  if (step.code === "scan_failures") {
+    const failed = run.events.filter((event) => event.status === "failed").length;
+    return `${failed} ${tr("source events explicitly report failed status")}${sentenceEnd}`;
+  }
+  if (step.code === "separate_report_from_verification") {
+    const reports = outcome?.objects?.find(
+      (object) => object.label === "Final response"
+    )?.count || 0;
+    const verified = outcome?.objects?.find(
+      (object) => object.label === "Independent verification"
+    )?.count || 0;
+    return `${reports} ${tr("reported result and")} ${verified} ${tr("independent verification records were kept separate")}${sentenceEnd}`;
+  }
+  return tr(step.summary);
+}
+
+function renderDiagnosisList(selector, items, run, emptyText) {
+  const target = document.querySelector(selector);
+  target.innerHTML = items.map((item) => {
+    const copy = diagnosisItemCopy(item);
+    return `
+      <button class="diagnosis-item ${esc(item.severity || item.category)}"
+              type="button" data-diagnosis-stage="${esc(item.stage || "")}">
+        <span class="diagnosis-item-icon"></span>
+        <span class="diagnosis-item-copy">
+          <strong>${esc(copy.title)}</strong>
+          <span>${esc(copy.summary)}</span>
+          ${copy.impact ? `<small>${esc(copy.impact)}</small>` : ""}
+        </span>
+        <span class="diagnosis-item-meta">${esc(tr(stageLabels[item.stage] || item.category))}</span>
+      </button>`;
+  }).join("") || `<div class="diagnosis-empty">${esc(tr(emptyText))}</div>`;
+}
+
+function behaviorConstraintTitle(constraint) {
+  const target = constraint.target_label || constraint.target;
+  if (constraint.polarity === "prohibited") {
+    return `${tr("Must not use")} ${target}`;
+  }
+  if (constraint.kind === "resource") {
+    return `${tr("Must access Skill resource")} ${target}`;
+  }
+  if (constraint.kind === "command") {
+    return `${tr("Must execute command")} ${target}`;
+  }
+  if (constraint.kind === "verification") {
+    return `${tr("Must execute verification")} ${target}`;
+  }
+  return `${tr("Must call tool")} ${target}`;
+}
+
+function behaviorConstraintBasis(constraint) {
+  const messages = {
+    satisfied: "Matching runtime evidence was observed.",
+    deviation: "Observed runtime evidence conflicts with this constraint.",
+    expected_not_observed: "The expected behavior was not found in the complete observable boundary.",
+    not_evaluable: constraint.conditional
+      ? "The trigger condition cannot be confirmed from current evidence."
+      : "Current telemetry cannot evaluate this constraint safely.",
+  };
+  return tr(messages[constraint.status] || constraint.basis);
+}
+
+function behaviorConstraintMarkup(constraint) {
+  const statusLabels = {
+    satisfied: "Satisfied",
+    deviation: "Deviation",
+    expected_not_observed: "Not observed",
+    not_evaluable: "Insufficient evidence",
+  };
+  const source = constraint.source || {};
+  const sourceLine = source.line
+    ? (window.SkillRuntimeI18n?.locale?.startsWith("zh")
+      ? `第 ${source.line} 行`
+      : `${tr("line")} ${source.line}`)
+    : "";
+  const sourceLabel = [
+    source.file || "SKILL.md",
+    sourceLine,
+    source.section || "",
+  ].filter(Boolean).join(" · ");
+  return `
+    <button class="behavior-constraint ${esc(constraint.status)}" type="button"
+            data-behavior-stage="${esc(constraint.stage || "execution")}">
+      <span class="behavior-constraint-status">${esc(tr(statusLabels[constraint.status] || pretty(constraint.status)))}</span>
+      <span class="behavior-constraint-copy">
+        <strong>${esc(behaviorConstraintTitle(constraint))}</strong>
+        <small>${esc(behaviorConstraintBasis(constraint))} · ${esc(sourceLabel)}</small>
+      </span>
+      <span class="behavior-constraint-stage">${esc(tr(stageLabels[constraint.stage] || constraint.stage))}</span>
+    </button>`;
+}
+
+function renderBehaviorAssessment(conformance) {
+  const counts = conformance?.counts || {};
+  const constraints = conformance?.constraints || [];
+  const statusLabels = {
+    deviation: "Behavior deviation found",
+    expected_not_observed: "Expected behavior not observed",
+    partially_checked: "Partially checked",
+    satisfied_observed_scope: "Satisfied in observed scope",
+    not_evaluable: "Insufficient evidence",
+    no_checkable_constraints: "No checkable constraints",
+    definition_unavailable: "Skill definition unavailable",
+  };
+  const status = document.querySelector("#behavior-status");
+  status.className = `behavior-status ${esc(conformance?.status || "definition_unavailable")}`;
+  status.textContent = tr(statusLabels[conformance?.status] || "Skill definition unavailable");
+  document.querySelector("#behavior-counts").innerHTML = `
+    <article><span>${esc(tr("Extracted constraints"))}</span><strong>${esc(counts.total || 0)}</strong></article>
+    <article><span>${esc(tr("Checked"))}</span><strong>${esc(counts.checked || 0)}</strong></article>
+    <article><span>${esc(tr("Satisfied"))}</span><strong>${esc(counts.satisfied || 0)}</strong></article>
+    <article><span>${esc(tr("Needs review"))}</span><strong>${esc((counts.deviations || 0) + (counts.expected_not_observed || 0))}</strong></article>`;
+
+  const priority = {deviation: 0, expected_not_observed: 1, satisfied: 2, not_evaluable: 3};
+  const sorted = [...constraints].sort(
+    (left, right) => (priority[left.status] ?? 9) - (priority[right.status] ?? 9)
+  );
+  const actionable = sorted.filter((item) => item.status !== "not_evaluable");
+  const visible = (actionable.length ? actionable : sorted).slice(0, 6);
+  document.querySelector("#behavior-list").innerHTML = visible
+    .map(behaviorConstraintMarkup).join("")
+    || `<div class="diagnosis-empty">${esc(tr("No checkable behavior constraint was extracted from this Skill."))}</div>`;
+  const more = document.querySelector("#behavior-more");
+  more.classList.toggle("hidden", sorted.length <= visible.length);
+  document.querySelector("#behavior-more-label").textContent =
+    `${tr("View all constraints")} · ${sorted.length}`;
+  document.querySelector("#behavior-all").innerHTML = sorted
+    .map(behaviorConstraintMarkup).join("");
+  document.querySelector("#behavior-limitation").textContent = tr(
+    conformance?.source_status === "current_changed"
+      ? "The current SKILL.md differs from the indexed definition; results are shown as a review aid only."
+      : "Only exact tool, resource, command, and verification constraints are checked; unsupported natural-language rules are not guessed."
+  );
+}
+
+function renderAssessment(run) {
+  const assessment = run.assessment;
+  const diagnosis = assessment?.diagnosis;
+  const verdict = document.querySelector("#assessment-verdict");
+  if (!assessment || !diagnosis) {
+    verdict.className = "assessment-verdict open_questions";
+    verdict.textContent = tr("Assessment unavailable");
+    document.querySelector("#diagnosis-status-label").textContent =
+      tr("Assessment unavailable");
+    document.querySelector("#assessment-title").textContent =
+      tr("Structured run assessment is unavailable");
+    document.querySelector("#assessment-summary").textContent =
+      tr("The current index lacks a structured assessment; recorded timeline facts remain inspectable.");
+    document.querySelector("#diagnosis-counts").innerHTML = "";
+    document.querySelector("#diagnosis-attention").innerHTML = "";
+    document.querySelector("#diagnosis-limits").innerHTML = "";
+    document.querySelector("#diagnosis-facts").innerHTML = "";
+    renderBehaviorAssessment(null);
+    document.querySelector("#diagnosis-reasoning-steps").innerHTML = "";
+    document.querySelector("#diagnosis-does-not-establish").innerHTML = "";
+    document.querySelector("#assessment-checks").innerHTML = "";
+    document.querySelector("#assessment-discipline").textContent =
+      tr("Evidence coverage is not a pass score, and completion is not proof of correctness.");
+    return;
+  }
+  const counts = diagnosis.counts || {};
+  const verdictLabels = {
+    explicit_failure: `${counts.confirmed_failures || 0} ${tr("confirmed issues")}`,
+    behavior_deviation: `${counts.behavior_deviations || 0} ${tr("behavior deviations")}`,
+    result_unverified: `${counts.verification_gaps || 0} ${tr("verification gaps")}`,
+    result_verified: "Result verified",
+    result_not_observed: "Result unavailable",
+    no_observed_issue: "No observable issue",
+  };
+  verdict.className = `assessment-verdict ${esc(diagnosis.status)}`;
+  verdict.textContent = tr(verdictLabels[diagnosis.status] || pretty(diagnosis.status));
+  document.querySelector("#diagnosis-status-label").className =
+    `diagnosis-status-label ${esc(diagnosis.status)}`;
+  document.querySelector("#diagnosis-status-label").textContent =
+    tr(diagnosis.status === "explicit_failure" ? "Execution failure" :
+      diagnosis.status === "behavior_deviation" ? "Behavior needs review" :
+      diagnosis.status === "result_verified" ? "Result verified" :
+      diagnosis.status === "result_not_observed" ? "Result unavailable" :
+      diagnosis.status === "no_observed_issue" ? "No observable issue" :
+      "Result unverified");
+  document.querySelector("#assessment-title").textContent = diagnosisTitle(diagnosis);
+  document.querySelector("#assessment-summary").textContent = diagnosisSummary(diagnosis);
+  document.querySelector("#assessment-discipline").textContent = tr(assessment.discipline);
+  document.querySelector("#diagnosis-counts").innerHTML = `
+    <article>
+      <span>${esc(tr("Explicit failures"))}</span>
+      <strong>${esc(counts.confirmed_failures || 0)}</strong>
+      <small>${esc(tr("source-reported"))}</small>
+    </article>
+    <article>
+      <span>${esc(tr("Behavior deviations"))}</span>
+      <strong>${esc(counts.behavior_deviations || 0)}</strong>
+      <small>${esc(tr("from checkable constraints"))}</small>
+    </article>
+    <article>
+      <span>${esc(tr("Result verification"))}</span>
+      <strong>${esc(diagnosis.status === "result_verified" ? tr("Verified") :
+        counts.verification_gaps ? tr("Missing") : tr("Not configured"))}</strong>
+      <small>${esc(tr("not a failure by default"))}</small>
+    </article>
+    <article>
+      <span>${esc(tr("Observability limits"))}</span>
+      <strong>${esc(counts.observability_limits || 0)}</strong>
+      <small>${esc(tr("adapter or source limits"))}</small>
+    </article>`;
+  renderBehaviorAssessment(diagnosis.conformance);
+  renderDiagnosisList(
+    "#diagnosis-attention",
+    diagnosis.attention_items || [],
+    run,
+    "No issue currently requires attention.",
+  );
+  renderDiagnosisList(
+    "#diagnosis-limits",
+    diagnosis.observability_limits || [],
+    run,
+    "No material observability limit was detected.",
+  );
+  document.querySelector("#diagnosis-attention-count").textContent =
+    diagnosis.attention_items?.length || 0;
+  document.querySelector("#diagnosis-limit-count").textContent =
+    diagnosis.observability_limits?.length || 0;
+  document.querySelector("#diagnosis-facts").innerHTML =
+    (diagnosis.confirmed_facts || []).map((fact) => {
+      const copy = diagnosisFactCopy(fact, run);
+      return `
+        <button class="diagnosis-fact" type="button"
+                data-diagnosis-stage="${esc(fact.stage)}">
+          <span>${esc(tr(stageLabels[fact.stage] || fact.stage))}</span>
+          <strong>${esc(copy.title)}</strong>
+          <small>${esc(copy.summary)}</small>
+        </button>`;
+    }).join("") || `<div class="diagnosis-empty">${esc(tr("No confirmed activity is available."))}</div>`;
+  document.querySelector("#diagnosis-method").textContent =
+    tr(diagnosis.reasoning?.label || "Calculated by system rules");
+  document.querySelector("#diagnosis-reasoning-summary").textContent =
+    tr("Fixed rules summarize normalized source records; the same evidence produces the same result. No model-generated explanation is used.");
+  document.querySelector("#diagnosis-reasoning-steps").innerHTML =
+    (diagnosis.reasoning?.steps || []).map(
+      (step) => `<li>${esc(diagnosisReasoningStep(step, run))}</li>`
+    ).join("");
+  document.querySelector("#diagnosis-does-not-establish").innerHTML = [
+    "that the Skill caused the final outcome",
+    "that the reported result is correct",
+    "that an unobserved event did not occur",
+  ].map((item) => `<li>${esc(tr(item))}</li>`).join("");
+  document.querySelector("#assessment-checks").innerHTML = assessment.checks.map((check) => `
+    <button class="assessment-row" type="button" role="row"
+            data-assessment-stage="${esc(check.stage)}">
+      <span class="assessment-check" role="cell">
+        <strong>${esc(tr(check.label))}</strong>
+        <small>${esc(tr(stageLabels[check.stage] || check.stage))} · ${esc(check.event_count)}</small>
+      </span>
+      <span class="assessment-expected" role="cell">${esc(tr(check.expected))}</span>
+      <span class="assessment-observed" role="cell">${esc(tr(check.observed))}</span>
+      <span class="assessment-judgment ${esc(check.status)}" role="cell">
+        ${esc(tr(pretty(check.status)))}
+      </span>
+    </button>
+  `).join("");
+  document.querySelectorAll("[data-assessment-stage]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const stage = run.stage_summary.find(
+        (item) => item.stage === button.dataset.assessmentStage
+      );
+      if (!stage) return;
+      document.querySelectorAll(".assessment-row").forEach(
+        (item) => item.classList.remove("active")
+      );
+      button.classList.add("active");
+      inspectStage(
+        stage,
+        run.events.filter((event) => event.stage === stage.stage),
+        run,
+      );
+      document.querySelector(".inspector-pane")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  });
+  document.querySelectorAll("[data-diagnosis-stage]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const entry = run.activity_summary?.entries?.find(
+        (item) => item.stage === button.dataset.diagnosisStage
+      );
+      if (entry) inspectActivityEntry(entry, run);
+    });
+  });
+  document.querySelectorAll("[data-behavior-stage]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const entry = run.activity_summary?.entries?.find(
+        (item) => item.stage === button.dataset.behaviorStage
+      );
+      if (entry) inspectActivityEntry(entry, run);
+    });
+  });
 }
 
 function renderComparePicker(run) {
@@ -838,32 +1500,11 @@ function renderInferredAnalysis(run) {
   }));
   const candidates = [...persisted];
   for (const finding of (run.findings || [])) {
-    if (finding.code === "lifecycle_evidence_gap") {
-      candidates.push({
-        title: "Telemetry coverage may explain the boundary",
-        claim: `Investigate adapter coverage before concluding that ${stageLabels[finding.stage] || pretty(finding.stage)} did not occur.`,
-        confidence: 0.55,
-        basis: [...(finding.basis || []), ...(finding.missing_signals || [])],
-      });
-    } else if (finding.code === "runtime_failure") {
+    if (finding.code === "runtime_failure") {
       candidates.push({
         title: "Inspect the earliest failed relationship",
         claim: "The earliest observed failure is a useful investigation boundary, but the Skill is not established as its cause.",
         confidence: 0.65,
-        basis: finding.basis || [],
-      });
-    } else if (finding.code === "run_incomplete") {
-      candidates.push({
-        title: "Later lifecycle evidence may arrive",
-        claim: "Treat outcome and artifact absence as unresolved until the source finishes or is re-indexed.",
-        confidence: 0.7,
-        basis: finding.basis || [],
-      });
-    } else if (finding.code === "outcome_unverified") {
-      candidates.push({
-        title: "Outcome quality remains unknown",
-        claim: "A reported completion cannot answer whether the generated result is correct without deterministic verification.",
-        confidence: 0.8,
         basis: finding.basis || [],
       });
     }
@@ -876,27 +1517,29 @@ function renderInferredAnalysis(run) {
       <article class="inference-card">
         <div class="inference-title">
           <i class="shape inferred"></i>
-          <strong>${esc(candidate.title)}</strong>
+          <strong>${esc(tr(candidate.title))}</strong>
           <span>${esc(Math.round(Number(candidate.confidence || 0) * 100))}%</span>
         </div>
-        <p>${esc(candidate.claim)}</p>
+        <p>${esc(tr(candidate.claim))}</p>
         <details>
-          <summary>Why this is suggested</summary>
-          <ul>${(candidate.basis || []).map((basis) => `<li>${esc(basis)}</li>`).join("")}</ul>
+          <summary>${esc(tr("Why this is suggested"))}</summary>
+          <ul>${(candidate.basis || []).map((basis) => `<li>${esc(tr(basis))}</li>`).join("")}</ul>
         </details>
-        <small>Investigation candidate · not a runtime fact · not a causal claim</small>
+        <small>${esc(tr("Investigation candidate · not a runtime fact · not a causal claim"))}</small>
       </article>
     `).join("")
     : `
       <div class="inference-abstention">
         <i class="shape inferred"></i>
-        <div><strong>No evidence-bounded inference</strong>
-        <small>The system abstains instead of completing an unsupported story.</small></div>
+        <div><strong>${esc(tr("No evidence-bounded inference"))}</strong>
+        <small>${esc(tr("The system abstains instead of completing an unsupported story."))}</small></div>
       </div>`;
 }
 
 function renderFindings(run) {
-  const findings = run.findings || [];
+  const findings = (run.findings || []).filter(
+    (finding) => finding.severity === "error"
+  );
   document.querySelector("#finding-count").textContent = findings.length;
   document.querySelector("#findings").innerHTML = findings.length
     ? findings.map((finding) => `
@@ -904,8 +1547,8 @@ function renderFindings(run) {
               data-finding="${esc(finding.finding_id)}">
         <span class="finding-severity">${esc(finding.severity)}</span>
         <span class="finding-copy">
-          <strong>${esc(finding.title)}</strong>
-          <span>${esc(finding.summary)}</span>
+          <strong>${esc(tr(finding.title))}</strong>
+          <span>${esc(tr(finding.summary))}</span>
         </span>
         <span class="finding-stage">${esc(stageLabels[finding.stage] || pretty(finding.stage))}</span>
       </button>
@@ -914,8 +1557,8 @@ function renderFindings(run) {
       <div class="healthy-finding">
         <span class="healthy-dot"></span>
         <span>
-          <strong>No actionable diagnostic finding</strong>
-          <small>The observed evidence is internally consistent for the current adapter.</small>
+          <strong>${esc(tr("No actionable diagnostic finding"))}</strong>
+          <small>${esc(tr("Systemic observability limits are summarized above instead of repeated as run issues."))}</small>
         </span>
       </div>`;
   document.querySelectorAll(".finding").forEach((button) => {
@@ -944,6 +1587,7 @@ function inspectFinding(finding) {
         <dt>Severity</dt><dd>${esc(finding.severity)}</dd>
         <dt>Boundary</dt><dd>${esc(stageLabels[finding.stage] || pretty(finding.stage))}</dd>
         <dt>Evidence</dt><dd>${esc(finding.evidence_grade)} · confidence ${esc(finding.confidence)}</dd>
+        <dt>Causal scope</dt><dd>${esc(finding.causal_scope || "none")}</dd>
       </dl>
     </section>
     <section class="fact-block">
@@ -986,30 +1630,96 @@ function eventGroupKey(event) {
   return event.event_type || event.status || "artifact";
 }
 
-function groupStageEvents(events, stage, limit = 6) {
-  const groups = new Map();
-  events.filter((event) => event.stage === stage && !event.context_only).forEach((event) => {
-    const key = eventGroupKey(event);
-    if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(event);
+function activityDetailNodes(entry, limit = 6) {
+  if (!entry) return [];
+  const objects = [...(entry.objects || [])]
+    .filter((object) => object.count !== 0)
+    .slice(0, limit);
+  return objects.map((object, index) => {
+    let subtitle = object.action || object.final_state || object.kind;
+    let detail = object.path_hint || "";
+    if (object.kind === "tool") {
+      subtitle = `${object.call_count} ${tr("calls")} · ${object.completed_count || 0} ${tr("completed")}`;
+      detail = `${object.failed_count || 0} ${tr("failed")} · ${object.event_ids.length} ${tr("source records")}`;
+    } else if (object.kind === "outcome") {
+      subtitle = `${object.count} ${tr(object.count === 1 ? "record" : "records")}`;
+      detail = object.content ? tr("Report content available") : "";
+    } else if (object.kind === "artifact") {
+      subtitle = object.final_state;
+    }
+    return {
+      id: `detail-${entry.stage}-${index}`,
+      type: "activity_object",
+      stage: entry.stage,
+      label: object.label,
+      subtitle,
+      detail,
+      status: object.failed_count ? "failed" : entry.status,
+      evidence_grade: object.evidence_grade || entry.evidence_grade || "derived",
+      event_ids: object.event_ids || [],
+      occurred_at: object.occurred_at,
+      basis: entry.limitation || "This object deterministically summarizes its underlying source records.",
+      runtime_state_basis: null,
+      object,
+    };
   });
-  const ordered = [...groups.entries()].sort((a, b) => b[1].length - a[1].length);
-  const kept = ordered.slice(0, limit);
-  const overflow = ordered.slice(limit).flatMap(([, items]) => items);
-  if (overflow.length) kept.push(["other", overflow]);
-  return kept.map(([key, items], index) => ({
-    id: `detail-${stage}-${index}`,
-    type: "evidence_group",
-    stage,
-    label: groupLabel(stage, key),
-    subtitle: `${items.length} source event${items.length === 1 ? "" : "s"}`,
-    status: items.some((event) => event.status === "failed") ? "failed" : "observed",
-    evidence_grade: weakestGrade(items),
-    event_ids: items.map((event) => event.event_id),
-    occurred_at: items.at(-1)?.occurred_at,
-    basis: `Grouped by ${stage === "execution" ? "tool name" : stage === "resources" ? "resource kind" : "event type"}. The group is a presentation view; its ${items.length} underlying event facts retain their source evidence grades.`,
-    runtime_state_basis: null,
-  }));
+}
+
+function stagePresentation(stage, summary, entry) {
+  if (!entry) {
+    return {
+      subtitle: summary.status === "unsupported"
+        ? tr("Adapter does not expose this signal")
+        : summary.status === "not_observed"
+          ? tr("No matching signal")
+          : `${summary.event_count} ${tr("evidence records")}`,
+      detail: "",
+    };
+  }
+  if (stage === "activation") {
+    return entry.status === "observed"
+      ? {subtitle: tr("How enabled: confirmed"), detail: entry.headline}
+      : {subtitle: tr("How enabled: unconfirmed"), detail: tr("Later Skill activity is visible")};
+  }
+  if (stage === "instructions") {
+    const object = entry.objects[0];
+    return {
+      subtitle: object ? `${object.label} · ${tr("loaded")}` : tr("No instruction source observed"),
+      detail: object?.path_hint || "",
+    };
+  }
+  if (stage === "resources") {
+    return {
+      subtitle: entry.objects.length === 1
+        ? `1 ${tr("Skill resource accessed")}`
+        : `${entry.objects.length} ${tr("Skill resources accessed")}`,
+      detail: entry.objects[0]?.label || entry.limitation,
+    };
+  }
+  if (stage === "execution") {
+    const calls = entry.objects.reduce((total, object) => total + (object.call_count || 0), 0);
+    return {
+      subtitle: `${calls} ${tr("tool calls")}`,
+      detail: `${entry.event_count} ${tr("lifecycle records")}`,
+    };
+  }
+  if (stage === "artifacts") {
+    const retained = entry.objects.filter((object) => object.final_state?.includes("retained")).length;
+    const removed = entry.objects.filter((object) => object.final_state?.includes("removed") || object.final_state === "deleted").length;
+    return {
+      subtitle: `${entry.objects.length} ${tr("logical artifacts")}`,
+      detail: `${retained} ${tr("retained")} · ${removed} ${tr("removed")}`,
+    };
+  }
+  if (stage === "outcome") {
+    const finalResponse = entry.objects.find((object) => object.label === "Final response")?.count || 0;
+    const verified = entry.objects.find((object) => object.label === "Independent verification")?.count || 0;
+    return {
+      subtitle: tr(finalResponse ? "Final response available" : "No final response observed"),
+      detail: verified ? `${verified} ${tr("independently verified")}` : tr("Correctness not independently verified"),
+    };
+  }
+  return {subtitle: entry.headline, detail: ""};
 }
 
 function buildEvidenceGraph(run) {
@@ -1039,36 +1749,39 @@ function buildEvidenceGraph(run) {
     resources: 4, execution: 6, artifacts: 8, outcome: 10,
   };
   const summaries = Object.fromEntries(run.stage_summary.map((stage) => [stage.stage, stage]));
+  const activityEntries = Object.fromEntries(
+    (run.activity_summary?.entries || []).map((entry) => [entry.stage, entry])
+  );
   Object.keys(stageLabels).forEach((stage, index) => {
     const summary = summaries[stage] || {status: "not_observed", event_count: 0};
     const stageEvents = run.events.filter((event) => event.stage === stage);
+    const entry = activityEntries[stage];
+    const presentation = stagePresentation(stage, summary, entry);
     nodes.push({
       id: `stage-${stage}`,
       type: "stage",
       stage,
       rank: stageRanks[stage],
       label: stageLabels[stage],
-      subtitle: summary.status === "unsupported"
-        ? "adapter unsupported"
-        : summary.status === "not_observed"
-          ? "no matching signal"
-          : `${summary.event_count} evidence record${summary.event_count === 1 ? "" : "s"}`,
+      subtitle: presentation.subtitle,
+      detail: presentation.detail,
       status: summary.status,
       evidence_grade: summary.evidence_grade || (summary.status === "unsupported" ? "unsupported" : "derived"),
       event_ids: stageEvents.map((event) => event.event_id),
       count: summary.event_count,
       index: index + 1,
-      basis: summary.status === "unsupported"
+      basis: entry?.limitation || (summary.status === "unsupported"
         ? "The active adapter does not expose this lifecycle boundary."
-        : "Stage coverage is reconstructed from normalized runtime records. It is not a claim that the stage caused the next stage.",
+        : "Stage coverage is reconstructed from normalized runtime records. It is not a claim that the stage caused the next stage."),
       runtime_state_basis: null,
+      activity_entry: entry,
     });
   });
 
-  const detailedStages = ["resources", "execution", "artifacts"];
+  const detailedStages = ["resources", "execution", "artifacts", "outcome"];
   const detailNodes = {};
   detailedStages.forEach((stage) => {
-    const grouped = groupStageEvents(run.events, stage);
+    const grouped = activityDetailNodes(activityEntries[stage]);
     grouped.forEach((node) => {
       node.rank = stageRanks[stage] + 1;
       nodes.push(node);
@@ -1078,7 +1791,6 @@ function buildEvidenceGraph(run) {
 
   const sequence = Object.keys(stageLabels);
   sequence.forEach((stage, index) => {
-    if (index === sequence.length - 1) return;
     const nextStage = sequence[index + 1];
     const groups = detailNodes[stage] || [];
     if (groups.length) {
@@ -1091,16 +1803,18 @@ function buildEvidenceGraph(run) {
           evidence_grade: group.evidence_grade,
           basis: "These source events were normalized into this lifecycle stage.",
         });
-        edges.push({
-          id: `continuation-${group.id}-${nextStage}`,
-          source: group.id,
-          target: `stage-${nextStage}`,
-          relationship_type: "lifecycle_order",
-          evidence_grade: "derived",
-          basis: "Lifecycle continuation for navigation only; it is not a causal claim.",
-        });
+        if (nextStage) {
+          edges.push({
+            id: `continuation-${group.id}-${nextStage}`,
+            source: group.id,
+            target: `stage-${nextStage}`,
+            relationship_type: "lifecycle_order",
+            evidence_grade: "derived",
+            basis: "Lifecycle continuation for navigation only; it is not a causal claim.",
+          });
+        }
       });
-    } else {
+    } else if (nextStage) {
       edges.push({
         id: `lifecycle-${stage}-${nextStage}`,
         source: `stage-${stage}`,
@@ -1114,7 +1828,7 @@ function buildEvidenceGraph(run) {
 
   if (run.status === "incomplete" && latestOwnEvent) {
     let frontierNodes = nodes.filter((node) =>
-      node.type === "evidence_group"
+      node.type === "activity_object"
       && node.event_ids.some((eventId) => openEventIds.has(eventId))
     );
     if (frontierNodes.length) {
@@ -1124,7 +1838,7 @@ function buildEvidenceGraph(run) {
       );
     } else {
       const specific = nodes.find((node) =>
-        node.type === "evidence_group" && node.event_ids.includes(latestOwnEvent.event_id)
+        node.type === "activity_object" && node.event_ids.includes(latestOwnEvent.event_id)
       );
       frontierNodes = [
         specific || nodes.find((node) => node.id === `stage-${latestOwnEvent.stage}`),
@@ -1149,7 +1863,7 @@ function buildEvidenceGraph(run) {
 }
 
 function graphIcon(node) {
-  if (node.type === "evidence_group") {
+  if (node.type !== "stage") {
     if (node.stage === "execution") return `<path d="M8 9h8M8 15h8M5 6h14v12H5z"/>`;
     if (node.stage === "resources") return `<path d="M7 4h8l3 3v13H7z"/><path d="M15 4v4h4"/>`;
     return `<path d="M5 7h14v12H5z"/><path d="M9 7V4h6v3"/>`;
@@ -1193,7 +1907,7 @@ function renderPanorama(run) {
   svg.setAttribute("class", `panorama motion-${graphMotionMode}`);
   updateMotionControls();
   const nodeWidth = 184;
-  const nodeHeight = 78;
+  const nodeHeight = 92;
   const rankGap = 58;
   const rowGap = 18;
   const padX = 34;
@@ -1285,10 +1999,11 @@ function renderPanorama(run) {
       <rect class="dag-node-accent" width="3" height="${nodeHeight - 20}" y="10" rx="2"/>
       <rect class="dag-node-icon-bg" x="14" y="14" width="34" height="34" rx="9"/>
       <g class="dag-node-icon" transform="translate(19 19) scale(1)" aria-hidden="true">${graphIcon(node)}</g>
-      <text class="dag-node-label" x="59" y="27">${esc(node.label)}</text>
-      <text class="dag-node-subtitle" x="59" y="45">${esc(node.subtitle)}</text>
-      <text class="dag-node-grade" x="59" y="63">${esc(indexLabel)} · ${esc(pretty(grade))}</text>
-      ${node.occurred_at ? `<text class="dag-node-time" x="${nodeWidth - 12}" y="64" text-anchor="end">${esc(formatTime(node.occurred_at, false))}</text>` : ""}
+      <text class="dag-node-label" x="59" y="25">${esc(tr(node.label))}</text>
+      <text class="dag-node-subtitle" x="59" y="43">${esc(tr(node.subtitle))}</text>
+      ${node.detail ? `<text class="dag-node-detail" x="59" y="59">${esc(tr(node.detail))}</text>` : ""}
+      <text class="dag-node-grade" x="59" y="78">${esc(indexLabel)} · ${esc(tr(pretty(grade)))}</text>
+      ${node.occurred_at ? `<text class="dag-node-time" x="${nodeWidth - 12}" y="79" text-anchor="end">${esc(formatTime(node.occurred_at, false))}</text>` : ""}
     </g>`;
   }).join("");
 
@@ -1374,12 +2089,16 @@ function selectGraphNode(nodeId, inspect = false) {
   const node = currentGraph.nodes.find((item) => item.id === nodeId);
   if (!node) return;
   if (node.type === "stage") {
-    inspectStage(
-      selectedRun.stage_summary.find((item) => item.stage === node.stage),
-      selectedRun.events.filter((event) => event.stage === node.stage),
-      selectedRun,
-      node
-    );
+    if (node.activity_entry) {
+      inspectActivityEntry(node.activity_entry, selectedRun);
+    } else {
+      inspectStage(
+        selectedRun.stage_summary.find((item) => item.stage === node.stage),
+        selectedRun.events.filter((event) => event.stage === node.stage),
+        selectedRun,
+        node
+      );
+    }
   } else {
     inspectGraphNode(node, selectedRun);
   }
@@ -1392,15 +2111,23 @@ function inspectGraphNode(node, run) {
   document.querySelector("#inspector").className = "inspector";
   document.querySelector("#inspector").innerHTML = `
     <h3 class="inspector-title">${esc(node.label)}</h3>
-    <p class="inspector-type">${esc(stageLabels[node.stage])} evidence group · ${esc(node.status)}</p>
+    <p class="inspector-type">${esc(tr(stageLabels[node.stage]))} · ${esc(tr("concrete object"))} · ${esc(tr(pretty(node.status)))}</p>
+    ${node.object ? `<section class="fact-block">
+      <h4>${esc(tr("Object details"))}</h4>
+      <dl class="kv">${activityObjectDetails(node.object)}</dl>
+      ${node.object.content ? `<div class="report-content">
+        <span>${esc(tr("Available report content"))} · ${esc(tr(node.object.content_scope || "redacted normalized excerpt"))}</span>
+        <p>${esc(node.object.content)}</p>
+      </div>` : ""}
+    </section>` : ""}
     <section class="fact-block">
-      <h4>Graph semantics</h4>
+      <h4>${esc(tr("Evidence semantics"))}</h4>
       <p class="basis">${esc(node.basis)}</p>
       ${node.runtime_state_basis ? `<p class="runtime-basis">${esc(node.runtime_state_basis)}</p>` : ""}
       <dl class="kv finding-kv">
-        <dt>Source events</dt><dd>${events.length}</dd>
-        <dt>Weakest grade</dt><dd>${esc(node.evidence_grade)}</dd>
-        <dt>Failed events</dt><dd>${events.filter((event) => event.status === "failed").length}</dd>
+        <dt>${esc(tr("Source events"))}</dt><dd>${events.length}</dd>
+        <dt>${esc(tr("Weakest grade"))}</dt><dd>${esc(tr(pretty(node.evidence_grade)))}</dd>
+        <dt>${esc(tr("Failed events"))}</dt><dd>${events.filter((event) => event.status === "failed").length}</dd>
       </dl>
     </section>
     <section class="fact-block">

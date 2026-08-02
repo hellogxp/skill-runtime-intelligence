@@ -145,7 +145,11 @@ def _cases() -> List[Dict[str, Any]]:
     ]
 
 
-def evaluate_alignment(case: Dict[str, Any]) -> Dict[str, Any]:
+def evaluate_alignment(
+    case: Dict[str, Any],
+    *,
+    clock_tolerance_seconds: int = CLOCK_TOLERANCE_SECONDS,
+) -> Dict[str, Any]:
     runs = list(case.get("runs") or [])
     flags = []
     dimensions = []
@@ -210,7 +214,7 @@ def evaluate_alignment(case: Dict[str, Any]) -> Dict[str, Any]:
                 flags.append("reported_outcome_conflict")
 
     offsets = [int(run.get("started_offset_seconds") or 0) for run in runs]
-    if max(offsets) - min(offsets) <= CLOCK_TOLERANCE_SECONDS:
+    if max(offsets) - min(offsets) <= clock_tolerance_seconds:
         dimensions.append("absolute_time")
     else:
         flags.append("clock_skew")

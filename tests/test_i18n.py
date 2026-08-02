@@ -34,12 +34,12 @@ class InternationalizationTests(unittest.TestCase):
         locales = set(re.findall(r'<option value="([^"]+)">', selector))
         self.assertEqual(locales, EXPECTED_LOCALES)
         self.assertLess(
-            html.index('src="/locale-packs.js"'),
-            html.index('src="/i18n.js"'),
+            html.index('src="/locale-packs.js'),
+            html.index('src="/i18n.js'),
         )
         self.assertLess(
-            html.index('src="/i18n.js"'),
-            html.index('src="/app.js"'),
+            html.index('src="/i18n.js'),
+            html.index('src="/app.js'),
         )
 
     def test_diagnostic_controls_are_present_in_the_localized_surface(self):
@@ -61,6 +61,55 @@ class InternationalizationTests(unittest.TestCase):
         self.assertIn('<option value="discovery">Discovery</option>', html)
         self.assertIn('class="raw-record"', app)
         self.assertIn("Show redacted normalized JSON", app)
+
+    def test_run_assessment_separates_expectation_from_evidence_coverage(self):
+        html = (WEB / "index.html").read_text(encoding="utf-8")
+        app = (WEB / "app.js").read_text(encoding="utf-8")
+        for control_id in (
+            "assessment-verdict",
+            "assessment-title",
+            "assessment-summary",
+            "diagnosis-counts",
+            "diagnosis-attention",
+            "diagnosis-limits",
+            "diagnosis-facts",
+            "diagnosis-reasoning-steps",
+            "behavior-counts",
+            "behavior-list",
+            "behavior-limitation",
+            "assessment-checks",
+            "assessment-discipline",
+        ):
+            self.assertIn(f'id="{control_id}"', html)
+        self.assertIn("Expected evidence", html)
+        self.assertIn("Actually observed", html)
+        self.assertIn("Attribution is association, not causality.", html)
+        self.assertIn("function renderAssessment(run)", app)
+        self.assertIn("function diagnosisReasoningStep", app)
+        self.assertIn("function renderDiagnosisList", app)
+        self.assertIn("Evidence coverage is not a pass score", app)
+
+    def test_run_activity_summary_exposes_concrete_objects(self):
+        html = (WEB / "index.html").read_text(encoding="utf-8")
+        app = (WEB / "app.js").read_text(encoding="utf-8")
+        self.assertIn('id="activity-summary"', html)
+        self.assertIn('id="activity-discipline"', html)
+        self.assertIn("Concrete objects, not just event counts", html)
+        self.assertIn("function renderActivitySummary(run)", app)
+        self.assertIn("function inspectActivityEntry(entry, run)", app)
+
+    def test_slow_integration_probe_is_not_on_the_initial_render_path(self):
+        app = (WEB / "app.js").read_text(encoding="utf-8")
+        self.assertIn(
+            'const integrationsPromise = getJSON("/api/integrations")',
+            app,
+        )
+        core_fetches = app[
+            app.index("const [", app.index("async function loadIndex")):
+            app.index("skillRuns =", app.index("async function loadIndex"))
+        ]
+        self.assertNotIn("integrationsResponse,", core_fetches)
+        self.assertIn("integrationsPromise.then", app)
 
     def test_generated_catalogs_are_complete_and_token_free(self):
         source = (WEB / "locale-packs.js").read_text(encoding="utf-8")
@@ -105,10 +154,11 @@ class InternationalizationTests(unittest.TestCase):
             self.assertIn("docs/assets/runtime-architecture.svg", text)
             self.assertIn("docs/getting-started.md", text)
             self.assertIn(".venv/bin/skill-runtime install --enable-hooks", text)
-            self.assertIn("docs/experiment-driven-product-philosophy.md", text)
+            self.assertIn("docs/experiment-results-2026-07-29.md", text)
             self.assertIn("Inferred Analysis", text)
             self.assertNotRegex(text, r"(?:ZXQ|SRI_|TKN|TKNT|T901)")
             self.assertNotRegex(text, r"⟦L\s*\d+⟧")
+            self.assertNotRegex(text, r"[⟦⟧⧦]")
             self.assertNotRegex(text, r"\]\s+\(")
 
 

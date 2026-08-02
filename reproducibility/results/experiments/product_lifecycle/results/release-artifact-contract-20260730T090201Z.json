@@ -1,0 +1,56 @@
+{
+  "schema_version": "sri.experiment.release-artifact-contract.v1",
+  "experiment": {
+    "name": "timestamp-migration-release-artifact-contract",
+    "evidence_grade": "Experimental",
+    "trials": 3,
+    "live_database_used": false,
+    "row_level_records_included": false,
+    "limitations": [
+      "The release wheel creates a controlled database rather than migrating a field database.",
+      "One released version, one event shape, and one local platform are covered.",
+      "Release metadata availability and download transport are external dependencies.",
+      "The current working-tree migrator is not itself installed from a release artifact."
+    ]
+  },
+  "artifact": {
+    "filename": "skill_runtime_intelligence-0.1.0-py3-none-any.whl",
+    "bytes": 173847,
+    "sha256": "23b707b3de8cd8561e07285e6904cf5b25ad68b0910a8d7c4e38e68826825d09",
+    "expected_sha256": "23b707b3de8cd8561e07285e6904cf5b25ad68b0910a8d7c4e38e68826825d09",
+    "identity_verified": true,
+    "source_url": "https://github.com/hellogxp/skill-runtime-intelligence/releases/download/v0.1.0/skill_runtime_intelligence-0.1.0-py3-none-any.whl",
+    "installed_version": "0.1.6",
+    "expected_version": "0.1.0",
+    "comparison_artifact": {
+      "filename": "skill_runtime_intelligence-0.1.0-py3-none-any.whl",
+      "sha256": "9e6200cc691f60543ad120ae94034d3f718ce51dac3c1f4caeb793d3b583dece",
+      "matches_release_digest": false
+    }
+  },
+  "environment": {
+    "platform_system": "Darwin",
+    "platform_machine": "arm64",
+    "python_version": "3.9.6",
+    "sqlite_version": "3.51.0",
+    "logical_cpu_count": 12,
+    "load_average_1m": 17.263671875,
+    "load_average_5m": 18.22314453125,
+    "load_average_15m": 14.86962890625
+  },
+  "metrics": {
+    "evaluations": 3,
+    "passed": 0,
+    "failed": 3,
+    "historical_schema_fingerprints": [
+      "421fcea0fd714f74dad345e363e750114292fc5521cd45b876db6ef1c8a24a1f"
+    ],
+    "legacy_events_preserved_as_unknown": false,
+    "idempotent_second_open": false
+  },
+  "gate": {
+    "name": "verified release artifact migrates conservatively",
+    "passed": false
+  },
+  "created_at": "2026-07-30T09:02:01.487861+00:00"
+}

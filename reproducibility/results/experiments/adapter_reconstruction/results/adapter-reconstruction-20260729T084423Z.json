@@ -1,0 +1,532 @@
+{
+  "schema_version": "sri.experiment.adapter-reconstruction.v1",
+  "experiment": {
+    "name": "codex-adapter-golden-corpus",
+    "adapter": "codex",
+    "adapter_version": "0.2.0",
+    "dataset_path": "${REPO_ROOT}/experiments/adapter_reconstruction/cases.jsonl",
+    "dataset_sha256": "eff059aa1b49019af90b6ed3d019e6730c54f37f028685c71926b37de706c0a2",
+    "evidence_policy": "Observed Skill events and Derived SkillRun attribution are scored as separate labeled fields."
+  },
+  "metrics": {
+    "case_count": 10,
+    "exact_matches": 10,
+    "exact_match_rate": 1.0,
+    "tp": 18,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "cases": [
+    {
+      "case_id": "instruction_exact_path",
+      "exact_match": true,
+      "run_counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "event_counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "scalar_checks": {
+        "session_status": true,
+        "completeness": true,
+        "attributed_tool_events": true
+      },
+      "expected_runs": [
+        [
+          "pdf",
+          "unknown",
+          "derived",
+          "completed"
+        ]
+      ],
+      "actual_runs": [
+        [
+          "pdf",
+          "unknown",
+          "derived",
+          "completed"
+        ]
+      ],
+      "expected_skill_events": [
+        [
+          "instruction.loaded",
+          "pdf",
+          "observed",
+          "skill_body"
+        ]
+      ],
+      "actual_skill_events": [
+        [
+          "instruction.loaded",
+          "pdf",
+          "observed",
+          "skill_body"
+        ]
+      ],
+      "raw_record_count": 4,
+      "normalized_event_count": 4
+    },
+    {
+      "case_id": "explicit_activation",
+      "exact_match": true,
+      "run_counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "event_counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "scalar_checks": {
+        "session_status": true,
+        "completeness": true,
+        "attributed_tool_events": true
+      },
+      "expected_runs": [
+        [
+          "pdf",
+          "explicit_tool",
+          "observed",
+          "completed"
+        ]
+      ],
+      "actual_runs": [
+        [
+          "pdf",
+          "explicit_tool",
+          "observed",
+          "completed"
+        ]
+      ],
+      "expected_skill_events": [
+        [
+          "skill.activated",
+          "pdf",
+          "observed",
+          null
+        ]
+      ],
+      "actual_skill_events": [
+        [
+          "skill.activated",
+          "pdf",
+          "observed",
+          null
+        ]
+      ],
+      "raw_record_count": 4,
+      "normalized_event_count": 4
+    },
+    {
+      "case_id": "script_execution",
+      "exact_match": true,
+      "run_counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "event_counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "scalar_checks": {
+        "session_status": true,
+        "completeness": true,
+        "attributed_tool_events": true
+      },
+      "expected_runs": [
+        [
+          "pdf",
+          "unknown",
+          "derived",
+          "completed"
+        ]
+      ],
+      "actual_runs": [
+        [
+          "pdf",
+          "unknown",
+          "derived",
+          "completed"
+        ]
+      ],
+      "expected_skill_events": [
+        [
+          "resource.executed",
+          "pdf",
+          "observed",
+          "script"
+        ]
+      ],
+      "actual_skill_events": [
+        [
+          "resource.executed",
+          "pdf",
+          "observed",
+          "script"
+        ]
+      ],
+      "raw_record_count": 4,
+      "normalized_event_count": 4
+    },
+    {
+      "case_id": "relative_script_execution",
+      "exact_match": true,
+      "run_counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "event_counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "scalar_checks": {
+        "session_status": true,
+        "completeness": true,
+        "attributed_tool_events": true
+      },
+      "expected_runs": [
+        [
+          "pdf",
+          "unknown",
+          "derived",
+          "completed"
+        ]
+      ],
+      "actual_runs": [
+        [
+          "pdf",
+          "unknown",
+          "derived",
+          "completed"
+        ]
+      ],
+      "expected_skill_events": [
+        [
+          "resource.executed",
+          "pdf",
+          "observed",
+          "script"
+        ]
+      ],
+      "actual_skill_events": [
+        [
+          "resource.executed",
+          "pdf",
+          "observed",
+          "script"
+        ]
+      ],
+      "raw_record_count": 4,
+      "normalized_event_count": 4
+    },
+    {
+      "case_id": "path_prefix_collision",
+      "exact_match": true,
+      "run_counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "event_counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "scalar_checks": {
+        "session_status": true,
+        "completeness": true,
+        "attributed_tool_events": true
+      },
+      "expected_runs": [],
+      "actual_runs": [],
+      "expected_skill_events": [],
+      "actual_skill_events": [],
+      "raw_record_count": 4,
+      "normalized_event_count": 3
+    },
+    {
+      "case_id": "explicit_name_collision",
+      "exact_match": true,
+      "run_counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "event_counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "scalar_checks": {
+        "session_status": true,
+        "completeness": true,
+        "attributed_tool_events": true
+      },
+      "expected_runs": [],
+      "actual_runs": [],
+      "expected_skill_events": [],
+      "actual_skill_events": [],
+      "raw_record_count": 4,
+      "normalized_event_count": 3
+    },
+    {
+      "case_id": "active_scope_inheritance",
+      "exact_match": true,
+      "run_counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "event_counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "scalar_checks": {
+        "session_status": true,
+        "completeness": true,
+        "attributed_tool_events": true
+      },
+      "expected_runs": [
+        [
+          "pdf",
+          "unknown",
+          "derived",
+          "completed"
+        ]
+      ],
+      "actual_runs": [
+        [
+          "pdf",
+          "unknown",
+          "derived",
+          "completed"
+        ]
+      ],
+      "expected_skill_events": [
+        [
+          "instruction.loaded",
+          "pdf",
+          "observed",
+          "skill_body"
+        ]
+      ],
+      "actual_skill_events": [
+        [
+          "instruction.loaded",
+          "pdf",
+          "observed",
+          "skill_body"
+        ]
+      ],
+      "raw_record_count": 7,
+      "normalized_event_count": 7
+    },
+    {
+      "case_id": "interrupted_turn",
+      "exact_match": true,
+      "run_counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "event_counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "scalar_checks": {
+        "session_status": true,
+        "completeness": true,
+        "attributed_tool_events": true
+      },
+      "expected_runs": [
+        [
+          "pdf",
+          "unknown",
+          "derived",
+          "interrupted"
+        ]
+      ],
+      "actual_runs": [
+        [
+          "pdf",
+          "unknown",
+          "derived",
+          "interrupted"
+        ]
+      ],
+      "expected_skill_events": [
+        [
+          "instruction.loaded",
+          "pdf",
+          "observed",
+          "skill_body"
+        ]
+      ],
+      "actual_skill_events": [
+        [
+          "instruction.loaded",
+          "pdf",
+          "observed",
+          "skill_body"
+        ]
+      ],
+      "raw_record_count": 4,
+      "normalized_event_count": 4
+    },
+    {
+      "case_id": "malformed_source",
+      "exact_match": true,
+      "run_counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "event_counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "scalar_checks": {
+        "session_status": true,
+        "completeness": true,
+        "attributed_tool_events": true
+      },
+      "expected_runs": [
+        [
+          "pdf",
+          "unknown",
+          "derived",
+          "completed"
+        ]
+      ],
+      "actual_runs": [
+        [
+          "pdf",
+          "unknown",
+          "derived",
+          "completed"
+        ]
+      ],
+      "expected_skill_events": [
+        [
+          "instruction.loaded",
+          "pdf",
+          "observed",
+          "skill_body"
+        ]
+      ],
+      "actual_skill_events": [
+        [
+          "instruction.loaded",
+          "pdf",
+          "observed",
+          "skill_body"
+        ]
+      ],
+      "raw_record_count": 4,
+      "normalized_event_count": 4
+    },
+    {
+      "case_id": "two_skills_one_turn",
+      "exact_match": true,
+      "run_counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0
+      },
+      "event_counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0
+      },
+      "scalar_checks": {
+        "session_status": true,
+        "completeness": true,
+        "attributed_tool_events": true
+      },
+      "expected_runs": [
+        [
+          "pdf",
+          "unknown",
+          "derived",
+          "completed"
+        ],
+        [
+          "sheets",
+          "unknown",
+          "derived",
+          "completed"
+        ]
+      ],
+      "actual_runs": [
+        [
+          "pdf",
+          "unknown",
+          "derived",
+          "completed"
+        ],
+        [
+          "sheets",
+          "unknown",
+          "derived",
+          "completed"
+        ]
+      ],
+      "expected_skill_events": [
+        [
+          "instruction.loaded",
+          "pdf",
+          "observed",
+          "skill_body"
+        ],
+        [
+          "instruction.loaded",
+          "sheets",
+          "observed",
+          "skill_body"
+        ]
+      ],
+      "actual_skill_events": [
+        [
+          "instruction.loaded",
+          "pdf",
+          "observed",
+          "skill_body"
+        ],
+        [
+          "instruction.loaded",
+          "sheets",
+          "observed",
+          "skill_body"
+        ]
+      ],
+      "raw_record_count": 5,
+      "normalized_event_count": 6
+    }
+  ],
+  "created_at": "2026-07-29T08:44:23.664200+00:00",
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "07a7cf05b9f4233e37b4f3392ecd69be36fe8367",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

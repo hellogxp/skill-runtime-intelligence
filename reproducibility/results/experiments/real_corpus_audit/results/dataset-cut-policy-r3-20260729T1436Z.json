@@ -1,0 +1,109 @@
+{
+  "schema_version": "sri.experiment.dataset-cut-policy.v1",
+  "experiment": {
+    "name": "privacy-safe-live-dataset-cut-policy-pilot",
+    "evidence_grade": "Experimental",
+    "source_database_basename": "panorama.db",
+    "requested_interval_seconds": 2.0,
+    "observed_intervals_seconds": [
+      2.270728,
+      2.200784
+    ],
+    "watermark_seconds": 30.0,
+    "source_query_only_enforced": true,
+    "row_level_records_included": false,
+    "raw_content_included": false,
+    "limitations": [
+      "This is one three-snapshot observational time series.",
+      "Policy assignment is deterministic, not randomized.",
+      "Stable fingerprints do not prove that all source events arrived.",
+      "The pilot cannot estimate long-window drift or causal policy effects."
+    ]
+  },
+  "snapshot_manifest": {
+    "snapshot_sha256": [
+      "513bb220f6bf999d819d215528010740d1b21ba72e17d8222c81851ee5b83b5c",
+      "7528ce61af6d98cc02d8b4d4fcd01f8818609c7d6e6877173ddf3c1f32c3d21a",
+      "6904cb1b68acfea8992b396988d49e8d66da622f5f810fba4445a21399af5fc2"
+    ],
+    "snapshot_bytes": [
+      46956544,
+      46956544,
+      46956544
+    ],
+    "backup_attempts": [
+      1,
+      1,
+      1
+    ],
+    "integrity_checks": [
+      "ok",
+      "ok",
+      "ok"
+    ]
+  },
+  "evaluation": {
+    "selection_snapshot_run_count": 80,
+    "new_run_count_in_outcome_snapshot": 1,
+    "policies": {
+      "all_observed": {
+        "eligibility_rule": "all runs present at the selection snapshot",
+        "minimum_wait_seconds": 0.0,
+        "selected_run_count": 80,
+        "selection_fraction": 1.0,
+        "stable_next_interval_count": 78,
+        "changed_next_interval_count": 2,
+        "missing_next_interval_count": 0,
+        "stable_next_interval_fraction": 0.975
+      },
+      "terminal_status": {
+        "eligibility_rule": "run status is completed, failed, or interrupted",
+        "minimum_wait_seconds": null,
+        "selected_run_count": 72,
+        "selection_fraction": 0.9,
+        "stable_next_interval_count": 72,
+        "changed_next_interval_count": 0,
+        "missing_next_interval_count": 0,
+        "stable_next_interval_fraction": 1.0
+      },
+      "event_watermark": {
+        "eligibility_rule": "latest run event is older than the configured watermark",
+        "minimum_wait_seconds": 30.0,
+        "selected_run_count": 77,
+        "selection_fraction": 0.9625,
+        "stable_next_interval_count": 76,
+        "changed_next_interval_count": 1,
+        "missing_next_interval_count": 0,
+        "stable_next_interval_fraction": 0.987012987012987
+      },
+      "observed_quiescence": {
+        "eligibility_rule": "private run fingerprint was unchanged from snapshot A to B",
+        "minimum_wait_seconds": 2.270728,
+        "selected_run_count": 60,
+        "selection_fraction": 0.75,
+        "stable_next_interval_count": 58,
+        "changed_next_interval_count": 2,
+        "missing_next_interval_count": 0,
+        "stable_next_interval_fraction": 0.9666666666666667
+      }
+    }
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "gate": {
+    "name": "three-snapshot cut-policy pilot completed",
+    "passed": true
+  },
+  "created_at": "2026-07-29T14:39:33.026419+00:00",
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "007638973d2fec5a7bf25f30555e23576a8ed2fb",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

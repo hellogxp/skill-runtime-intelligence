@@ -1,0 +1,101 @@
+{
+  "schema_version": "sri.experiment.alignment-clock-sensitivity.v1",
+  "experiment": {
+    "name": "cross-agent-alignment-clock-policy-sensitivity",
+    "evidence_grade": "Experimental",
+    "synthetic_offsets_seconds": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      8,
+      13,
+      21,
+      34,
+      55,
+      89
+    ],
+    "tested_tolerances_seconds": [
+      0,
+      1,
+      2,
+      5,
+      10,
+      30,
+      60,
+      120
+    ],
+    "limitations": [
+      "Synthetic offsets do not estimate real Agent clock skew.",
+      "The experiment tests policy behavior and cannot select an optimal tolerance.",
+      "Absolute-time comparability is independent of run identity and causal attribution.",
+      "Clock synchronization quality and event timestamp error are not measured."
+    ]
+  },
+  "metrics": {
+    "offset_condition_count": 11,
+    "tolerance_condition_count": 8,
+    "evaluations": 88,
+    "invariant_failures": 0,
+    "absolute_time_acceptance_monotonic": true,
+    "acceptance_by_tolerance": [
+      {
+        "tolerance_seconds": 0,
+        "absolute_time_accepted": 1,
+        "absolute_time_masked": 10
+      },
+      {
+        "tolerance_seconds": 1,
+        "absolute_time_accepted": 2,
+        "absolute_time_masked": 9
+      },
+      {
+        "tolerance_seconds": 2,
+        "absolute_time_accepted": 3,
+        "absolute_time_masked": 8
+      },
+      {
+        "tolerance_seconds": 5,
+        "absolute_time_accepted": 5,
+        "absolute_time_masked": 6
+      },
+      {
+        "tolerance_seconds": 10,
+        "absolute_time_accepted": 6,
+        "absolute_time_masked": 5
+      },
+      {
+        "tolerance_seconds": 30,
+        "absolute_time_accepted": 8,
+        "absolute_time_masked": 3
+      },
+      {
+        "tolerance_seconds": 60,
+        "absolute_time_accepted": 10,
+        "absolute_time_masked": 1
+      },
+      {
+        "tolerance_seconds": 120,
+        "absolute_time_accepted": 11,
+        "absolute_time_masked": 0
+      }
+    ],
+    "overall_comparability_changed_evaluations": 0,
+    "causal_attribution_enabled_evaluations": 0
+  },
+  "gate": {
+    "name": "clock policy changes only absolute-time mask",
+    "passed": true
+  },
+  "created_at": "2026-07-30T07:02:01.889446+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "e3f47b3f3fe261f8e12b27815436c4b945679de7",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

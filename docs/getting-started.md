@@ -11,8 +11,7 @@ not proxy model requests, replace the Agent UI, or require a cloud account.
 - at least one supported Agent: Codex, Claude Code, Qoder, or OpenCode;
 - a browser for the local UI.
 
-The standalone installer does not require `sudo`, a GitHub account, GitHub CLI,
-or a source checkout.
+The public installer does not require `sudo`, GitHub CLI, or a source checkout.
 
 ## 1. Install and start
 
@@ -20,18 +19,22 @@ or a source checkout.
 curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
 ```
 
-The installer:
+This sequence:
 
-1. downloads the release payload for the current platform;
-2. verifies the published SHA-256 checksum;
+1. downloads the GitHub release payload for the current platform;
+2. verifies the published checksum;
 3. detects supported Agents and scans standard Skill locations;
 4. shows every path it intends to read or manage;
-5. asks once before enabling observation-only, fail-open integrations;
+5. records explicit consent for observation-only, fail-open integrations;
 6. creates `~/.skill-runtime/config.json` and
    `~/.skill-runtime/data/panorama.db`;
 7. starts the local Collector and UI.
 
 All stored runtime evidence stays under `~/.skill-runtime` by default.
+The first installation imports compatible historical Agent sessions. Its
+duration therefore depends on the size of the local history; later runs are
+incremental, and `start` serves the UI while the initial refresh continues in
+the background.
 
 ## 2. Connect your Agent
 
@@ -99,7 +102,16 @@ Writing a Hook configuration is never enough to claim live collection.
 
 Open [http://127.0.0.1:4317](http://127.0.0.1:4317). The Runtime Overview
 identifies runs worth investigating; selecting a run opens its ordered
-Panorama, first observable boundary, evidence timeline, and Inspector.
+Panorama, Skill Behavior Check, concrete activity inventory, first observable
+boundary, evidence timeline, and Inspector.
+
+Start with **Skill Behavior Check** when the Skill definition contains an
+explicit, observable instruction such as reading a named resource, invoking a
+tool, producing a file, or verifying a result. Each row shows the expectation,
+the runtime match, and the supporting evidence. **Needs review** means the
+available evidence does not establish compliance; it is not automatically a
+failure. Use **What Actually Happened** to inspect the exact resources, tools,
+artifacts, and reported outcome behind the summary.
 
 ## 4. Understand what is real
 

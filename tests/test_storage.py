@@ -180,6 +180,15 @@ class StorageTests(unittest.TestCase):
                 "source_locator": "fixture:1",
                 "payload": {},
             }
+            derived_event = {
+                **event,
+                "event_id": "event-2",
+                "occurred_at": "2026-07-28T00:00:01Z",
+                "evidence_grade": "derived",
+                "basis": "Deterministic fixture relationship",
+                "summary": "Derived instruction relationship",
+                "source_locator": "fixture:2",
+            }
             run = {
                 "skill_run_id": run_id,
                 "session_id": "session-1",
@@ -194,11 +203,23 @@ class StorageTests(unittest.TestCase):
             }
             try:
                 storage.replace_skills([skill.to_dict()])
-                storage.replace_session(session, [], [event], [run])
+                storage.replace_session(session, [], [event, derived_event], [run])
+                original_stage_summary = storage._stage_summary
+                storage._stage_summary = lambda *_args, **_kwargs: self.fail(
+                    "list_skill_runs must batch stage summaries"
+                )
                 listed = storage.list_skill_runs()
+                storage._stage_summary = original_stage_summary
                 self.assertEqual([item["skill_run_id"] for item in listed], [run_id])
                 detail = storage.get_skill_run(run_id)
                 self.assertEqual(detail["events"][0]["event_id"], "event-1")
+                instructions = next(
+                    stage
+                    for stage in detail["stage_summary"]
+                    if stage["stage"] == "instructions"
+                )
+                self.assertEqual(instructions["event_count"], 2)
+                self.assertEqual(instructions["evidence_grade"], "derived")
                 self.assertEqual(
                     detail["relationships"][0]["relationship_type"], "skill_scope"
                 )
