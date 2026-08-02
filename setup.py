@@ -1,9 +1,8 @@
 """Compatibility packaging for Python environments with pre-PEP 660 pip."""
 
 import re
+import sys
 from pathlib import Path
-
-from setuptools import find_packages, setup
 
 
 ROOT = Path(__file__).resolve().parent
@@ -17,11 +16,21 @@ VERSION_MATCH = re.search(
 )
 if VERSION_MATCH is None:
     raise RuntimeError("Unable to determine package version")
+PACKAGE_VERSION = VERSION_MATCH.group(1)
+
+# Release metadata checks need the package version before build dependencies
+# are installed. Keep this standard-library-only path working on every
+# supported Python version, including clean Python 3.13 environments.
+if sys.argv[1:] == ["--version"]:
+    print(PACKAGE_VERSION)
+    raise SystemExit(0)
+
+from setuptools import find_packages, setup
 
 
 setup(
     name="skill-runtime-intelligence",
-    version=VERSION_MATCH.group(1),
+    version=PACKAGE_VERSION,
     description="Local-first, evidence-graded Agent Skill runtime intelligence",
     long_description=README,
     long_description_content_type="text/markdown",

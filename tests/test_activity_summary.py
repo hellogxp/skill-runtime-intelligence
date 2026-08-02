@@ -124,7 +124,7 @@ class ActivitySummaryTests(unittest.TestCase):
         )
         self.assertEqual(
             artifacts["objects"][0]["path_hint"],
-            "/private/tmp/sri-canary/hooks.json",
+            "/tmp/sri-canary/hooks.json",
         )
         self.assertEqual(
             artifacts["objects"][0]["final_state"], "temporary · removed"

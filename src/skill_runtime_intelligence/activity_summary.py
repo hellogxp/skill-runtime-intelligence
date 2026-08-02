@@ -29,7 +29,15 @@ def _canonical_path(value: str, cwd: str = "") -> str:
         path = Path(value).expanduser()
         if not path.is_absolute() and cwd:
             path = Path(cwd).expanduser() / path
-        return str(path.resolve(strict=False))
+        resolved = str(path.resolve(strict=False))
+        # macOS exposes /tmp through the /private/tmp filesystem alias while
+        # Linux normally keeps /tmp unchanged. Normalize both spellings into
+        # one portable identity so the same source path does not become two
+        # logical artifacts when evidence crosses platforms.
+        private_tmp = "/private/tmp"
+        if resolved == private_tmp or resolved.startswith(f"{private_tmp}/"):
+            return f"/tmp{resolved[len(private_tmp):]}"
+        return resolved
     except OSError:
         return str(path)
 

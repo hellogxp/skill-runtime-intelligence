@@ -9,6 +9,16 @@ SCRIPT = ROOT / "scripts" / "check_release.py"
 
 
 class ReleaseMetadataTests(unittest.TestCase):
+    def test_setup_version_does_not_require_build_dependencies(self):
+        result = subprocess.run(
+            [sys.executable, "-S", "setup.py", "--version"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout.strip(), "0.3.0")
+
     def test_repository_release_metadata_is_consistent(self):
         result = subprocess.run(
             [sys.executable, str(SCRIPT), "--tag", "v0.3.0"],
