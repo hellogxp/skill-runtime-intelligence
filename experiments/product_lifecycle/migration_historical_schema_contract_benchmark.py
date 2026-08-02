@@ -29,7 +29,7 @@ from skill_runtime_intelligence.storage import Storage
 
 
 HISTORICAL_SNAPSHOTS: Sequence[Tuple[str, str]] = (
-    ("bootstrap-panorama", "f8ca39a"),
+    ("bootstrap-panorama", "143d63b"),
     ("skill-run-core", "85f97a8"),
     ("release-v0.1.0", "5ab6252"),
 )
@@ -59,6 +59,23 @@ def _git(*arguments: str, binary: bool = False):
         capture_output=True,
         text=not binary,
     ).stdout
+
+
+def missing_historical_snapshots() -> Sequence[str]:
+    """Return immutable experiment revisions absent from this checkout."""
+    missing = []
+    for label, revision in HISTORICAL_SNAPSHOTS:
+        result = subprocess.run(
+            ["git", "cat-file", "-e", f"{revision}^{{commit}}"],
+            cwd=REPOSITORY_ROOT,
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+        if result.returncode != 0:
+            missing.append(label)
+    return tuple(missing)
 
 
 def _snapshot_metadata(label: str, revision: str) -> Dict[str, str]:
