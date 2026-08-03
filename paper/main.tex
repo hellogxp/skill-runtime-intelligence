@@ -42,18 +42,15 @@ language-model agents. Progressive loading creates failure boundaries poorly
 represented by session-, model-, or tool-centric traces: a Skill can be
 discovered but not activated, activated without instructions, or appear
 successful without an independently verified outcome. We present \system, a
-passive runtime-intelligence system deployable on a developer workstation or as
-a self-hosted remote service. It defaults to non-intervening collection and
-retains evidence within the operator-controlled deployment boundary; optional
-trace import and OTLP/HTTP export provide interoperability with existing
-observability platforms. It reconstructs supported Skill-lifecycle stages
-across heterogeneous harnesses while preserving unsupported stages as unknown;
-its \panorama separates immutable events, deterministic relations, inferred
-diagnoses, and controlled outcomes with four evidence grades.
+passive runtime-intelligence system that reconstructs supported Skill-lifecycle
+stages across heterogeneous harnesses while preserving unsupported stages as
+unknown. Its \panorama separates immutable events, deterministic relations,
+inferred diagnoses, and controlled outcomes with four evidence grades; optional
+trace import and OTLP/HTTP export support existing observability deployments.
 
 Across six frozen repository profiles, three coding agents, and seven clean or
 fault-injected conditions, all 126 executions preserve source worktrees and
-correlate to one source session. Yet adapters expose three distinct semantics:
+each correlates to exactly one source session. Yet adapters expose three distinct semantics:
 no Skill runs; complete runs but no failure-like events; or failure-like events
 in every operational-failure and clean session. In a seven-template diagnostic
 study, semantic aliases and Panorama localize the same six non-clean boundaries
@@ -106,7 +103,8 @@ Our study asks four research questions:
   \item[RQ2:] How do exact diagnosis, boundary localization, status, and
   evidence entailment differ between a normalized Panorama and raw-event views,
   and when are deterministic or model-assisted diagnoses justified?
-  \item[RQ3:] Can collection remain read-only, local, silent, and low-overhead?
+  \item[RQ3:] Can collection remain non-intervening, silent, and low-overhead
+  in the tested deployment environments?
   \item[RQ4:] What controlled mechanism coverage is observed across frozen
   repository profiles, agents, environments, and model backends?
 \end{description}
@@ -248,14 +246,11 @@ findings and frozen gold; it never backfills observed telemetry.}
 \end{enumerate}
 
 Deployment placement and observability interoperability are orthogonal. The
-implementation supports a loopback-local service or an authenticated
-self-hosted remote service with separate read-only viewer and write-only
-Collector credentials; trace import and OTLP/HTTP export remain independent
-options. The architecture complements rather than replaces span-centric
-observability: OpenTelemetry's generative-AI conventions describe agent
-invocation and tool execution spans \cite{otel-genai}, whereas \system adds a
-domain layer centered on a versioned Skill definition and one occurrence of
-that definition.
+implementation runs locally or as an authenticated self-hosted service with
+separate viewer and Collector credentials; trace import and OTLP/HTTP export
+remain optional. OpenTelemetry's generative-AI conventions describe agent and
+tool spans \cite{otel-genai}; \system adds a domain layer centered on a
+versioned Skill definition and one occurrence of that definition.
 
 \subsection{Event and identity model}
 
@@ -785,13 +780,10 @@ the present controlled corpus.
 \section{Related Work}
 
 \paragraph{Agent execution and evaluation.}
-ReAct interleaves reasoning and environment actions \cite{react}, and later
-agent benchmarks evaluate tool-using systems on increasingly realistic tasks.
-SWE-bench grounds software-agent outcomes in executable repository tests
-\cite{swebench}, while AgentBoard measures incremental task progress beyond
-final success \cite{agentboard}. These efforts evaluate agent capability; our focus
-is reconstructing the runtime of a dynamically loaded Skill without owning the
-agent harness.
+Agent benchmarks evaluate tool-using systems on increasingly realistic tasks;
+SWE-bench, for example, grounds software-agent outcomes in executable
+repository tests \cite{swebench}. These efforts evaluate agent capability; our
+focus is reconstructing a dynamically loaded Skill without owning the harness.
 
 \paragraph{Trajectory diagnosis.}
 AgentDiagnose analyzes competencies and visual patterns in agent trajectories
@@ -826,12 +818,14 @@ The open Agent Skills specification standardizes directory structure,
 how repositories use harness-facing instruction files \cite{coding-manifests}.
 SkillsBench evaluates whether packaged Skills improve task outcomes across
 diverse tasks \cite{skillsbench}, while SWE-Skills-Bench targets reusable
-software-engineering Skills \cite{sweskillsbench}.  Harness-Bench broadens the
-unit further to whole agent harnesses and their system-level effects
-\cite{harnessbench}.  These studies evaluate static guidance or behavioral
-effects.  Our complementary unit is one runtime Skill occurrence: whether its
-progressive-load boundary can be reconstructed, which evidence supports the
-diagnosis, and what remains unknown across installed harnesses.
+software-engineering Skills \cite{sweskillsbench}. Skill Coverage instead
+extracts behavior constraints from
+Skill instructions and grades whether trajectories cover and satisfy them
+\cite{skillcoverage}. That is a trajectory-level test-adequacy question; our
+complementary unit is one runtime Skill occurrence under incomplete telemetry
+from installed harnesses: which lifecycle boundary is observable, what evidence
+supports it, and what remains unknown. Constraint coverage could consume such
+runtime evidence, but \system does not estimate instruction coverage.
 
 \section{Threats to Validity}
 
@@ -867,9 +861,8 @@ counts rather than case-level significance.
 
 \section{Privacy, Ethics, and Artifact Practice}
 
-The product defaults to local, non-intervening collection. Its authenticated
-self-hosted mode keeps viewer and Collector roles separate and retains evidence
-inside the operator-controlled deployment boundary; observability export is
+The product defaults to local, non-intervening collection. Authenticated
+self-hosting keeps viewer and Collector roles separate; observability export is
 independently opt-in. Research exports omit raw prompts, code, paths, payloads,
 timestamps, credentials, and identities. Opaque IDs preserve within-case
 relations without source locators; raw, normalized, and inferred records remain
@@ -882,10 +875,11 @@ or claim that missing evidence proves malicious behavior.  Model-generated
 diagnoses remain \inferred and must expose unavailable or malformed states.
 
 \paragraph{Artifact.}
-The digest-bound artifact maps tables to scripts, fixtures, and JSON reports;
-the audited command discovers 276 tests with three environment skips, and the
-selected suite passes 13/13 gates. A versioned, de-identified,
-\href{https://github.com/hellogxp/skill-runtime-intelligence/releases/tag/profes-2026-artifact-v1}{public artifact}
+The digest-bound artifact maps tables to scripts, fixtures, and JSON reports.
+At its clean public source snapshot, \texttt{python -m pytest tests -q} passes
+279 tests with 10 environment-dependent skips and four subtests; the selected
+suite passes 13/13 gates. A versioned, de-identified,
+\href{https://github.com/hellogxp/skill-runtime-intelligence/releases/tag/profes-2026-artifact-v2}{public artifact}
 preserves failed gates, pilots, the PAI-DSW environment, digests, and
 dirty-worktree provenance. Withheld source identities and unavailable provider
 revisions permit protocol/output audit and deterministic verification, not

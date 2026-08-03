@@ -6,6 +6,10 @@ experiment implementations under `experiments/`; it is not a production
 telemetry corpus and does not contain raw Agent sessions, credentials, model
 weights, or private source code.
 
+The submission snapshot, including the authenticated self-hosted deployment
+implementation, is published as
+[`profes-2026-artifact-v2`](https://github.com/hellogxp/skill-runtime-intelligence/releases/tag/profes-2026-artifact-v2).
+
 ## What is included
 
 - all retained JSON/JSONL experiment reports from the working tree;
