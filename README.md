@@ -17,12 +17,15 @@
 > Turn `SKILL.md` into checkable runtime expectations. See what actually
 > happened, where behavior first diverged, and the evidence behind the judgment.
 
-Agent Skill Runtime Intelligence is a read-only runtime evidence and diagnosis
-system for Agent Skills. It extracts conservative, inspectable constraints from
-the current Skill definition, matches them to runtime activity, and reconstructs
-the result as an evidence-graded Skill Run Panorama. It combines official Agent
-events, imported traces, labeled session fallback, and observable workspace
-outcomes without proxying model requests or taking over the Agent loop.
+Agent Skill Runtime Intelligence is a passive runtime-intelligence system for
+Agent Skills. It extracts conservative, inspectable constraints from the
+current Skill definition, matches them to runtime activity, and reconstructs
+the result as an evidence-graded Skill Run Panorama. It can run on a developer
+workstation or as an authenticated self-hosted remote service. Collection is
+non-intervening and read-only by default: SRI does not proxy model requests,
+take over the Agent loop, block Agent actions, or modify the observed source
+workspace. Evidence remains inside the operator-controlled deployment boundary
+unless trace import or OTLP/HTTP export is explicitly configured.
 
 ![Skill Run Panorama](docs/assets/skill-run-panorama.png)
 
@@ -92,7 +95,9 @@ normalized events, relationships, and inferences remain separate. The
 diagnosis engine checks explicit Skill constraints against that evidence,
 identifies the earliest observable deviation, and keeps systemic adapter blind
 spots separate from run-specific findings. It does not invent model intent or
-causal effectiveness.
+causal effectiveness. The Collector, evidence store, and UI may run together on
+a developer workstation or inside an authenticated self-hosted deployment;
+optional observability import and export do not determine that placement.
 
 | Data source | Role | Freshness | UI label |
 |---|---|---|---|
@@ -172,10 +177,14 @@ A single trace can support execution attribution. It cannot prove causal effecti
 
 ## Product principles
 
-- Private by default, with local, hybrid, and team-connected deployment.
-- Read-only observation; never take over the agent loop.
+- Operator-controlled by default, on a developer workstation or in a
+  self-hosted remote deployment.
+- Non-intervening, read-only collection; never take over the Agent loop, block
+  Agent actions, or modify the observed source workspace.
 - No model proxy and no mandatory cloud service.
 - No blocking, approval gate, or policy enforcement in the default product.
+- Explicit, opt-in trace import and OTLP/HTTP export, independent of deployment
+  placement.
 - Explicit provenance and evidence grading.
 - Progressive disclosure: simple narrative first, raw events on demand.
 - Adapter-based support for changing agent transcript formats.
@@ -199,6 +208,11 @@ independent, versioned adapters and provides:
 - capability-aware same-Agent and cross-Agent comparison;
 - a separate Inferred Analysis surface that cannot rewrite runtime facts;
 - opt-in OTLP/HTTP export and supported observability-trace import.
+
+Deployment placement and observability interoperability are independent. SRI
+can run locally or as an authenticated self-hosted remote service; remote
+placement does not require connection to an external observability platform.
+See [Self-hosted remote deployment](docs/remote-deployment.md).
 
 The MVP does **not** include a marketplace, universal agent runtime, security enforcement, enterprise governance, or causal-effect claims.
 
@@ -477,6 +491,7 @@ evidence relations, trace provenance, and privacy-aware audit infrastructure.
 | [Architecture](docs/architecture.md) | Collection pipeline, storage boundaries, evidence engine, and trust model |
 | [Adapter capability matrix](docs/adapter-capability-matrix.md) | Exact signals and limitations by Agent/version |
 | [Observability platform setup](docs/observability-platform-setup.md) | Connect OTLP-compatible platforms and import supported traces |
+| [Self-hosted remote deployment](docs/remote-deployment.md) | Run an authenticated SRI service independently of observability export |
 | [Runtime event model](docs/runtime-event-model.md) | Stable event vocabulary, provenance, relationships, and evidence grades |
 | [UI information architecture](docs/ui-information-architecture.md) | Overview, first boundary, Panorama, Inspector, Compare, and Inferred Analysis |
 | [Changelog](CHANGELOG.md) | Versioned user-visible changes |

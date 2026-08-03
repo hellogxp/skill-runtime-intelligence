@@ -1,7 +1,8 @@
-"""Local-only HTTP API and web application."""
+"""Local or explicitly authenticated self-hosted HTTP API and web UI."""
 
 import json
 import mimetypes
+import ssl
 import time
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -30,6 +31,12 @@ from .integrations import (
     inspect_qoder_integration,
 )
 from .hook_bridge import HookBridge, default_hook_socket
+from .remote_access import (
+    RemoteAccess,
+    ingest_authorized,
+    is_loopback_host,
+    viewer_authorized,
+)
 from .storage import Storage
 
 
@@ -50,18 +57,39 @@ class PanoramaHandler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:  # noqa: N802 - stdlib handler API
         path = urlparse(self.path).path
         if path == "/api/health":
+            remote = self._remote_access()
+            if remote.enabled and not self._viewer_credentials_valid():
+                self._json(
+                    {
+                        "ok": True,
+                        "product": "skill-runtime-intelligence",
+                        "version": __version__,
+                        "local": False,
+                        "deployment": "self_hosted_remote",
+                        "auth_required": True,
+                        "transport": remote.transport,
+                    }
+                )
+                return
             self._with_storage(
                 lambda storage: self._json(
                     {
                         "ok": True,
                         "product": "skill-runtime-intelligence",
                         "version": __version__,
-                        "local": True,
+                        "local": not remote.enabled,
+                        "deployment": (
+                            "self_hosted_remote" if remote.enabled else "local"
+                        ),
+                        "auth_required": remote.enabled,
+                        "transport": remote.transport,
                         "revision": storage.revision(),
                         "counts": storage.counts(),
                     }
                 )
             )
+            return
+        if not self._authorize_viewer():
             return
         if path == "/api/stream":
             self._stream_revisions()
@@ -267,6 +295,7 @@ class PanoramaHandler(BaseHTTPRequestHandler):
 
             def settings(storage: Storage) -> None:
                 database = self.server.database_path  # type: ignore[attr-defined]
+                remote = self._remote_access()
                 self._json(
                     {
                         "config": config,
@@ -276,6 +305,14 @@ class PanoramaHandler(BaseHTTPRequestHandler):
                             database.stat().st_size if database.exists() else 0
                         ),
                         "counts": storage.counts(),
+                        "deployment": {
+                            "mode": (
+                                "self_hosted_remote" if remote.enabled else "local"
+                            ),
+                            "transport": remote.transport,
+                            "viewer_read_only": remote.enabled,
+                            "observability_interoperability_optional": True,
+                        },
                         "privacy": {
                             "raw_agent_files_modified": False,
                             "model_requests_proxied": False,
@@ -291,6 +328,14 @@ class PanoramaHandler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:  # noqa: N802 - stdlib handler API
         path = urlparse(self.path).path
+        if path == "/api/events":
+            if not self._authorize_ingest():
+                return
+        elif not self._authorize_viewer():
+            return
+        elif self._remote_access().enabled:
+            self._forbidden("Remote viewer credentials are read-only")
+            return
         if path == "/api/settings":
             try:
                 payload = self._read_json_body(MAX_EVENT_BODY_BYTES)
@@ -370,6 +415,11 @@ class PanoramaHandler(BaseHTTPRequestHandler):
         self._with_storage(ingest)
 
     def do_DELETE(self) -> None:  # noqa: N802 - stdlib handler API
+        if not self._authorize_viewer():
+            return
+        if self._remote_access().enabled:
+            self._forbidden("Remote viewer credentials are read-only")
+            return
         path = urlparse(self.path).path
         if not path.startswith("/api/skill-runs/"):
             self._json({"error": "Not found"}, HTTPStatus.NOT_FOUND)
@@ -395,6 +445,44 @@ class PanoramaHandler(BaseHTTPRequestHandler):
         finally:
             storage.close()
 
+    def _remote_access(self) -> RemoteAccess:
+        return self.server.remote_access  # type: ignore[attr-defined]
+
+    def _viewer_credentials_valid(self) -> bool:
+        remote = self._remote_access()
+        return not remote.enabled or viewer_authorized(
+            self.headers.get("Authorization", ""), remote.viewer_token
+        )
+
+    def _authorize_viewer(self) -> bool:
+        if self._viewer_credentials_valid():
+            return True
+        self._unauthorized('Basic realm="Skill Runtime Intelligence", charset="UTF-8"')
+        return False
+
+    def _authorize_ingest(self) -> bool:
+        remote = self._remote_access()
+        if not remote.enabled or ingest_authorized(
+            self.headers.get("Authorization", ""), remote.ingest_token
+        ):
+            return True
+        self._unauthorized('Bearer realm="Skill Runtime Intelligence Collector"')
+        return False
+
+    def _unauthorized(self, challenge: str) -> None:
+        body = json.dumps({"error": "Authentication required"}).encode("utf-8")
+        self.send_response(HTTPStatus.UNAUTHORIZED)
+        self.send_header("WWW-Authenticate", challenge)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        self._security_headers()
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _forbidden(self, message: str) -> None:
+        self._json({"error": message}, HTTPStatus.FORBIDDEN)
+
     def _read_json_body(self, maximum: int):
         content_type = self.headers.get("Content-Type", "")
         if not content_type.lower().startswith("application/json"):
@@ -417,10 +505,17 @@ class PanoramaHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
-        self.send_header("X-Content-Type-Options", "nosniff")
-        self.send_header("Content-Security-Policy", "default-src 'self'; style-src 'self'")
+        self._security_headers()
         self.end_headers()
         self.wfile.write(body)
+
+    def _security_headers(self) -> None:
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("Referrer-Policy", "no-referrer")
+        self.send_header(
+            "Content-Security-Policy", "default-src 'self'; style-src 'self'"
+        )
 
     def _stream_revisions(self) -> None:
         self.send_response(HTTPStatus.OK)
@@ -477,8 +572,7 @@ class PanoramaHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", f"{content_type}; charset=utf-8")
         self.send_header("Content-Length", str(len(content)))
         self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
-        self.send_header("X-Content-Type-Options", "nosniff")
-        self.send_header("Content-Security-Policy", "default-src 'self'; style-src 'self'")
+        self._security_headers()
         self.end_headers()
         self.wfile.write(content)
 
@@ -488,13 +582,34 @@ def create_server(
     host: str = "127.0.0.1",
     port: int = 4317,
     config_path: Path = None,
+    remote_access: RemoteAccess = None,
 ) -> ThreadingHTTPServer:
+    access = remote_access or RemoteAccess()
+    if not access.enabled and not is_loopback_host(host):
+        raise ValueError("non-loopback server binding requires remote access policy")
+    if access.enabled and (
+        not access.viewer_token
+        or not access.ingest_token
+        or (not access.direct_tls and not access.behind_https_proxy)
+    ):
+        raise ValueError("remote access policy is incomplete")
+    if access.behind_https_proxy and not is_loopback_host(host):
+        raise ValueError("HTTPS proxy backends must bind to loopback")
     server = ThreadingHTTPServer((host, port), PanoramaHandler)
     server.daemon_threads = True
     server.database_path = database.expanduser().resolve()  # type: ignore[attr-defined]
     server.config_path = (  # type: ignore[attr-defined]
         config_path or default_config_path()
     ).expanduser().resolve()
+    server.remote_access = access  # type: ignore[attr-defined]
+    if access.direct_tls:
+        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+        context.minimum_version = ssl.TLSVersion.TLSv1_2
+        context.load_cert_chain(
+            certfile=str(access.tls_cert),
+            keyfile=str(access.tls_key),
+        )
+        server.socket = context.wrap_socket(server.socket, server_side=True)
     return server
 
 
@@ -505,17 +620,26 @@ def serve(
     event_queue: Path = None,
     hook_socket: Path = None,
     config_path: Path = None,
+    remote_access: RemoteAccess = None,
 ) -> None:
-    server = create_server(database, host, port, config_path)
+    access = remote_access or RemoteAccess()
+    server = create_server(database, host, port, config_path, access)
     bridge = HookBridge(
         database,
         socket_path=hook_socket or default_hook_socket(),
         queue_path=event_queue,
     ).start()
-    print(f"Skill Runtime Intelligence: http://{host}:{port}")
+    scheme = "https" if access.direct_tls else "http"
+    print(f"Skill Runtime Intelligence: {scheme}://{host}:{port}")
     print(f"Database: {server.database_path}")
     print(f"Hook bridge: {bridge.socket_path}")
-    print("Local-only server. Press Ctrl-C to stop.")
+    if access.enabled:
+        print(
+            "Authenticated self-hosted remote service "
+            f"({access.transport}); press Ctrl-C to stop."
+        )
+    else:
+        print("Loopback-only local service. Press Ctrl-C to stop.")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

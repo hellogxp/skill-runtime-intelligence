@@ -4,6 +4,11 @@ This guide takes a new user from installation to a **verified live SkillRun**.
 Skill Runtime observes supported Agents beside their normal workflow; it does
 not proxy model requests, replace the Agent UI, or require a cloud account.
 
+The steps below use the default developer-workstation deployment. SRI can also
+run as an authenticated self-hosted remote service. Deployment placement is
+independent from supported trace import and opt-in OTLP/HTTP export; neither
+mode requires a third-party observability platform.
+
 ## Requirements
 
 - macOS or Linux;
@@ -142,12 +147,16 @@ Agent sessions, projects, and Skill sources are never removed.
 ## 6. Privacy and network behavior
 
 - The server binds to `127.0.0.1` by default.
+- Self-hosted remote access requires explicit enablement and an authenticated
+  HTTPS boundary; it is not enabled by the workstation flow below.
 - Prompts, raw tool payloads, patch bodies, credentials, and Skill resource
   contents are not copied into the normalized index.
 - Common secret patterns are redacted before persistence.
 - Network export is off until an endpoint is explicitly configured.
 - Hook delivery is bounded and fail-open: a collection failure does not deny,
   modify, or delay an Agent decision beyond the small configured timeout.
+- “Read-only collection” applies to the observed Agent and source workspace;
+  SRI writes its own evidence database, checkpoints, and settings.
 
 Review the exact data boundaries in [Architecture](architecture.md) and the
 signal limitations in the [adapter capability matrix](adapter-capability-matrix.md).

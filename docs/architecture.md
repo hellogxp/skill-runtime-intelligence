@@ -1,8 +1,10 @@
 # Architecture
 
-Agent Skill Runtime Intelligence is a sidecar-style evidence and diagnosis
-system. It observes supported Agents without becoming their task entrypoint,
-model proxy, orchestrator, or policy gate.
+Agent Skill Runtime Intelligence is a passive, sidecar-style runtime evidence
+and diagnosis system. It can run on a developer workstation or as an
+authenticated self-hosted remote service. In either placement it observes
+supported Agents without becoming their task entrypoint, model proxy,
+orchestrator, or policy gate.
 
 ![Runtime architecture](assets/runtime-architecture.svg)
 
@@ -13,19 +15,21 @@ model proxy, orchestrator, or policy gate.
 2. Prefer official Agent telemetry and observation APIs.
 3. Degrade to explicitly labeled fallbacks instead of inventing certainty.
 4. Preserve source truth separately from normalization and analysis.
-5. Keep collection read-only, local by default, and fail-open.
+5. Keep collection non-intervening, read-only against observed sources, and
+   fail-open.
 6. Export through standard observability protocols without weakening
    Skill-specific semantics.
+7. Keep deployment placement independent from trace import and export.
 
 ## Data path
 
 ```text
 Agent-native events ──┐
-Skill definitions ────┼─→ Versioned adapter ─→ Local Collector
+Skill definitions ────┼─→ Versioned adapter ─→ Workstation or self-hosted Collector
 Workspace outcomes ───┤          │                    │
 Session fallback ─────┘          └─ redact/minimize ──┤
                                                       ▼
-                                           Source evidence store
+                                   Operator-controlled evidence store
                                                       │
                                                       ▼
                                         Normalized lifecycle events
@@ -36,8 +40,13 @@ Session fallback ─────┘          └─ redact/minimize ──┤
                                                and diagnosis         analysis
                                   └───────────────────┼───────────────────┘
                                                       ▼
-                                  Local UI / REST / SSE / optional OTLP export
+                           UI / REST / SSE / optional trace import and OTLP export
 ```
+
+The observed Agent and source workspace are read-only inputs. SRI still writes
+its own evidence database, queue, checkpoints, and settings. In self-hosted
+remote mode, source-side delivery crosses only the explicitly configured,
+authenticated transport boundary; it is not an observability export.
 
 ## Collection layer
 
@@ -75,9 +84,9 @@ Historical exports from supported observability products can be imported
 through versioned profiles. Generic spans do not become Skill activation
 evidence unless the source contains explicit Skill semantics.
 
-## Storage boundaries
+## Storage and deployment boundaries
 
-The default SQLite database is:
+In workstation mode, the default SQLite database is:
 
 ```text
 ~/.skill-runtime/data/panorama.db
@@ -96,6 +105,12 @@ The store separates:
 Raw prompts, full tool payloads, patch bodies, credentials, and Skill resource
 contents are not required for the diagnostic index and are discarded or
 minimized before persistence.
+
+In self-hosted remote mode, the same logical separation applies inside the
+operator-managed service. Deployment credentials and observability-export
+credentials are separate concerns. A remote deployment can operate without an
+external observability platform, and a workstation deployment can still import
+or export supported traces.
 
 ## Runtime evidence engine
 
@@ -156,15 +171,16 @@ behavioral difference claim.
 
 ## Serving and interoperability
 
-`skill-runtime start` runs:
+The runtime service runs:
 
-- the local HTTP Collector at `POST /api/events`;
+- an HTTP Collector at `POST /api/events` (loopback by default, authenticated
+  when remote mode is explicitly enabled);
 - a permission-restricted Hook socket;
 - incremental fallback watchers;
 - queue replay and retention workers;
 - SQLite storage;
 - REST APIs and the SSE live stream;
-- the local diagnostic UI;
+- the diagnostic UI;
 - optional, explicitly configured OTLP/HTTP export.
 
 Normalized export omits prompts, raw tool payloads, credentials, and Skill

@@ -5,7 +5,8 @@ Theme: **Turn Skill instructions into checkable runtime evidence**
 
 ## 1. MVP outcome
 
-Given an existing or live local Agent session, extract conservative behavior
+Given an existing or live Agent session observed from a developer workstation
+or an explicitly configured self-hosted Collector, extract conservative behavior
 constraints from the Skill definition, compare them with runtime evidence, and
 show what happened, where behavior first diverged, and which evidence supports
 the judgment—without modifying the Agent, workspace, or model traffic.
@@ -24,17 +25,17 @@ The architecture must allow additional adapters without changing the normalized 
 ## 3. Primary workflow
 
 ```text
-Install or run locally
+Choose workstation or self-hosted deployment
         ↓
 Discover supported agent installations
         ↓
-Index Skill metadata and local sessions
+Collect or import Skill metadata and supported sessions
         ↓
 Normalize source events
         ↓
 Correlate Skill, resource, tool, subagent, and artifact evidence
         ↓
-Open local runs UI
+Open the deployment's runs UI
 ```
 
 No task prompt is required to open the UI. The home page lists all known runs.
@@ -102,9 +103,27 @@ Reconstruct, when evidence exists:
 
 - Operate locally without an account.
 - Keep network export disabled by default and require an explicit OTLP endpoint.
+- Keep loopback-only service binding as the default. Self-hosted remote mode
+  requires explicit enablement, separate read-only viewer and write-only
+  Collector credentials, and either direct TLS or a loopback backend behind an
+  HTTPS proxy.
 - Redact common credential patterns before persistence.
 - Allow users to exclude projects and paths.
 - Allow deletion of indexed run data without touching source transcripts.
+
+### F7. Deployment and interoperability
+
+- Support a developer-workstation deployment and an explicitly enabled,
+  authenticated self-hosted remote deployment.
+- Keep evidence inside the operator-controlled deployment boundary unless an
+  import source or export destination is explicitly configured.
+- Treat deployment placement and observability interoperability as independent
+  choices: remote deployment does not require OTLP export, and local deployment
+  may still import supported traces or export normalized evidence.
+- Allow the product to write its own evidence database and operational
+  checkpoints; “read-only” applies to observed Agent and workspace sources.
+- Keep source-side delivery bounded and fail-open so remote availability cannot
+  block Agent execution.
 
 ## 5. Panorama stages
 
@@ -178,6 +197,10 @@ Given a tool payload containing a common secret pattern, the persisted normalize
 - Static quality scoring.
 - Security vulnerability scanning.
 - Hosted collaboration and organizational dashboards.
+
+An authenticated, single-deployment self-hosted remote service is supported;
+it does not imply the hosted collaboration, multi-tenancy, or organization
+governance deferred above.
 
 The implemented local product may show evidence-bounded “not observed”
 explanations, inferred description-overlap candidates, and direct static

@@ -62,14 +62,18 @@ def send_events(
     endpoint: str,
     envelopes: List[Dict[str, Any]],
     timeout_seconds: float = 0.15,
+    token: str = "",
 ) -> bool:
     if not envelopes:
         return True
     body = json.dumps(redact(envelopes), ensure_ascii=False).encode("utf-8")
+    headers = {"Content-Type": "application/json"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
     request = Request(
         endpoint,
         data=body,
-        headers={"Content-Type": "application/json"},
+        headers=headers,
         method="POST",
     )
     try:
@@ -85,11 +89,12 @@ def deliver_or_queue(
     endpoint: str = DEFAULT_COLLECTOR_ENDPOINT,
     queue_path: Optional[Path] = None,
     timeout_seconds: float = 0.15,
+    token: str = "",
 ) -> str:
     """Deliver immediately or append locally without surfacing a failure."""
     if not envelopes:
         return "ignored"
-    if send_events(endpoint, envelopes, timeout_seconds):
+    if send_events(endpoint, envelopes, timeout_seconds, token):
         return "delivered"
     append_event_queue(queue_path or default_event_queue(), envelopes)
     return "queued"
@@ -179,4 +184,105 @@ def watch_event_queue(
             drain_event_queue(database, queue_path)
         except (OSError, ValueError, RuntimeError, sqlite3.Error):
             pass
+        time.sleep(max(0.25, interval_seconds))
+
+
+def drain_remote_event_queue(
+    endpoint: str,
+    token: str,
+    queue_path: Optional[Path] = None,
+    max_batch: int = 500,
+    timeout_seconds: float = 5.0,
+) -> Dict[str, Any]:
+    """Send one durable queue prefix to an authenticated remote Collector.
+
+    The network request runs without the queue lock, so a slow remote service
+    never extends the Agent Hook critical section. Concurrent Hook appends keep
+    the snapshotted prefix stable. A racing relay can cause a duplicate send,
+    which is safe because event IDs are idempotent at storage ingestion.
+    """
+    path = (queue_path or default_event_queue()).expanduser()
+    result: Dict[str, Any] = {
+        "delivered": 0,
+        "rejected": 0,
+        "remaining": 0,
+        "connected": False,
+    }
+    if not path.exists():
+        return result
+    _secure_parent(path)
+    with path.open("a+", encoding="utf-8") as handle:
+        fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+        try:
+            handle.seek(0)
+            lines = handle.readlines()
+            selected = lines[:max(1, max_batch)]
+            result["remaining"] = len(lines)
+        finally:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+    envelopes = []
+    rejected_records = []
+    for line_number, line in enumerate(selected, 1):
+        if not line.strip():
+            continue
+        try:
+            value = json.loads(line)
+            if not isinstance(value, dict):
+                raise ValueError("queued event must be a JSON object")
+            envelopes.append(value)
+        except (json.JSONDecodeError, UnicodeDecodeError, ValueError) as exc:
+            rejected_records.append(
+                {
+                    "rejected_at": time.time(),
+                    "line_number": line_number,
+                    "error": str(exc),
+                }
+            )
+    if envelopes and not send_events(
+        endpoint,
+        envelopes,
+        timeout_seconds=timeout_seconds,
+        token=token,
+    ):
+        return result
+    result["connected"] = True
+    # Remove the prefix only if no other relay already changed it. Hook writers
+    # append to the tail and therefore do not invalidate this comparison.
+    with path.open("a+", encoding="utf-8") as handle:
+        fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+        try:
+            handle.seek(0)
+            current = handle.readlines()
+            if current[:len(selected)] == selected:
+                remaining = current[len(selected):]
+                handle.seek(0)
+                handle.truncate()
+                handle.writelines(remaining)
+                handle.flush()
+                result["delivered"] = len(envelopes)
+                result["rejected"] = len(rejected_records)
+                result["remaining"] = len(remaining)
+            else:
+                result["remaining"] = len(current)
+        finally:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+    _append_rejected(path.with_name("rejected.jsonl"), rejected_records)
+    return result
+
+
+def watch_remote_event_queue(
+    endpoint: str,
+    token: str,
+    queue_path: Optional[Path] = None,
+    interval_seconds: float = 1.0,
+    timeout_seconds: float = 5.0,
+) -> None:
+    """Continuously replay failed local Hook deliveries to a remote service."""
+    while True:
+        drain_remote_event_queue(
+            endpoint,
+            token,
+            queue_path,
+            timeout_seconds=timeout_seconds,
+        )
         time.sleep(max(0.25, interval_seconds))

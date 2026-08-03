@@ -12,7 +12,11 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from .event_queue import default_event_queue, default_state_root
+from .event_queue import (
+    DEFAULT_COLLECTOR_ENDPOINT,
+    default_event_queue,
+    default_state_root,
+)
 from .hook_bridge import default_hook_socket
 from .native_sender import native_hook_sender_path
 
@@ -57,6 +61,12 @@ OPENCODE_PLUGIN_MARKER = (
 
 class IntegrationError(ValueError):
     pass
+
+
+def _collector_endpoint() -> str:
+    return os.environ.get(
+        "SKILL_RUNTIME_COLLECTOR_ENDPOINT", DEFAULT_COLLECTOR_ENDPOINT
+    )
 
 
 @lru_cache(maxsize=8)
@@ -217,7 +227,7 @@ def inspect_codex_integration(
         ],
         "native_skill_telemetry": "not_detected",
         "fail_open": True,
-        "collector_endpoint": "http://127.0.0.1:4317/api/events",
+        "collector_endpoint": _collector_endpoint(),
         "fast_path": "unix_socket",
         "hook_socket": str(default_hook_socket()),
         "hook_socket_active": default_hook_socket().is_socket(),
@@ -266,7 +276,7 @@ def inspect_claude_integration(
         "native_skill_telemetry": "not_detected",
         "fail_open": True,
         "async": True,
-        "collector_endpoint": "http://127.0.0.1:4317/api/events",
+        "collector_endpoint": _collector_endpoint(),
         "fast_path": "unix_socket",
         "hook_socket": str(default_hook_socket()),
         "hook_socket_active": default_hook_socket().is_socket(),
@@ -318,7 +328,7 @@ def inspect_qoder_integration(
         "native_skill_telemetry": "not_detected",
         "fail_open": True,
         "async": False,
-        "collector_endpoint": "http://127.0.0.1:4317/api/events",
+        "collector_endpoint": _collector_endpoint(),
         "fast_path": "unix_socket",
         "hook_socket": str(default_hook_socket()),
         "hook_socket_active": default_hook_socket().is_socket(),
@@ -610,7 +620,7 @@ def inspect_opencode_integration(
         "native_skill_telemetry": "not_detected",
         "fail_open": True,
         "async": True,
-        "collector_endpoint": "http://127.0.0.1:4317/api/events",
+        "collector_endpoint": _collector_endpoint(),
         "fast_path": "detached_native_sender",
         "hook_socket": str(default_hook_socket()),
         "hook_socket_active": default_hook_socket().is_socket(),

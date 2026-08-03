@@ -4,6 +4,11 @@ Skill Runtime exports normalized, Skill-specific evidence as standard
 OTLP/HTTP JSON traces. Export is opt-in, fail-open, checkpointed, and excludes
 raw prompts, raw tool payloads, credentials, and Skill resource contents.
 
+This connection is independent from where SRI runs. A developer-workstation or
+self-hosted remote deployment can operate without any observability export;
+either placement may explicitly connect an OTLP/HTTP destination. The export
+destination is outside the SRI deployment boundary and is always opt-in.
+
 ## Recommended production path
 
 Send Skill Runtime to an OpenTelemetry Collector, then route the same stream to

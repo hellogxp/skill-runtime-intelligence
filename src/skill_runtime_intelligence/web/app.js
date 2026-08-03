@@ -24,6 +24,7 @@ let skillInventory = [];
 let skillConflicts = [];
 let runtimeSettings = null;
 let runtimeExporters = [];
+let runtimeHealth = {deployment: "local"};
 let selectedSkillId = null;
 let activeView = "runs";
 let selectedComparisonId = null;
@@ -119,6 +120,7 @@ async function loadIndex(isBackground = false) {
     conflictsResponse,
     settingsResponse,
     exportersResponse,
+    healthResponse,
     initialDetail,
   ] = await Promise.all([
     getJSON("/api/skill-runs"),
@@ -127,6 +129,7 @@ async function loadIndex(isBackground = false) {
     getJSON("/api/skill-conflicts"),
     getJSON("/api/settings"),
     getJSON("/api/exporters"),
+    getJSON("/api/health"),
     earlyDetailPromise,
   ]);
   skillRuns = runsResponse.skill_runs || [];
@@ -135,6 +138,7 @@ async function loadIndex(isBackground = false) {
   skillConflicts = conflictsResponse.conflicts || [];
   runtimeSettings = settingsResponse;
   runtimeExporters = exportersResponse.exporters || [];
+  runtimeHealth = healthResponse || {deployment: "local"};
   populateRunFilters();
   renderSourceSummary();
   renderRuns();
@@ -223,6 +227,10 @@ function setConnectionState(state, label) {
   connection.querySelector("span").textContent = label;
 }
 
+function deploymentLabel() {
+  return runtimeHealth.deployment === "self_hosted_remote" ? "Remote" : "Local";
+}
+
 function scheduleStreamRefresh() {
   window.clearTimeout(streamRefreshTimer);
   const elapsed = Date.now() - lastStreamRefreshAt;
@@ -247,18 +255,18 @@ function scheduleStreamRefresh() {
 
 function connectRuntimeStream() {
   if (!window.EventSource) {
-    setConnectionState("fallback", "Local · polling fallback");
+    setConnectionState("fallback", `${deploymentLabel()} · polling fallback`);
     return;
   }
   const stream = new EventSource("/api/stream");
   stream.addEventListener("open", () => {
     streamConnected = true;
-    setConnectionState("live", "Local · live");
+    setConnectionState("live", `${deploymentLabel()} · live`);
   });
   stream.addEventListener("revision", scheduleStreamRefresh);
   stream.addEventListener("error", () => {
     streamConnected = false;
-    setConnectionState("fallback", "Local · reconnecting");
+    setConnectionState("fallback", `${deploymentLabel()} · reconnecting`);
   });
 }
 
@@ -647,8 +655,12 @@ function renderSettings() {
   `).join("");
   const counts = runtimeSettings.counts || {};
   const privacy = runtimeSettings.privacy || {};
+  const deployment = runtimeSettings.deployment || {mode: "local"};
+  const remoteReadOnly = Boolean(deployment.viewer_read_only);
   document.querySelector("#data-settings").innerHTML = `
     <dl class="settings-kv">
+      <dt>Deployment</dt><dd>${esc(pretty(deployment.mode || "local"))}</dd>
+      <dt>Transport</dt><dd>${esc(pretty(deployment.transport || "loopback"))}</dd>
       <dt>SQLite</dt><dd class="mono">${esc(runtimeSettings.database)}</dd>
       <dt>Stored size</dt><dd>${esc(formatBytes(runtimeSettings.database_bytes))}</dd>
       <dt>SkillRuns</dt><dd>${esc(counts.skill_runs || 0)}</dd>
@@ -657,13 +669,27 @@ function renderSettings() {
       <dt>Model proxy</dt><dd>${privacy.model_requests_proxied ? "Enabled" : "Never"}</dd>
       <dt>Raw prompt export</dt><dd>${privacy.raw_prompt_exported ? "Enabled" : "Never"}</dd>
     </dl>
-    <p class="privacy-callout">Deleting a SkillRun removes only this SQLite index. Agent source transcripts remain untouched.</p>`;
+    <p class="privacy-callout">${remoteReadOnly
+      ? "Remote viewer access is read-only. Change retention or delete indexed data on the service host."
+      : "Deleting a SkillRun removes only this SQLite index. Agent source transcripts remain untouched."}</p>`;
   document.querySelector("#included-projects").value =
     (runtimeSettings.config.projects || []).join("\n");
   document.querySelector("#excluded-paths").value =
     (runtimeSettings.config.exclude_paths || []).join("\n");
   document.querySelector("#retention-days").value =
     runtimeSettings.config.retention_days || "";
+  ["#included-projects", "#excluded-paths", "#retention-days", "#save-settings"]
+    .forEach((selector) => {
+      document.querySelector(selector).disabled = remoteReadOnly;
+    });
+  document.querySelector("#delete-run").disabled = remoteReadOnly;
+  document.querySelector("#delete-run").title = remoteReadOnly
+    ? "Remote viewer access is read-only"
+    : "Delete only this indexed SkillRun";
+  if (remoteReadOnly) {
+    document.querySelector("#settings-save-state").textContent =
+      "Remote viewer access is read-only; service-host configuration remains authoritative.";
+  }
   document.querySelector("#exporter-list").innerHTML = runtimeExporters.length
     ? runtimeExporters.map((item) => `
       <article class="integration-row">

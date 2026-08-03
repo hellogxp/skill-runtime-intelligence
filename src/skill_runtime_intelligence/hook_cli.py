@@ -1,6 +1,7 @@
 """Minimal fail-open process boundary for latency-sensitive Agent hooks."""
 
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Dict, List
@@ -11,6 +12,7 @@ from .hook_adapter import (
     SUPPORTED_HOOK_AGENTS,
     build_hook_envelopes,
 )
+from .remote_access import read_secret_file
 
 
 MAX_HOOK_INPUT_BYTES = 1024 * 1024
@@ -20,7 +22,10 @@ def _arguments(argv: List[str]) -> Dict[str, str]:
     result = {
         "agent": "",
         "event": "",
-        "endpoint": DEFAULT_COLLECTOR_ENDPOINT,
+        "endpoint": os.environ.get(
+            "SKILL_RUNTIME_COLLECTOR_ENDPOINT", DEFAULT_COLLECTOR_ENDPOINT
+        ),
+        "token_file": os.environ.get("SKILL_RUNTIME_COLLECTOR_TOKEN_FILE", ""),
         "event_queue": "",
         "timeout_ms": "150",
     }
@@ -28,6 +33,7 @@ def _arguments(argv: List[str]) -> Dict[str, str]:
         "--agent": "agent",
         "--event": "event",
         "--endpoint": "endpoint",
+        "--token-file": "token_file",
         "--event-queue": "event_queue",
         "--timeout-ms": "timeout_ms",
     }
@@ -60,11 +66,20 @@ def main(argv=None) -> None:
             timeout_seconds = max(0.01, int(arguments["timeout_ms"]) / 1000)
         except (TypeError, ValueError):
             timeout_seconds = 0.15
+        try:
+            token = (
+                read_secret_file(Path(arguments["token_file"]))
+                if arguments["token_file"]
+                else ""
+            )
+        except ValueError:
+            token = ""
         deliver_or_queue(
             envelopes,
             endpoint=arguments["endpoint"],
             queue_path=Path(queue_value).expanduser() if queue_value else None,
             timeout_seconds=timeout_seconds,
+            token=token,
         )
     except Exception:
         return

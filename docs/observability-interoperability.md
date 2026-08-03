@@ -24,6 +24,12 @@ Vendor trace / local hook / transcript / workspace evidence
 Agent sessions remain context. A SkillRun is the unit users select, inspect,
 compare, and eventually evaluate.
 
+Deployment placement is independent from this interchange layer. SRI may run
+on a developer workstation or as an authenticated self-hosted remote service;
+neither placement requires an external observability platform. Trace import and
+OTLP/HTTP export are optional data connections across an operator-configured
+boundary, not deployment modes.
+
 ## Canonical interchange layer
 
 OpenTelemetry spans are the canonical interchange representation. The importer
@@ -119,7 +125,7 @@ normalized layer.
 
 ## Optional exporters
 
-Remote reporting is a secondary adapter boundary:
+Observability export is a secondary adapter boundary:
 
 ```text
 Skill Runtime database
@@ -129,8 +135,9 @@ Skill Runtime database
       └── research dataset exporter (explicit opt-in, planned)
 ```
 
-An exporter must never become required for local reconstruction. It must keep
-evidence grades, stable source IDs, and privacy policy intact.
+An exporter must never become required for workstation or self-hosted
+reconstruction. It must keep evidence grades, stable source IDs, and privacy
+policy intact.
 
 Start continuous export:
 

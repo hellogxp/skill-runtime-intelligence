@@ -5,6 +5,20 @@ The project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Authenticated self-hosted remote deployment with independent read-only
+  viewer and write-only Collector credentials.
+- Direct TLS or loopback-behind-HTTPS-proxy transport enforcement, secure
+  credential initialization, and fail-open remote queue relay.
+
+### Changed
+
+- Non-loopback service binding now fails closed unless explicit remote access
+  policy is configured.
+- The UI identifies the selected deployment boundary and disables local data
+  mutations for remote viewer sessions.
+
 ## [0.3.0] - 2026-07-31
 
 ### Added

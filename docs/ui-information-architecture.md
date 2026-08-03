@@ -19,9 +19,11 @@ Runs
 │   └── Skill definition and observed usage
 └── Settings
     ├── Agent adapters
+    ├── Deployment and access
     ├── Included projects
     ├── Privacy and redaction
-    └── Data retention
+    ├── Data retention
+    └── Trace import and OTLP/HTTP export
 ```
 
 The default route is the runs list, not a command input.
@@ -73,7 +75,7 @@ Filters:
 - status and duration;
 - activated Skills;
 - telemetry completeness;
-- local/private indicator.
+- operator-controlled deployment boundary and privacy indicator.
 
 ### Narrative summary
 
@@ -275,15 +277,32 @@ verification language unsupported by runtime evidence.
 
 ## 14. First-run experience
 
-1. Detect supported agents.
-2. Explain exactly which local paths will be read.
-3. Let the user exclude projects.
-4. Index existing runs.
-5. Open the runs list with a short privacy statement.
+1. Choose a developer-workstation or self-hosted remote deployment.
+2. Detect supported agents or configure an authenticated source connection.
+3. Explain exactly which paths and signals will be read.
+4. Let the user exclude projects.
+5. Index existing runs.
+6. Open the runs list with a short collection and evidence-boundary statement.
 
-No account, cloud connection, or task wrapper is required.
+No vendor account, mandatory SaaS connection, or task wrapper is required.
 
-## 15. Empty and uncertainty states
+## 15. Settings: deployment, privacy, and interoperability
+
+Settings must keep four ideas visually separate:
+
+- **Deployment placement:** developer workstation or self-hosted remote service;
+- **Access boundary:** loopback or authenticated HTTPS, without displaying secrets;
+- **Collection behavior:** non-intervening and read-only against observed Agent
+  and workspace sources, while SRI writes its own evidence store;
+- **Interoperability:** supported trace imports and explicitly enabled OTLP/HTTP
+  destinations.
+
+The UI must never imply that self-hosted remote deployment automatically sends
+data to a third-party observability platform. It must show the
+operator-controlled evidence boundary and the active import/export destinations
+separately.
+
+## 16. Empty and uncertainty states
 
 Good empty states are part of product credibility:
 

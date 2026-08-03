@@ -10,6 +10,7 @@ import webbrowser
 from pathlib import Path
 from typing import Any, Dict, List
 from urllib.parse import unquote
+from urllib.parse import urlparse
 
 from . import __version__
 from .adapters import SUPPORTED_PROFILES
@@ -26,7 +27,9 @@ from .event_queue import (
     DEFAULT_COLLECTOR_ENDPOINT,
     default_event_queue,
     deliver_or_queue,
+    drain_remote_event_queue,
     watch_event_queue,
+    watch_remote_event_queue,
 )
 from .hook_adapter import (
     HOOK_EVENT_TYPES,
@@ -52,6 +55,13 @@ from .integrations import (
 )
 from .native_sender import build_native_hook_sender, install_native_hook_sender
 from .otlp_exporter import export_otlp_once, watch_otlp_export
+from .remote_access import (
+    build_remote_access,
+    default_remote_secret_paths,
+    initialize_remote_secrets,
+    is_loopback_host,
+    read_secret_file,
+)
 from .runtime_diagnostics import diagnose_runtime
 from .runtime_manager import (
     restart_runtime,
@@ -149,6 +159,79 @@ def _queue_args(parser: argparse.ArgumentParser) -> None:
         default=default_hook_socket(),
         help="Permission-restricted Unix socket for the low-latency Hook path",
     )
+
+
+def _remote_server_args(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--remote",
+        action="store_true",
+        help="Enable authenticated self-hosted remote service mode",
+    )
+    parser.add_argument(
+        "--viewer-token-file",
+        type=_path,
+        default=None,
+        help="0600 token file used as the `sri` web/API Basic-auth password",
+    )
+    parser.add_argument(
+        "--ingest-token-file",
+        type=_path,
+        default=None,
+        help="Separate 0600 Bearer-token file accepted only by /api/events",
+    )
+    parser.add_argument(
+        "--tls-cert",
+        type=_path,
+        default=None,
+        help="PEM certificate for direct HTTPS",
+    )
+    parser.add_argument(
+        "--tls-key",
+        type=_path,
+        default=None,
+        help="PEM private key for direct HTTPS",
+    )
+    parser.add_argument(
+        "--behind-https-proxy",
+        action="store_true",
+        help="Trust an HTTPS reverse proxy; requires a loopback backend bind",
+    )
+
+
+def _remote_access_from_args(args):
+    viewer_file = getattr(args, "viewer_token_file", None)
+    ingest_file = getattr(args, "ingest_token_file", None)
+    if getattr(args, "remote", False) and (viewer_file is None or ingest_file is None):
+        config_path = getattr(args, "config", default_config_path())
+        defaults = default_remote_secret_paths(config_path.expanduser().resolve().parent)
+        viewer_file = viewer_file or defaults["viewer"]
+        ingest_file = ingest_file or defaults["ingest"]
+    return build_remote_access(
+        enabled=bool(getattr(args, "remote", False)),
+        host=args.host,
+        viewer_token_file=viewer_file,
+        ingest_token_file=ingest_file,
+        tls_cert=getattr(args, "tls_cert", None),
+        tls_key=getattr(args, "tls_key", None),
+        behind_https_proxy=bool(getattr(args, "behind_https_proxy", False)),
+    )
+
+
+def _server_scheme(args) -> str:
+    return "https" if getattr(args, "tls_cert", None) else "http"
+
+
+def _validated_relay_endpoint(endpoint: str) -> str:
+    parsed = urlparse(endpoint)
+    if parsed.scheme == "https" and parsed.netloc:
+        return endpoint
+    if (
+        parsed.scheme == "http"
+        and parsed.hostname
+        and is_loopback_host(parsed.hostname)
+    ):
+        return endpoint
+    raise ValueError("remote relay endpoint must use HTTPS (HTTP is loopback-only)")
 
 
 def _start_queue_watcher(args) -> None:
@@ -302,7 +385,7 @@ def _schedule_browser(args) -> None:
     if not getattr(args, "open_browser", False):
         return
     host = "127.0.0.1" if args.host in {"0.0.0.0", "::"} else args.host
-    url = f"http://{host}:{args.port}/"
+    url = f"{_server_scheme(args)}://{host}:{args.port}/"
     timer = threading.Timer(0.7, lambda: webbrowser.open(url))
     timer.daemon = True
     timer.start()
@@ -312,7 +395,7 @@ def _open_runtime(args) -> None:
     if not getattr(args, "open_browser", False):
         return
     host = "127.0.0.1" if args.host in {"0.0.0.0", "::"} else args.host
-    webbrowser.open(f"http://{host}:{args.port}/")
+    webbrowser.open(f"{_server_scheme(args)}://{host}:{args.port}/")
 
 
 def _current_executable() -> str:
@@ -340,11 +423,18 @@ def _run_hook(args) -> None:
             return
         payload = json.loads(raw)
         envelopes = build_hook_envelopes(args.agent, args.event, payload)
+        try:
+            token = read_secret_file(args.token_file) if args.token_file else ""
+        except ValueError:
+            # Delivery will fail closed at a remote endpoint and preserve the
+            # already-redacted event in the local durable queue.
+            token = ""
         deliver_or_queue(
             envelopes,
             endpoint=args.endpoint,
             queue_path=args.event_queue,
             timeout_seconds=max(0.01, args.timeout_ms / 1000),
+            token=token,
         )
     except Exception:
         return
@@ -395,6 +485,7 @@ def _run_live_runtime(args, *, index_first: bool = True) -> None:
         event_queue=args.event_queue,
         hook_socket=args.hook_socket,
         config_path=args.config,
+        remote_access=_remote_access_from_args(args),
     )
 
 
@@ -430,6 +521,18 @@ def _background_command(args) -> List[str]:
         command.extend(["--state-root", str(args.state_root.expanduser().resolve())])
     if args.otlp_endpoint:
         command.extend(["--otlp-endpoint", args.otlp_endpoint])
+    if getattr(args, "remote", False):
+        command.append("--remote")
+        for option, value in (
+            ("--viewer-token-file", args.viewer_token_file),
+            ("--ingest-token-file", args.ingest_token_file),
+            ("--tls-cert", args.tls_cert),
+            ("--tls-key", args.tls_key),
+        ):
+            if value:
+                command.extend([option, str(value.expanduser().resolve())])
+        if args.behind_https_proxy:
+            command.append("--behind-https-proxy")
     for root in args.skill_root:
         command.extend(["--skill-root", str(root.expanduser().resolve())])
     for exclusion in args.exclude:
@@ -537,6 +640,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     serve_parser.add_argument("--host", default="127.0.0.1")
     serve_parser.add_argument("--port", type=int, default=4317)
+    _remote_server_args(serve_parser)
     _queue_args(serve_parser)
     _otlp_args(serve_parser)
     _browser_args(serve_parser, False)
@@ -567,6 +671,7 @@ def build_parser() -> argparse.ArgumentParser:
     _index_args(start_parser)
     start_parser.add_argument("--host", default="127.0.0.1")
     start_parser.add_argument("--port", type=int, default=4317)
+    _remote_server_args(start_parser)
     start_parser.add_argument(
         "--watch-interval",
         type=float,
@@ -639,6 +744,44 @@ def build_parser() -> argparse.ArgumentParser:
         "--database", type=_path, default=default_database_path()
     )
     _otlp_args(export_parser, endpoint_required=True)
+
+    remote_init_parser = subparsers.add_parser(
+        "remote-init",
+        help="Create separate permission-restricted remote viewer/ingest tokens",
+    )
+    remote_init_parser.add_argument(
+        "--state-root", type=_path, default=default_config_path().parent
+    )
+
+    relay_parser = subparsers.add_parser(
+        "relay",
+        help="Replay the fail-open local Hook queue to a remote Collector",
+    )
+    relay_parser.add_argument(
+        "--endpoint",
+        default=os.environ.get("SKILL_RUNTIME_COLLECTOR_ENDPOINT", ""),
+        required=not bool(os.environ.get("SKILL_RUNTIME_COLLECTOR_ENDPOINT")),
+        help="Authenticated remote /api/events endpoint (HTTPS required)",
+    )
+    relay_parser.add_argument(
+        "--token-file",
+        type=_path,
+        default=(
+            _path(os.environ["SKILL_RUNTIME_COLLECTOR_TOKEN_FILE"])
+            if os.environ.get("SKILL_RUNTIME_COLLECTOR_TOKEN_FILE")
+            else None
+        ),
+        required=not bool(os.environ.get("SKILL_RUNTIME_COLLECTOR_TOKEN_FILE")),
+        help="0600 file containing the remote ingest Bearer token",
+    )
+    relay_parser.add_argument(
+        "--event-queue", type=_path, default=default_event_queue()
+    )
+    relay_parser.add_argument("--interval", type=float, default=1.0)
+    relay_parser.add_argument("--timeout", type=float, default=5.0)
+    relay_parser.add_argument(
+        "--once", action="store_true", help="Replay one bounded batch and exit"
+    )
 
     setup_parser = subparsers.add_parser(
         "setup",
@@ -721,7 +864,21 @@ def build_parser() -> argparse.ArgumentParser:
     hook_parser.add_argument(
         "--event", choices=tuple(sorted(HOOK_EVENT_TYPES)), required=True
     )
-    hook_parser.add_argument("--endpoint", default=DEFAULT_COLLECTOR_ENDPOINT)
+    hook_parser.add_argument(
+        "--endpoint",
+        default=os.environ.get(
+            "SKILL_RUNTIME_COLLECTOR_ENDPOINT", DEFAULT_COLLECTOR_ENDPOINT
+        ),
+    )
+    hook_parser.add_argument(
+        "--token-file",
+        type=_path,
+        default=(
+            _path(os.environ["SKILL_RUNTIME_COLLECTOR_TOKEN_FILE"])
+            if os.environ.get("SKILL_RUNTIME_COLLECTOR_TOKEN_FILE")
+            else None
+        ),
+    )
     hook_parser.add_argument(
         "--event-queue", type=_path, default=default_event_queue()
     )
@@ -864,6 +1021,7 @@ def main(argv=None) -> None:
         _run_index(args)
     elif args.command == "serve":
         _apply_runtime_config(args)
+        remote_access = _remote_access_from_args(args)
         _start_queue_watcher(args)
         _start_otlp_exporter(args)
         _start_retention_worker(args)
@@ -875,15 +1033,23 @@ def main(argv=None) -> None:
             event_queue=args.event_queue,
             hook_socket=args.hook_socket,
             config_path=args.config,
+            remote_access=remote_access,
         )
     elif args.command == "dev":
         _apply_runtime_config(args)
         _run_live_runtime(args)
     elif args.command == "start":
         _apply_runtime_config(args)
+        _remote_access_from_args(args)
         if args.foreground:
             _run_live_runtime(args, index_first=False)
         else:
+            if args.remote and args.tls_cert:
+                raise SystemExit(
+                    "direct-TLS remote mode must run with --foreground under a "
+                    "service manager; managed background health probing supports "
+                    "the loopback --behind-https-proxy mode"
+                )
             if args.otlp_header:
                 raise SystemExit(
                     "Do not put exporter secrets in daemon arguments. "
@@ -1015,6 +1181,39 @@ def main(argv=None) -> None:
             batch_size=args.otlp_batch_size,
         )
         print(json.dumps(result, ensure_ascii=False, indent=2))
+    elif args.command == "remote-init":
+        result = initialize_remote_secrets(args.state_root)
+        result["next"] = (
+            "Expose the loopback backend through an authenticated HTTPS proxy, "
+            "then run `skill-runtime serve --remote --behind-https-proxy`."
+        )
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+    elif args.command == "relay":
+        endpoint = _validated_relay_endpoint(args.endpoint)
+        token = read_secret_file(args.token_file)
+        if args.once:
+            result = drain_remote_event_queue(
+                endpoint,
+                token,
+                args.event_queue,
+                timeout_seconds=max(0.05, args.timeout),
+            )
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+        else:
+            print(
+                "Relaying the local fail-open queue to the authenticated remote "
+                "Collector; press Ctrl-C to stop."
+            )
+            try:
+                watch_remote_event_queue(
+                    endpoint,
+                    token,
+                    args.event_queue,
+                    interval_seconds=max(0.25, args.interval),
+                    timeout_seconds=max(0.05, args.timeout),
+                )
+            except KeyboardInterrupt:
+                pass
     elif args.command == "setup":
         executable = args.executable or _current_executable()
         native_sender = None

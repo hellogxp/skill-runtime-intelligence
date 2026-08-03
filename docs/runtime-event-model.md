@@ -277,7 +277,7 @@ Use this order:
 
 Levels 1–4 may usually be Derived. Levels 5–6 must include uncertainty and must never overwrite observed relationships.
 
-Active Skill scope is persisted in the local evidence index rather than held
+Active Skill scope is persisted in the deployment's evidence index rather than held
 only in a Hook server process. This makes level-3 attribution deterministic
 across native-sender, HTTP/queue fallback, and separate fail-open Hook
 processes. A new observed request boundary clears an unclosed prior scope so a
@@ -324,7 +324,7 @@ This separation allows re-normalization when an adapter changes without contamin
 
 ## 10. Collection checkpoint metadata
 
-Collection progress is local control metadata, not a normalized runtime event
+Collection progress is Collector control metadata, not a normalized runtime event
 and not evidence that a source is complete. Each versioned adapter may expose
 one current collection epoch with:
 
