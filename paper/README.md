@@ -15,8 +15,8 @@ Files:
 - `references.bib`: primary papers, standards, and the Agent Skills specification;
 - `claims-evidence-matrix.md`: claim boundaries tied to frozen evidence.
 
-The draft uses the LNCS proceedings class. Replace the explicit author metadata
-placeholder before submission; PROFES is single-anonymous. Do not change the
+The draft uses the LNCS proceedings class and contains the confirmed author,
+affiliation, and contact metadata. PROFES is single-anonymous. Do not change the
 selected Research Papers track without an explicit author decision.
 
 Compile when a TeX distribution is available:
@@ -27,4 +27,9 @@ latexmk -pdf -interaction=nonstopmode main.tex
 
 The current workstation compiles the paper with Tectonic. Experimental artifact
 hashes are frozen in
-`experiments/external_validity/confirmatory_manifest_20260801.json`.
+`experiments/external_validity/confirmatory_manifest_20260801.json`; the
+de-identified publication bundle is documented in `reproducibility/README.md`.
+The digest-bound bundle is published at the stable
+[`profes-2026-artifact-v1`](https://github.com/hellogxp/skill-runtime-intelligence/releases/tag/profes-2026-artifact-v1)
+release. Historical reports retain their original provenance; publication does
+not rewrite them as clean-commit reruns.

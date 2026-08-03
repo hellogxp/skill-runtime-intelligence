@@ -65,20 +65,20 @@
         "return_code": 0,
         "stdout_json": {
           "installed": true,
-          "config_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/config.json",
-          "database": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/data/panorama.db",
+          "config_path": "${TEMP_PATH}",
+          "database": "${TEMP_PATH}",
           "projects": [
-            "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/project"
+            "${TEMP_PATH}"
           ],
           "excluded_paths": [],
           "integrations": [
             {
               "agent": "codex",
               "detected": true,
-              "config_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.codex/hooks.json",
+              "config_path": "${TEMP_PATH}",
               "config_exists": false,
               "config_valid": true,
-              "executable": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/venv/bin/skill-runtime",
+              "executable": "${TEMP_PATH}",
               "installed": false,
               "cli_path": "${LOCAL_HOME}/.npm-global/bin/codex",
               "agent_version": "",
@@ -106,27 +106,27 @@
               ],
               "native_skill_telemetry": "not_detected",
               "fail_open": true,
-              "collector_endpoint": "http://127.0.0.1:4317/api/events",
+              "collector_endpoint": "http://${LOOPBACK}:4317/api/events",
               "fast_path": "unix_socket",
-              "hook_socket": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/run/hook.sock",
+              "hook_socket": "${TEMP_PATH}",
               "hook_socket_active": false,
-              "native_sender": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/bin/skill-runtime-hook-native",
+              "native_sender": "${TEMP_PATH}",
               "native_sender_available": true,
-              "offline_queue": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/queue/events.jsonl",
+              "offline_queue": "${TEMP_PATH}",
               "paths_read": [
-                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.codex/sessions",
-                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.codex/skills",
-                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.codex/hooks.json"
+                "${TEMP_PATH}",
+                "${TEMP_PATH}",
+                "${TEMP_PATH}"
               ],
               "changes_without_consent": []
             },
             {
               "agent": "claude-code",
               "detected": true,
-              "config_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.claude/settings.json",
+              "config_path": "${TEMP_PATH}",
               "config_exists": false,
               "config_valid": true,
-              "executable": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/venv/bin/skill-runtime",
+              "executable": "${TEMP_PATH}",
               "installed": false,
               "cli_path": "/opt/homebrew/bin/claude",
               "agent_version": "",
@@ -158,17 +158,17 @@
               "native_skill_telemetry": "not_detected",
               "fail_open": true,
               "async": true,
-              "collector_endpoint": "http://127.0.0.1:4317/api/events",
+              "collector_endpoint": "http://${LOOPBACK}:4317/api/events",
               "fast_path": "unix_socket",
-              "hook_socket": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/run/hook.sock",
+              "hook_socket": "${TEMP_PATH}",
               "hook_socket_active": false,
-              "native_sender": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/bin/skill-runtime-hook-native",
+              "native_sender": "${TEMP_PATH}",
               "native_sender_available": true,
-              "offline_queue": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/queue/events.jsonl",
+              "offline_queue": "${TEMP_PATH}",
               "paths_read": [
-                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.claude/projects",
-                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.claude/skills",
-                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.claude/settings.json"
+                "${TEMP_PATH}",
+                "${TEMP_PATH}",
+                "${TEMP_PATH}"
               ],
               "changes_without_consent": [],
               "note": "FileChanged is supported when emitted, but is not installed with a global wildcard because Claude Code watch paths are literal filenames."
@@ -178,7 +178,7 @@
           "native_hook_sender": {
             "available": true,
             "built": true,
-            "path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/bin/skill-runtime-hook-native",
+            "path": "${TEMP_PATH}",
             "reason": "built",
             "download_fallback": "download_failed",
             "prewarm": {
@@ -217,12 +217,12 @@
           "process_alive": true,
           "collector_healthy": true,
           "pid": 94827,
-          "url": "http://127.0.0.1:51696",
-          "state_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/run/runtime.json",
-          "log_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/logs/runtime.log",
+          "url": "http://${LOOPBACK}:51696",
+          "state_path": "${TEMP_PATH}",
+          "log_path": "${TEMP_PATH}",
           "started_at": "2026-07-29T10:15:34Z",
-          "database": "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/data/panorama.db",
-          "config_path": "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/config.json",
+          "database": "${TEMP_PATH}",
+          "config_path": "${TEMP_PATH}",
           "health": {
             "ok": true,
             "local": true,
@@ -250,12 +250,12 @@
           "process_alive": true,
           "collector_healthy": true,
           "pid": 94827,
-          "url": "http://127.0.0.1:51696",
-          "state_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/run/runtime.json",
-          "log_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/logs/runtime.log",
+          "url": "http://${LOOPBACK}:51696",
+          "state_path": "${TEMP_PATH}",
+          "log_path": "${TEMP_PATH}",
           "started_at": "2026-07-29T10:15:34Z",
-          "database": "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/data/panorama.db",
-          "config_path": "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/config.json",
+          "database": "${TEMP_PATH}",
+          "config_path": "${TEMP_PATH}",
           "health": {
             "ok": true,
             "local": true,
@@ -283,32 +283,32 @@
             {
               "name": "config",
               "status": "pass",
-              "detail": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/config.json"
+              "detail": "${TEMP_PATH}"
             },
             {
               "name": "state_directory",
               "status": "pass",
-              "detail": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime"
+              "detail": "${TEMP_PATH}"
             },
             {
               "name": "collector",
               "status": "pass",
-              "detail": "http://127.0.0.1:51696"
+              "detail": "http://${LOOPBACK}:51696"
             },
             {
               "name": "hook_transport",
               "status": "pass",
-              "detail": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/run/hook.sock"
+              "detail": "${TEMP_PATH}"
             },
             {
               "name": "offline_queue",
               "status": "pass",
-              "detail": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/queue/events.jsonl"
+              "detail": "${TEMP_PATH}"
             },
             {
               "name": "database",
               "status": "pass",
-              "detail": "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/data/panorama.db"
+              "detail": "${TEMP_PATH}"
             },
             {
               "name": "official_runtime_evidence",
@@ -318,7 +318,7 @@
             {
               "name": "native_sender",
               "status": "pass",
-              "detail": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/bin/skill-runtime-hook-native"
+              "detail": "${TEMP_PATH}"
             }
           ],
           "runtime": {
@@ -326,12 +326,12 @@
             "process_alive": true,
             "collector_healthy": true,
             "pid": 94827,
-            "url": "http://127.0.0.1:51696",
-            "state_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/run/runtime.json",
-            "log_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/logs/runtime.log",
+            "url": "http://${LOOPBACK}:51696",
+            "state_path": "${TEMP_PATH}",
+            "log_path": "${TEMP_PATH}",
             "started_at": "2026-07-29T10:15:34Z",
-            "database": "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/data/panorama.db",
-            "config_path": "/private/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/config.json",
+            "database": "${TEMP_PATH}",
+            "config_path": "${TEMP_PATH}",
             "health": {
               "ok": true,
               "local": true,
@@ -350,7 +350,7 @@
             {
               "agent": "codex",
               "detected": true,
-              "config_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.codex/hooks.json",
+              "config_path": "${TEMP_PATH}",
               "config_exists": false,
               "config_valid": true,
               "executable": "",
@@ -381,17 +381,17 @@
               ],
               "native_skill_telemetry": "not_detected",
               "fail_open": true,
-              "collector_endpoint": "http://127.0.0.1:4317/api/events",
+              "collector_endpoint": "http://${LOOPBACK}:4317/api/events",
               "fast_path": "unix_socket",
-              "hook_socket": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/run/hook.sock",
+              "hook_socket": "${TEMP_PATH}",
               "hook_socket_active": true,
-              "native_sender": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/bin/skill-runtime-hook-native",
+              "native_sender": "${TEMP_PATH}",
               "native_sender_available": true,
-              "offline_queue": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/queue/events.jsonl",
+              "offline_queue": "${TEMP_PATH}",
               "paths_read": [
-                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.codex/sessions",
-                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.codex/skills",
-                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.codex/hooks.json"
+                "${TEMP_PATH}",
+                "${TEMP_PATH}",
+                "${TEMP_PATH}"
               ],
               "changes_without_consent": [],
               "live_evidence_seen": false,
@@ -401,7 +401,7 @@
             {
               "agent": "claude-code",
               "detected": true,
-              "config_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.claude/settings.json",
+              "config_path": "${TEMP_PATH}",
               "config_exists": false,
               "config_valid": true,
               "executable": "",
@@ -436,17 +436,17 @@
               "native_skill_telemetry": "not_detected",
               "fail_open": true,
               "async": true,
-              "collector_endpoint": "http://127.0.0.1:4317/api/events",
+              "collector_endpoint": "http://${LOOPBACK}:4317/api/events",
               "fast_path": "unix_socket",
-              "hook_socket": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/run/hook.sock",
+              "hook_socket": "${TEMP_PATH}",
               "hook_socket_active": true,
-              "native_sender": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/bin/skill-runtime-hook-native",
+              "native_sender": "${TEMP_PATH}",
               "native_sender_available": true,
-              "offline_queue": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/queue/events.jsonl",
+              "offline_queue": "${TEMP_PATH}",
               "paths_read": [
-                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.claude/projects",
-                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.claude/skills",
-                "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.claude/settings.json"
+                "${TEMP_PATH}",
+                "${TEMP_PATH}",
+                "${TEMP_PATH}"
               ],
               "changes_without_consent": [],
               "note": "FileChanged is supported when emitted, but is not installed with a global wildcard because Claude Code watch paths are literal filenames.",
@@ -468,9 +468,9 @@
           "process_alive": false,
           "collector_healthy": false,
           "pid": null,
-          "url": "http://127.0.0.1:51696",
-          "state_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/run/runtime.json",
-          "log_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/logs/runtime.log",
+          "url": "http://${LOOPBACK}:51696",
+          "state_path": "${TEMP_PATH}",
+          "log_path": "${TEMP_PATH}",
           "started_at": null,
           "database": "",
           "config_path": "",
@@ -489,9 +489,9 @@
           "process_alive": false,
           "collector_healthy": false,
           "pid": null,
-          "url": "http://127.0.0.1:51696",
-          "state_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/run/runtime.json",
-          "log_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/logs/runtime.log",
+          "url": "http://${LOOPBACK}:51696",
+          "state_path": "${TEMP_PATH}",
+          "log_path": "${TEMP_PATH}",
           "started_at": null,
           "database": "",
           "config_path": "",
@@ -510,9 +510,9 @@
             "process_alive": false,
             "collector_healthy": true,
             "pid": null,
-            "url": "http://127.0.0.1:4317",
-            "state_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/run/runtime.json",
-            "log_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime/logs/runtime.log",
+            "url": "http://${LOOPBACK}:4317",
+            "state_path": "${TEMP_PATH}",
+            "log_path": "${TEMP_PATH}",
             "started_at": null,
             "database": "",
             "config_path": "",
@@ -537,19 +537,19 @@
               "agent": "codex",
               "changed": false,
               "removed_events": [],
-              "config_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.codex/hooks.json",
+              "config_path": "${TEMP_PATH}",
               "backup_path": null
             },
             {
               "agent": "claude-code",
               "changed": false,
               "removed_events": [],
-              "config_path": "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.claude/settings.json",
+              "config_path": "${TEMP_PATH}",
               "backup_path": null
             }
           ],
           "removed_paths": [
-            "/var/folders/d5/xmrb_r7512v4y1g675175q5w0000gp/T/tmpf5__x27c/home/.skill-runtime"
+            "${TEMP_PATH}"
           ],
           "data_kept": false,
           "agent_source_files_modified": false

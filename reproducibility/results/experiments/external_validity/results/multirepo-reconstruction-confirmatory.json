@@ -45,7 +45,7 @@
   "rows": [
     {
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "none",
@@ -58,7 +58,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "none",
@@ -71,7 +71,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -84,7 +84,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "none",
@@ -97,7 +97,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -110,7 +110,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "none",
@@ -123,7 +123,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "none",
@@ -136,7 +136,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "none",
@@ -149,7 +149,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "none",
@@ -162,7 +162,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "none",
@@ -175,7 +175,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -188,7 +188,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "none",
@@ -201,7 +201,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "none",
@@ -214,7 +214,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "none",
@@ -227,7 +227,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "none",
@@ -240,7 +240,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "none",
@@ -253,7 +253,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "none",
@@ -266,7 +266,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "none",
@@ -279,7 +279,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "none",
@@ -292,7 +292,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "none",
@@ -305,7 +305,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "none",
@@ -318,7 +318,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "none",
@@ -331,7 +331,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "none",
@@ -344,7 +344,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -357,7 +357,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -370,7 +370,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "none",
@@ -383,7 +383,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "none",
@@ -396,7 +396,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -409,7 +409,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "none",
@@ -422,7 +422,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -435,7 +435,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -448,7 +448,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "none",
@@ -461,7 +461,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "none",
@@ -474,7 +474,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "none",
@@ -487,7 +487,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -500,7 +500,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -513,7 +513,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "none",
@@ -526,7 +526,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -539,7 +539,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "none",
@@ -552,7 +552,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -565,7 +565,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "none",
@@ -578,7 +578,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "none",
@@ -591,7 +591,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "none",
@@ -604,7 +604,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -617,7 +617,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "none",
@@ -630,7 +630,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -643,7 +643,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "none",
@@ -656,7 +656,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -669,7 +669,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "none",
@@ -682,7 +682,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "none",
@@ -695,7 +695,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "none",
@@ -708,7 +708,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "none",
@@ -721,7 +721,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "none",
@@ -734,7 +734,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -747,7 +747,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "none",
@@ -760,7 +760,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -773,7 +773,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "none",
@@ -786,7 +786,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "none",
@@ -799,7 +799,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -812,7 +812,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -825,7 +825,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "none",
@@ -838,7 +838,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "none",
@@ -851,7 +851,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "none",
@@ -864,7 +864,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "none",
@@ -877,7 +877,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "none",
@@ -890,7 +890,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "none",
@@ -903,7 +903,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -916,7 +916,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "none",
@@ -929,7 +929,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "none",
@@ -942,7 +942,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "none",
@@ -955,7 +955,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "none",
@@ -968,7 +968,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "none",
@@ -981,7 +981,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "none",
@@ -994,7 +994,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -1007,7 +1007,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "none",
@@ -1020,7 +1020,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "none",
@@ -1033,7 +1033,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "none",
@@ -1046,7 +1046,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "none",
@@ -1059,7 +1059,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -1072,7 +1072,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -1085,7 +1085,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "none",
@@ -1098,7 +1098,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "none",
@@ -1111,7 +1111,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "none",
@@ -1124,7 +1124,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "none",
@@ -1137,7 +1137,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "execution",
@@ -1150,7 +1150,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "execution",
@@ -1163,7 +1163,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "execution",
@@ -1176,7 +1176,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "execution",
@@ -1189,7 +1189,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "execution",
@@ -1202,7 +1202,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "execution",
@@ -1215,7 +1215,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "execution",
@@ -1228,7 +1228,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "execution",
@@ -1241,7 +1241,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "execution",
@@ -1254,7 +1254,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "execution",
@@ -1267,7 +1267,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "execution",
@@ -1280,7 +1280,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "execution",
@@ -1293,7 +1293,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "execution",
@@ -1306,7 +1306,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "execution",
@@ -1319,7 +1319,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "execution",
@@ -1332,7 +1332,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "execution",
@@ -1345,7 +1345,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "execution",
@@ -1358,7 +1358,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "execution",
@@ -1371,7 +1371,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "execution",
@@ -1384,7 +1384,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "execution",
@@ -1397,7 +1397,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "execution",
@@ -1410,7 +1410,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "execution",
@@ -1423,7 +1423,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "execution",
@@ -1436,7 +1436,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "execution",
@@ -1449,7 +1449,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "execution",
@@ -1462,7 +1462,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "execution",
@@ -1475,7 +1475,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "execution",
@@ -1488,7 +1488,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "execution",
@@ -1501,7 +1501,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "execution",
@@ -1514,7 +1514,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "clean",
       "gold_boundary": "none",
       "telemetry_boundary": "execution",
@@ -1527,7 +1527,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "execution",
@@ -1540,7 +1540,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "verifier_conflict",
       "gold_boundary": "outcome",
       "telemetry_boundary": "execution",
@@ -1553,7 +1553,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "execution",
@@ -1566,7 +1566,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "execution",
@@ -1579,7 +1579,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "execution_failure",
       "gold_boundary": "execution",
       "telemetry_boundary": "execution",
@@ -1592,7 +1592,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "execution",
@@ -1605,7 +1605,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "execution",
@@ -1618,7 +1618,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "resource_missing",
       "gold_boundary": "resources",
       "telemetry_boundary": "execution",
@@ -1631,7 +1631,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "instructions_failure",
       "gold_boundary": "instructions",
       "telemetry_boundary": "execution",
@@ -1644,7 +1644,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "execution",
@@ -1657,7 +1657,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "artifact_corruption",
       "gold_boundary": "artifacts",
       "telemetry_boundary": "execution",
@@ -1670,7 +1670,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "outcome_unverified",
       "gold_boundary": "outcome",
       "telemetry_boundary": "execution",

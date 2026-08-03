@@ -15,9 +15,9 @@
   },
   "cases": [
     {
-      "case_id": "codex-llm-mi-instructions_failure",
+      "case_id": "codex-profile-03-instructions_failure",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -166,9 +166,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "codex-llm-mi-resource_missing",
+      "case_id": "codex-profile-03-resource_missing",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -317,9 +317,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "codex-profile-04-outcome_unverified",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -470,9 +470,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "codex-rapid-tele-execution_failure",
+      "case_id": "codex-profile-02-execution_failure",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -621,9 +621,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "codex-llm-mi-verifier_conflict",
+      "case_id": "codex-profile-03-verifier_conflict",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -774,9 +774,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "codex-hello-skill-artifact_corruption",
+      "case_id": "codex-profile-05-artifact_corruption",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -925,9 +925,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-clean",
+      "case_id": "codex-profile-04-clean",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "clean",
       "gold": {
@@ -1077,9 +1077,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "codex-profile-04-execution_failure",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -1228,9 +1228,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "codex-rapid-agent-resource_missing",
+      "case_id": "codex-profile-06-resource_missing",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -1379,9 +1379,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "codex-tinylru-clean",
+      "case_id": "codex-profile-01-clean",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "clean",
       "gold": {
@@ -1531,9 +1531,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "codex-rapid-tele-verifier_conflict",
+      "case_id": "codex-profile-02-verifier_conflict",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -1684,9 +1684,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "codex-rapid-tele-instructions_failure",
+      "case_id": "codex-profile-02-instructions_failure",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -1835,9 +1835,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "codex-rapid-agent-artifact_corruption",
+      "case_id": "codex-profile-06-artifact_corruption",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -1986,9 +1986,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "codex-tinylru-execution_failure",
+      "case_id": "codex-profile-01-execution_failure",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -2137,9 +2137,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "codex-profile-04-artifact_corruption",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -2288,9 +2288,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "codex-tinylru-resource_missing",
+      "case_id": "codex-profile-01-resource_missing",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -2439,9 +2439,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "codex-hello-skill-execution_failure",
+      "case_id": "codex-profile-05-execution_failure",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -2590,9 +2590,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "codex-llm-mi-artifact_corruption",
+      "case_id": "codex-profile-03-artifact_corruption",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -2741,9 +2741,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "codex-rapid-tele-clean",
+      "case_id": "codex-profile-02-clean",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "clean",
       "gold": {
@@ -2893,9 +2893,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "codex-rapid-tele-artifact_corruption",
+      "case_id": "codex-profile-02-artifact_corruption",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -3044,9 +3044,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "codex-hello-skill-clean",
+      "case_id": "codex-profile-05-clean",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "clean",
       "gold": {
@@ -3196,9 +3196,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "codex-rapid-agent-execution_failure",
+      "case_id": "codex-profile-06-execution_failure",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -3347,9 +3347,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "codex-hello-skill-instructions_failure",
+      "case_id": "codex-profile-05-instructions_failure",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -3498,9 +3498,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "codex-hello-skill-outcome_unverified",
+      "case_id": "codex-profile-05-outcome_unverified",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -3651,9 +3651,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "codex-llm-mi-outcome_unverified",
+      "case_id": "codex-profile-03-outcome_unverified",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -3804,9 +3804,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "codex-hello-skill-resource_missing",
+      "case_id": "codex-profile-05-resource_missing",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -3955,9 +3955,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "codex-rapid-agent-instructions_failure",
+      "case_id": "codex-profile-06-instructions_failure",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -4106,9 +4106,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "codex-profile-04-verifier_conflict",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -4259,9 +4259,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "codex-profile-04-instructions_failure",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -4410,9 +4410,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "codex-rapid-agent-verifier_conflict",
+      "case_id": "codex-profile-06-verifier_conflict",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -4563,9 +4563,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "codex-tinylru-outcome_unverified",
+      "case_id": "codex-profile-01-outcome_unverified",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -4716,9 +4716,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "codex-tinylru-artifact_corruption",
+      "case_id": "codex-profile-01-artifact_corruption",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -4867,9 +4867,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "codex-tinylru-instructions_failure",
+      "case_id": "codex-profile-01-instructions_failure",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -5018,9 +5018,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "codex-profile-04-resource_missing",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -5169,9 +5169,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "codex-rapid-tele-outcome_unverified",
+      "case_id": "codex-profile-02-outcome_unverified",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -5322,9 +5322,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "codex-rapid-agent-outcome_unverified",
+      "case_id": "codex-profile-06-outcome_unverified",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -5475,9 +5475,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "codex-llm-mi-clean",
+      "case_id": "codex-profile-03-clean",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "clean",
       "gold": {
@@ -5627,9 +5627,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "codex-tinylru-verifier_conflict",
+      "case_id": "codex-profile-01-verifier_conflict",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -5780,9 +5780,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "codex-rapid-tele-resource_missing",
+      "case_id": "codex-profile-02-resource_missing",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -5931,9 +5931,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "codex-hello-skill-verifier_conflict",
+      "case_id": "codex-profile-05-verifier_conflict",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -6084,9 +6084,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "codex-llm-mi-execution_failure",
+      "case_id": "codex-profile-03-execution_failure",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -6235,9 +6235,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "codex-rapid-agent-clean",
+      "case_id": "codex-profile-06-clean",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "clean",
       "gold": {
@@ -6387,9 +6387,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "opencode-llm-mi-clean",
+      "case_id": "opencode-profile-03-clean",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "clean",
       "gold": {
@@ -6539,9 +6539,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "opencode-rapid-agent-outcome_unverified",
+      "case_id": "opencode-profile-06-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -6692,9 +6692,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "opencode-profile-04-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -6849,9 +6849,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "opencode-hello-skill-verifier_conflict",
+      "case_id": "opencode-profile-05-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -7002,9 +7002,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "opencode-llm-mi-resource_missing",
+      "case_id": "opencode-profile-03-resource_missing",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -7153,9 +7153,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "opencode-llm-mi-verifier_conflict",
+      "case_id": "opencode-profile-03-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -7312,9 +7312,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "opencode-hello-skill-clean",
+      "case_id": "opencode-profile-05-clean",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "clean",
       "gold": {
@@ -7464,9 +7464,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "opencode-hello-skill-artifact_corruption",
+      "case_id": "opencode-profile-05-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -7615,9 +7615,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "opencode-rapid-tele-resource_missing",
+      "case_id": "opencode-profile-02-resource_missing",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -7766,9 +7766,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "opencode-profile-04-resource_missing",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -7917,9 +7917,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-clean",
+      "case_id": "opencode-profile-04-clean",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "clean",
       "gold": {
@@ -8075,9 +8075,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "opencode-profile-04-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -8234,9 +8234,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "opencode-hello-skill-instructions_failure",
+      "case_id": "opencode-profile-05-instructions_failure",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -8385,9 +8385,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "opencode-rapid-tele-outcome_unverified",
+      "case_id": "opencode-profile-02-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -8550,9 +8550,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "opencode-tinylru-clean",
+      "case_id": "opencode-profile-01-clean",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "clean",
       "gold": {
@@ -8708,9 +8708,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "opencode-rapid-tele-artifact_corruption",
+      "case_id": "opencode-profile-02-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -8865,9 +8865,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "opencode-rapid-tele-verifier_conflict",
+      "case_id": "opencode-profile-02-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -9018,9 +9018,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "opencode-tinylru-outcome_unverified",
+      "case_id": "opencode-profile-01-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -9171,9 +9171,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "opencode-rapid-agent-instructions_failure",
+      "case_id": "opencode-profile-06-instructions_failure",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -9328,9 +9328,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "opencode-rapid-tele-instructions_failure",
+      "case_id": "opencode-profile-02-instructions_failure",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -9479,9 +9479,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "opencode-tinylru-execution_failure",
+      "case_id": "opencode-profile-01-execution_failure",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -9630,9 +9630,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "opencode-tinylru-artifact_corruption",
+      "case_id": "opencode-profile-01-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -9787,9 +9787,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "opencode-tinylru-instructions_failure",
+      "case_id": "opencode-profile-01-instructions_failure",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -9944,9 +9944,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "opencode-rapid-agent-resource_missing",
+      "case_id": "opencode-profile-06-resource_missing",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -10095,9 +10095,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "opencode-hello-skill-outcome_unverified",
+      "case_id": "opencode-profile-05-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -10248,9 +10248,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "opencode-llm-mi-artifact_corruption",
+      "case_id": "opencode-profile-03-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -10399,9 +10399,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "opencode-rapid-agent-clean",
+      "case_id": "opencode-profile-06-clean",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "clean",
       "gold": {
@@ -10551,9 +10551,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "opencode-llm-mi-execution_failure",
+      "case_id": "opencode-profile-03-execution_failure",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -10708,9 +10708,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "opencode-rapid-tele-clean",
+      "case_id": "opencode-profile-02-clean",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "clean",
       "gold": {
@@ -10866,9 +10866,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "opencode-rapid-agent-execution_failure",
+      "case_id": "opencode-profile-06-execution_failure",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -11017,9 +11017,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "opencode-llm-mi-instructions_failure",
+      "case_id": "opencode-profile-03-instructions_failure",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -11168,9 +11168,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "opencode-rapid-agent-verifier_conflict",
+      "case_id": "opencode-profile-06-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -11327,9 +11327,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "opencode-rapid-tele-execution_failure",
+      "case_id": "opencode-profile-02-execution_failure",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -11478,9 +11478,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "opencode-tinylru-resource_missing",
+      "case_id": "opencode-profile-01-resource_missing",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -11629,9 +11629,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "opencode-hello-skill-execution_failure",
+      "case_id": "opencode-profile-05-execution_failure",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -11792,9 +11792,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "opencode-rapid-agent-artifact_corruption",
+      "case_id": "opencode-profile-06-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -11943,9 +11943,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "opencode-tinylru-verifier_conflict",
+      "case_id": "opencode-profile-01-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -12102,9 +12102,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "opencode-llm-mi-outcome_unverified",
+      "case_id": "opencode-profile-03-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -12261,9 +12261,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "opencode-profile-04-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -12414,9 +12414,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "opencode-profile-04-execution_failure",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -12571,9 +12571,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "opencode-hello-skill-resource_missing",
+      "case_id": "opencode-profile-05-resource_missing",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -12728,9 +12728,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "opencode-profile-04-instructions_failure",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -12879,9 +12879,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "qoder-llm-mi-artifact_corruption",
+      "case_id": "qoder-profile-03-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -13036,9 +13036,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "qoder-tinylru-instructions_failure",
+      "case_id": "qoder-profile-01-instructions_failure",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -13187,9 +13187,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "qoder-tinylru-outcome_unverified",
+      "case_id": "qoder-profile-01-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -13346,9 +13346,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "qoder-llm-mi-outcome_unverified",
+      "case_id": "qoder-profile-03-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -13505,9 +13505,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "qoder-rapid-tele-verifier_conflict",
+      "case_id": "qoder-profile-02-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -13664,9 +13664,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "qoder-hello-skill-clean",
+      "case_id": "qoder-profile-05-clean",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "clean",
       "gold": {
@@ -13822,9 +13822,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "qoder-hello-skill-outcome_unverified",
+      "case_id": "qoder-profile-05-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -13981,9 +13981,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "qoder-rapid-agent-clean",
+      "case_id": "qoder-profile-06-clean",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "clean",
       "gold": {
@@ -14139,9 +14139,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "qoder-hello-skill-instructions_failure",
+      "case_id": "qoder-profile-05-instructions_failure",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -14296,9 +14296,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "qoder-profile-04-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -14455,9 +14455,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "qoder-rapid-tele-resource_missing",
+      "case_id": "qoder-profile-02-resource_missing",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -14612,9 +14612,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "qoder-llm-mi-clean",
+      "case_id": "qoder-profile-03-clean",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "clean",
       "gold": {
@@ -14770,9 +14770,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "qoder-llm-mi-instructions_failure",
+      "case_id": "qoder-profile-03-instructions_failure",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -14927,9 +14927,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "qoder-tinylru-execution_failure",
+      "case_id": "qoder-profile-01-execution_failure",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -15084,9 +15084,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "qoder-profile-04-instructions_failure",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -15241,9 +15241,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "qoder-rapid-agent-verifier_conflict",
+      "case_id": "qoder-profile-06-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -15400,9 +15400,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "qoder-rapid-agent-resource_missing",
+      "case_id": "qoder-profile-06-resource_missing",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -15557,9 +15557,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "qoder-tinylru-verifier_conflict",
+      "case_id": "qoder-profile-01-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -15716,9 +15716,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "qoder-llm-mi-execution_failure",
+      "case_id": "qoder-profile-03-execution_failure",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -15873,9 +15873,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "qoder-profile-04-execution_failure",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -16030,9 +16030,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-clean",
+      "case_id": "qoder-profile-04-clean",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "clean",
       "gold": {
@@ -16188,9 +16188,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "qoder-rapid-agent-instructions_failure",
+      "case_id": "qoder-profile-06-instructions_failure",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -16345,9 +16345,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "qoder-llm-mi-resource_missing",
+      "case_id": "qoder-profile-03-resource_missing",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -16502,9 +16502,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "qoder-hello-skill-verifier_conflict",
+      "case_id": "qoder-profile-05-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -16661,9 +16661,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "qoder-tinylru-clean",
+      "case_id": "qoder-profile-01-clean",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "clean",
       "gold": {
@@ -16819,9 +16819,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "qoder-rapid-agent-artifact_corruption",
+      "case_id": "qoder-profile-06-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -16976,9 +16976,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "qoder-hello-skill-execution_failure",
+      "case_id": "qoder-profile-05-execution_failure",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -17133,9 +17133,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "qoder-tinylru-resource_missing",
+      "case_id": "qoder-profile-01-resource_missing",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -17290,9 +17290,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "qoder-llm-mi-verifier_conflict",
+      "case_id": "qoder-profile-03-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "skill_id": "python-research-package-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -17449,9 +17449,9 @@
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7"
     },
     {
-      "case_id": "qoder-rapid-tele-clean",
+      "case_id": "qoder-profile-02-clean",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "clean",
       "gold": {
@@ -17607,9 +17607,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "qoder-tinylru-artifact_corruption",
+      "case_id": "qoder-profile-01-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "skill_id": "go-cache-contract-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -17764,9 +17764,9 @@
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7"
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "qoder-profile-04-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "verifier_conflict",
       "gold": {
@@ -17923,9 +17923,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "qoder-rapid-tele-outcome_unverified",
+      "case_id": "qoder-profile-02-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "outcome_unverified",
       "gold": {
@@ -18082,9 +18082,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "qoder-rapid-tele-execution_failure",
+      "case_id": "qoder-profile-02-execution_failure",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -18239,9 +18239,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "qoder-rapid-agent-execution_failure",
+      "case_id": "qoder-profile-06-execution_failure",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "execution_failure",
       "gold": {
@@ -18396,9 +18396,9 @@
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928"
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "qoder-profile-04-resource_missing",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -18553,9 +18553,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "qoder-profile-04-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "skill_id": "research-app-contract-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -18710,9 +18710,9 @@
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38"
     },
     {
-      "case_id": "qoder-hello-skill-resource_missing",
+      "case_id": "qoder-profile-05-resource_missing",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "resource_missing",
       "gold": {
@@ -18867,9 +18867,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "qoder-rapid-tele-instructions_failure",
+      "case_id": "qoder-profile-02-instructions_failure",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "instructions_failure",
       "gold": {
@@ -19024,9 +19024,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "qoder-hello-skill-artifact_corruption",
+      "case_id": "qoder-profile-05-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "skill_id": "spec-workflow-contract-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -19181,9 +19181,9 @@
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0"
     },
     {
-      "case_id": "qoder-rapid-tele-artifact_corruption",
+      "case_id": "qoder-profile-02-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "skill_id": "telemetry-agent-contract-audit",
       "fault_mode": "artifact_corruption",
       "gold": {
@@ -19338,9 +19338,9 @@
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064"
     },
     {
-      "case_id": "qoder-rapid-agent-outcome_unverified",
+      "case_id": "qoder-profile-06-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "skill_id": "agent-skill-catalog-audit",
       "fault_mode": "outcome_unverified",
       "gold": {

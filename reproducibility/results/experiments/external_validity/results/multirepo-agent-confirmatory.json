@@ -33,7 +33,7 @@
     "repetitions": 1,
     "source_manifest": [
       {
-        "repo_key": "tinylru",
+        "repo_key": "profile-01",
         "skill_id": "go-cache-contract-audit",
         "revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
         "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
@@ -41,7 +41,7 @@
         "source_dirty_path_count": 2
       },
       {
-        "repo_key": "rapid-tele",
+        "repo_key": "profile-02",
         "skill_id": "telemetry-agent-contract-audit",
         "revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
         "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
@@ -49,7 +49,7 @@
         "source_dirty_path_count": 0
       },
       {
-        "repo_key": "llm-mi",
+        "repo_key": "profile-03",
         "skill_id": "python-research-package-audit",
         "revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
         "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
@@ -57,7 +57,7 @@
         "source_dirty_path_count": 0
       },
       {
-        "repo_key": "llm-mechanistic-interpretability",
+        "repo_key": "profile-04",
         "skill_id": "research-app-contract-audit",
         "revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
         "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
@@ -65,7 +65,7 @@
         "source_dirty_path_count": 1
       },
       {
-        "repo_key": "hello-skill",
+        "repo_key": "profile-05",
         "skill_id": "spec-workflow-contract-audit",
         "revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
         "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
@@ -73,7 +73,7 @@
         "source_dirty_path_count": 7
       },
       {
-        "repo_key": "rapid-agent",
+        "repo_key": "profile-06",
         "skill_id": "agent-skill-catalog-audit",
         "revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
         "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
@@ -182,7 +182,7 @@
   "rows": [
     {
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -297,7 +297,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -412,7 +412,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -527,7 +527,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -642,7 +642,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -757,7 +757,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -872,7 +872,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -987,7 +987,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -1102,7 +1102,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -1217,7 +1217,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -1332,7 +1332,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -1447,7 +1447,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -1562,7 +1562,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -1677,7 +1677,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -1792,7 +1792,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -1907,7 +1907,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -2022,7 +2022,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -2137,7 +2137,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -2252,7 +2252,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -2367,7 +2367,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -2482,7 +2482,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -2597,7 +2597,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -2712,7 +2712,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -2827,7 +2827,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -2942,7 +2942,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -3057,7 +3057,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -3172,7 +3172,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -3287,7 +3287,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -3402,7 +3402,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -3517,7 +3517,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -3632,7 +3632,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -3747,7 +3747,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -3862,7 +3862,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -3977,7 +3977,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -4092,7 +4092,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -4207,7 +4207,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -4322,7 +4322,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -4437,7 +4437,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -4552,7 +4552,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -4667,7 +4667,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -4782,7 +4782,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -4897,7 +4897,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -5012,7 +5012,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -5156,7 +5156,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -5300,7 +5300,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -5451,7 +5451,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -5595,7 +5595,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -5739,7 +5739,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -5890,7 +5890,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -6034,7 +6034,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -6178,7 +6178,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -6322,7 +6322,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -6466,7 +6466,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -6617,7 +6617,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -6768,7 +6768,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -6912,7 +6912,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -7070,7 +7070,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -7221,7 +7221,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -7372,7 +7372,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -7516,7 +7516,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -7660,7 +7660,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -7811,7 +7811,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -7955,7 +7955,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -8099,7 +8099,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -8250,7 +8250,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -8401,7 +8401,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -8545,7 +8545,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -8689,7 +8689,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -8833,7 +8833,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -8977,7 +8977,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -9128,7 +9128,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -9279,7 +9279,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -9423,7 +9423,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -9567,7 +9567,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -9718,7 +9718,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -9862,7 +9862,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -10006,7 +10006,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -10164,7 +10164,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -10308,7 +10308,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -10459,7 +10459,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -10610,7 +10610,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -10754,7 +10754,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -10905,7 +10905,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -11056,7 +11056,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -11200,7 +11200,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -11335,7 +11335,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -11463,7 +11463,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -11598,7 +11598,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -11733,7 +11733,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -11868,7 +11868,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -12003,7 +12003,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -12138,7 +12138,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -12273,7 +12273,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -12408,7 +12408,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -12543,7 +12543,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -12678,7 +12678,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -12813,7 +12813,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -12948,7 +12948,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -13083,7 +13083,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -13218,7 +13218,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -13353,7 +13353,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -13488,7 +13488,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -13623,7 +13623,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -13758,7 +13758,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -13893,7 +13893,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -14028,7 +14028,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -14163,7 +14163,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -14298,7 +14298,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -14433,7 +14433,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -14568,7 +14568,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -14703,7 +14703,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -14838,7 +14838,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -14973,7 +14973,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "source_revision": "2bfb56abb798947e062a52001d78887b9fd1b044",
       "source_digest": "163536a7fea0c906bc8b57ffe4dee77e5ba005969f76adcf26f58107b7af69a7",
       "skill_id": "python-research-package-audit",
@@ -15108,7 +15108,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -15243,7 +15243,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -15378,7 +15378,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -15513,7 +15513,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -15648,7 +15648,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -15783,7 +15783,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",
@@ -15918,7 +15918,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -16053,7 +16053,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "source_revision": "238ecea8e96aca9499c098cc569740ba8f9e8023",
       "source_digest": "6620da98e1721f281b9b25f9252a59b3084b0114481d9fbc83dbbe343b130d38",
       "skill_id": "research-app-contract-audit",
@@ -16188,7 +16188,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -16323,7 +16323,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -16458,7 +16458,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "source_revision": "dd29a04386bed135e269876c86e9e7b24079f3f5",
       "source_digest": "21b6b694ab010b6fdaa722d1d28a2bd5e60c8f71e799a15e89da4ecce6c3f5b0",
       "skill_id": "spec-workflow-contract-audit",
@@ -16593,7 +16593,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "source_revision": "b1895a1938513117a314d3379d0f8a5ff367a43b",
       "source_digest": "115939b18aa14d6f79a991caab657abec71e5d9a86e004cb1beba989fcc11064",
       "skill_id": "telemetry-agent-contract-audit",
@@ -16728,7 +16728,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "source_revision": "24d52a30bdb32ebf54bee2481dade0b80cb9abe6",
       "source_digest": "ff47cd88fc339874b6c90daa84becf3ef45a42d597453a50d70b3d4cab058928",
       "skill_id": "agent-skill-catalog-audit",

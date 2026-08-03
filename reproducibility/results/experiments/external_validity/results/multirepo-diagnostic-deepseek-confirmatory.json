@@ -67,7 +67,7 @@
   },
   "graph_rows": [
     {
-      "case_id": "codex-llm-mi-instructions_failure",
+      "case_id": "codex-profile-03-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -79,7 +79,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-llm-mi-resource_missing",
+      "case_id": "codex-profile-03-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -91,7 +91,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "codex-profile-04-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -103,7 +103,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-rapid-tele-execution_failure",
+      "case_id": "codex-profile-02-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -115,7 +115,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-llm-mi-verifier_conflict",
+      "case_id": "codex-profile-03-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -127,7 +127,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-hello-skill-artifact_corruption",
+      "case_id": "codex-profile-05-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -139,7 +139,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-clean",
+      "case_id": "codex-profile-04-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -151,7 +151,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "codex-profile-04-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -163,7 +163,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-rapid-agent-resource_missing",
+      "case_id": "codex-profile-06-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -175,7 +175,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-tinylru-clean",
+      "case_id": "codex-profile-01-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -187,7 +187,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-rapid-tele-verifier_conflict",
+      "case_id": "codex-profile-02-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -199,7 +199,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-rapid-tele-instructions_failure",
+      "case_id": "codex-profile-02-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -211,7 +211,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-rapid-agent-artifact_corruption",
+      "case_id": "codex-profile-06-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -223,7 +223,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-tinylru-execution_failure",
+      "case_id": "codex-profile-01-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -235,7 +235,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "codex-profile-04-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -247,7 +247,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-tinylru-resource_missing",
+      "case_id": "codex-profile-01-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -259,7 +259,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-hello-skill-execution_failure",
+      "case_id": "codex-profile-05-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -271,7 +271,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-llm-mi-artifact_corruption",
+      "case_id": "codex-profile-03-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -283,7 +283,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-rapid-tele-clean",
+      "case_id": "codex-profile-02-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -295,7 +295,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-rapid-tele-artifact_corruption",
+      "case_id": "codex-profile-02-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -307,7 +307,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-hello-skill-clean",
+      "case_id": "codex-profile-05-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -319,7 +319,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-rapid-agent-execution_failure",
+      "case_id": "codex-profile-06-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -331,7 +331,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-hello-skill-instructions_failure",
+      "case_id": "codex-profile-05-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -343,7 +343,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-hello-skill-outcome_unverified",
+      "case_id": "codex-profile-05-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -355,7 +355,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-llm-mi-outcome_unverified",
+      "case_id": "codex-profile-03-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -367,7 +367,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-hello-skill-resource_missing",
+      "case_id": "codex-profile-05-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -379,7 +379,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-rapid-agent-instructions_failure",
+      "case_id": "codex-profile-06-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -391,7 +391,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "codex-profile-04-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -403,7 +403,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "codex-profile-04-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -415,7 +415,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-rapid-agent-verifier_conflict",
+      "case_id": "codex-profile-06-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -427,7 +427,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-tinylru-outcome_unverified",
+      "case_id": "codex-profile-01-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -439,7 +439,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-tinylru-artifact_corruption",
+      "case_id": "codex-profile-01-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -451,7 +451,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-tinylru-instructions_failure",
+      "case_id": "codex-profile-01-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -463,7 +463,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "codex-profile-04-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -475,7 +475,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-rapid-tele-outcome_unverified",
+      "case_id": "codex-profile-02-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -487,7 +487,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-rapid-agent-outcome_unverified",
+      "case_id": "codex-profile-06-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -499,7 +499,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-llm-mi-clean",
+      "case_id": "codex-profile-03-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -511,7 +511,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-tinylru-verifier_conflict",
+      "case_id": "codex-profile-01-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -523,7 +523,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-rapid-tele-resource_missing",
+      "case_id": "codex-profile-02-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -535,7 +535,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-hello-skill-verifier_conflict",
+      "case_id": "codex-profile-05-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -547,7 +547,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-llm-mi-execution_failure",
+      "case_id": "codex-profile-03-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -559,7 +559,7 @@
       "exact": true
     },
     {
-      "case_id": "codex-rapid-agent-clean",
+      "case_id": "codex-profile-06-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -571,7 +571,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-llm-mi-clean",
+      "case_id": "opencode-profile-03-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -583,7 +583,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-rapid-agent-outcome_unverified",
+      "case_id": "opencode-profile-06-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -595,7 +595,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "opencode-profile-04-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -607,7 +607,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-hello-skill-verifier_conflict",
+      "case_id": "opencode-profile-05-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -619,7 +619,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-llm-mi-resource_missing",
+      "case_id": "opencode-profile-03-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -631,7 +631,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-llm-mi-verifier_conflict",
+      "case_id": "opencode-profile-03-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -643,7 +643,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-hello-skill-clean",
+      "case_id": "opencode-profile-05-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -655,7 +655,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-hello-skill-artifact_corruption",
+      "case_id": "opencode-profile-05-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -667,7 +667,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-rapid-tele-resource_missing",
+      "case_id": "opencode-profile-02-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -679,7 +679,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "opencode-profile-04-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -691,7 +691,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-clean",
+      "case_id": "opencode-profile-04-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -703,7 +703,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "opencode-profile-04-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -715,7 +715,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-hello-skill-instructions_failure",
+      "case_id": "opencode-profile-05-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -727,7 +727,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-rapid-tele-outcome_unverified",
+      "case_id": "opencode-profile-02-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -739,7 +739,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-tinylru-clean",
+      "case_id": "opencode-profile-01-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -751,7 +751,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-rapid-tele-artifact_corruption",
+      "case_id": "opencode-profile-02-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -763,7 +763,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-rapid-tele-verifier_conflict",
+      "case_id": "opencode-profile-02-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -775,7 +775,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-tinylru-outcome_unverified",
+      "case_id": "opencode-profile-01-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -787,7 +787,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-rapid-agent-instructions_failure",
+      "case_id": "opencode-profile-06-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -799,7 +799,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-rapid-tele-instructions_failure",
+      "case_id": "opencode-profile-02-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -811,7 +811,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-tinylru-execution_failure",
+      "case_id": "opencode-profile-01-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -823,7 +823,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-tinylru-artifact_corruption",
+      "case_id": "opencode-profile-01-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -835,7 +835,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-tinylru-instructions_failure",
+      "case_id": "opencode-profile-01-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -847,7 +847,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-rapid-agent-resource_missing",
+      "case_id": "opencode-profile-06-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -859,7 +859,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-hello-skill-outcome_unverified",
+      "case_id": "opencode-profile-05-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -871,7 +871,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-llm-mi-artifact_corruption",
+      "case_id": "opencode-profile-03-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -883,7 +883,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-rapid-agent-clean",
+      "case_id": "opencode-profile-06-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -895,7 +895,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-llm-mi-execution_failure",
+      "case_id": "opencode-profile-03-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -907,7 +907,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-rapid-tele-clean",
+      "case_id": "opencode-profile-02-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -919,7 +919,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-rapid-agent-execution_failure",
+      "case_id": "opencode-profile-06-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -931,7 +931,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-llm-mi-instructions_failure",
+      "case_id": "opencode-profile-03-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -943,7 +943,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-rapid-agent-verifier_conflict",
+      "case_id": "opencode-profile-06-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -955,7 +955,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-rapid-tele-execution_failure",
+      "case_id": "opencode-profile-02-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -967,7 +967,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-tinylru-resource_missing",
+      "case_id": "opencode-profile-01-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -979,7 +979,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-hello-skill-execution_failure",
+      "case_id": "opencode-profile-05-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -991,7 +991,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-rapid-agent-artifact_corruption",
+      "case_id": "opencode-profile-06-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -1003,7 +1003,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-tinylru-verifier_conflict",
+      "case_id": "opencode-profile-01-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -1015,7 +1015,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-llm-mi-outcome_unverified",
+      "case_id": "opencode-profile-03-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -1027,7 +1027,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "opencode-profile-04-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -1039,7 +1039,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "opencode-profile-04-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -1051,7 +1051,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-hello-skill-resource_missing",
+      "case_id": "opencode-profile-05-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -1063,7 +1063,7 @@
       "exact": true
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "opencode-profile-04-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -1075,7 +1075,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-llm-mi-artifact_corruption",
+      "case_id": "qoder-profile-03-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -1087,7 +1087,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-tinylru-instructions_failure",
+      "case_id": "qoder-profile-01-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -1099,7 +1099,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-tinylru-outcome_unverified",
+      "case_id": "qoder-profile-01-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -1111,7 +1111,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-llm-mi-outcome_unverified",
+      "case_id": "qoder-profile-03-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -1123,7 +1123,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-rapid-tele-verifier_conflict",
+      "case_id": "qoder-profile-02-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -1135,7 +1135,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-hello-skill-clean",
+      "case_id": "qoder-profile-05-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -1147,7 +1147,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-hello-skill-outcome_unverified",
+      "case_id": "qoder-profile-05-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -1159,7 +1159,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-rapid-agent-clean",
+      "case_id": "qoder-profile-06-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -1171,7 +1171,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-hello-skill-instructions_failure",
+      "case_id": "qoder-profile-05-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -1183,7 +1183,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "qoder-profile-04-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -1195,7 +1195,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-rapid-tele-resource_missing",
+      "case_id": "qoder-profile-02-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -1207,7 +1207,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-llm-mi-clean",
+      "case_id": "qoder-profile-03-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -1219,7 +1219,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-llm-mi-instructions_failure",
+      "case_id": "qoder-profile-03-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -1231,7 +1231,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-tinylru-execution_failure",
+      "case_id": "qoder-profile-01-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -1243,7 +1243,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "qoder-profile-04-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -1255,7 +1255,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-rapid-agent-verifier_conflict",
+      "case_id": "qoder-profile-06-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -1267,7 +1267,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-rapid-agent-resource_missing",
+      "case_id": "qoder-profile-06-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -1279,7 +1279,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-tinylru-verifier_conflict",
+      "case_id": "qoder-profile-01-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -1291,7 +1291,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-llm-mi-execution_failure",
+      "case_id": "qoder-profile-03-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -1303,7 +1303,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "qoder-profile-04-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -1315,7 +1315,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-clean",
+      "case_id": "qoder-profile-04-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -1327,7 +1327,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-rapid-agent-instructions_failure",
+      "case_id": "qoder-profile-06-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -1339,7 +1339,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-llm-mi-resource_missing",
+      "case_id": "qoder-profile-03-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -1351,7 +1351,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-hello-skill-verifier_conflict",
+      "case_id": "qoder-profile-05-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -1363,7 +1363,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-tinylru-clean",
+      "case_id": "qoder-profile-01-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -1375,7 +1375,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-rapid-agent-artifact_corruption",
+      "case_id": "qoder-profile-06-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -1387,7 +1387,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-hello-skill-execution_failure",
+      "case_id": "qoder-profile-05-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -1399,7 +1399,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-tinylru-resource_missing",
+      "case_id": "qoder-profile-01-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -1411,7 +1411,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-llm-mi-verifier_conflict",
+      "case_id": "qoder-profile-03-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -1423,7 +1423,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-rapid-tele-clean",
+      "case_id": "qoder-profile-02-clean",
       "gold": {
         "boundary": "none",
         "diagnosis_status": "verified_success"
@@ -1435,7 +1435,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-tinylru-artifact_corruption",
+      "case_id": "qoder-profile-01-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -1447,7 +1447,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "qoder-profile-04-verifier_conflict",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "verifier_conflict"
@@ -1459,7 +1459,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-rapid-tele-outcome_unverified",
+      "case_id": "qoder-profile-02-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -1471,7 +1471,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-rapid-tele-execution_failure",
+      "case_id": "qoder-profile-02-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -1483,7 +1483,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-rapid-agent-execution_failure",
+      "case_id": "qoder-profile-06-execution_failure",
       "gold": {
         "boundary": "execution",
         "diagnosis_status": "observed_failure"
@@ -1495,7 +1495,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "qoder-profile-04-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -1507,7 +1507,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "qoder-profile-04-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -1519,7 +1519,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-hello-skill-resource_missing",
+      "case_id": "qoder-profile-05-resource_missing",
       "gold": {
         "boundary": "resources",
         "diagnosis_status": "observed_failure"
@@ -1531,7 +1531,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-rapid-tele-instructions_failure",
+      "case_id": "qoder-profile-02-instructions_failure",
       "gold": {
         "boundary": "instructions",
         "diagnosis_status": "observed_failure"
@@ -1543,7 +1543,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-hello-skill-artifact_corruption",
+      "case_id": "qoder-profile-05-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -1555,7 +1555,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-rapid-tele-artifact_corruption",
+      "case_id": "qoder-profile-02-artifact_corruption",
       "gold": {
         "boundary": "artifacts",
         "diagnosis_status": "observed_failure"
@@ -1567,7 +1567,7 @@
       "exact": true
     },
     {
-      "case_id": "qoder-rapid-agent-outcome_unverified",
+      "case_id": "qoder-profile-06-outcome_unverified",
       "gold": {
         "boundary": "outcome",
         "diagnosis_status": "outcome_unverified"
@@ -1581,9 +1581,9 @@
   ],
   "rows": [
     {
-      "case_id": "codex-hello-skill-artifact_corruption",
+      "case_id": "codex-profile-05-artifact_corruption",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "completed",
@@ -1615,9 +1615,9 @@
       }
     },
     {
-      "case_id": "codex-hello-skill-artifact_corruption",
+      "case_id": "codex-profile-05-artifact_corruption",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "completed",
@@ -1649,9 +1649,9 @@
       }
     },
     {
-      "case_id": "codex-hello-skill-artifact_corruption",
+      "case_id": "codex-profile-05-artifact_corruption",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "completed",
@@ -1683,9 +1683,9 @@
       }
     },
     {
-      "case_id": "codex-hello-skill-clean",
+      "case_id": "codex-profile-05-clean",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "completed",
@@ -1717,9 +1717,9 @@
       }
     },
     {
-      "case_id": "codex-hello-skill-clean",
+      "case_id": "codex-profile-05-clean",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "completed",
@@ -1751,9 +1751,9 @@
       }
     },
     {
-      "case_id": "codex-hello-skill-clean",
+      "case_id": "codex-profile-05-clean",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "clean",
       "view": "raw",
       "status": "completed",
@@ -1785,9 +1785,9 @@
       }
     },
     {
-      "case_id": "codex-hello-skill-execution_failure",
+      "case_id": "codex-profile-05-execution_failure",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -1819,9 +1819,9 @@
       }
     },
     {
-      "case_id": "codex-hello-skill-execution_failure",
+      "case_id": "codex-profile-05-execution_failure",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -1829,9 +1829,9 @@
       "elapsed_ms": 93185.75416700332
     },
     {
-      "case_id": "codex-hello-skill-execution_failure",
+      "case_id": "codex-profile-05-execution_failure",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "completed",
@@ -1863,9 +1863,9 @@
       }
     },
     {
-      "case_id": "codex-hello-skill-instructions_failure",
+      "case_id": "codex-profile-05-instructions_failure",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -1873,9 +1873,9 @@
       "elapsed_ms": 60729.63845799677
     },
     {
-      "case_id": "codex-hello-skill-instructions_failure",
+      "case_id": "codex-profile-05-instructions_failure",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -1883,9 +1883,9 @@
       "elapsed_ms": 58141.98183400731
     },
     {
-      "case_id": "codex-hello-skill-instructions_failure",
+      "case_id": "codex-profile-05-instructions_failure",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "execution_error",
@@ -1893,9 +1893,9 @@
       "elapsed_ms": 58274.92104200064
     },
     {
-      "case_id": "codex-hello-skill-outcome_unverified",
+      "case_id": "codex-profile-05-outcome_unverified",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -1903,9 +1903,9 @@
       "elapsed_ms": 180243.91466699308
     },
     {
-      "case_id": "codex-hello-skill-outcome_unverified",
+      "case_id": "codex-profile-05-outcome_unverified",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "completed",
@@ -1937,9 +1937,9 @@
       }
     },
     {
-      "case_id": "codex-hello-skill-outcome_unverified",
+      "case_id": "codex-profile-05-outcome_unverified",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "execution_error",
@@ -1947,9 +1947,9 @@
       "elapsed_ms": 59444.326832992374
     },
     {
-      "case_id": "codex-hello-skill-resource_missing",
+      "case_id": "codex-profile-05-resource_missing",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -1957,9 +1957,9 @@
       "elapsed_ms": 180085.93733399175
     },
     {
-      "case_id": "codex-hello-skill-resource_missing",
+      "case_id": "codex-profile-05-resource_missing",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "execution_error",
@@ -1967,9 +1967,9 @@
       "elapsed_ms": 180078.13666699803
     },
     {
-      "case_id": "codex-hello-skill-resource_missing",
+      "case_id": "codex-profile-05-resource_missing",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "execution_error",
@@ -1977,9 +1977,9 @@
       "elapsed_ms": 180078.1267919956
     },
     {
-      "case_id": "codex-hello-skill-verifier_conflict",
+      "case_id": "codex-profile-05-verifier_conflict",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "completed",
@@ -2011,9 +2011,9 @@
       }
     },
     {
-      "case_id": "codex-hello-skill-verifier_conflict",
+      "case_id": "codex-profile-05-verifier_conflict",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "completed",
@@ -2045,9 +2045,9 @@
       }
     },
     {
-      "case_id": "codex-hello-skill-verifier_conflict",
+      "case_id": "codex-profile-05-verifier_conflict",
       "agent": "codex",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "completed",
@@ -2079,9 +2079,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "codex-profile-04-artifact_corruption",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "completed",
@@ -2113,9 +2113,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "codex-profile-04-artifact_corruption",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "completed",
@@ -2147,9 +2147,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "codex-profile-04-artifact_corruption",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "completed",
@@ -2181,9 +2181,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-clean",
+      "case_id": "codex-profile-04-clean",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "completed",
@@ -2215,9 +2215,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-clean",
+      "case_id": "codex-profile-04-clean",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "completed",
@@ -2249,9 +2249,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-clean",
+      "case_id": "codex-profile-04-clean",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "clean",
       "view": "raw",
       "status": "completed",
@@ -2283,9 +2283,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "codex-profile-04-execution_failure",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -2293,9 +2293,9 @@
       "elapsed_ms": 43822.531957994215
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "codex-profile-04-execution_failure",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "completed",
@@ -2327,9 +2327,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "codex-profile-04-execution_failure",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "completed",
@@ -2361,9 +2361,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "codex-profile-04-instructions_failure",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -2395,9 +2395,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "codex-profile-04-instructions_failure",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "completed",
@@ -2429,9 +2429,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "codex-profile-04-instructions_failure",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "execution_error",
@@ -2439,9 +2439,9 @@
       "elapsed_ms": 180094.0890419879
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "codex-profile-04-outcome_unverified",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "completed",
@@ -2473,9 +2473,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "codex-profile-04-outcome_unverified",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "completed",
@@ -2507,9 +2507,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "codex-profile-04-outcome_unverified",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "completed",
@@ -2541,9 +2541,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "codex-profile-04-resource_missing",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -2551,9 +2551,9 @@
       "elapsed_ms": 35171.39579200011
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "codex-profile-04-resource_missing",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "execution_error",
@@ -2561,9 +2561,9 @@
       "elapsed_ms": 28356.372624999494
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "codex-profile-04-resource_missing",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "completed",
@@ -2595,9 +2595,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "codex-profile-04-verifier_conflict",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "completed",
@@ -2629,9 +2629,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "codex-profile-04-verifier_conflict",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "completed",
@@ -2663,9 +2663,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "codex-profile-04-verifier_conflict",
       "agent": "codex",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "execution_error",
@@ -2673,9 +2673,9 @@
       "elapsed_ms": 180151.10320900567
     },
     {
-      "case_id": "codex-llm-mi-artifact_corruption",
+      "case_id": "codex-profile-03-artifact_corruption",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -2683,9 +2683,9 @@
       "elapsed_ms": 91336.02766599506
     },
     {
-      "case_id": "codex-llm-mi-artifact_corruption",
+      "case_id": "codex-profile-03-artifact_corruption",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "completed",
@@ -2717,9 +2717,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-artifact_corruption",
+      "case_id": "codex-profile-03-artifact_corruption",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "completed",
@@ -2751,9 +2751,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-clean",
+      "case_id": "codex-profile-03-clean",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "completed",
@@ -2785,9 +2785,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-clean",
+      "case_id": "codex-profile-03-clean",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "completed",
@@ -2819,9 +2819,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-clean",
+      "case_id": "codex-profile-03-clean",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "clean",
       "view": "raw",
       "status": "execution_error",
@@ -2829,9 +2829,9 @@
       "elapsed_ms": 34868.375666002976
     },
     {
-      "case_id": "codex-llm-mi-execution_failure",
+      "case_id": "codex-profile-03-execution_failure",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -2863,9 +2863,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-execution_failure",
+      "case_id": "codex-profile-03-execution_failure",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "completed",
@@ -2897,9 +2897,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-execution_failure",
+      "case_id": "codex-profile-03-execution_failure",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "completed",
@@ -2931,9 +2931,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-instructions_failure",
+      "case_id": "codex-profile-03-instructions_failure",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -2965,9 +2965,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-instructions_failure",
+      "case_id": "codex-profile-03-instructions_failure",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "completed",
@@ -2999,9 +2999,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-instructions_failure",
+      "case_id": "codex-profile-03-instructions_failure",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "completed",
@@ -3033,9 +3033,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-outcome_unverified",
+      "case_id": "codex-profile-03-outcome_unverified",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "completed",
@@ -3067,9 +3067,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-outcome_unverified",
+      "case_id": "codex-profile-03-outcome_unverified",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "completed",
@@ -3101,9 +3101,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-outcome_unverified",
+      "case_id": "codex-profile-03-outcome_unverified",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "completed",
@@ -3135,9 +3135,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-resource_missing",
+      "case_id": "codex-profile-03-resource_missing",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "completed",
@@ -3169,9 +3169,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-resource_missing",
+      "case_id": "codex-profile-03-resource_missing",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "completed",
@@ -3203,9 +3203,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-resource_missing",
+      "case_id": "codex-profile-03-resource_missing",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "completed",
@@ -3237,9 +3237,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-verifier_conflict",
+      "case_id": "codex-profile-03-verifier_conflict",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "completed",
@@ -3271,9 +3271,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-verifier_conflict",
+      "case_id": "codex-profile-03-verifier_conflict",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "completed",
@@ -3305,9 +3305,9 @@
       }
     },
     {
-      "case_id": "codex-llm-mi-verifier_conflict",
+      "case_id": "codex-profile-03-verifier_conflict",
       "agent": "codex",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "completed",
@@ -3339,9 +3339,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-artifact_corruption",
+      "case_id": "codex-profile-06-artifact_corruption",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "completed",
@@ -3373,9 +3373,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-artifact_corruption",
+      "case_id": "codex-profile-06-artifact_corruption",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "completed",
@@ -3407,9 +3407,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-artifact_corruption",
+      "case_id": "codex-profile-06-artifact_corruption",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "completed",
@@ -3441,9 +3441,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-clean",
+      "case_id": "codex-profile-06-clean",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "completed",
@@ -3475,9 +3475,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-clean",
+      "case_id": "codex-profile-06-clean",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "completed",
@@ -3509,9 +3509,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-clean",
+      "case_id": "codex-profile-06-clean",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "clean",
       "view": "raw",
       "status": "completed",
@@ -3543,9 +3543,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-execution_failure",
+      "case_id": "codex-profile-06-execution_failure",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -3553,9 +3553,9 @@
       "elapsed_ms": 50848.25154200371
     },
     {
-      "case_id": "codex-rapid-agent-execution_failure",
+      "case_id": "codex-profile-06-execution_failure",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "completed",
@@ -3587,9 +3587,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-execution_failure",
+      "case_id": "codex-profile-06-execution_failure",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "completed",
@@ -3621,9 +3621,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-instructions_failure",
+      "case_id": "codex-profile-06-instructions_failure",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -3631,9 +3631,9 @@
       "elapsed_ms": 61844.03220799868
     },
     {
-      "case_id": "codex-rapid-agent-instructions_failure",
+      "case_id": "codex-profile-06-instructions_failure",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -3641,9 +3641,9 @@
       "elapsed_ms": 180092.5608749967
     },
     {
-      "case_id": "codex-rapid-agent-instructions_failure",
+      "case_id": "codex-profile-06-instructions_failure",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "completed",
@@ -3675,9 +3675,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-outcome_unverified",
+      "case_id": "codex-profile-06-outcome_unverified",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "completed",
@@ -3709,9 +3709,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-outcome_unverified",
+      "case_id": "codex-profile-06-outcome_unverified",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "execution_error",
@@ -3719,9 +3719,9 @@
       "elapsed_ms": 24578.22812499944
     },
     {
-      "case_id": "codex-rapid-agent-outcome_unverified",
+      "case_id": "codex-profile-06-outcome_unverified",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "completed",
@@ -3753,9 +3753,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-resource_missing",
+      "case_id": "codex-profile-06-resource_missing",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "completed",
@@ -3787,9 +3787,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-resource_missing",
+      "case_id": "codex-profile-06-resource_missing",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "completed",
@@ -3821,9 +3821,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-resource_missing",
+      "case_id": "codex-profile-06-resource_missing",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "completed",
@@ -3855,9 +3855,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-verifier_conflict",
+      "case_id": "codex-profile-06-verifier_conflict",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "completed",
@@ -3889,9 +3889,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-agent-verifier_conflict",
+      "case_id": "codex-profile-06-verifier_conflict",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "execution_error",
@@ -3899,9 +3899,9 @@
       "elapsed_ms": 180088.41062500142
     },
     {
-      "case_id": "codex-rapid-agent-verifier_conflict",
+      "case_id": "codex-profile-06-verifier_conflict",
       "agent": "codex",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "execution_error",
@@ -3909,9 +3909,9 @@
       "elapsed_ms": 84095.02741700271
     },
     {
-      "case_id": "codex-rapid-tele-artifact_corruption",
+      "case_id": "codex-profile-02-artifact_corruption",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "completed",
@@ -3943,9 +3943,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-tele-artifact_corruption",
+      "case_id": "codex-profile-02-artifact_corruption",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "execution_error",
@@ -3953,9 +3953,9 @@
       "elapsed_ms": 91605.69724999368
     },
     {
-      "case_id": "codex-rapid-tele-artifact_corruption",
+      "case_id": "codex-profile-02-artifact_corruption",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "completed",
@@ -3987,9 +3987,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-tele-clean",
+      "case_id": "codex-profile-02-clean",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "completed",
@@ -4021,9 +4021,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-tele-clean",
+      "case_id": "codex-profile-02-clean",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "completed",
@@ -4055,9 +4055,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-tele-clean",
+      "case_id": "codex-profile-02-clean",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "clean",
       "view": "raw",
       "status": "execution_error",
@@ -4065,9 +4065,9 @@
       "elapsed_ms": 90350.45325000829
     },
     {
-      "case_id": "codex-rapid-tele-execution_failure",
+      "case_id": "codex-profile-02-execution_failure",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -4099,9 +4099,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-tele-execution_failure",
+      "case_id": "codex-profile-02-execution_failure",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "completed",
@@ -4133,9 +4133,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-tele-execution_failure",
+      "case_id": "codex-profile-02-execution_failure",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "execution_error",
@@ -4143,9 +4143,9 @@
       "elapsed_ms": 35077.634166998905
     },
     {
-      "case_id": "codex-rapid-tele-instructions_failure",
+      "case_id": "codex-profile-02-instructions_failure",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -4177,9 +4177,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-tele-instructions_failure",
+      "case_id": "codex-profile-02-instructions_failure",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -4187,9 +4187,9 @@
       "elapsed_ms": 87796.78954200062
     },
     {
-      "case_id": "codex-rapid-tele-instructions_failure",
+      "case_id": "codex-profile-02-instructions_failure",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "completed",
@@ -4221,9 +4221,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-tele-outcome_unverified",
+      "case_id": "codex-profile-02-outcome_unverified",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "completed",
@@ -4255,9 +4255,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-tele-outcome_unverified",
+      "case_id": "codex-profile-02-outcome_unverified",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "completed",
@@ -4289,9 +4289,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-tele-outcome_unverified",
+      "case_id": "codex-profile-02-outcome_unverified",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "execution_error",
@@ -4299,9 +4299,9 @@
       "elapsed_ms": 34276.85112498875
     },
     {
-      "case_id": "codex-rapid-tele-resource_missing",
+      "case_id": "codex-profile-02-resource_missing",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -4309,9 +4309,9 @@
       "elapsed_ms": 31763.035375013715
     },
     {
-      "case_id": "codex-rapid-tele-resource_missing",
+      "case_id": "codex-profile-02-resource_missing",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "execution_error",
@@ -4319,9 +4319,9 @@
       "elapsed_ms": 22837.818332991446
     },
     {
-      "case_id": "codex-rapid-tele-resource_missing",
+      "case_id": "codex-profile-02-resource_missing",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "completed",
@@ -4353,9 +4353,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-tele-verifier_conflict",
+      "case_id": "codex-profile-02-verifier_conflict",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "completed",
@@ -4387,9 +4387,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-tele-verifier_conflict",
+      "case_id": "codex-profile-02-verifier_conflict",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "completed",
@@ -4421,9 +4421,9 @@
       }
     },
     {
-      "case_id": "codex-rapid-tele-verifier_conflict",
+      "case_id": "codex-profile-02-verifier_conflict",
       "agent": "codex",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "completed",
@@ -4455,9 +4455,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-artifact_corruption",
+      "case_id": "codex-profile-01-artifact_corruption",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -4465,9 +4465,9 @@
       "elapsed_ms": 180188.12320900906
     },
     {
-      "case_id": "codex-tinylru-artifact_corruption",
+      "case_id": "codex-profile-01-artifact_corruption",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "completed",
@@ -4499,9 +4499,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-artifact_corruption",
+      "case_id": "codex-profile-01-artifact_corruption",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "completed",
@@ -4533,9 +4533,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-clean",
+      "case_id": "codex-profile-01-clean",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "completed",
@@ -4567,9 +4567,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-clean",
+      "case_id": "codex-profile-01-clean",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "execution_error",
@@ -4577,9 +4577,9 @@
       "elapsed_ms": 67633.13991700124
     },
     {
-      "case_id": "codex-tinylru-clean",
+      "case_id": "codex-profile-01-clean",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "clean",
       "view": "raw",
       "status": "completed",
@@ -4611,9 +4611,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-execution_failure",
+      "case_id": "codex-profile-01-execution_failure",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -4645,9 +4645,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-execution_failure",
+      "case_id": "codex-profile-01-execution_failure",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "completed",
@@ -4679,9 +4679,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-execution_failure",
+      "case_id": "codex-profile-01-execution_failure",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "execution_error",
@@ -4689,9 +4689,9 @@
       "elapsed_ms": 86318.32516699797
     },
     {
-      "case_id": "codex-tinylru-instructions_failure",
+      "case_id": "codex-profile-01-instructions_failure",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -4723,9 +4723,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-instructions_failure",
+      "case_id": "codex-profile-01-instructions_failure",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -4733,9 +4733,9 @@
       "elapsed_ms": 33515.619332989445
     },
     {
-      "case_id": "codex-tinylru-instructions_failure",
+      "case_id": "codex-profile-01-instructions_failure",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "completed",
@@ -4767,9 +4767,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-outcome_unverified",
+      "case_id": "codex-profile-01-outcome_unverified",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "completed",
@@ -4801,9 +4801,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-outcome_unverified",
+      "case_id": "codex-profile-01-outcome_unverified",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "completed",
@@ -4835,9 +4835,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-outcome_unverified",
+      "case_id": "codex-profile-01-outcome_unverified",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "execution_error",
@@ -4845,9 +4845,9 @@
       "elapsed_ms": 180727.46241699497
     },
     {
-      "case_id": "codex-tinylru-resource_missing",
+      "case_id": "codex-profile-01-resource_missing",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "completed",
@@ -4879,9 +4879,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-resource_missing",
+      "case_id": "codex-profile-01-resource_missing",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "completed",
@@ -4913,9 +4913,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-resource_missing",
+      "case_id": "codex-profile-01-resource_missing",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "execution_error",
@@ -4923,9 +4923,9 @@
       "elapsed_ms": 122202.8115419962
     },
     {
-      "case_id": "codex-tinylru-verifier_conflict",
+      "case_id": "codex-profile-01-verifier_conflict",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "completed",
@@ -4957,9 +4957,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-verifier_conflict",
+      "case_id": "codex-profile-01-verifier_conflict",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "completed",
@@ -4991,9 +4991,9 @@
       }
     },
     {
-      "case_id": "codex-tinylru-verifier_conflict",
+      "case_id": "codex-profile-01-verifier_conflict",
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "completed",
@@ -5025,9 +5025,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-artifact_corruption",
+      "case_id": "opencode-profile-05-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "completed",
@@ -5059,9 +5059,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-artifact_corruption",
+      "case_id": "opencode-profile-05-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "execution_error",
@@ -5069,9 +5069,9 @@
       "elapsed_ms": 17958.47062500252
     },
     {
-      "case_id": "opencode-hello-skill-artifact_corruption",
+      "case_id": "opencode-profile-05-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "completed",
@@ -5103,9 +5103,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-clean",
+      "case_id": "opencode-profile-05-clean",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "completed",
@@ -5137,9 +5137,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-clean",
+      "case_id": "opencode-profile-05-clean",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "completed",
@@ -5171,9 +5171,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-clean",
+      "case_id": "opencode-profile-05-clean",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "clean",
       "view": "raw",
       "status": "completed",
@@ -5205,9 +5205,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-execution_failure",
+      "case_id": "opencode-profile-05-execution_failure",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -5215,9 +5215,9 @@
       "elapsed_ms": 20274.62050000031
     },
     {
-      "case_id": "opencode-hello-skill-execution_failure",
+      "case_id": "opencode-profile-05-execution_failure",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "completed",
@@ -5249,9 +5249,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-execution_failure",
+      "case_id": "opencode-profile-05-execution_failure",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "completed",
@@ -5283,9 +5283,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-instructions_failure",
+      "case_id": "opencode-profile-05-instructions_failure",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -5317,9 +5317,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-instructions_failure",
+      "case_id": "opencode-profile-05-instructions_failure",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "completed",
@@ -5351,9 +5351,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-instructions_failure",
+      "case_id": "opencode-profile-05-instructions_failure",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "completed",
@@ -5385,9 +5385,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-outcome_unverified",
+      "case_id": "opencode-profile-05-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "completed",
@@ -5419,9 +5419,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-outcome_unverified",
+      "case_id": "opencode-profile-05-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "completed",
@@ -5453,9 +5453,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-outcome_unverified",
+      "case_id": "opencode-profile-05-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "completed",
@@ -5487,9 +5487,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-resource_missing",
+      "case_id": "opencode-profile-05-resource_missing",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "completed",
@@ -5521,9 +5521,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-resource_missing",
+      "case_id": "opencode-profile-05-resource_missing",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "completed",
@@ -5555,9 +5555,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-resource_missing",
+      "case_id": "opencode-profile-05-resource_missing",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "completed",
@@ -5589,9 +5589,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-verifier_conflict",
+      "case_id": "opencode-profile-05-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "completed",
@@ -5623,9 +5623,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-verifier_conflict",
+      "case_id": "opencode-profile-05-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "completed",
@@ -5657,9 +5657,9 @@
       }
     },
     {
-      "case_id": "opencode-hello-skill-verifier_conflict",
+      "case_id": "opencode-profile-05-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "completed",
@@ -5691,9 +5691,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "opencode-profile-04-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "completed",
@@ -5725,9 +5725,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "opencode-profile-04-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "completed",
@@ -5759,9 +5759,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "opencode-profile-04-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "completed",
@@ -5793,9 +5793,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-clean",
+      "case_id": "opencode-profile-04-clean",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "completed",
@@ -5827,9 +5827,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-clean",
+      "case_id": "opencode-profile-04-clean",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "completed",
@@ -5861,9 +5861,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-clean",
+      "case_id": "opencode-profile-04-clean",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "clean",
       "view": "raw",
       "status": "completed",
@@ -5895,9 +5895,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "opencode-profile-04-execution_failure",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -5929,9 +5929,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "opencode-profile-04-execution_failure",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "completed",
@@ -5963,9 +5963,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "opencode-profile-04-execution_failure",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "completed",
@@ -5997,9 +5997,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "opencode-profile-04-instructions_failure",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -6031,9 +6031,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "opencode-profile-04-instructions_failure",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "completed",
@@ -6065,9 +6065,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "opencode-profile-04-instructions_failure",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "completed",
@@ -6099,9 +6099,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "opencode-profile-04-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "completed",
@@ -6133,9 +6133,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "opencode-profile-04-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "completed",
@@ -6167,9 +6167,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "opencode-profile-04-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "completed",
@@ -6201,9 +6201,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "opencode-profile-04-resource_missing",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "completed",
@@ -6235,9 +6235,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "opencode-profile-04-resource_missing",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "completed",
@@ -6269,9 +6269,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "opencode-profile-04-resource_missing",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "completed",
@@ -6303,9 +6303,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "opencode-profile-04-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "completed",
@@ -6337,9 +6337,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "opencode-profile-04-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "completed",
@@ -6371,9 +6371,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "opencode-profile-04-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "completed",
@@ -6405,9 +6405,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-artifact_corruption",
+      "case_id": "opencode-profile-03-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "completed",
@@ -6439,9 +6439,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-artifact_corruption",
+      "case_id": "opencode-profile-03-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "completed",
@@ -6473,9 +6473,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-artifact_corruption",
+      "case_id": "opencode-profile-03-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "execution_error",
@@ -6483,9 +6483,9 @@
       "elapsed_ms": 20563.38633300038
     },
     {
-      "case_id": "opencode-llm-mi-clean",
+      "case_id": "opencode-profile-03-clean",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -6493,9 +6493,9 @@
       "elapsed_ms": 24846.19466699951
     },
     {
-      "case_id": "opencode-llm-mi-clean",
+      "case_id": "opencode-profile-03-clean",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "completed",
@@ -6527,9 +6527,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-clean",
+      "case_id": "opencode-profile-03-clean",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "clean",
       "view": "raw",
       "status": "execution_error",
@@ -6537,9 +6537,9 @@
       "elapsed_ms": 20902.777708004578
     },
     {
-      "case_id": "opencode-llm-mi-execution_failure",
+      "case_id": "opencode-profile-03-execution_failure",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -6571,9 +6571,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-execution_failure",
+      "case_id": "opencode-profile-03-execution_failure",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "completed",
@@ -6605,9 +6605,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-execution_failure",
+      "case_id": "opencode-profile-03-execution_failure",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "completed",
@@ -6639,9 +6639,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-instructions_failure",
+      "case_id": "opencode-profile-03-instructions_failure",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -6673,9 +6673,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-instructions_failure",
+      "case_id": "opencode-profile-03-instructions_failure",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "completed",
@@ -6707,9 +6707,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-instructions_failure",
+      "case_id": "opencode-profile-03-instructions_failure",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "completed",
@@ -6741,9 +6741,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-outcome_unverified",
+      "case_id": "opencode-profile-03-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "completed",
@@ -6775,9 +6775,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-outcome_unverified",
+      "case_id": "opencode-profile-03-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "completed",
@@ -6809,9 +6809,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-outcome_unverified",
+      "case_id": "opencode-profile-03-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "completed",
@@ -6843,9 +6843,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-resource_missing",
+      "case_id": "opencode-profile-03-resource_missing",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "completed",
@@ -6877,9 +6877,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-resource_missing",
+      "case_id": "opencode-profile-03-resource_missing",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "completed",
@@ -6911,9 +6911,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-resource_missing",
+      "case_id": "opencode-profile-03-resource_missing",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "completed",
@@ -6945,9 +6945,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-verifier_conflict",
+      "case_id": "opencode-profile-03-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "completed",
@@ -6979,9 +6979,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-verifier_conflict",
+      "case_id": "opencode-profile-03-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "completed",
@@ -7013,9 +7013,9 @@
       }
     },
     {
-      "case_id": "opencode-llm-mi-verifier_conflict",
+      "case_id": "opencode-profile-03-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "completed",
@@ -7047,9 +7047,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-artifact_corruption",
+      "case_id": "opencode-profile-06-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "completed",
@@ -7081,9 +7081,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-artifact_corruption",
+      "case_id": "opencode-profile-06-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "completed",
@@ -7115,9 +7115,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-artifact_corruption",
+      "case_id": "opencode-profile-06-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "completed",
@@ -7149,9 +7149,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-clean",
+      "case_id": "opencode-profile-06-clean",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -7159,9 +7159,9 @@
       "elapsed_ms": 34586.880916001974
     },
     {
-      "case_id": "opencode-rapid-agent-clean",
+      "case_id": "opencode-profile-06-clean",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "completed",
@@ -7193,9 +7193,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-clean",
+      "case_id": "opencode-profile-06-clean",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "clean",
       "view": "raw",
       "status": "completed",
@@ -7227,9 +7227,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-execution_failure",
+      "case_id": "opencode-profile-06-execution_failure",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -7261,9 +7261,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-execution_failure",
+      "case_id": "opencode-profile-06-execution_failure",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -7271,9 +7271,9 @@
       "elapsed_ms": 24538.547292002477
     },
     {
-      "case_id": "opencode-rapid-agent-execution_failure",
+      "case_id": "opencode-profile-06-execution_failure",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "completed",
@@ -7305,9 +7305,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-instructions_failure",
+      "case_id": "opencode-profile-06-instructions_failure",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -7339,9 +7339,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-instructions_failure",
+      "case_id": "opencode-profile-06-instructions_failure",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "completed",
@@ -7373,9 +7373,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-instructions_failure",
+      "case_id": "opencode-profile-06-instructions_failure",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "execution_error",
@@ -7383,9 +7383,9 @@
       "elapsed_ms": 34921.570457998314
     },
     {
-      "case_id": "opencode-rapid-agent-outcome_unverified",
+      "case_id": "opencode-profile-06-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "completed",
@@ -7417,9 +7417,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-outcome_unverified",
+      "case_id": "opencode-profile-06-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "completed",
@@ -7451,9 +7451,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-outcome_unverified",
+      "case_id": "opencode-profile-06-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "completed",
@@ -7485,9 +7485,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-resource_missing",
+      "case_id": "opencode-profile-06-resource_missing",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "completed",
@@ -7519,9 +7519,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-resource_missing",
+      "case_id": "opencode-profile-06-resource_missing",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "completed",
@@ -7553,9 +7553,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-resource_missing",
+      "case_id": "opencode-profile-06-resource_missing",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "completed",
@@ -7587,9 +7587,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-verifier_conflict",
+      "case_id": "opencode-profile-06-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "completed",
@@ -7621,9 +7621,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-verifier_conflict",
+      "case_id": "opencode-profile-06-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "completed",
@@ -7655,9 +7655,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-agent-verifier_conflict",
+      "case_id": "opencode-profile-06-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "completed",
@@ -7689,9 +7689,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-artifact_corruption",
+      "case_id": "opencode-profile-02-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "completed",
@@ -7723,9 +7723,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-artifact_corruption",
+      "case_id": "opencode-profile-02-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "completed",
@@ -7757,9 +7757,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-artifact_corruption",
+      "case_id": "opencode-profile-02-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "completed",
@@ -7791,9 +7791,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-clean",
+      "case_id": "opencode-profile-02-clean",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "completed",
@@ -7825,9 +7825,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-clean",
+      "case_id": "opencode-profile-02-clean",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "completed",
@@ -7859,9 +7859,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-clean",
+      "case_id": "opencode-profile-02-clean",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "clean",
       "view": "raw",
       "status": "completed",
@@ -7893,9 +7893,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-execution_failure",
+      "case_id": "opencode-profile-02-execution_failure",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -7927,9 +7927,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-execution_failure",
+      "case_id": "opencode-profile-02-execution_failure",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "completed",
@@ -7961,9 +7961,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-execution_failure",
+      "case_id": "opencode-profile-02-execution_failure",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "completed",
@@ -7995,9 +7995,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-instructions_failure",
+      "case_id": "opencode-profile-02-instructions_failure",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -8005,9 +8005,9 @@
       "elapsed_ms": 26976.928375006537
     },
     {
-      "case_id": "opencode-rapid-tele-instructions_failure",
+      "case_id": "opencode-profile-02-instructions_failure",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "completed",
@@ -8039,9 +8039,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-instructions_failure",
+      "case_id": "opencode-profile-02-instructions_failure",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "completed",
@@ -8073,9 +8073,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-outcome_unverified",
+      "case_id": "opencode-profile-02-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "completed",
@@ -8107,9 +8107,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-outcome_unverified",
+      "case_id": "opencode-profile-02-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "completed",
@@ -8141,9 +8141,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-outcome_unverified",
+      "case_id": "opencode-profile-02-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "completed",
@@ -8175,9 +8175,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-resource_missing",
+      "case_id": "opencode-profile-02-resource_missing",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "completed",
@@ -8209,9 +8209,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-resource_missing",
+      "case_id": "opencode-profile-02-resource_missing",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "completed",
@@ -8243,9 +8243,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-resource_missing",
+      "case_id": "opencode-profile-02-resource_missing",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "completed",
@@ -8277,9 +8277,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-verifier_conflict",
+      "case_id": "opencode-profile-02-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "completed",
@@ -8311,9 +8311,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-verifier_conflict",
+      "case_id": "opencode-profile-02-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "completed",
@@ -8345,9 +8345,9 @@
       }
     },
     {
-      "case_id": "opencode-rapid-tele-verifier_conflict",
+      "case_id": "opencode-profile-02-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "completed",
@@ -8379,9 +8379,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-artifact_corruption",
+      "case_id": "opencode-profile-01-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "completed",
@@ -8413,9 +8413,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-artifact_corruption",
+      "case_id": "opencode-profile-01-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "completed",
@@ -8447,9 +8447,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-artifact_corruption",
+      "case_id": "opencode-profile-01-artifact_corruption",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "execution_error",
@@ -8457,9 +8457,9 @@
       "elapsed_ms": 36177.467874993454
     },
     {
-      "case_id": "opencode-tinylru-clean",
+      "case_id": "opencode-profile-01-clean",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "completed",
@@ -8491,9 +8491,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-clean",
+      "case_id": "opencode-profile-01-clean",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "completed",
@@ -8525,9 +8525,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-clean",
+      "case_id": "opencode-profile-01-clean",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "clean",
       "view": "raw",
       "status": "completed",
@@ -8559,9 +8559,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-execution_failure",
+      "case_id": "opencode-profile-01-execution_failure",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -8593,9 +8593,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-execution_failure",
+      "case_id": "opencode-profile-01-execution_failure",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "completed",
@@ -8627,9 +8627,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-execution_failure",
+      "case_id": "opencode-profile-01-execution_failure",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "completed",
@@ -8661,9 +8661,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-instructions_failure",
+      "case_id": "opencode-profile-01-instructions_failure",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -8671,9 +8671,9 @@
       "elapsed_ms": 37384.73462501133
     },
     {
-      "case_id": "opencode-tinylru-instructions_failure",
+      "case_id": "opencode-profile-01-instructions_failure",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "completed",
@@ -8705,9 +8705,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-instructions_failure",
+      "case_id": "opencode-profile-01-instructions_failure",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "completed",
@@ -8739,9 +8739,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-outcome_unverified",
+      "case_id": "opencode-profile-01-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "completed",
@@ -8773,9 +8773,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-outcome_unverified",
+      "case_id": "opencode-profile-01-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "completed",
@@ -8807,9 +8807,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-outcome_unverified",
+      "case_id": "opencode-profile-01-outcome_unverified",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "completed",
@@ -8841,9 +8841,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-resource_missing",
+      "case_id": "opencode-profile-01-resource_missing",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "completed",
@@ -8875,9 +8875,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-resource_missing",
+      "case_id": "opencode-profile-01-resource_missing",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "completed",
@@ -8909,9 +8909,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-resource_missing",
+      "case_id": "opencode-profile-01-resource_missing",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "completed",
@@ -8943,9 +8943,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-verifier_conflict",
+      "case_id": "opencode-profile-01-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "completed",
@@ -8977,9 +8977,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-verifier_conflict",
+      "case_id": "opencode-profile-01-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "completed",
@@ -9011,9 +9011,9 @@
       }
     },
     {
-      "case_id": "opencode-tinylru-verifier_conflict",
+      "case_id": "opencode-profile-01-verifier_conflict",
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "execution_error",
@@ -9021,9 +9021,9 @@
       "elapsed_ms": 19098.07737499068
     },
     {
-      "case_id": "qoder-hello-skill-artifact_corruption",
+      "case_id": "qoder-profile-05-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9031,9 +9031,9 @@
       "elapsed_ms": 180025.26754200517
     },
     {
-      "case_id": "qoder-hello-skill-artifact_corruption",
+      "case_id": "qoder-profile-05-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "execution_error",
@@ -9041,9 +9041,9 @@
       "elapsed_ms": 180023.66949999123
     },
     {
-      "case_id": "qoder-hello-skill-artifact_corruption",
+      "case_id": "qoder-profile-05-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "execution_error",
@@ -9051,9 +9051,9 @@
       "elapsed_ms": 180014.5734999969
     },
     {
-      "case_id": "qoder-hello-skill-clean",
+      "case_id": "qoder-profile-05-clean",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "completed",
@@ -9085,9 +9085,9 @@
       }
     },
     {
-      "case_id": "qoder-hello-skill-clean",
+      "case_id": "qoder-profile-05-clean",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "completed",
@@ -9119,9 +9119,9 @@
       }
     },
     {
-      "case_id": "qoder-hello-skill-clean",
+      "case_id": "qoder-profile-05-clean",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "clean",
       "view": "raw",
       "status": "completed",
@@ -9153,9 +9153,9 @@
       }
     },
     {
-      "case_id": "qoder-hello-skill-execution_failure",
+      "case_id": "qoder-profile-05-execution_failure",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9163,9 +9163,9 @@
       "elapsed_ms": 180062.25245899986
     },
     {
-      "case_id": "qoder-hello-skill-execution_failure",
+      "case_id": "qoder-profile-05-execution_failure",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -9173,9 +9173,9 @@
       "elapsed_ms": 180575.96016699972
     },
     {
-      "case_id": "qoder-hello-skill-execution_failure",
+      "case_id": "qoder-profile-05-execution_failure",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "execution_error",
@@ -9183,9 +9183,9 @@
       "elapsed_ms": 180632.5773330027
     },
     {
-      "case_id": "qoder-hello-skill-instructions_failure",
+      "case_id": "qoder-profile-05-instructions_failure",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -9217,9 +9217,9 @@
       }
     },
     {
-      "case_id": "qoder-hello-skill-instructions_failure",
+      "case_id": "qoder-profile-05-instructions_failure",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -9227,9 +9227,9 @@
       "elapsed_ms": 180043.2043329929
     },
     {
-      "case_id": "qoder-hello-skill-instructions_failure",
+      "case_id": "qoder-profile-05-instructions_failure",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "execution_error",
@@ -9237,9 +9237,9 @@
       "elapsed_ms": 180022.08174999396
     },
     {
-      "case_id": "qoder-hello-skill-outcome_unverified",
+      "case_id": "qoder-profile-05-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "completed",
@@ -9271,9 +9271,9 @@
       }
     },
     {
-      "case_id": "qoder-hello-skill-outcome_unverified",
+      "case_id": "qoder-profile-05-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "completed",
@@ -9305,9 +9305,9 @@
       }
     },
     {
-      "case_id": "qoder-hello-skill-outcome_unverified",
+      "case_id": "qoder-profile-05-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "execution_error",
@@ -9315,9 +9315,9 @@
       "elapsed_ms": 180043.5610410059
     },
     {
-      "case_id": "qoder-hello-skill-resource_missing",
+      "case_id": "qoder-profile-05-resource_missing",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9325,9 +9325,9 @@
       "elapsed_ms": 180223.3937909914
     },
     {
-      "case_id": "qoder-hello-skill-resource_missing",
+      "case_id": "qoder-profile-05-resource_missing",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "execution_error",
@@ -9335,9 +9335,9 @@
       "elapsed_ms": 180371.15812500997
     },
     {
-      "case_id": "qoder-hello-skill-resource_missing",
+      "case_id": "qoder-profile-05-resource_missing",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "execution_error",
@@ -9345,9 +9345,9 @@
       "elapsed_ms": 180137.17891699343
     },
     {
-      "case_id": "qoder-hello-skill-verifier_conflict",
+      "case_id": "qoder-profile-05-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9355,9 +9355,9 @@
       "elapsed_ms": 180064.68724999286
     },
     {
-      "case_id": "qoder-hello-skill-verifier_conflict",
+      "case_id": "qoder-profile-05-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "execution_error",
@@ -9365,9 +9365,9 @@
       "elapsed_ms": 180064.2638749996
     },
     {
-      "case_id": "qoder-hello-skill-verifier_conflict",
+      "case_id": "qoder-profile-05-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "hello-skill",
+      "repo_key": "profile-05",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "execution_error",
@@ -9375,9 +9375,9 @@
       "elapsed_ms": 180151.6548750078
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "qoder-profile-04-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9385,9 +9385,9 @@
       "elapsed_ms": 180144.6656670014
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "qoder-profile-04-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "execution_error",
@@ -9395,9 +9395,9 @@
       "elapsed_ms": 180155.94549999514
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-artifact_corruption",
+      "case_id": "qoder-profile-04-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "execution_error",
@@ -9405,9 +9405,9 @@
       "elapsed_ms": 180148.94816699962
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-clean",
+      "case_id": "qoder-profile-04-clean",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9415,9 +9415,9 @@
       "elapsed_ms": 180076.60033399588
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-clean",
+      "case_id": "qoder-profile-04-clean",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "execution_error",
@@ -9425,9 +9425,9 @@
       "elapsed_ms": 180094.27354201034
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-clean",
+      "case_id": "qoder-profile-04-clean",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "clean",
       "view": "raw",
       "status": "execution_error",
@@ -9435,9 +9435,9 @@
       "elapsed_ms": 180065.22816600045
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "qoder-profile-04-execution_failure",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9445,9 +9445,9 @@
       "elapsed_ms": 180030.25091699965
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "qoder-profile-04-execution_failure",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -9455,9 +9455,9 @@
       "elapsed_ms": 180037.35987500113
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-execution_failure",
+      "case_id": "qoder-profile-04-execution_failure",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "execution_error",
@@ -9465,9 +9465,9 @@
       "elapsed_ms": 180023.89345799747
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "qoder-profile-04-instructions_failure",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9475,9 +9475,9 @@
       "elapsed_ms": 180031.2002080027
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "qoder-profile-04-instructions_failure",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -9485,9 +9485,9 @@
       "elapsed_ms": 180029.77258300234
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-instructions_failure",
+      "case_id": "qoder-profile-04-instructions_failure",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "execution_error",
@@ -9495,9 +9495,9 @@
       "elapsed_ms": 180029.18466700066
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "qoder-profile-04-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9505,9 +9505,9 @@
       "elapsed_ms": 180029.59750000446
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "qoder-profile-04-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "execution_error",
@@ -9515,9 +9515,9 @@
       "elapsed_ms": 180028.4287079994
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-outcome_unverified",
+      "case_id": "qoder-profile-04-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "completed",
@@ -9549,9 +9549,9 @@
       }
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "qoder-profile-04-resource_missing",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9559,9 +9559,9 @@
       "elapsed_ms": 180124.6379160002
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "qoder-profile-04-resource_missing",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "execution_error",
@@ -9569,9 +9569,9 @@
       "elapsed_ms": 180351.7637499899
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-resource_missing",
+      "case_id": "qoder-profile-04-resource_missing",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "execution_error",
@@ -9579,9 +9579,9 @@
       "elapsed_ms": 180819.93845899706
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "qoder-profile-04-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9589,9 +9589,9 @@
       "elapsed_ms": 180195.79858401266
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "qoder-profile-04-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "execution_error",
@@ -9599,9 +9599,9 @@
       "elapsed_ms": 180214.8367500049
     },
     {
-      "case_id": "qoder-llm-mechanistic-interpretability-verifier_conflict",
+      "case_id": "qoder-profile-04-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "llm-mechanistic-interpretability",
+      "repo_key": "profile-04",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "execution_error",
@@ -9609,9 +9609,9 @@
       "elapsed_ms": 180195.60491699667
     },
     {
-      "case_id": "qoder-llm-mi-artifact_corruption",
+      "case_id": "qoder-profile-03-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "completed",
@@ -9643,9 +9643,9 @@
       }
     },
     {
-      "case_id": "qoder-llm-mi-artifact_corruption",
+      "case_id": "qoder-profile-03-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "completed",
@@ -9677,9 +9677,9 @@
       }
     },
     {
-      "case_id": "qoder-llm-mi-artifact_corruption",
+      "case_id": "qoder-profile-03-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "execution_error",
@@ -9687,9 +9687,9 @@
       "elapsed_ms": 30486.51441700349
     },
     {
-      "case_id": "qoder-llm-mi-clean",
+      "case_id": "qoder-profile-03-clean",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9697,9 +9697,9 @@
       "elapsed_ms": 180071.316208996
     },
     {
-      "case_id": "qoder-llm-mi-clean",
+      "case_id": "qoder-profile-03-clean",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "execution_error",
@@ -9707,9 +9707,9 @@
       "elapsed_ms": 180036.19245800655
     },
     {
-      "case_id": "qoder-llm-mi-clean",
+      "case_id": "qoder-profile-03-clean",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "clean",
       "view": "raw",
       "status": "execution_error",
@@ -9717,9 +9717,9 @@
       "elapsed_ms": 180062.46229200042
     },
     {
-      "case_id": "qoder-llm-mi-execution_failure",
+      "case_id": "qoder-profile-03-execution_failure",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9727,9 +9727,9 @@
       "elapsed_ms": 180044.06241700053
     },
     {
-      "case_id": "qoder-llm-mi-execution_failure",
+      "case_id": "qoder-profile-03-execution_failure",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -9737,9 +9737,9 @@
       "elapsed_ms": 180032.20175000024
     },
     {
-      "case_id": "qoder-llm-mi-execution_failure",
+      "case_id": "qoder-profile-03-execution_failure",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "execution_error",
@@ -9747,9 +9747,9 @@
       "elapsed_ms": 180034.87887499796
     },
     {
-      "case_id": "qoder-llm-mi-instructions_failure",
+      "case_id": "qoder-profile-03-instructions_failure",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9757,9 +9757,9 @@
       "elapsed_ms": 180037.8849159897
     },
     {
-      "case_id": "qoder-llm-mi-instructions_failure",
+      "case_id": "qoder-profile-03-instructions_failure",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -9767,9 +9767,9 @@
       "elapsed_ms": 180032.5827080087
     },
     {
-      "case_id": "qoder-llm-mi-instructions_failure",
+      "case_id": "qoder-profile-03-instructions_failure",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "execution_error",
@@ -9777,9 +9777,9 @@
       "elapsed_ms": 180049.5272919943
     },
     {
-      "case_id": "qoder-llm-mi-outcome_unverified",
+      "case_id": "qoder-profile-03-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "completed",
@@ -9811,9 +9811,9 @@
       }
     },
     {
-      "case_id": "qoder-llm-mi-outcome_unverified",
+      "case_id": "qoder-profile-03-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "completed",
@@ -9845,9 +9845,9 @@
       }
     },
     {
-      "case_id": "qoder-llm-mi-outcome_unverified",
+      "case_id": "qoder-profile-03-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "completed",
@@ -9879,9 +9879,9 @@
       }
     },
     {
-      "case_id": "qoder-llm-mi-resource_missing",
+      "case_id": "qoder-profile-03-resource_missing",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9889,9 +9889,9 @@
       "elapsed_ms": 180070.3015839972
     },
     {
-      "case_id": "qoder-llm-mi-resource_missing",
+      "case_id": "qoder-profile-03-resource_missing",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "execution_error",
@@ -9899,9 +9899,9 @@
       "elapsed_ms": 180024.30970800924
     },
     {
-      "case_id": "qoder-llm-mi-resource_missing",
+      "case_id": "qoder-profile-03-resource_missing",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "execution_error",
@@ -9909,9 +9909,9 @@
       "elapsed_ms": 180024.7320829949
     },
     {
-      "case_id": "qoder-llm-mi-verifier_conflict",
+      "case_id": "qoder-profile-03-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9919,9 +9919,9 @@
       "elapsed_ms": 180103.01420799806
     },
     {
-      "case_id": "qoder-llm-mi-verifier_conflict",
+      "case_id": "qoder-profile-03-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "execution_error",
@@ -9929,9 +9929,9 @@
       "elapsed_ms": 180033.084374998
     },
     {
-      "case_id": "qoder-llm-mi-verifier_conflict",
+      "case_id": "qoder-profile-03-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "llm-mi",
+      "repo_key": "profile-03",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "execution_error",
@@ -9939,9 +9939,9 @@
       "elapsed_ms": 180228.16345801402
     },
     {
-      "case_id": "qoder-rapid-agent-artifact_corruption",
+      "case_id": "qoder-profile-06-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -9949,9 +9949,9 @@
       "elapsed_ms": 180033.35762499773
     },
     {
-      "case_id": "qoder-rapid-agent-artifact_corruption",
+      "case_id": "qoder-profile-06-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "execution_error",
@@ -9959,9 +9959,9 @@
       "elapsed_ms": 180856.25654199976
     },
     {
-      "case_id": "qoder-rapid-agent-artifact_corruption",
+      "case_id": "qoder-profile-06-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "execution_error",
@@ -9969,9 +9969,9 @@
       "elapsed_ms": 180201.72845800698
     },
     {
-      "case_id": "qoder-rapid-agent-clean",
+      "case_id": "qoder-profile-06-clean",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "completed",
@@ -10003,9 +10003,9 @@
       }
     },
     {
-      "case_id": "qoder-rapid-agent-clean",
+      "case_id": "qoder-profile-06-clean",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "completed",
@@ -10037,9 +10037,9 @@
       }
     },
     {
-      "case_id": "qoder-rapid-agent-clean",
+      "case_id": "qoder-profile-06-clean",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "clean",
       "view": "raw",
       "status": "completed",
@@ -10071,9 +10071,9 @@
       }
     },
     {
-      "case_id": "qoder-rapid-agent-execution_failure",
+      "case_id": "qoder-profile-06-execution_failure",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10081,9 +10081,9 @@
       "elapsed_ms": 180824.40741699247
     },
     {
-      "case_id": "qoder-rapid-agent-execution_failure",
+      "case_id": "qoder-profile-06-execution_failure",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -10091,9 +10091,9 @@
       "elapsed_ms": 180467.77629198914
     },
     {
-      "case_id": "qoder-rapid-agent-execution_failure",
+      "case_id": "qoder-profile-06-execution_failure",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "execution_error",
@@ -10101,9 +10101,9 @@
       "elapsed_ms": 180255.1652080001
     },
     {
-      "case_id": "qoder-rapid-agent-instructions_failure",
+      "case_id": "qoder-profile-06-instructions_failure",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10111,9 +10111,9 @@
       "elapsed_ms": 180039.78362499038
     },
     {
-      "case_id": "qoder-rapid-agent-instructions_failure",
+      "case_id": "qoder-profile-06-instructions_failure",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -10121,9 +10121,9 @@
       "elapsed_ms": 180164.29845799576
     },
     {
-      "case_id": "qoder-rapid-agent-instructions_failure",
+      "case_id": "qoder-profile-06-instructions_failure",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "execution_error",
@@ -10131,9 +10131,9 @@
       "elapsed_ms": 180125.9879579884
     },
     {
-      "case_id": "qoder-rapid-agent-outcome_unverified",
+      "case_id": "qoder-profile-06-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10141,9 +10141,9 @@
       "elapsed_ms": 180045.71758399834
     },
     {
-      "case_id": "qoder-rapid-agent-outcome_unverified",
+      "case_id": "qoder-profile-06-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "execution_error",
@@ -10151,9 +10151,9 @@
       "elapsed_ms": 180033.92375000112
     },
     {
-      "case_id": "qoder-rapid-agent-outcome_unverified",
+      "case_id": "qoder-profile-06-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "execution_error",
@@ -10161,9 +10161,9 @@
       "elapsed_ms": 180040.4278329952
     },
     {
-      "case_id": "qoder-rapid-agent-resource_missing",
+      "case_id": "qoder-profile-06-resource_missing",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10171,9 +10171,9 @@
       "elapsed_ms": 180123.44279100944
     },
     {
-      "case_id": "qoder-rapid-agent-resource_missing",
+      "case_id": "qoder-profile-06-resource_missing",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "execution_error",
@@ -10181,9 +10181,9 @@
       "elapsed_ms": 180035.8770419989
     },
     {
-      "case_id": "qoder-rapid-agent-resource_missing",
+      "case_id": "qoder-profile-06-resource_missing",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "execution_error",
@@ -10191,9 +10191,9 @@
       "elapsed_ms": 180026.91033300653
     },
     {
-      "case_id": "qoder-rapid-agent-verifier_conflict",
+      "case_id": "qoder-profile-06-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10201,9 +10201,9 @@
       "elapsed_ms": 180092.83804200822
     },
     {
-      "case_id": "qoder-rapid-agent-verifier_conflict",
+      "case_id": "qoder-profile-06-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "execution_error",
@@ -10211,9 +10211,9 @@
       "elapsed_ms": 180097.29824999522
     },
     {
-      "case_id": "qoder-rapid-agent-verifier_conflict",
+      "case_id": "qoder-profile-06-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "rapid-agent",
+      "repo_key": "profile-06",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "execution_error",
@@ -10221,9 +10221,9 @@
       "elapsed_ms": 180039.38679100247
     },
     {
-      "case_id": "qoder-rapid-tele-artifact_corruption",
+      "case_id": "qoder-profile-02-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10231,9 +10231,9 @@
       "elapsed_ms": 180052.3194999987
     },
     {
-      "case_id": "qoder-rapid-tele-artifact_corruption",
+      "case_id": "qoder-profile-02-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "execution_error",
@@ -10241,9 +10241,9 @@
       "elapsed_ms": 180068.3949170052
     },
     {
-      "case_id": "qoder-rapid-tele-artifact_corruption",
+      "case_id": "qoder-profile-02-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "execution_error",
@@ -10251,9 +10251,9 @@
       "elapsed_ms": 180026.0455839889
     },
     {
-      "case_id": "qoder-rapid-tele-clean",
+      "case_id": "qoder-profile-02-clean",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10261,9 +10261,9 @@
       "elapsed_ms": 180200.64683300734
     },
     {
-      "case_id": "qoder-rapid-tele-clean",
+      "case_id": "qoder-profile-02-clean",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "execution_error",
@@ -10271,9 +10271,9 @@
       "elapsed_ms": 180030.4516670003
     },
     {
-      "case_id": "qoder-rapid-tele-clean",
+      "case_id": "qoder-profile-02-clean",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "clean",
       "view": "raw",
       "status": "execution_error",
@@ -10281,9 +10281,9 @@
       "elapsed_ms": 180077.53879200027
     },
     {
-      "case_id": "qoder-rapid-tele-execution_failure",
+      "case_id": "qoder-profile-02-execution_failure",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10291,9 +10291,9 @@
       "elapsed_ms": 180304.02662500273
     },
     {
-      "case_id": "qoder-rapid-tele-execution_failure",
+      "case_id": "qoder-profile-02-execution_failure",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -10301,9 +10301,9 @@
       "elapsed_ms": 180299.1014589934
     },
     {
-      "case_id": "qoder-rapid-tele-execution_failure",
+      "case_id": "qoder-profile-02-execution_failure",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "execution_error",
@@ -10311,9 +10311,9 @@
       "elapsed_ms": 180102.03304101015
     },
     {
-      "case_id": "qoder-rapid-tele-instructions_failure",
+      "case_id": "qoder-profile-02-instructions_failure",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10321,9 +10321,9 @@
       "elapsed_ms": 180030.3751249885
     },
     {
-      "case_id": "qoder-rapid-tele-instructions_failure",
+      "case_id": "qoder-profile-02-instructions_failure",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -10331,9 +10331,9 @@
       "elapsed_ms": 180038.55933299928
     },
     {
-      "case_id": "qoder-rapid-tele-instructions_failure",
+      "case_id": "qoder-profile-02-instructions_failure",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "execution_error",
@@ -10341,9 +10341,9 @@
       "elapsed_ms": 180253.6105420004
     },
     {
-      "case_id": "qoder-rapid-tele-outcome_unverified",
+      "case_id": "qoder-profile-02-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10351,9 +10351,9 @@
       "elapsed_ms": 180215.15895800258
     },
     {
-      "case_id": "qoder-rapid-tele-outcome_unverified",
+      "case_id": "qoder-profile-02-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "execution_error",
@@ -10361,9 +10361,9 @@
       "elapsed_ms": 180528.47750000365
     },
     {
-      "case_id": "qoder-rapid-tele-outcome_unverified",
+      "case_id": "qoder-profile-02-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "execution_error",
@@ -10371,9 +10371,9 @@
       "elapsed_ms": 180072.3714170017
     },
     {
-      "case_id": "qoder-rapid-tele-resource_missing",
+      "case_id": "qoder-profile-02-resource_missing",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10381,9 +10381,9 @@
       "elapsed_ms": 180100.1364170079
     },
     {
-      "case_id": "qoder-rapid-tele-resource_missing",
+      "case_id": "qoder-profile-02-resource_missing",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "execution_error",
@@ -10391,9 +10391,9 @@
       "elapsed_ms": 180132.3258330085
     },
     {
-      "case_id": "qoder-rapid-tele-resource_missing",
+      "case_id": "qoder-profile-02-resource_missing",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "execution_error",
@@ -10401,9 +10401,9 @@
       "elapsed_ms": 180078.53875000728
     },
     {
-      "case_id": "qoder-rapid-tele-verifier_conflict",
+      "case_id": "qoder-profile-02-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "completed",
@@ -10435,9 +10435,9 @@
       }
     },
     {
-      "case_id": "qoder-rapid-tele-verifier_conflict",
+      "case_id": "qoder-profile-02-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "completed",
@@ -10469,9 +10469,9 @@
       }
     },
     {
-      "case_id": "qoder-rapid-tele-verifier_conflict",
+      "case_id": "qoder-profile-02-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "rapid-tele",
+      "repo_key": "profile-02",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "execution_error",
@@ -10479,9 +10479,9 @@
       "elapsed_ms": 17414.873624991742
     },
     {
-      "case_id": "qoder-tinylru-artifact_corruption",
+      "case_id": "qoder-profile-01-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "artifact_corruption",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10489,9 +10489,9 @@
       "elapsed_ms": 180417.11300000316
     },
     {
-      "case_id": "qoder-tinylru-artifact_corruption",
+      "case_id": "qoder-profile-01-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "artifact_corruption",
       "view": "panorama",
       "status": "execution_error",
@@ -10499,9 +10499,9 @@
       "elapsed_ms": 180439.73783400725
     },
     {
-      "case_id": "qoder-tinylru-artifact_corruption",
+      "case_id": "qoder-profile-01-artifact_corruption",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "artifact_corruption",
       "view": "raw",
       "status": "execution_error",
@@ -10509,9 +10509,9 @@
       "elapsed_ms": 180064.99537499622
     },
     {
-      "case_id": "qoder-tinylru-clean",
+      "case_id": "qoder-profile-01-clean",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "clean",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10519,9 +10519,9 @@
       "elapsed_ms": 180238.14633300935
     },
     {
-      "case_id": "qoder-tinylru-clean",
+      "case_id": "qoder-profile-01-clean",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "clean",
       "view": "panorama",
       "status": "execution_error",
@@ -10529,9 +10529,9 @@
       "elapsed_ms": 180161.71150001173
     },
     {
-      "case_id": "qoder-tinylru-clean",
+      "case_id": "qoder-profile-01-clean",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "clean",
       "view": "raw",
       "status": "execution_error",
@@ -10539,9 +10539,9 @@
       "elapsed_ms": 180030.24295899377
     },
     {
-      "case_id": "qoder-tinylru-execution_failure",
+      "case_id": "qoder-profile-01-execution_failure",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "execution_failure",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10549,9 +10549,9 @@
       "elapsed_ms": 180022.92245900026
     },
     {
-      "case_id": "qoder-tinylru-execution_failure",
+      "case_id": "qoder-profile-01-execution_failure",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "execution_failure",
       "view": "panorama",
       "status": "execution_error",
@@ -10559,9 +10559,9 @@
       "elapsed_ms": 180057.34470800962
     },
     {
-      "case_id": "qoder-tinylru-execution_failure",
+      "case_id": "qoder-profile-01-execution_failure",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "execution_failure",
       "view": "raw",
       "status": "execution_error",
@@ -10569,9 +10569,9 @@
       "elapsed_ms": 180032.2925419896
     },
     {
-      "case_id": "qoder-tinylru-instructions_failure",
+      "case_id": "qoder-profile-01-instructions_failure",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "instructions_failure",
       "view": "graph_plus_model",
       "status": "completed",
@@ -10603,9 +10603,9 @@
       }
     },
     {
-      "case_id": "qoder-tinylru-instructions_failure",
+      "case_id": "qoder-profile-01-instructions_failure",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "instructions_failure",
       "view": "panorama",
       "status": "completed",
@@ -10637,9 +10637,9 @@
       }
     },
     {
-      "case_id": "qoder-tinylru-instructions_failure",
+      "case_id": "qoder-profile-01-instructions_failure",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "instructions_failure",
       "view": "raw",
       "status": "completed",
@@ -10671,9 +10671,9 @@
       }
     },
     {
-      "case_id": "qoder-tinylru-outcome_unverified",
+      "case_id": "qoder-profile-01-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "outcome_unverified",
       "view": "graph_plus_model",
       "status": "completed",
@@ -10705,9 +10705,9 @@
       }
     },
     {
-      "case_id": "qoder-tinylru-outcome_unverified",
+      "case_id": "qoder-profile-01-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "outcome_unverified",
       "view": "panorama",
       "status": "completed",
@@ -10739,9 +10739,9 @@
       }
     },
     {
-      "case_id": "qoder-tinylru-outcome_unverified",
+      "case_id": "qoder-profile-01-outcome_unverified",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "outcome_unverified",
       "view": "raw",
       "status": "completed",
@@ -10773,9 +10773,9 @@
       }
     },
     {
-      "case_id": "qoder-tinylru-resource_missing",
+      "case_id": "qoder-profile-01-resource_missing",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "resource_missing",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10783,9 +10783,9 @@
       "elapsed_ms": 180069.3851249962
     },
     {
-      "case_id": "qoder-tinylru-resource_missing",
+      "case_id": "qoder-profile-01-resource_missing",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "resource_missing",
       "view": "panorama",
       "status": "execution_error",
@@ -10793,9 +10793,9 @@
       "elapsed_ms": 180062.34833299823
     },
     {
-      "case_id": "qoder-tinylru-resource_missing",
+      "case_id": "qoder-profile-01-resource_missing",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "resource_missing",
       "view": "raw",
       "status": "execution_error",
@@ -10803,9 +10803,9 @@
       "elapsed_ms": 180025.7753330079
     },
     {
-      "case_id": "qoder-tinylru-verifier_conflict",
+      "case_id": "qoder-profile-01-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "verifier_conflict",
       "view": "graph_plus_model",
       "status": "execution_error",
@@ -10813,9 +10813,9 @@
       "elapsed_ms": 180052.19604099693
     },
     {
-      "case_id": "qoder-tinylru-verifier_conflict",
+      "case_id": "qoder-profile-01-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "verifier_conflict",
       "view": "panorama",
       "status": "execution_error",
@@ -10823,9 +10823,9 @@
       "elapsed_ms": 180065.08195800416
     },
     {
-      "case_id": "qoder-tinylru-verifier_conflict",
+      "case_id": "qoder-profile-01-verifier_conflict",
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "fault_mode": "verifier_conflict",
       "view": "raw",
       "status": "execution_error",

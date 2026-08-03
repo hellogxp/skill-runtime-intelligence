@@ -33,7 +33,7 @@
     "repetitions": 1,
     "source_manifest": [
       {
-        "repo_key": "tinylru",
+        "repo_key": "profile-01",
         "skill_id": "go-cache-contract-audit",
         "revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
         "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
@@ -142,7 +142,7 @@
   "rows": [
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -257,7 +257,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -372,7 +372,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -487,7 +487,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -602,7 +602,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -717,7 +717,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -832,7 +832,7 @@
     },
     {
       "agent": "codex",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -947,7 +947,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -1091,7 +1091,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -1235,7 +1235,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -1379,7 +1379,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -1523,7 +1523,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -1667,7 +1667,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -1811,7 +1811,7 @@
     },
     {
       "agent": "opencode",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -1955,7 +1955,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -2090,7 +2090,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -2218,7 +2218,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -2353,7 +2353,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -2488,7 +2488,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -2616,7 +2616,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",
@@ -2751,7 +2751,7 @@
     },
     {
       "agent": "qoder",
-      "repo_key": "tinylru",
+      "repo_key": "profile-01",
       "source_revision": "274ef9e540513e2853ff5d58e0584b88c5bf3e11",
       "source_digest": "40b39772ec2872d353358a2266130869c96d3f4fcb8be210686adaf3d90e17f7",
       "skill_id": "go-cache-contract-audit",

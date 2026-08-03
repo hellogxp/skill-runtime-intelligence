@@ -16,7 +16,7 @@
       "exit_code": 0,
       "passed": true,
       "stdout_tail": [
-        "Report: /private/tmp/sri-clean-suite.ccKuHX/experiments/runtime_diagnostics/results/runtime-diagnostics-20260730T045928Z.json",
+        "Report: /private${TEMP_PATH}",
         "Gate: PASS"
       ],
       "stderr_line_count": 0
@@ -27,7 +27,7 @@
       "exit_code": 0,
       "passed": true,
       "stdout_tail": [
-        "Report: /private/tmp/sri-clean-suite.ccKuHX/experiments/adapter_reconstruction/results/adapter-reconstruction-20260730T045929Z.json",
+        "Report: /private${TEMP_PATH}",
         "Gate: PASS"
       ],
       "stderr_line_count": 0
@@ -39,7 +39,7 @@
       "passed": true,
       "stdout_tail": [
         "}",
-        "Report: /private/tmp/sri-clean-suite.ccKuHX/experiments/non_interference/results/non-interference-20260730T045931Z.json"
+        "Report: /private${TEMP_PATH}"
       ],
       "stderr_line_count": 0
     },
@@ -50,7 +50,7 @@
       "passed": true,
       "stdout_tail": [
         "}",
-        "Report: /private/tmp/sri-clean-suite.ccKuHX/experiments/hook_transport/results/hook-transport-20260730T045937Z.json"
+        "Report: /private${TEMP_PATH}"
       ],
       "stderr_line_count": 0
     },
@@ -61,7 +61,7 @@
       "passed": true,
       "stdout_tail": [
         "}",
-        "Report: /private/tmp/sri-clean-suite.ccKuHX/experiments/diagnostic_usefulness/results/diagnostic-usefulness-study-20260730T045937Z.json"
+        "Report: /private${TEMP_PATH}"
       ],
       "stderr_line_count": 0
     },
@@ -71,7 +71,7 @@
       "exit_code": 0,
       "passed": true,
       "stdout_tail": [
-        "Report: /private/tmp/sri-clean-suite.ccKuHX/experiments/cross_agent/results/cross-agent-20260730T045938Z.json",
+        "Report: /private${TEMP_PATH}",
         "Gate: PASS"
       ],
       "stderr_line_count": 0
@@ -83,7 +83,7 @@
       "passed": true,
       "stdout_tail": [
         "}",
-        "Report: /private/tmp/sri-clean-suite.ccKuHX/experiments/cross_agent/results/source-instance-contract-20260730T045938Z.json"
+        "Report: /private${TEMP_PATH}"
       ],
       "stderr_line_count": 0
     },
@@ -94,7 +94,7 @@
       "passed": true,
       "stdout_tail": [
         "}",
-        "Report: /private/tmp/sri-clean-suite.ccKuHX/experiments/cross_agent/results/alignment-manifest-20260730T045938Z.json"
+        "Report: /private${TEMP_PATH}"
       ],
       "stderr_line_count": 0
     },
@@ -105,7 +105,7 @@
       "passed": true,
       "stdout_tail": [
         "}",
-        "Report: /private/tmp/sri-clean-suite.ccKuHX/experiments/semantic_diagnosis/results/semantic-diagnosis-20260730T045939Z.json"
+        "Report: /private${TEMP_PATH}"
       ],
       "stderr_line_count": 0
     }

@@ -1,6 +1,8 @@
 \documentclass[runningheads]{llncs}
 
 \usepackage{booktabs}
+\usepackage{array}
+\usepackage{atbegshi}
 \usepackage{microtype}
 \usepackage{xcolor}
 \usepackage{hyperref}
@@ -25,40 +27,42 @@ Heterogeneous Coding Agents}
 \authorrunning{Author Information Required}
 \institute{Affiliation and email required before submission}
 
-% LNCS is an A4 proceedings format. This driver hint keeps XeTeX/Tectonic's
-% PDF media box aligned with the class layout; it is ignored by other drivers.
+% LNCS is an A4 proceedings format. Tectonic's XeTeX driver otherwise applies a
+% one-page paper-size special only to the current page. Set the first page now
+% and repeat the driver hint at later shipouts so all MediaBoxes agree.
 \special{papersize=210mm,297mm}
+\AtBeginShipout{\special{papersize=210mm,297mm}}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Agent Skills package reusable instructions, scripts, references, and assets for
-tool-using language-model agents.  Their progressive loading protocol creates
-failure boundaries that are poorly represented by session-, model-, or
-tool-centric traces: a Skill may be discovered but not activated, activated
-without loading its instructions, or appear successful without an independently
-verified outcome.  We present \system, a local-first, read-only runtime evidence
-system that reconstructs a Skill-specific lifecycle across heterogeneous agent
-harnesses.  Its central abstraction, the \panorama, separates immutable source
-events, deterministic relations, uncertain diagnoses, and controlled
-experimental outcomes using four evidence grades.
+Agent Skills package reusable instructions and assets for tool-using
+language-model agents. Progressive loading creates failure boundaries poorly
+represented by session-, model-, or tool-centric traces: a Skill can be
+discovered but not activated, activated without instructions, or appear
+successful without an independently verified outcome. We present \system, a
+passive runtime-intelligence system deployable on a developer workstation or as
+a self-hosted remote service. It defaults to non-intervening collection and
+retains evidence within the operator-controlled deployment boundary; optional
+trace import and OTLP/HTTP export provide interoperability with existing
+observability platforms. It reconstructs supported Skill-lifecycle stages
+across heterogeneous harnesses while preserving unsupported stages as unknown;
+its \panorama separates immutable events, deterministic relations, inferred
+diagnoses, and controlled outcomes with four evidence grades.
 
-We evaluate the design with six frozen repository profiles,
-three installed coding agents, and seven clean or fault-injected conditions.
-All 126 executions preserve their source worktrees and correlate to exactly one
-source session, yet current adapters expose sharply different semantics: one
-emits no Skill runs, one reconstructs all runs but no failure-like events, and
-one emits failure-like events in all 24 failure-condition sessions and all six
-clean sessions. A privacy-safe diagnostic study instantiates seven repeated
-condition templates. Semantic aliases and Panorama both localize the six
-non-clean boundaries, while exact/status behavior varies by template; both Raw
-views emit a failure status on all 18 clean instantiations, whereas Panorama
-does not. A deterministic lifecycle graph conforms to all 126 known-rule
-contracts. A second model completes only 228/378 requested calls. These
-controlled mechanism observations show that event presence is not boundary
-fidelity, composite exact scores can conceal distinct error types, and model
-explanations should not overwrite deterministic runtime facts.
+Across six frozen repository profiles, three coding agents, and seven clean or
+fault-injected conditions, all 126 executions preserve source worktrees and
+correlate to one source session. Yet adapters expose three distinct semantics:
+no Skill runs; complete runs but no failure-like events; or failure-like events
+in every operational-failure and clean session. In a seven-template diagnostic
+study, semantic aliases and Panorama localize the same six non-clean boundaries
+but differ in exact/status behavior; both Raw views emit a failure status on all
+18 clean cases, while Panorama emits none. A known-rule graph conforms to
+126/126 frozen contracts, whereas a second model completes only 228/378 calls.
+These observations motivate executable adapter qualification and show that event
+presence is not boundary fidelity, composite exact scores mask distinct errors,
+and model explanations must not overwrite deterministic facts.
 \end{abstract}
 
 \keywords{Agent Skills \and runtime observability \and evidence provenance
@@ -99,9 +103,9 @@ Our study asks four research questions:
 \begin{description}
   \item[RQ1:] How faithfully can heterogeneous agent telemetry reconstruct a
   Skill lifecycle and its first divergent boundary?
-  \item[RQ2:] How does a normalized Panorama change exact diagnosis, boundary
-  localization, status, and evidence entailment relative to raw events, and
-  when are deterministic or model-assisted diagnoses justified?
+  \item[RQ2:] How do exact diagnosis, boundary localization, status, and
+  evidence entailment differ between a normalized Panorama and raw-event views,
+  and when are deterministic or model-assisted diagnoses justified?
   \item[RQ3:] Can collection remain read-only, local, silent, and low-overhead?
   \item[RQ4:] What controlled mechanism coverage is observed across frozen
   repository profiles, agents, environments, and model backends?
@@ -110,22 +114,22 @@ Our study asks four research questions:
 This paper makes four contributions:
 
 \begin{enumerate}
-  \item A Skill-specific runtime event model and lifecycle that distinguish
-  occurrence from relationship attribution.
+  \item A Skill-specific runtime model that distinguishes occurrence from
+  relationship attribution.
   \item A four-grade evidence contract---\observed, \derived, \inferred, and
   \experimental---with explicit causal-scope restrictions.
-  \item A local-first system with versioned adapters, immutable raw evidence,
-  deterministic reconstruction, and non-authoritative model assistance.
-  \item A reproducible controlled benchmark over six frozen three-file
-  repository profiles, three installed agents, seven condition families, two model backends, and
-  independent nonce-bound outcome verification, including paired diagnostic
-  transitions and family-stratified failure analysis.
+  \item A deployment-flexible system with versioned adapters, immutable
+  evidence, deterministic reconstruction, and non-authoritative model
+  assistance.
+  \item A controlled benchmark of six frozen repository profiles, three agents,
+  seven condition families, two model backends, outcome verification, and
+  template-level comparisons.
 \end{enumerate}
 
-The study supports claims about controlled reconstruction and evidence
-architecture.  It does not estimate natural incident prevalence, human
-usability, causal Skill effectiveness, or unconstrained production diagnosis
-accuracy.
+As a process contribution, the frozen matrix qualifies each adapter--agent
+release: calibrate capabilities, publish limits, and rerun the gates. The study
+does not estimate natural incident prevalence, human usability, causal Skill
+effectiveness, or unconstrained production diagnosis accuracy.
 
 \section{Problem and Design Requirements}
 
@@ -174,8 +178,10 @@ version, and source format.  Unsupported fields remain unknown.
 
 \paragraph{R5: Privacy by minimization.}
 Prompts, code, paths, credentials, and raw payloads are not required for most
-lifecycle diagnoses.  The default store is local, and exported research views
-contain only the minimum ordered states and opaque evidence identifiers.
+lifecycle diagnoses. Evidence remains within the operator-controlled deployment
+boundary---local by default or an explicitly authenticated self-hosted
+service---and exported research views contain only minimum ordered states and
+opaque evidence identifiers.
 
 \paragraph{R6: Causal restraint.}
 A single run may establish that an event occurred or that a verifier passed; it
@@ -186,49 +192,49 @@ controlled repeated trials and are labeled \experimental.
 
 \begin{figure}[t]
 \centering
-\resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
-  node distance=5mm and 5mm,
-  box/.style={draw,rounded corners,align=center,minimum height=8mm,
-    text width=25mm,fill=blue!4},
-  oracle/.style={box,fill=orange!8},
-  model/.style={box,fill=green!7},
-  arr/.style={-{Latex[length=2mm]},thick},
+  font=\scriptsize,
+  node distance=3mm and 3mm,
+  box/.style={draw,rounded corners,align=center,minimum height=11mm,
+    text width=19mm,inner sep=1mm,fill=blue!4},
+  oracle/.style={box,fill=orange!10},
+  model/.style={box,fill=green!8},
+  arr/.style={-{Latex[length=1.7mm]},semithick},
   dasharr/.style={arr,dashed}
 ]
-\node[box] (agents) {Existing Codex,\\OpenCode, Qoder runs};
-\node[box,right=of agents] (raw) {Passive collection\\and immutable raw records};
-\node[box,right=of raw] (adapter) {Versioned adapters\\and normalized events};
-\node[box,right=of adapter] (graph) {Deterministic evidence graph\\and Panorama};
-\node[box,right=of graph] (finding) {Evidence-citing\\diagnostic findings};
+\node[box] (agents) {Existing\\agent runs};
+\node[box,right=of agents] (raw) {Immutable\\raw records};
+\node[box,right=of raw] (adapter) {Versioned\\normalized events};
+\node[box,right=of adapter] (graph) {Evidence graph\\and Panorama};
+\node[box,right=of graph] (finding) {Evidence-citing\\findings};
 \draw[arr] (agents)--(raw);
 \draw[arr] (raw)--(adapter);
 \draw[arr] (adapter)--(graph);
 \draw[arr] (graph)--(finding);
 
-\node[oracle,below=10mm of adapter] (manifest) {Frozen fault manifest\\and nonce verifier};
-\node[oracle,right=of manifest] (gold) {Gold boundary/status\\and outcome lane};
+\node[oracle,below=5mm of agents] (manifest) {Frozen fault\\manifest + verifier};
+\node[oracle,right=of manifest] (gold) {Frozen gold boundary,\\status, outcome};
+\node[oracle,right=of gold] (score) {Offline scorer\\(evaluation only)};
 \draw[arr] (manifest)--(gold);
-\draw[dasharr] (gold)--node[right,align=left,font=\scriptsize]
-  {scoring only; never\\backfills telemetry} (finding);
+\draw[arr] (gold)--(score);
 
-\node[model,below=10mm of graph] (views) {Raw / Panorama /\\known-rule candidate views};
-\node[model,right=of views] (llm) {Optional model candidate\\stored as \inferred};
-\draw[arr] (raw.south)|-(views.west);
-\draw[arr] (graph.south)--(views.north);
+\node[model,below=5mm of graph] (views) {Raw, Panorama,\\known-rule views};
+\node[model,right=of views] (llm) {Optional model\\candidate\\(\inferred)};
+\draw[arr] (graph)--(views);
 \draw[arr] (views)--(llm);
 \draw[dasharr] (llm)--(finding);
-\end{tikzpicture}}
-\caption{Production data flow (top) and evaluation-only oracle lane (orange).
-The controlled fault manifest supplies gold labels to the scorer, not observed
-telemetry.  The deterministic graph is evaluated as known-rule contract
-conformance; the optional model remains non-authoritative.}
+\draw[dasharr] (finding.east)--++(3mm,0)
+  |- ([yshift=-3mm]score.south)--(score.south);
+\end{tikzpicture}
+\caption{Production reconstruction (blue), non-authoritative model candidates
+(green), and evaluation-only oracle data (orange).  The offline scorer consumes
+findings and frozen gold; it never backfills observed telemetry.}
 \label{fig:architecture}
 \end{figure}
 
 \subsection{Data path}
 
-\system has four layers:
+\system has four layers (Fig.~\ref{fig:architecture}):
 
 \begin{enumerate}
   \item \textbf{Collectors} ingest official hooks, local transcripts, and
@@ -241,10 +247,15 @@ conformance; the optional model remains non-authoritative.}
   observable divergence, the supporting evidence, and unobservable boundaries.
 \end{enumerate}
 
-The architecture complements rather than replaces span-centric observability.
-OpenTelemetry's generative-AI conventions describe agent invocation and tool
-execution spans \cite{otel-genai}; \system adds a domain layer centered on a
-versioned Skill definition and one occurrence of that definition.
+Deployment placement and observability interoperability are orthogonal. The
+implementation supports a loopback-local service or an authenticated
+self-hosted remote service with separate read-only viewer and write-only
+Collector credentials; trace import and OTLP/HTTP export remain independent
+options. The architecture complements rather than replaces span-centric
+observability: OpenTelemetry's generative-AI conventions describe agent
+invocation and tool execution spans \cite{otel-genai}, whereas \system adds a
+domain layer centered on a versioned Skill definition and one occurrence of
+that definition.
 
 \subsection{Event and identity model}
 
@@ -280,8 +291,9 @@ after this procedure. For example, a source \texttt{Skill} call is retained,
 normalized to \texttt{skill.\allowbreak activated} as \observed, and connected to subsequent
 tool activity by a separately graded \texttt{skill\_\allowbreak scope} edge; a model
 explanation is stored in a different \inferred record. The implementation is
-approximately 11.7k Python lines spanning versioned adapters, storage,
-redaction, reconstruction, diagnostics, export, server, and local UI.
+approximately 12.9k Python lines spanning versioned adapters, storage,
+redaction, reconstruction, diagnostics, export, authenticated local/remote
+service, and UI.
 
 \subsection{Evidence grades and causal scope}
 
@@ -295,7 +307,8 @@ of an outcome, but still does not establish a Skill-to-outcome causal effect.
 \caption{Evidence grades. Cross-run causal effects require controlled trials.}
 \label{tab:evidence}
 \small
-\begin{tabular}{p{0.18\columnwidth}p{0.70\columnwidth}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.18\columnwidth}%
+  >{\raggedright\arraybackslash}p{0.70\columnwidth}@{}}
 \toprule
 Grade & Meaning \\
 \midrule
@@ -339,28 +352,29 @@ in target: we measure Skill-lifecycle evidence rather than patch correctness.
 
 \subsection{Multi-repository Agent benchmark}
 
-We freeze three tracked files from each of six Git repository profiles: two Go
-projects, two Python research projects, and two Agent Skill or specification
-projects.  Each repository receives a repository-specific, read-only audit
-Skill.  A deterministic probe operates on a temporary overlay and emits a
-nonce-bound oracle record.  Source worktrees must remain byte-identical.
+Table~\ref{tab:profiles} summarizes six three-file profiles: two Go, two Python
+research, and two Agent Skill or specification projects.  Each receives a
+repository-specific, read-only audit Skill.  A deterministic probe operates on
+a temporary overlay and emits a nonce-bound oracle record; source worktrees
+remain byte-identical.
 
 \begin{table}[t]
 \centering
-\caption{Frozen repository profiles. Revisions and selected files are bound by
-the manifest; diversity is profile-level, not repository-scale.}
+\caption{Frozen repository profiles. Public aliases minimize identity
+disclosure; revisions and files are manifest-bound; diversity is profile-level,
+not repository-scale.}
 \label{tab:profiles}
 \scriptsize
 \begin{tabular}{@{}lll@{}}
 \toprule
 Profile & Type & Frozen files (three each) \\
 \midrule
-tinylru & Go cache & \texttt{go.mod}, implementation, test \\
-rapid-tele & Go telemetry & README, \texttt{go.mod}, agent \\
-llm-mi & Python research & packaging, config, activation \\
-llm-mech-int. & Python app & README, requirements, app \\
-hello-skill & Spec workflow & constitution, shell helper, check \\
-rapid-agent & Skill catalog & README, Skill, shell helper \\
+profile-01 & Go cache & module config, implementation, test \\
+profile-02 & Go telemetry & README, module config, agent \\
+profile-03 & Python research & packaging, configuration, activation \\
+profile-04 & Python app & README, dependencies, application \\
+profile-05 & Spec workflow & specification, helper script, check \\
+profile-06 & Skill catalog & README, Skill definition, helper script \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -375,6 +389,11 @@ failure boundaries across six repositories), six clean cells, and 12
 outcome-evidence cells (unverified outcome and verifier conflict).  We report
 these denominators separately because outcome-evidence conflicts are not native
 execution failures.
+
+Faults target Instructions, Resources, Execution, Artifacts, and Outcome.
+Request occurs in every cell; Discovery and Activation appear on successful
+paths but are not fault-injected. Thus five of eight lifecycle stages are
+evaluated as fault locations.
 
 We use two independent gates.  The \emph{integrity gate} requires every cell to
 launch, preserve its workload, and correlate to exactly one collected source
@@ -481,8 +500,10 @@ and every call maps to exactly one source session.  The response gate fails:
 122/126 responses match the oracle.  Codex and Qoder return 42/42; OpenCode
 returns 38/42.  The four OpenCode failures remain in the analysis.
 
-Table~\ref{tab:reconstruction} shows the central reconstruction result.  Codex
-emits no reconstructed Skill runs for these exact sessions.  OpenCode achieves
+Table~\ref{tab:reconstruction} shows the central reconstruction result. Codex's
+42/42 exact nonce-bound responses and target-\texttt{SKILL.md} path signatures
+rule out complete task non-execution, yet its adapter reconstructs no Skill
+runs; neither signal establishes hidden activation semantics. OpenCode achieves
 full Skill-run coverage but emits no failure-like events in the 24 operational
 failure cells.  Qoder emits at least one failure-like event in all 24 failure
 cells, but also in all six clean cells, and exactly localizes six of the 24
@@ -496,9 +517,9 @@ presence therefore cannot be interpreted as faithful boundary semantics.
 denominators are 24 operational failure cells and six clean cells.}
 \label{tab:reconstruction}
 \small
-\begin{tabular}{@{}lrrrr@{}}
+\begin{tabular}{@{}l@{\hspace{10pt}}r@{\hspace{10pt}}r@{\hspace{10pt}}r@{\hspace{10pt}}r@{}}
 \toprule
-Agent & Session coverage & Fail cells & Clean cells & Boundary \\
+Agent & Skill runs & Failure & Clean & Exact bnd. \\
 \midrule
 Codex & 0/42 & 0/24 & 0/6 & 0/24 \\
 OpenCode & 42/42 & 0/24 & 0/6 & 0/24 \\
@@ -513,15 +534,17 @@ capabilities.  Product reporting must combine coverage, clean specificity,
 attribution, and localization rather than displaying a binary ``failure events
 supported'' badge.
 
-\subsection{RQ2: Semantics and structure have different effects}
+\subsection{RQ2: Semantics and structure show different diagnostic signatures}
 
 Table~\ref{tab:qwen} reports the complete Qwen study. Panorama has 10 more exact
 diagnoses and 36 more correct boundaries than Raw. The stricter
-semantics-matched Raw control also localizes 108 boundaries, showing that named
-lifecycle aliases account for the boundary difference in this matrix. Yet it
+semantics-matched Raw control also localizes 108 boundaries, consistent with
+named lifecycle aliases being sufficient for the matched boundary count under
+this frozen prompt contract. Yet it
 has only 49 exact diagnoses and 49 correct statuses; compact Panorama reaches 82
-and 100. Thus semantic exposure and representation structure affect different
-parts of diagnosis. Citation entailment remains non-monotonic.
+and 100. Thus the two views have different template-level signatures for status
+and exactness even when boundary localization matches. Citation entailment
+remains non-monotonic.
 
 The known-rule graph reproduces all 126 contract-generated labels. This is
 expected conformance because graph rules and gold labels share the frozen fault
@@ -534,14 +557,14 @@ Citation entailment is only 89/126 in Graph+Model despite 125 exact answers.
 
 \begin{table}[t]
 \centering
-\caption{Qwen diagnostic results on 126 cases per view. ``Entail'' counts
-supported cited relations; ``Clean FP'' counts failure-status predictions on
-18 controlled clean instantiations.}
+\caption{Qwen results (126 cases per view). ``Ent.'' counts supported cited
+relations; ``Clean-FP'' counts failure statuses on 18 clean controls. The last
+two rows are contract references, not independent model baselines.}
 \label{tab:qwen}
 \small
-\begin{tabular}{lrrrrr}
+\begin{tabular}{@{}l@{\hspace{8pt}}r@{\hspace{8pt}}r@{\hspace{8pt}}r@{\hspace{8pt}}r@{\hspace{8pt}}r@{}}
 \toprule
-View & Exact & Boundary & Status & Entail & Clean FP \\
+View & Exact & Bnd. & Status & Ent. & Clean-FP \\
 \midrule
 Raw model & 72 & 72 & 99 & 62 & 18/18 \\
 Semantics-matched Raw & 49 & 108 & 49 & 26 & 18/18 \\
@@ -551,16 +574,15 @@ Known-rule graph & 126 & 126 & 126 & 126 & 0/18 \\
 Graph+Model & 125 & 125 & 126 & 89 & 0/18 \\
 \bottomrule
 \end{tabular}
-\par\vspace{1pt}\scriptsize The final two rows are contract-conformance
-references, not independent model baselines.
 \end{table}
 
 Qwen completes the 378 primary calls and 126 follow-up control calls; median
 latency is 2.16--2.35 seconds per view. The causal-safety and
 citation-ID-validity gates pass for all model views. A retained prompt-legend
 pilot reaches only 26/126 exact, motivating the inline-alias control and showing
-that seemingly equivalent natural-language scaffolding can itself prime status
-errors. These interface gates do not imply diagnostic correctness.
+that status predictions are sensitive to seemingly equivalent natural-language
+scaffolding under this prompt contract. These interface gates do not imply
+diagnostic correctness.
 
 Table~\ref{tab:template-results}(a) compares the stricter control with Panorama without
 treating the 126 rows as independent samples. Boundary localization is equal in
@@ -570,9 +592,10 @@ directions also vary, so the case totals are descriptive rather than evidence of
 a population effect.
 
 Condition-family strata in Table~\ref{tab:template-results}(b) show why the exact count
-must not be summarized as a uniform benefit. Panorama repairs artifact
-corruption and verifier conflict, but loses exact diagnoses for execution and
-instruction failures. Its 26 status errors are a single directional confusion:
+must not be summarized as a uniform benefit. Panorama has more correct counts
+for artifact corruption and verifier conflict, but fewer exact diagnoses for
+execution and instruction failures. Its 26 status errors are a single
+directional confusion:
 \texttt{observed\_failure} is predicted as \texttt{verifier\_conflict} in all
 18 instruction cases and eight execution cases. This observed pattern could
 arise from the interface or model and is not attributed without a preregistered
@@ -580,9 +603,9 @@ follow-up.
 
 \begin{table}[t]
 \centering
-\caption{Template-aware Qwen comparisons. (a) S-Raw/Panorama case totals and
-the number of templates where each is higher or equal. (b) Raw : Panorama
-correct counts within each 18-instance template. All counts are descriptive.}
+\caption{Template-aware Qwen comparisons: (a) S-Raw and Panorama totals and
+higher/equal templates; (b) Raw:Panorama correct counts per 18-instance
+template. All counts are descriptive.}
 \label{tab:template-results}
 \scriptsize
 \begin{minipage}[t]{0.39\textwidth}
@@ -602,17 +625,17 @@ Entailment & 26/46 & 3 & 2 & 2 \\
 \begin{minipage}[t]{0.59\textwidth}
 \centering
 \textbf{(b) Raw versus Panorama}\\[2pt]
-\begin{tabular}{@{}lrrr@{}}
+\begin{tabular}{@{}l@{\hspace{10pt}}r@{\hspace{10pt}}r@{\hspace{10pt}}r@{}}
 \toprule
 Condition & Exact & Boundary & Status \\
 \midrule
-Artifact corruption & 0 : 18 & 0 : 18 & 18 : 18 \\
-Clean & 0 : 0 & 0 : 0 & 0 : 18 \\
-Execution failure & 18 : 10 & 18 : 18 & 18 : 10 \\
-Instruction failure & 18 : 0 & 18 : 18 & 18 : 0 \\
-Outcome unverified & 18 : 18 & 18 : 18 & 18 : 18 \\
-Resource missing & 18 : 18 & 18 : 18 & 18 : 18 \\
-Verifier conflict & 0 : 18 & 0 : 18 & 9 : 18 \\
+Artifact corruption & 0:18 & 0:18 & 18:18 \\
+Clean & 0:0 & 0:0 & 0:18 \\
+Execution failure & 18:10 & 18:18 & 18:10 \\
+Instruction failure & 18:0 & 18:18 & 18:0 \\
+Outcome unverified & 18:18 & 18:18 & 18:18 \\
+Resource missing & 18:18 & 18:18 & 18:18 \\
+Verifier conflict & 0:18 & 0:18 & 9:18 \\
 \bottomrule
 \end{tabular}
 \end{minipage}
@@ -655,9 +678,10 @@ human ground truth, this supports the rule candidates only on a consensus subset
 and exposes surplus-finding fragility; it is not real-world accuracy.
 
 On the six rule-external anomaly/control pairs, Qwen and DeepSeek complete all
-12 cases with $F_1=.800$ and $.923$; their cited support relations validate in
-10/12 and 11/12 cases.  Both predictions and support validate in 9/12, leaving
-three explicit disagreements.  The production-rule baseline detects zero by
+12 cases with precision/recall $1.00/.67$ and $.86/1.00$ ($F_1=.800/.923$):
+their errors favor precision and recall, respectively, within this controlled
+set. Cited support validates in 10/12 and 11/12 cases; predictions and support
+are jointly valid in 9/12, leaving three disagreements. The production-rule baseline detects zero by
 construction because these families are held outside its rule set.  These
 controlled results motivate a narrow positive role for models: propose
 \inferred candidates beyond existing rules, validate cited node relations, and
@@ -711,13 +735,11 @@ than inheriting historical capabilities.
 
 \subsection{Answer and explanation quality are orthogonal}
 
-Named semantic aliases change Qwen boundary localization from 72 to 108 correct
-cases; compact normalization does not add more correct boundaries but changes
-exact status and entailment substantially. Graph+Model is almost perfectly
-accurate while many explanations still cite insufficient evidence. Interfaces should therefore display answer
-status, evidence-ID validity, relation entailment, and evidence grade as separate
-properties.  A citation badge without an entailment check can increase apparent
-trust without increasing justified trust.
+The named-alias view has 108 correct Qwen boundary localizations versus 72 for
+minimally structured Raw; compact normalization has the same boundary count but
+different exact-status and entailment counts. Even Graph+Model's 125/126 exact
+predictions have only 89/126 entailed citations. Interfaces should display answer
+status, citation validity, relation entailment, and evidence grade separately.
 
 \subsection{Deterministic core, probabilistic edge}
 
@@ -766,7 +788,8 @@ the present controlled corpus.
 ReAct interleaves reasoning and environment actions \cite{react}, and later
 agent benchmarks evaluate tool-using systems on increasingly realistic tasks.
 SWE-bench grounds software-agent outcomes in executable repository tests
-\cite{swebench}. These efforts evaluate agent capability; our focus
+\cite{swebench}, while AgentBoard measures incremental task progress beyond
+final success \cite{agentboard}. These efforts evaluate agent capability; our focus
 is reconstructing the runtime of a dynamically loaded Skill without owning the
 agent harness.
 
@@ -777,12 +800,15 @@ constraints and applying an LLM judge to a validation log \cite{agentrx}.
 HarnessFix compiles traces and harness code into a harness-aware IR, attributes
 responsible steps and layers, and generates scoped repairs \cite{harnessfix}.
 AgentDebugX closes the loop from observability and attribution to recovery and
-rerun, including an installable debugging Skill \cite{agentdebugx}. We
-share the goal of process diagnosis but study a different unit---the Skill
-lifecycle across heterogeneous installed harnesses. Unlike both systems,
-\system is passive and local-first, does not repair or rerun the agent, treats a
-Skill occurrence as the primary entity, grades evidence separately from causal
-scope, and prevents model output from replacing deterministic relations.
+rerun, including an installable debugging Skill \cite{agentdebugx}.
+TraceElephant contrasts full and partial traces for multi-agent failure
+attribution, while HarnessAudit evaluates full trajectories for boundary
+compliance and execution fidelity \cite{traceelephant,harnessaudit}. These
+systems diagnose, audit, or repair task- and harness-level trajectories. Our unit
+is one progressively loaded Skill occurrence under heterogeneous, incomplete
+telemetry. \system is passive and deployment-flexible, does not repair or rerun
+the agent, grades evidence separately from causal scope, and prevents model
+output from replacing deterministic relations.
 
 \paragraph{Observability and provenance.}
 OpenTelemetry defines common trace semantics and evolving GenAI agent/tool span
@@ -790,8 +816,8 @@ conventions \cite{otel-genai}.  W3C PROV supplies a general vocabulary for
 entities, activities, and derivation \cite{w3c-prov-dm}.  \system is a
 domain-specific evidence layer over such telemetry concepts: it defines Skill
 identity, progressive-load boundaries, evidence grades, and versioned adapter
-capability.  It can export to general observability systems without reducing a
-Skill run to a model or tool span.
+capability. It can import supported trace exports and export normalized evidence
+through OTLP/HTTP without reducing a Skill run to a model or tool span.
 
 \paragraph{Agent Skills.}
 The open Agent Skills specification standardizes directory structure,
@@ -816,71 +842,66 @@ or Skill failures.  Exact diagnosis measures agreement with this contract, not
 general semantic understanding.
 
 \paragraph{Internal validity.}
-Agent and model services are stateful and may change.  We freeze executable and
-adapter versions where possible, preserve environment metadata, and interpret
-all comparisons as version-specific.  One run per external-validity cell
-precludes variance estimates for Agent behavior.  Failed response and model
-availability gates are retained rather than repaired by selective retry.
+Agent and model services may change. We freeze available versions and metadata;
+comparisons remain version-specific. One run per external-validity cell
+precludes variance estimates for Agent behavior. Failed
+response and availability gates are retained rather than selectively retried;
+prompts, schemas, and unavailable provider revisions remain part of the
+diagnostic construct.
 
 \paragraph{External validity.}
 Six repositories, three agents, two model interfaces, and 19 de-identified
-runtime traces are broader than a single-harness fixture but are not a
-representative sample of all Skills or agents.  The runtime traces come from one
-local user database.  The second Linux environment shares a physical host with
-macOS, and only one remote PAI-DSW host is used.
+traces exceed a single-harness fixture but do not represent all Skills or
+agents. The traces come from one local database; one Linux environment shares
+a host with macOS, and only one remote PAI-DSW host is used. Authenticated
+remote service paths are integration-tested, but the study does not estimate
+multi-host load, availability, or multi-tenant isolation.
 
 \paragraph{Conclusion validity.}
-Most final benchmark claims are descriptive and mechanism-level.  We do not
-infer causal Skill effectiveness from one run or pool model backends after one
-backend fails its completion gate.  The 126/126 deterministic graph result is
-expected for preregistered known relations and should not be read as novel-fault
-accuracy. The 126 diagnostic rows instantiate only seven condition templates;
-within-template predictions are highly clustered and usually identical across
-agent--repository cells. We therefore make no case-level significance claim.
-Template-stratified directions and descriptive case counts bound RQ2.
+Claims are descriptive and mechanism-level: we neither infer causal Skill
+effectiveness from one run nor pool a backend that fails its completion gate.
+The 126/126 graph result is expected for preregistered relations, not
+novel-fault accuracy. The 126 rows instantiate seven templates with clustered
+predictions, so RQ2 reports template-stratified directions and descriptive
+counts rather than case-level significance.
 
 \section{Privacy, Ethics, and Artifact Practice}
 
-The product is local-first and read-only by default.  Research exports omit raw
-prompts, code, paths, payloads, timestamps, credentials, and identities.  Opaque
-evidence IDs preserve within-case relations without exposing source locators.
-Raw, normalized, and inferred records remain separate.  The artifact manifest
-binds fixtures, probes, reports, and verification outputs by digest.  Releasing
-the benchmark requires retaining these minimization guarantees and confirming
-that the six source repositories can be referenced under their respective
-licenses.
+The product defaults to local, non-intervening collection. Its authenticated
+self-hosted mode keeps viewer and Collector roles separate and retains evidence
+inside the operator-controlled deployment boundary; observability export is
+independently opt-in. Research exports omit raw prompts, code, paths, payloads,
+timestamps, credentials, and identities. Opaque IDs preserve within-case
+relations without source locators; raw, normalized, and inferred records remain
+separate. The manifest binds fixtures, reports, and verification outputs by
+digest. Release retains these safeguards and each source repository's licensing
+constraints.
 
 The system is diagnostic, not a security gate.  It does not block agent actions
 or claim that missing evidence proves malicious behavior.  Model-generated
 diagnoses remain \inferred and must expose unavailable or malformed states.
 
 \paragraph{Artifact.}
-The digest-bound artifact maps every table to its script, frozen fixture, and
-JSON report. In the audited checkout, the full automated suite passes with three documented
-environment skips, and the selected suite passes 13/13 engineering gates.
-Failed scientific gates and pilot results remain in the manifest. The executed
-reports record a dirty working tree; submission therefore requires a clean
-archival snapshot and stable URL rather than treating digests as a substitute
-for provenance.
+The digest-bound artifact maps tables to scripts, fixtures, and JSON reports;
+the audited command discovers 276 tests with three environment skips, and the
+selected suite passes 13/13 gates. A versioned, de-identified,
+\href{https://github.com/hellogxp/skill-runtime-intelligence/releases/tag/profes-2026-artifact-v1}{public artifact}
+preserves failed gates, pilots, the PAI-DSW environment, digests, and
+dirty-worktree provenance. Withheld source identities and unavailable provider
+revisions permit protocol/output audit and deterministic verification, not
+bitwise regeneration of live Agent or model calls.
 
 \section{Conclusion}
 
-Agent Skills create a runtime abstraction that is invisible when observability
-stops at sessions, model calls, and tools.  \system reconstructs that abstraction
-with a passive, evidence-graded lifecycle.  Across 126 controlled executions,
-the source sessions are exactly correlatable but adapter semantics diverge
-substantially. Named lifecycle semantics and compact normalization change
-different diagnostic dimensions and do not guarantee exact diagnosis or
-evidence entailment; a deterministic graph remains
-conformant for known relations and is safer as the authoritative layer. Model
-incompleteness and failure-status false positives on the controlled clean Raw
-views reinforce the same architectural conclusion:
-probabilistic assistance should enrich, not replace, reproducible runtime facts.
-
-The resulting design philosophy is concise: preserve source evidence, make
-unknowns visible, calibrate adapters as measurement instruments, separate
-outcomes from telemetry, and grant causal language only to experiments that
-actually support it.
+\system makes the Agent Skill runtime visible beyond session, model-call, and
+tool traces through a passive, evidence-graded lifecycle. Across 126 controlled
+executions, sessions are exactly correlatable but adapter semantics and
+diagnostic signatures diverge. Known-rule graph conformance, model
+incompleteness, and clean-case failure-status false positives justify keeping
+reproducible facts authoritative and probabilistic assistance subordinate. The
+design rules are to preserve source evidence, expose unknowns, qualify adapters
+as measurement instruments, separate outcomes from telemetry, and reserve
+causal language for experiments that support it.
 
 \bibliographystyle{splncs04}
 \bibliography{references}

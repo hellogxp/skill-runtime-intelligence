@@ -20,6 +20,17 @@
     "weights_included": false,
     "reason": "Model weights are third-party, approximately 67 GiB, and are not necessary to audit the frozen outputs."
   },
+  "request_contract": {
+    "temperature": 0,
+    "maximum_output_tokens": 384,
+    "thinking_enabled": false,
+    "structured_output": "strict JSON schema",
+    "silent_retry": false,
+    "random_seed": null,
+    "random_seed_reason": "The OpenAI-compatible endpoint did not expose or record a provider-side seed.",
+    "request_timeout_seconds": null,
+    "request_timeout_reason": "The frozen result did not record the runner argument; timeout behavior is retained in the completed/timeout gate rather than reconstructed post hoc."
+  },
   "packages": {
     "torch": "2.10.0",
     "transformers": "5.8.1",
@@ -33,5 +44,11 @@
     "host_name_included": false,
     "instance_id_included": false,
     "network_address_included": false
+  },
+  "reproducibility_boundary": {
+    "provider_revision_frozen": false,
+    "provider_revision_reason": "The endpoint did not expose a stable provider-side revision identifier.",
+    "bitwise_regeneration_claimed": false,
+    "frozen_outputs_are_authoritative": true
   }
 }
