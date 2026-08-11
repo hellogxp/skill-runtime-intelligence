@@ -29,16 +29,19 @@ OTLP/HTTP 导出，运行证据始终保留在操作者控制的部署边界内�
 
 ## 快速开始
 
-在 macOS 或 Linux 上安装最新公开版本并启动：
+在 macOS 或 Linux 上粘贴一条命令完成安装、初始化和启动：
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
+curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh
 ```
 
 不需要克隆仓库、`sudo` 或 GitHub CLI。安装器会自动选择当前系统和架构，并在启用
 fail-open 只观测 Hook 前请求一次明确授权。本地 UI 地址为
 [http://127.0.0.1:4317](http://127.0.0.1:4317)。除非显式配置导出，否则所有
 运行数据都保存在 `~/.skill-runtime`。
+
+拒绝 Hook 授权不影响 SRI 启动和已有兼容记录的索引。后续可在“设置 → 采集健康”
+中开启，或运行 `skill-runtime setup --enable-hooks` 为所有已检测 Agent 重新授权。
 
 
 ### 查看第一个实时 SkillRun

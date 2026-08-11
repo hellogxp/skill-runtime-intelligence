@@ -2,7 +2,9 @@
 
 import json
 import mimetypes
+import shutil
 import ssl
+import sys
 import time
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -25,11 +27,16 @@ from .collector import (
 )
 from .integrations import (
     IntegrationError,
+    enable_claude_hooks,
+    enable_codex_hooks,
+    enable_opencode_plugin,
+    enable_qoder_hooks,
     inspect_claude_integration,
     inspect_codex_integration,
     inspect_opencode_integration,
     inspect_qoder_integration,
 )
+from .native_sender import build_native_hook_sender
 from .hook_bridge import HookBridge, default_hook_socket
 from .remote_access import (
     RemoteAccess,
@@ -41,6 +48,28 @@ from .storage import Storage
 
 
 MAX_EVENT_BODY_BYTES = 1024 * 1024
+
+
+def _runtime_executable() -> str:
+    candidate = Path(sys.argv[0]).expanduser()
+    if candidate.exists() and (
+        candidate.name in {"skill-runtime", "skill-panorama"}
+        or candidate.suffix == ".pyz"
+    ):
+        return str(candidate.resolve())
+    return shutil.which("skill-runtime") or ""
+
+
+def _record_hook_consent(
+    config: dict,
+    agent: str,
+    result: dict,
+) -> None:
+    state = config.setdefault("hooks", {}).setdefault(agent, {})
+    state["consent"] = "granted"
+    state["status"] = (
+        "configuration_failed" if result.get("error") else "configured"
+    )
 
 
 class PanoramaHandler(BaseHTTPRequestHandler):
@@ -106,6 +135,13 @@ class PanoramaHandler(BaseHTTPRequestHandler):
             )
             return
         if path == "/api/integrations":
+            config_path = self.server.config_path  # type: ignore[attr-defined]
+            try:
+                integration_config = load_config(config_path)
+            except (OSError, ValueError, json.JSONDecodeError):
+                integration_config = {"hooks": {}}
+            integration_state_root = config_path.expanduser().resolve().parent
+
             def integrations(storage: Storage) -> None:
                 sources = storage.list_sources()
                 result = []
@@ -116,7 +152,7 @@ class PanoramaHandler(BaseHTTPRequestHandler):
                     ("opencode", inspect_opencode_integration),
                 ):
                     try:
-                        item = inspector()
+                        item = inspector(state_root=integration_state_root)
                     except IntegrationError as exc:
                         item = {
                             "agent": agent,
@@ -143,6 +179,11 @@ class PanoramaHandler(BaseHTTPRequestHandler):
                         item["connection_status"] = "not_configured"
                     else:
                         item["connection_status"] = "not_detected"
+                    item["consent"] = (
+                        integration_config.get("hooks", {})
+                        .get(agent, {})
+                        .get("consent", "not_requested")
+                    )
                     result.append(item)
                 self._json({"integrations": result})
 
@@ -335,6 +376,67 @@ class PanoramaHandler(BaseHTTPRequestHandler):
             return
         elif self._remote_access().enabled:
             self._forbidden("Remote viewer credentials are read-only")
+            return
+        if path == "/api/integrations/enable":
+            try:
+                payload = self._read_json_body(MAX_EVENT_BODY_BYTES)
+                agent = str(payload.get("agent") or "").strip().lower()
+                operations = {
+                    "codex": (inspect_codex_integration, enable_codex_hooks),
+                    "claude-code": (
+                        inspect_claude_integration,
+                        enable_claude_hooks,
+                    ),
+                    "qoder": (inspect_qoder_integration, enable_qoder_hooks),
+                    "opencode": (
+                        inspect_opencode_integration,
+                        enable_opencode_plugin,
+                    ),
+                }
+                if agent not in operations:
+                    raise ValueError("unsupported Agent integration")
+                executable = _runtime_executable()
+                if not executable:
+                    raise ValueError(
+                        "Unable to locate the skill-runtime executable; "
+                        "run the corresponding `skill-runtime setup` command."
+                    )
+                config_path = self.server.config_path  # type: ignore[attr-defined]
+                config = load_config(config_path)
+                state_root = config_path.expanduser().resolve().parent
+                inspector, enable = operations[agent]
+                inspected = inspector(
+                    executable=executable,
+                    state_root=state_root,
+                )
+                if not inspected.get("detected"):
+                    raise ValueError(f"{agent} is not detected on this machine")
+                native_sender = build_native_hook_sender(state_root)
+                result = enable(executable, state_root=state_root)
+                _record_hook_consent(config, agent, result)
+                save_config(config, config_path)
+                self._json(
+                    {
+                        "ok": True,
+                        "agent": agent,
+                        "integration": result,
+                        "native_hook_sender": native_sender,
+                        "next": (
+                            "Restart or open a new Agent session, then run "
+                            "`skill-runtime doctor`."
+                        ),
+                    }
+                )
+            except (
+                CollectorValidationError,
+                IntegrationError,
+                json.JSONDecodeError,
+                UnicodeDecodeError,
+                OSError,
+                TypeError,
+                ValueError,
+            ) as exc:
+                self._json({"error": str(exc)}, HTTPStatus.BAD_REQUEST)
             return
         if path == "/api/settings":
             try:

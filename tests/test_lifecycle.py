@@ -9,7 +9,7 @@ from unittest import mock
 
 from skill_runtime_intelligence import cli
 from skill_runtime_intelligence import runtime_manager
-from skill_runtime_intelligence.config import default_config, save_config
+from skill_runtime_intelligence.config import default_config, load_config, save_config
 from skill_runtime_intelligence.runtime_manager import (
     RUNTIME_STATE_VERSION,
     restart_runtime,
@@ -20,6 +20,106 @@ from skill_runtime_intelligence.runtime_manager import (
 
 
 class RuntimeLifecycleTests(unittest.TestCase):
+    def test_install_remembers_declined_consent_without_reprompting(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            state = root / "state"
+            config = default_config(state)
+            config["hooks"]["codex"]["consent"] = "declined"
+            save_config(config, state / "config.json")
+            detected = {"agent": "codex", "detected": True, "installed": False}
+            absent = {"detected": False, "installed": False}
+            with mock.patch.object(
+                cli, "inspect_codex_integration", return_value=detected
+            ), mock.patch.object(
+                cli, "inspect_claude_integration", return_value={"agent": "claude-code", **absent}
+            ), mock.patch.object(
+                cli, "inspect_qoder_integration", return_value={"agent": "qoder", **absent}
+            ), mock.patch.object(
+                cli, "inspect_opencode_integration", return_value={"agent": "opencode", **absent}
+            ), mock.patch.object(
+                cli,
+                "install_native_hook_sender",
+                return_value={"available": True, "built": False},
+            ), mock.patch.object(
+                cli,
+                "index_local",
+                return_value={"sessions": 0, "skill_runs": 0},
+            ), mock.patch.object(
+                cli, "enable_codex_hooks"
+            ) as enable, mock.patch.object(
+                cli.sys.stdin, "isatty", return_value=True
+            ), mock.patch(
+                "builtins.input"
+            ) as prompt, mock.patch(
+                "builtins.print"
+            ):
+                cli.main(
+                    [
+                        "install",
+                        "--state-root",
+                        str(state),
+                        "--project",
+                        str(root),
+                        "--codex-sessions",
+                        str(root / "sessions"),
+                    ]
+                )
+            prompt.assert_not_called()
+            enable.assert_not_called()
+            self.assertEqual(
+                load_config(state / "config.json")["hooks"]["codex"]["consent"],
+                "declined",
+            )
+
+    def test_unified_setup_enables_detected_hooks_and_persists_consent(self):
+        with tempfile.TemporaryDirectory() as directory:
+            state = Path(directory) / "state"
+            detected = {
+                "agent": "codex",
+                "detected": True,
+                "installed": False,
+            }
+            absent = {"detected": False, "installed": False}
+            with mock.patch.object(
+                cli, "inspect_codex_integration", return_value=detected
+            ), mock.patch.object(
+                cli, "inspect_claude_integration", return_value={"agent": "claude-code", **absent}
+            ), mock.patch.object(
+                cli, "inspect_qoder_integration", return_value={"agent": "qoder", **absent}
+            ), mock.patch.object(
+                cli, "inspect_opencode_integration", return_value={"agent": "opencode", **absent}
+            ), mock.patch.object(
+                cli,
+                "enable_codex_hooks",
+                return_value={"changed": True, "installed_events": ["PostToolUse"]},
+            ) as enable_codex, mock.patch.object(
+                cli,
+                "build_native_hook_sender",
+                return_value={"available": True, "built": False},
+            ), mock.patch.object(cli, "_current_executable", return_value="/tmp/skill-runtime"), mock.patch(
+                "builtins.print"
+            ) as output:
+                cli.main(
+                    [
+                        "setup",
+                        "--enable-hooks",
+                        "--state-root",
+                        str(state),
+                    ]
+                )
+
+            enable_codex.assert_called_once_with(
+                "/tmp/skill-runtime",
+                state_root=state,
+            )
+            config = load_config(state / "config.json")
+            self.assertEqual(config["hooks"]["codex"]["consent"], "granted")
+            self.assertEqual(config["hooks"]["codex"]["status"], "configured")
+            result = json.loads(output.call_args.args[0])
+            self.assertEqual(result["action"], "enable")
+            self.assertEqual(result["integrations"][0]["agent"], "codex")
+
     def test_process_command_requests_untruncated_arguments(self):
         completed = mock.Mock(stdout="/usr/bin/python3 -m skill_runtime_intelligence")
         with mock.patch.object(

@@ -581,7 +581,13 @@ window.SkillRuntimeLocalePacks = {
       "slash command": "斜線指令",
       "instruction evidence": "指令證據",
       "instruction access": "指令存取",
-      "resource access": "資源存取"
+      "resource access": "資源存取",
+      "Enable collection": "Enable collection",
+      "Enabling…": "Enabling…",
+      "Unable to enable collection": "Unable to enable collection",
+      "Enable observation-only, fail-open runtime collection for": "Enable observation-only, fail-open runtime collection for",
+      "Skill Runtime will back up and add only its managed Agent configuration.": "Skill Runtime will back up and add only its managed Agent configuration.",
+      "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor.": "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor."
     },
     "patterns": {
       "skills_count": "{count}技能",
@@ -1185,7 +1191,13 @@ window.SkillRuntimeLocalePacks = {
       "slash command": "slash command",
       "instruction evidence": "instruction evidence",
       "instruction access": "instruction access",
-      "resource access": "resource access"
+      "resource access": "resource access",
+      "Enable collection": "Enable collection",
+      "Enabling…": "Enabling…",
+      "Unable to enable collection": "Unable to enable collection",
+      "Enable observation-only, fail-open runtime collection for": "Enable observation-only, fail-open runtime collection for",
+      "Skill Runtime will back up and add only its managed Agent configuration.": "Skill Runtime will back up and add only its managed Agent configuration.",
+      "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor.": "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor."
     },
     "patterns": {
       "skills_count": "{count} Compétences",
@@ -1789,7 +1801,13 @@ window.SkillRuntimeLocalePacks = {
       "slash command": "slash command",
       "instruction evidence": "instruction evidence",
       "instruction access": "instruction access",
-      "resource access": "resource access"
+      "resource access": "resource access",
+      "Enable collection": "Enable collection",
+      "Enabling…": "Enabling…",
+      "Unable to enable collection": "Unable to enable collection",
+      "Enable observation-only, fail-open runtime collection for": "Enable observation-only, fail-open runtime collection for",
+      "Skill Runtime will back up and add only its managed Agent configuration.": "Skill Runtime will back up and add only its managed Agent configuration.",
+      "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor.": "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor."
     },
     "patterns": {
       "skills_count": "{count} Fähigkeiten",
@@ -2393,7 +2411,13 @@ window.SkillRuntimeLocalePacks = {
       "slash command": "slash command",
       "instruction evidence": "instruction evidence",
       "instruction access": "instruction access",
-      "resource access": "resource access"
+      "resource access": "resource access",
+      "Enable collection": "Enable collection",
+      "Enabling…": "Enabling…",
+      "Unable to enable collection": "Unable to enable collection",
+      "Enable observation-only, fail-open runtime collection for": "Enable observation-only, fail-open runtime collection for",
+      "Skill Runtime will back up and add only its managed Agent configuration.": "Skill Runtime will back up and add only its managed Agent configuration.",
+      "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor.": "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor."
     },
     "patterns": {
       "skills_count": "{count} competenze",
@@ -2997,7 +3021,13 @@ window.SkillRuntimeLocalePacks = {
       "slash command": "slash command",
       "instruction evidence": "instruction evidence",
       "instruction access": "instruction access",
-      "resource access": "resource access"
+      "resource access": "resource access",
+      "Enable collection": "Enable collection",
+      "Enabling…": "Enabling…",
+      "Unable to enable collection": "Unable to enable collection",
+      "Enable observation-only, fail-open runtime collection for": "Enable observation-only, fail-open runtime collection for",
+      "Skill Runtime will back up and add only its managed Agent configuration.": "Skill Runtime will back up and add only its managed Agent configuration.",
+      "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor.": "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor."
     },
     "patterns": {
       "skills_count": "{count} Habilidades",
@@ -3601,7 +3631,13 @@ window.SkillRuntimeLocalePacks = {
       "slash command": "slash command",
       "instruction evidence": "instruction evidence",
       "instruction access": "instruction access",
-      "resource access": "resource access"
+      "resource access": "resource access",
+      "Enable collection": "Enable collection",
+      "Enabling…": "Enabling…",
+      "Unable to enable collection": "Unable to enable collection",
+      "Enable observation-only, fail-open runtime collection for": "Enable observation-only, fail-open runtime collection for",
+      "Skill Runtime will back up and add only its managed Agent configuration.": "Skill Runtime will back up and add only its managed Agent configuration.",
+      "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor.": "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor."
     },
     "patterns": {
       "skills_count": "{count} 個のスキル",
@@ -4205,7 +4241,13 @@ window.SkillRuntimeLocalePacks = {
       "slash command": "slash command",
       "instruction evidence": "instruction evidence",
       "instruction access": "instruction access",
-      "resource access": "resource access"
+      "resource access": "resource access",
+      "Enable collection": "Enable collection",
+      "Enabling…": "Enabling…",
+      "Unable to enable collection": "Unable to enable collection",
+      "Enable observation-only, fail-open runtime collection for": "Enable observation-only, fail-open runtime collection for",
+      "Skill Runtime will back up and add only its managed Agent configuration.": "Skill Runtime will back up and add only its managed Agent configuration.",
+      "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor.": "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor."
     },
     "patterns": {
       "skills_count": "{count} 기술",
@@ -4809,7 +4851,13 @@ window.SkillRuntimeLocalePacks = {
       "slash command": "slash command",
       "instruction evidence": "instruction evidence",
       "instruction access": "instruction access",
-      "resource access": "resource access"
+      "resource access": "resource access",
+      "Enable collection": "Enable collection",
+      "Enabling…": "Enabling…",
+      "Unable to enable collection": "Unable to enable collection",
+      "Enable observation-only, fail-open runtime collection for": "Enable observation-only, fail-open runtime collection for",
+      "Skill Runtime will back up and add only its managed Agent configuration.": "Skill Runtime will back up and add only its managed Agent configuration.",
+      "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor.": "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor."
     },
     "patterns": {
       "skills_count": "{count} Навыки",
@@ -5413,7 +5461,13 @@ window.SkillRuntimeLocalePacks = {
       "slash command": "slash command",
       "instruction evidence": "instruction evidence",
       "instruction access": "instruction access",
-      "resource access": "resource access"
+      "resource access": "resource access",
+      "Enable collection": "Enable collection",
+      "Enabling…": "Enabling…",
+      "Unable to enable collection": "Unable to enable collection",
+      "Enable observation-only, fail-open runtime collection for": "Enable observation-only, fail-open runtime collection for",
+      "Skill Runtime will back up and add only its managed Agent configuration.": "Skill Runtime will back up and add only its managed Agent configuration.",
+      "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor.": "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor."
     },
     "patterns": {
       "skills_count": "{count} Habilidades",
@@ -6017,7 +6071,13 @@ window.SkillRuntimeLocalePacks = {
       "slash command": "slash command",
       "instruction evidence": "instruction evidence",
       "instruction access": "instruction access",
-      "resource access": "resource access"
+      "resource access": "resource access",
+      "Enable collection": "Enable collection",
+      "Enabling…": "Enabling…",
+      "Unable to enable collection": "Unable to enable collection",
+      "Enable observation-only, fail-open runtime collection for": "Enable observation-only, fail-open runtime collection for",
+      "Skill Runtime will back up and add only its managed Agent configuration.": "Skill Runtime will back up and add only its managed Agent configuration.",
+      "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor.": "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor."
     },
     "patterns": {
       "skills_count": "{count} Beceri",
@@ -6621,7 +6681,13 @@ window.SkillRuntimeLocalePacks = {
       "slash command": "slash command",
       "instruction evidence": "instruction evidence",
       "instruction access": "instruction access",
-      "resource access": "resource access"
+      "resource access": "resource access",
+      "Enable collection": "Enable collection",
+      "Enabling…": "Enabling…",
+      "Unable to enable collection": "Unable to enable collection",
+      "Enable observation-only, fail-open runtime collection for": "Enable observation-only, fail-open runtime collection for",
+      "Skill Runtime will back up and add only its managed Agent configuration.": "Skill Runtime will back up and add only its managed Agent configuration.",
+      "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor.": "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor."
     },
     "patterns": {
       "skills_count": "{count} Umiejętności",
@@ -7225,7 +7291,13 @@ window.SkillRuntimeLocalePacks = {
       "slash command": "slash command",
       "instruction evidence": "instruction evidence",
       "instruction access": "instruction access",
-      "resource access": "resource access"
+      "resource access": "resource access",
+      "Enable collection": "Enable collection",
+      "Enabling…": "Enabling…",
+      "Unable to enable collection": "Unable to enable collection",
+      "Enable observation-only, fail-open runtime collection for": "Enable observation-only, fail-open runtime collection for",
+      "Skill Runtime will back up and add only its managed Agent configuration.": "Skill Runtime will back up and add only its managed Agent configuration.",
+      "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor.": "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor."
     },
     "patterns": {
       "skills_count": "{count} Dovednosti",
@@ -7829,7 +7901,13 @@ window.SkillRuntimeLocalePacks = {
       "slash command": "slash command",
       "instruction evidence": "instruction evidence",
       "instruction access": "instruction access",
-      "resource access": "resource access"
+      "resource access": "resource access",
+      "Enable collection": "Enable collection",
+      "Enabling…": "Enabling…",
+      "Unable to enable collection": "Unable to enable collection",
+      "Enable observation-only, fail-open runtime collection for": "Enable observation-only, fail-open runtime collection for",
+      "Skill Runtime will back up and add only its managed Agent configuration.": "Skill Runtime will back up and add only its managed Agent configuration.",
+      "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor.": "Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor."
     },
     "patterns": {
       "skills_count": "{count} Készségek",

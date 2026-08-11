@@ -21,10 +21,10 @@ The public installer does not require `sudo`, GitHub CLI, or a source checkout.
 ## 1. Install and start
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
+curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh
 ```
 
-This sequence:
+This command:
 
 1. downloads the GitHub release payload for the current platform;
 2. verifies the published checksum;
@@ -62,6 +62,14 @@ skill-runtime setup --enable-opencode-plugin
 Every managed configuration entry has a Skill Runtime marker. Existing entries
 are preserved and a backup is created before a supported configuration file is
 changed.
+
+If you decline during installation, SRI still starts and indexes supported
+existing records. Grant access later from **Settings → Collection health** or
+enable every detected integration with:
+
+```bash
+skill-runtime setup --enable-hooks
+```
 
 ### Codex
 

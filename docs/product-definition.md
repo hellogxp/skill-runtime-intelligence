@@ -359,11 +359,12 @@ Not observed 或 Unsupported。
 
 ## 9. 安装与首次使用
 
-目标体验：
+目标体验是一条命令完成 CLI 安装、本地初始化和 UI 启动；配置 Agent Hook 前
+必须单独取得用户授权。用户拒绝 Hook 时仍可使用已有会话、导入记录和本地 UI，
+后续可在设置页或 CLI 中重新授权：
 
 ```bash
-skill-runtime install
-skill-runtime start
+curl -LsSf <trusted-install-endpoint> | sh
 ```
 
 产品随后：

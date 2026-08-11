@@ -1071,6 +1071,14 @@ h1, h2, h3, p { margin: 0; }
 .integration-row small { display: block; margin-top: 4px; color: var(--muted); font-size: 8px; }
 .integration-row code { display: block; margin-top: 4px; overflow: hidden; color: var(--muted-2); font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
 .integration-mode { color: var(--muted-2); font-size: 7px; letter-spacing: .06em; text-transform: uppercase; }
+.integration-actions { display: grid; justify-items: end; gap: 7px; }
+.integration-enable {
+  min-height: 27px; padding: 0 10px; border: 1px solid rgba(99,213,205,.28);
+  border-radius: 8px; color: var(--cyan); background: rgba(99,213,205,.07);
+  cursor: pointer; font-size: 8px; white-space: nowrap;
+}
+.integration-enable:hover { border-color: rgba(99,213,205,.55); background: rgba(99,213,205,.12); }
+.integration-enable:disabled { cursor: wait; opacity: .55; }
 .settings-body { padding: 16px 17px; }
 .settings-kv { margin: 0; display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 11px; font-size: 9px; }
 .settings-kv dt { color: var(--muted-2); }

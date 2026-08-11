@@ -635,6 +635,8 @@ function renderConflicts() {
 
 function renderSettings() {
   if (!runtimeSettings || !document.querySelector("#integration-list")) return;
+  const deployment = runtimeSettings.deployment || {mode: "local"};
+  const remoteReadOnly = Boolean(deployment.viewer_read_only);
   document.querySelector("#integration-list").innerHTML = runtimeIntegrations.map((item) => `
     <article class="integration-row">
       <span class="integration-status ${item.connection_status === "verified" ? "active" : item.detected ? "available" : "missing"}"></span>
@@ -650,13 +652,19 @@ function renderSettings() {
         <code>${esc(item.agent_version || "version unavailable")} · ${esc(item.selected_collection_mode || "unknown")}</code>
         <code>${esc(item.config_path || "")}</code>
       </div>
-      <span class="integration-mode">${esc(item.connection_status === "verified" ? "Live" : item.installed ? "Pending" : item.detected ? "Available" : "Absent")}</span>
+      <div class="integration-actions">
+        <span class="integration-mode">${esc(item.connection_status === "verified" ? "Live" : item.installed ? "Pending" : item.detected ? "Available" : "Absent")}</span>
+        ${item.detected && !item.installed && !remoteReadOnly
+          ? `<button class="integration-enable" type="button" data-agent="${esc(item.agent)}">Enable collection</button>`
+          : ""}
+      </div>
     </article>
   `).join("");
+  document.querySelectorAll(".integration-enable").forEach((button) => {
+    button.addEventListener("click", () => enableRuntimeIntegration(button));
+  });
   const counts = runtimeSettings.counts || {};
   const privacy = runtimeSettings.privacy || {};
-  const deployment = runtimeSettings.deployment || {mode: "local"};
-  const remoteReadOnly = Boolean(deployment.viewer_read_only);
   document.querySelector("#data-settings").innerHTML = `
     <dl class="settings-kv">
       <dt>Deployment</dt><dd>${esc(pretty(deployment.mode || "local"))}</dd>
@@ -698,6 +706,34 @@ function renderSettings() {
         <span class="integration-mode">${item.ok === false ? "Retrying" : "Live"}</span>
       </article>`).join("")
     : `<div class="empty-inspector compact-empty"><p>No network exporter configured.</p><small>Start with --otlp-endpoint or OTEL_EXPORTER_OTLP_ENDPOINT.</small></div>`;
+}
+
+async function enableRuntimeIntegration(button) {
+  const agent = button.dataset.agent;
+  const confirmed = window.confirm(
+    `${tr("Enable observation-only, fail-open runtime collection for")} ${agent}? ${tr("Skill Runtime will back up and add only its managed Agent configuration.")}`
+  );
+  if (!confirmed) return;
+  button.disabled = true;
+  button.textContent = tr("Enabling…");
+  try {
+    const response = await fetch("/api/integrations/enable", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({agent}),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || tr("Unable to enable collection"));
+    const integrationsResponse = await getJSON("/api/integrations");
+    runtimeIntegrations = integrationsResponse.integrations || [];
+    renderSourceSummary();
+    renderSettings();
+    window.alert(tr("Collection enabled. Restart or open a new Agent session, then run skill-runtime doctor."));
+  } catch (error) {
+    button.disabled = false;
+    button.textContent = tr("Enable collection");
+    window.alert(error.message);
+  }
 }
 
 function formatBytes(bytes) {

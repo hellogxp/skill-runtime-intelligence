@@ -3,6 +3,7 @@ import tempfile
 import threading
 import unittest
 from pathlib import Path
+from unittest import mock
 from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -50,6 +51,56 @@ def fixture_event(event_id="evt-fixture"):
 
 
 class CollectorTests(unittest.TestCase):
+    def test_local_settings_can_explicitly_enable_one_agent_integration(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            database = root / "panorama.db"
+            config_path = root / "state" / "config.json"
+            Storage(database).close()
+            server = create_server(
+                database,
+                "127.0.0.1",
+                0,
+                config_path=config_path,
+            )
+            thread = threading.Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            base_url = f"http://127.0.0.1:{server.server_address[1]}"
+            try:
+                with mock.patch(
+                    "skill_runtime_intelligence.server._runtime_executable",
+                    return_value="/tmp/skill-runtime",
+                ), mock.patch(
+                    "skill_runtime_intelligence.server.inspect_codex_integration",
+                    return_value={"agent": "codex", "detected": True},
+                ), mock.patch(
+                    "skill_runtime_intelligence.server.build_native_hook_sender",
+                    return_value={"available": True, "built": False},
+                ), mock.patch(
+                    "skill_runtime_intelligence.server.enable_codex_hooks",
+                    return_value={"changed": True, "installed_events": ["PostToolUse"]},
+                ) as enable:
+                    request = Request(
+                        f"{base_url}/api/integrations/enable",
+                        data=json.dumps({"agent": "codex"}).encode("utf-8"),
+                        headers={"Content-Type": "application/json"},
+                        method="POST",
+                    )
+                    with urlopen(request, timeout=3) as response:
+                        result = json.loads(response.read())
+                self.assertTrue(result["ok"])
+                enable.assert_called_once_with(
+                    "/tmp/skill-runtime",
+                    state_root=config_path.parent.resolve(),
+                )
+                config = load_config(config_path)
+                self.assertEqual(config["hooks"]["codex"]["consent"], "granted")
+                self.assertEqual(config["hooks"]["codex"]["status"], "configured")
+            finally:
+                server.shutdown()
+                server.server_close()
+                thread.join(timeout=3)
+
     def test_timestamp_fallback_is_labeled_and_uncertainty_is_bounded(self):
         event = fixture_event("evt-fallback")
         event.pop("occurred_at")

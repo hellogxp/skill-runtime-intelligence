@@ -34,7 +34,7 @@ unless trace import or OTLP/HTTP export is explicitly configured.
 Install and start the latest public release on macOS or Linux:
 
 ```bash
-curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh -s -- --start
+curl -LsSf https://raw.githubusercontent.com/hellogxp/skill-runtime-intelligence/main/scripts/install.sh | sh
 ```
 
 No clone, account, `sudo`, or GitHub CLI is required. The installer verifies
@@ -43,6 +43,10 @@ every path it will read, asks once before enabling observation-only hooks, and
 opens the local UI at
 [http://127.0.0.1:4317](http://127.0.0.1:4317). Runtime data stays under
 `~/.skill-runtime` unless you explicitly configure an export.
+
+Declining Hook access does not prevent SRI from starting or indexing supported
+existing records. You can grant access later from **Settings → Collection
+health**, or run `skill-runtime setup --enable-hooks`.
 
 You can [inspect the public installer](scripts/install.sh) before running it.
 

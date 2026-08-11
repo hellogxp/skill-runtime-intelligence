@@ -8,7 +8,7 @@ import sys
 import threading
 import webbrowser
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 from urllib.parse import unquote
 from urllib.parse import urlparse
 
@@ -408,6 +408,85 @@ def _current_executable() -> str:
     return shutil.which("skill-runtime") or ""
 
 
+def _integration_operations():
+    return {
+        "codex": {
+            "inspect": inspect_codex_integration,
+            "enable": enable_codex_hooks,
+            "remove": remove_codex_hooks,
+        },
+        "claude-code": {
+            "inspect": inspect_claude_integration,
+            "enable": enable_claude_hooks,
+            "remove": remove_claude_hooks,
+        },
+        "qoder": {
+            "inspect": inspect_qoder_integration,
+            "enable": enable_qoder_hooks,
+            "remove": remove_qoder_hooks,
+        },
+        "opencode": {
+            "inspect": inspect_opencode_integration,
+            "enable": enable_opencode_plugin,
+            "remove": remove_opencode_plugin,
+        },
+    }
+
+
+def _record_hook_consent(
+    config: Dict[str, Any],
+    agent: str,
+    consent: str,
+    result: Dict[str, Any],
+) -> None:
+    state = config.setdefault("hooks", {}).setdefault(agent, {})
+    state["consent"] = consent
+    if result.get("error"):
+        state["status"] = "configuration_failed"
+    elif consent == "granted":
+        state["status"] = "configured"
+    else:
+        state["status"] = "not_configured"
+
+
+def _configure_default_integrations(
+    *,
+    action: str,
+    executable: str,
+    config: Dict[str, Any],
+    state_root: Optional[Path],
+    agents: Optional[List[str]] = None,
+) -> List[Dict[str, Any]]:
+    operations = _integration_operations()
+    selected = agents or list(operations)
+    results = []
+    for agent in selected:
+        operation = operations[agent]
+        if action == "enable":
+            inspected = operation["inspect"](
+                executable=executable,
+                state_root=state_root,
+            )
+            if not inspected.get("detected"):
+                continue
+            try:
+                result = operation["enable"](
+                    executable,
+                    state_root=state_root,
+                )
+            except IntegrationError as exc:
+                result = {"changed": False, "error": str(exc)}
+            _record_hook_consent(config, agent, "granted", result)
+        else:
+            try:
+                result = operation["remove"](state_root=state_root)
+            except IntegrationError as exc:
+                result = {"changed": False, "error": str(exc)}
+            _record_hook_consent(config, agent, "revoked", result)
+        results.append({"agent": agent, **result})
+    return results
+
+
 def _cli_invocation() -> List[str]:
     executable = _current_executable()
     if executable:
@@ -789,6 +868,16 @@ def build_parser() -> argparse.ArgumentParser:
     )
     setup_actions = setup_parser.add_mutually_exclusive_group()
     setup_actions.add_argument(
+        "--enable-hooks",
+        action="store_true",
+        help="Enable fail-open collection for every detected Agent",
+    )
+    setup_actions.add_argument(
+        "--remove-hooks",
+        action="store_true",
+        help="Remove every Agent integration managed by Skill Runtime",
+    )
+    setup_actions.add_argument(
         "--enable-codex-hooks",
         action="store_true",
         help="Back up config and install fail-open Codex hooks",
@@ -854,6 +943,12 @@ def build_parser() -> argparse.ArgumentParser:
             .expanduser()
         ),
         help="OpenCode managed plugin path",
+    )
+    setup_parser.add_argument(
+        "--state-root",
+        type=_path,
+        default=None,
+        help=argparse.SUPPRESS,
     )
     setup_parser.add_argument("--executable", default="", help=argparse.SUPPRESS)
 
@@ -923,23 +1018,44 @@ def main(argv=None) -> None:
             ),
         ]
         detected = [item for item in integrations if item["detected"]]
-        enable_hooks = args.enable_hooks
+        recorded_hooks = config.setdefault("hooks", {})
+        pending = [
+            item
+            for item in detected
+            if recorded_hooks.get(item["agent"], {}).get("consent")
+            not in {"granted", "declined", "revoked"}
+        ]
+        enable_agents = {
+            item["agent"]
+            for item in detected
+            if recorded_hooks.get(item["agent"], {}).get("consent") == "granted"
+        }
+        if args.enable_hooks:
+            enable_agents = {item["agent"] for item in detected}
         if (
-            not enable_hooks
+            not args.enable_hooks
             and not args.no_hooks
-            and detected
+            and pending
             and sys.stdin.isatty()
         ):
-            names = ", ".join(item["agent"] for item in detected)
+            names = ", ".join(item["agent"] for item in pending)
             answer = input(
                 f"Enable async/fail-open runtime hooks for {names}? [y/N] "
             ).strip().lower()
-            enable_hooks = answer in {"y", "yes"}
+            if answer in {"y", "yes"}:
+                enable_agents.update(item["agent"] for item in pending)
+            else:
+                for item in pending:
+                    _record_hook_consent(
+                        config,
+                        item["agent"],
+                        "declined",
+                        {"changed": False},
+                    )
         hook_results = []
-        config.setdefault("hooks", {})
         for integration in detected:
             agent = integration["agent"]
-            if enable_hooks:
+            if agent in enable_agents:
                 try:
                     if agent == "codex":
                         result = enable_codex_hooks(
@@ -958,21 +1074,21 @@ def main(argv=None) -> None:
                             executable, state_root=state_root
                         )
                     hook_results.append({"agent": agent, **result})
-                    config["hooks"][agent] = {"consent": "granted"}
+                    _record_hook_consent(config, agent, "granted", result)
                 except IntegrationError as exc:
-                    hook_results.append(
-                        {
-                            "agent": agent,
-                            "changed": False,
-                            "error": str(exc),
-                        }
-                    )
-                    config["hooks"][agent] = {
-                        "consent": "granted",
-                        "status": "configuration_failed",
+                    result = {
+                        "changed": False,
+                        "error": str(exc),
                     }
+                    hook_results.append({"agent": agent, **result})
+                    _record_hook_consent(config, agent, "granted", result)
             elif args.no_hooks:
-                config["hooks"][agent] = {"consent": "declined"}
+                _record_hook_consent(
+                    config,
+                    agent,
+                    "declined",
+                    {"changed": False},
+                )
         save_config(config, config_path)
         roots = []
         for project in config["projects"]:
@@ -1000,19 +1116,19 @@ def main(argv=None) -> None:
             "native_hook_sender": native_sender,
             "consent_required": [
                 item["agent"]
-                for item in detected
-                if not enable_hooks and not args.no_hooks
+                for item in pending
+                if config["hooks"][item["agent"]]["consent"] == "not_requested"
             ],
             "index": indexed,
             "next": "skill-runtime start",
             "codex_trust_required": bool(
-                enable_hooks
+                bool(enable_agents)
                 and any(item["agent"] == "codex" for item in detected)
             ),
             "codex_trust_action": (
                 "In Codex, run `/hooks`, review the exact Skill Runtime commands, "
                 "and trust them. Then start a new turn and run `skill-runtime doctor`."
-                if enable_hooks
+                if "codex" in enable_agents
                 else ""
             ),
         }
@@ -1216,27 +1332,92 @@ def main(argv=None) -> None:
                 pass
     elif args.command == "setup":
         executable = args.executable or _current_executable()
+        config_path = default_config_path(args.state_root)
+        config = load_config(config_path)
         native_sender = None
-        if args.enable_codex_hooks:
-            native_sender = build_native_hook_sender()
-            result = enable_codex_hooks(executable, args.codex_hooks)
+        if args.enable_hooks:
+            native_sender = build_native_hook_sender(args.state_root)
+            results = _configure_default_integrations(
+                action="enable",
+                executable=executable,
+                config=config,
+                state_root=args.state_root,
+            )
+            save_config(config, config_path)
+            result = {"action": "enable", "integrations": results}
+        elif args.remove_hooks:
+            results = _configure_default_integrations(
+                action="remove",
+                executable=executable,
+                config=config,
+                state_root=args.state_root,
+            )
+            save_config(config, config_path)
+            result = {"action": "remove", "integrations": results}
+        elif args.enable_codex_hooks:
+            native_sender = build_native_hook_sender(args.state_root)
+            result = enable_codex_hooks(
+                executable,
+                args.codex_hooks,
+                state_root=args.state_root,
+            )
+            _record_hook_consent(config, "codex", "granted", result)
+            save_config(config, config_path)
         elif args.remove_codex_hooks:
-            result = remove_codex_hooks(args.codex_hooks)
+            result = remove_codex_hooks(
+                args.codex_hooks,
+                state_root=args.state_root,
+            )
+            _record_hook_consent(config, "codex", "revoked", result)
+            save_config(config, config_path)
         elif args.enable_claude_hooks:
-            native_sender = build_native_hook_sender()
-            result = enable_claude_hooks(executable, args.claude_settings)
+            native_sender = build_native_hook_sender(args.state_root)
+            result = enable_claude_hooks(
+                executable,
+                args.claude_settings,
+                state_root=args.state_root,
+            )
+            _record_hook_consent(config, "claude-code", "granted", result)
+            save_config(config, config_path)
         elif args.remove_claude_hooks:
-            result = remove_claude_hooks(args.claude_settings)
+            result = remove_claude_hooks(
+                args.claude_settings,
+                state_root=args.state_root,
+            )
+            _record_hook_consent(config, "claude-code", "revoked", result)
+            save_config(config, config_path)
         elif args.enable_qoder_hooks:
-            native_sender = build_native_hook_sender()
-            result = enable_qoder_hooks(executable, args.qoder_settings)
+            native_sender = build_native_hook_sender(args.state_root)
+            result = enable_qoder_hooks(
+                executable,
+                args.qoder_settings,
+                state_root=args.state_root,
+            )
+            _record_hook_consent(config, "qoder", "granted", result)
+            save_config(config, config_path)
         elif args.remove_qoder_hooks:
-            result = remove_qoder_hooks(args.qoder_settings)
+            result = remove_qoder_hooks(
+                args.qoder_settings,
+                state_root=args.state_root,
+            )
+            _record_hook_consent(config, "qoder", "revoked", result)
+            save_config(config, config_path)
         elif args.enable_opencode_plugin:
-            native_sender = build_native_hook_sender()
-            result = enable_opencode_plugin(executable, args.opencode_plugin)
+            native_sender = build_native_hook_sender(args.state_root)
+            result = enable_opencode_plugin(
+                executable,
+                args.opencode_plugin,
+                state_root=args.state_root,
+            )
+            _record_hook_consent(config, "opencode", "granted", result)
+            save_config(config, config_path)
         elif args.remove_opencode_plugin:
-            result = remove_opencode_plugin(args.opencode_plugin)
+            result = remove_opencode_plugin(
+                args.opencode_plugin,
+                state_root=args.state_root,
+            )
+            _record_hook_consent(config, "opencode", "revoked", result)
+            save_config(config, config_path)
         else:
             result = {
                 "integrations": [

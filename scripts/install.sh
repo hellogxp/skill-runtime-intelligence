@@ -5,14 +5,15 @@ repository="${SKILL_RUNTIME_REPOSITORY:-hellogxp/skill-runtime-intelligence}"
 version="${SKILL_RUNTIME_VERSION:-latest}"
 install_dir="${SKILL_RUNTIME_INSTALL_DIR:-${HOME}/.local/bin}"
 binary_only=0
-start_after_install=0
+start_after_install=1
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --binary-only) binary_only=1 ;;
     --start) start_after_install=1 ;;
+    --no-start) start_after_install=0 ;;
     *)
-      echo "usage: install.sh [--binary-only] [--start]" >&2
+      echo "usage: install.sh [--binary-only] [--start|--no-start]" >&2
       exit 2
       ;;
   esac
