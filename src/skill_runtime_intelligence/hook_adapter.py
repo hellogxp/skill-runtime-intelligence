@@ -14,6 +14,7 @@ from .redaction import compact_text
 CODEX_HOOK_ADAPTER_VERSION = "0.3.0"
 CLAUDE_HOOK_ADAPTER_VERSION = "0.3.0"
 QODER_HOOK_ADAPTER_VERSION = "0.3.0"
+QODERWORK_HOOK_ADAPTER_VERSION = "0.1.0"
 OPENCODE_PLUGIN_ADAPTER_VERSION = "0.3.0"
 
 QUOTED_SKILL_PATH = re.compile(
@@ -71,6 +72,7 @@ SUPPORTED_HOOK_AGENTS = {
     "codex": CODEX_HOOK_ADAPTER_VERSION,
     "claude-code": CLAUDE_HOOK_ADAPTER_VERSION,
     "qoder": QODER_HOOK_ADAPTER_VERSION,
+    "qoderwork": QODERWORK_HOOK_ADAPTER_VERSION,
     "opencode": OPENCODE_PLUGIN_ADAPTER_VERSION,
 }
 
@@ -1062,6 +1064,14 @@ def build_opencode_hook_envelopes(
     )
 
 
+def build_qoderwork_hook_envelopes(
+    hook_event: str, payload: Dict[str, Any]
+) -> List[Dict[str, Any]]:
+    return build_agent_hook_envelopes(
+        "qoderwork", QODERWORK_HOOK_ADAPTER_VERSION, hook_event, payload
+    )
+
+
 def build_hook_envelopes(
     agent: str, hook_event: str, payload: Dict[str, Any]
 ) -> List[Dict[str, Any]]:
@@ -1071,6 +1081,8 @@ def build_hook_envelopes(
         return build_claude_hook_envelopes(hook_event, payload)
     if agent == "qoder":
         return build_qoder_hook_envelopes(hook_event, payload)
+    if agent == "qoderwork":
+        return build_qoderwork_hook_envelopes(hook_event, payload)
     if agent == "opencode":
         return build_opencode_hook_envelopes(hook_event, payload)
     return []

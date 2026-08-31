@@ -4,6 +4,7 @@ import unittest
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
+from unittest.mock import patch
 
 from skill_runtime_intelligence.discovery import parse_skill
 from skill_runtime_intelligence.indexer import index_local
@@ -11,6 +12,124 @@ from skill_runtime_intelligence.storage import Storage
 
 
 class StorageTests(unittest.TestCase):
+    def test_schema_initialization_runs_once_per_database_path(self):
+        with tempfile.TemporaryDirectory() as directory:
+            database = Path(directory) / "panorama.db"
+            original = Storage._migrate_legacy_schema
+            calls = []
+
+            def counted(storage):
+                calls.append(storage.path)
+                return original(storage)
+
+            with patch.object(Storage, "_migrate_legacy_schema", counted):
+                first = Storage(database)
+                first.close()
+                second = Storage(database)
+                second.close()
+
+            self.assertEqual(calls, [database.resolve()])
+
+    def test_skill_run_pages_use_stable_bounded_cursors(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            skill_dir = root / "skills" / "demo"
+            skill_dir.mkdir(parents=True)
+            skill_file = skill_dir / "SKILL.md"
+            skill_file.write_text(
+                "---\nname: demo\ndescription: Demo runtime\n---\n",
+                encoding="utf-8",
+            )
+            skill = parse_skill(skill_file)
+            storage = Storage(root / "panorama.db")
+            session = {
+                "session_id": "session-page",
+                "adapter": "codex",
+                "adapter_version": "0.2.0",
+                "source_path": str(root / "session-page.jsonl"),
+                "source_format_version": "fixture",
+                "title": "Enterprise pagination fixture",
+                "cwd": str(root),
+                "model": "test-model",
+                "agent_version": "",
+                "started_at": "2026-08-24T00:00:00Z",
+                "ended_at": "2026-08-24T00:00:30Z",
+                "duration_ms": 30_000,
+                "status": "completed",
+                "completeness": "complete",
+                "event_count": 0,
+            }
+            runs = [
+                {
+                    "skill_run_id": f"skillrun-page-{index:02d}",
+                    "session_id": "session-page",
+                    "turn_id": f"turn-{index:02d}",
+                    "skill_id": skill.skill_id,
+                    "activation_mode": "explicit_tool",
+                    "evidence_grade": "observed",
+                    "status": "completed" if index % 2 else "failed",
+                    "started_at": f"2026-08-24T00:00:{index:02d}Z",
+                    "ended_at": f"2026-08-24T00:00:{index:02d}Z",
+                    "basis": "fixture",
+                }
+                for index in range(30)
+            ]
+            try:
+                storage.replace_skills([skill.to_dict()])
+                storage.replace_session(session, [], [], runs)
+                first = storage.list_skill_runs_page(limit=10)
+                second = storage.list_skill_runs_page(
+                    limit=10, cursor=first["page"]["next_cursor"]
+                )
+                third = storage.list_skill_runs_page(
+                    limit=10, cursor=second["page"]["next_cursor"]
+                )
+                identifiers = [
+                    item["skill_run_id"]
+                    for page in (first, second, third)
+                    for item in page["skill_runs"]
+                ]
+                self.assertEqual(len(identifiers), 30)
+                self.assertEqual(len(set(identifiers)), 30)
+                self.assertTrue(first["page"]["has_more"])
+                self.assertTrue(second["page"]["has_more"])
+                self.assertFalse(third["page"]["has_more"])
+                self.assertEqual(first["summary"]["total"], 30)
+                self.assertEqual(
+                    first["summary"]["result_counts"],
+                    {
+                        "completed": 15,
+                        "explicit_failure": 15,
+                        "incomplete": 0,
+                        "interrupted": 0,
+                    },
+                )
+                self.assertEqual(first["summary"]["stage_supported_totals"]["discovery"], 0)
+                self.assertTrue(
+                    all(
+                        item["result_type"] == "explicit_failure"
+                        for item in first["skill_runs"]
+                    )
+                )
+                self.assertEqual(
+                    [item["result_type"] for item in second["skill_runs"][:5]],
+                    ["explicit_failure"] * 5,
+                )
+                self.assertEqual(
+                    [item["result_type"] for item in second["skill_runs"][5:]],
+                    ["completed"] * 5,
+                )
+                failed = storage.list_skill_runs_page(limit=7, status="failed")
+                self.assertEqual(len(failed["skill_runs"]), 7)
+                self.assertTrue(all(item["status"] == "failed" for item in failed["skill_runs"]))
+                completed = storage.list_skill_runs_page(limit=7, status="completed")
+                self.assertEqual(completed["summary"]["total"], 15)
+                self.assertTrue(
+                    all(item["result_type"] == "completed" for item in completed["skill_runs"])
+                )
+            finally:
+                storage.close()
+
     def test_timestamp_provenance_migration_preserves_unknown_legacy_state(self):
         with tempfile.TemporaryDirectory() as directory:
             database = Path(directory) / "panorama.db"

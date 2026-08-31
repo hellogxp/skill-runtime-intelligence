@@ -31,6 +31,14 @@ skill-runtime config --set network_export.enabled=true
 skill-runtime restart
 ```
 
+For a reproducible local demonstration that fans the same redacted OTLP stream
+out to Phoenix, Langfuse, and Opik, use the repository-owned Collector and
+Phoenix configuration under [`../deploy/observability/`](../deploy/observability/)
+and follow the
+[multi-backend integration guide](observability-multi-backend.md). Langfuse and
+Opik are started from pinned official checkouts so their internal service
+topologies remain vendor-owned.
+
 Use `OTEL_EXPORTER_OTLP_HEADERS` for secrets. Skill Runtime never writes those
 headers to its JSON configuration or process arguments.
 

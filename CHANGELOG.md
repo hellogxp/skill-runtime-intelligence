@@ -7,6 +7,12 @@ The project follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- A versioned QoderWork Hook adapter with independent source identity and
+  conservative capability reporting.
+- A versioned evidence-bounded diagnosis endpoint and privacy-minimized DataV
+  datasets for product visualizations.
+- A Chinese-first Runtime Overview and SkillRun Panorama with evidence labels,
+  lifecycle graph explanations, and clearer run-level diagnosis.
 - Authenticated self-hosted remote deployment with independent read-only
   viewer and write-only Collector credentials.
 - Direct TLS or loopback-behind-HTTPS-proxy transport enforcement, secure
@@ -14,6 +20,11 @@ The project follows [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- SkillRun listing now uses bounded server-side pagination; overview totals and
+  result distributions cover the complete filtered result set rather than the
+  current page only.
+- Initial rendering avoids slow integration probes, and live-stream leases
+  prevent stale tabs from monopolizing browser connections.
 - Non-loopback service binding now fails closed unless explicit remote access
   policy is configured.
 - The UI identifies the selected deployment boundary and disables local data

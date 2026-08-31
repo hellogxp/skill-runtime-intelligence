@@ -1,4 +1,4 @@
-# Agent Skill Runtime Intelligence
+# SRI · Skill Runtime Intelligence
 
 [![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-intelligence/releases/latest)
@@ -27,7 +27,7 @@ take over the Agent loop, block Agent actions, or modify the observed source
 workspace. Evidence remains inside the operator-controlled deployment boundary
 unless trace import or OTLP/HTTP export is explicitly configured.
 
-![Skill Run Panorama](docs/assets/skill-run-panorama.png)
+![SRI runtime overview in Simplified Chinese](docs/assets/sri-runtime-overview-cn.png)
 
 ## Quick start
 
@@ -89,6 +89,8 @@ python3 -m venv .venv
 | Inferred Analysis | What evidence-bounded explanation or next investigation is plausible? |
 | Settings / Doctor | What is read, stored, exported, pending, and verified? |
 
+![SRI SkillRun Panorama in Simplified Chinese](docs/assets/sri-skillrun-panorama-cn.png)
+
 ## How it works
 
 ![Runtime architecture](docs/assets/runtime-architecture.svg)
@@ -119,6 +121,7 @@ Supported first-party adapters are versioned independently:
 | Codex | Official command Hooks | Session import | Skill tool, exact instruction path, and structured UI context when exposed |
 | Claude Code | Official Hooks | Session import | Skill tool, slash command, instruction load, and structured UI context when exposed |
 | Qoder | Official command Hooks | Structured local records | Skill tool plus UI/Slash Skill context recorded by Qoder |
+| QoderWork | Official command Hooks | Local records | Exact instruction and standard Skill-resource access when exposed |
 | OpenCode | Observation-only global plugin | Local records | Stable Skill tool plus typed UI/Skill-message context when exposed |
 
 Exact capability limits are documented in the
@@ -207,6 +210,8 @@ independent, versioned adapters and provides:
 - evidence-bounded conformance, verification, and runtime-failure checks;
 - concrete instruction, resource, tool, artifact, and outcome inventories;
 - Runtime Overview with systemic coverage limits separated from run findings;
+- bounded server-side SkillRun pagination and aggregate result summaries across
+  the complete filtered result set;
 - first-boundary diagnosis;
 - a panorama DAG, event timeline, and evidence inspector;
 - capability-aware same-Agent and cross-Agent comparison;
@@ -520,9 +525,9 @@ Product and research references: [product definition](docs/product-definition.md
 
 ## Roadmap
 
-1. **v0.3.0 — Next release:** checkable Skill behavior constraints, concrete runtime
-   activity, evidence-bounded assessment, systemic coverage diagnosis, and the
-   existing live Panorama and Compare workflow.
+1. **Current:** checkable Skill behavior constraints, concrete runtime activity,
+   evidence-bounded assessment, systemic coverage diagnosis, and the live
+   Panorama and Compare workflow.
 2. **Next — Adapter and diagnosis hardening:** broader Agent/version coverage,
    real-fault calibration, cross-platform tail-latency validation, and
    participant diagnosis studies.
@@ -531,11 +536,11 @@ Product and research references: [product definition](docs/product-definition.md
 
 ## Project status
 
-The current source tree targets `v0.3.0`; use the release badge above to identify
-the latest published build. The runtime includes checkable
+The source tree continues beyond the `v0.3.0` release; use the release badge
+above to identify the latest packaged build. The runtime includes checkable
 Skill behavior constraints, concrete activity summaries, installed-definition
-inventory, consent-driven official Hook adapters for Codex, Claude Code, and
-Qoder, an observation-only OpenCode plugin, labeled transcript fallback,
+inventory, consent-driven official Hook adapters for Codex, Claude Code, Qoder,
+and QoderWork, an observation-only OpenCode plugin, labeled transcript fallback,
 active-scope attribution, exact file/artifact paths, redaction, separate
 source/relationship/inference layers, SQLite storage, retention, deterministic
 diagnosis, live UI, and cross-run/cross-Agent comparison. OTLP/Phoenix,

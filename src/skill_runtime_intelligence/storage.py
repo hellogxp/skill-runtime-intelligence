@@ -5,11 +5,13 @@ relationships, and inferences in separate layers. SkillRun is the primary query
 entity; an agent session is only its runtime context.
 """
 
+import base64
 import hashlib
 import json
 import re
 import sqlite3
 import threading
+import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
@@ -17,10 +19,18 @@ from typing import Any, Dict, Iterable, List, Optional
 from .activity_summary import build_activity_summary
 from .behavior_constraints import assess_skill_behavior
 from .comparison import build_comparison
+from .diagnosis_engine import build_diagnosis_payload
 from .diagnostics import assess_skill_run, diagnose_skill_run
 
 
 _STORAGE_INIT_LOCK = threading.Lock()
+_INITIALIZED_STORAGE_PATHS = set()
+_SKILL_RUN_SUMMARY_CACHE_LOCK = threading.Lock()
+_SKILL_RUN_SUMMARY_CACHE: Dict[
+    tuple[Any, ...], tuple[float, int, Dict[str, Any]]
+] = {}
+_SKILL_RUN_SUMMARY_REFRESHING: set[tuple[Any, ...]] = set()
+_SKILL_RUN_SUMMARY_CACHE_TTL_SECONDS = 10.0
 
 
 STAGES = (
@@ -59,6 +69,16 @@ ADAPTER_CAPABILITIES = {
         "request": "observed",
         "discovery": "unsupported",
         "activation": "observed",
+        "instructions": "partial",
+        "resources": "partial",
+        "execution": "observed",
+        "artifacts": "partial",
+        "outcome": "partial",
+    },
+    "qoderwork": {
+        "request": "partial",
+        "discovery": "unsupported",
+        "activation": "partial",
         "instructions": "partial",
         "resources": "partial",
         "execution": "observed",
@@ -300,6 +320,8 @@ CREATE INDEX IF NOT EXISTS idx_events_session_time
 CREATE INDEX IF NOT EXISTS idx_events_type ON normalized_events(event_type);
 CREATE INDEX IF NOT EXISTS idx_sessions_started ON sessions(started_at DESC);
 CREATE INDEX IF NOT EXISTS idx_skill_runs_started ON skill_runs(started_at DESC);
+CREATE INDEX IF NOT EXISTS idx_skill_runs_started_id
+    ON skill_runs(started_at DESC, skill_run_id DESC);
 CREATE INDEX IF NOT EXISTS idx_active_skill_scopes_run
     ON active_skill_scopes(skill_run_id);
 CREATE INDEX IF NOT EXISTS idx_relationships_run
@@ -321,15 +343,16 @@ class Storage:
         try:
             self.connection.execute("PRAGMA foreign_keys = ON")
             self.connection.execute("PRAGMA busy_timeout = 5000")
-            # Runtime startup intentionally initializes the live index and Hook
-            # bridge in parallel. SQLite's journal-mode transition can fail
-            # immediately when two fresh connections race, even with a busy
-            # timeout. Serialize only schema/journal initialization; normal
-            # reads and writes remain concurrent under WAL.
+            # Schema and journal initialization belong to process startup, not
+            # every short-lived API connection. Re-running executescript and
+            # migration checks for each read request forces needless SQLite
+            # write-lock contention while the collector is active.
             with _STORAGE_INIT_LOCK:
-                self.connection.execute("PRAGMA journal_mode = WAL")
-                self.connection.executescript(SCHEMA)
-                self._migrate_legacy_schema()
+                if self.path not in _INITIALIZED_STORAGE_PATHS:
+                    self.connection.execute("PRAGMA journal_mode = WAL")
+                    self.connection.executescript(SCHEMA)
+                    self._migrate_legacy_schema()
+                    _INITIALIZED_STORAGE_PATHS.add(self.path)
         except Exception:
             self.connection.close()
             raise
@@ -1482,12 +1505,159 @@ class Storage:
         ).fetchall()
         return [dict(row) for row in rows]
 
-    def list_skill_runs(self, limit: int = 300) -> List[Dict[str, Any]]:
+    def list_skill_runs(
+        self,
+        limit: int = 300,
+        **filters: Any,
+    ) -> List[Dict[str, Any]]:
+        """Return a bounded compatibility list.
+
+        Browser clients should use ``list_skill_runs_page`` so a growing
+        evidence store is never materialized in one response.
+        """
+        return self.list_skill_runs_page(limit=limit, **filters)["skill_runs"]
+
+    @staticmethod
+    def _encode_skill_run_cursor(
+        sort_priority: int, sort_time: str, skill_run_id: str
+    ) -> str:
+        payload = json.dumps(
+            [sort_priority, sort_time, skill_run_id], separators=(",", ":")
+        )
+        return base64.urlsafe_b64encode(payload.encode("utf-8")).decode("ascii").rstrip("=")
+
+    @staticmethod
+    def _decode_skill_run_cursor(cursor: str) -> tuple[int, str, str]:
+        try:
+            padded = cursor + "=" * (-len(cursor) % 4)
+            value = json.loads(base64.urlsafe_b64decode(padded).decode("utf-8"))
+        except (ValueError, TypeError, json.JSONDecodeError) as exc:
+            raise ValueError("invalid SkillRun cursor") from exc
+        if (
+            not isinstance(value, list)
+            or len(value) != 3
+            or not isinstance(value[0], int)
+            or not all(isinstance(item, str) and item for item in value[1:])
+        ):
+            raise ValueError("invalid SkillRun cursor")
+        return value[0], value[1], value[2]
+
+    @staticmethod
+    def _skill_run_result_type(item: Dict[str, Any]) -> str:
+        if item.get("status") == "failed" or int(item.get("error_count") or 0) > 0:
+            return "explicit_failure"
+        if item.get("status") == "incomplete":
+            return "incomplete"
+        if item.get("status") == "interrupted":
+            return "interrupted"
+        return "completed"
+
+    def list_skill_runs_page(
+        self,
+        *,
+        limit: int = 25,
+        cursor: str = "",
+        query: str = "",
+        status: str = "",
+        agent: str = "",
+        project: str = "",
+        skill: str = "",
+        evidence_grade: str = "",
+        date: str = "",
+        errors_only: bool = False,
+        _include_summary: bool = True,
+    ) -> Dict[str, Any]:
+        limit = max(1, int(limit))
+        sort_expression = "COALESCE(sr.started_at, s.started_at, s.indexed_at)"
+        sort_priority_expression = """
+            CASE
+                WHEN sr.status = 'failed' OR EXISTS (
+                    SELECT 1 FROM normalized_events priority_failure
+                    WHERE priority_failure.skill_run_id = sr.skill_run_id
+                      AND priority_failure.status = 'failed'
+                ) THEN 0
+                WHEN sr.status = 'incomplete' THEN 1
+                WHEN sr.status = 'interrupted' THEN 2
+                ELSE 3
+            END
+        """
+        clauses: List[str] = []
+        parameters: List[Any] = []
+        if cursor:
+            cursor_priority, cursor_time, cursor_id = self._decode_skill_run_cursor(cursor)
+            clauses.append(
+                f"(({sort_priority_expression}) > ? OR "
+                f"(({sort_priority_expression}) = ? AND "
+                f"({sort_expression} < ? OR "
+                f"({sort_expression} = ? AND sr.skill_run_id < ?))))"
+            )
+            parameters.extend(
+                [cursor_priority, cursor_priority, cursor_time, cursor_time, cursor_id]
+            )
+        if query:
+            clauses.append(
+                "(sk.name LIKE ? OR sk.description LIKE ? OR s.title LIKE ? "
+                "OR s.cwd LIKE ? OR s.adapter LIKE ? OR s.model LIKE ?)"
+            )
+            pattern = f"%{query}%"
+            parameters.extend([pattern] * 6)
+        if status:
+            if status == "explicit_failure":
+                clauses.append(
+                    "(sr.status = 'failed' OR EXISTS ("
+                    "SELECT 1 FROM normalized_events status_failure "
+                    "WHERE status_failure.skill_run_id = sr.skill_run_id "
+                    "AND status_failure.status = 'failed'))"
+                )
+            elif status == "completed":
+                clauses.append(
+                    "(sr.status NOT IN ('failed', 'incomplete', 'interrupted') "
+                    "AND NOT EXISTS (SELECT 1 FROM normalized_events status_failure "
+                    "WHERE status_failure.skill_run_id = sr.skill_run_id "
+                    "AND status_failure.status = 'failed'))"
+                )
+            else:
+                clauses.append("sr.status = ?")
+                parameters.append(status)
+        if agent:
+            clauses.append("s.adapter = ?")
+            parameters.append(agent)
+        if project:
+            clauses.append("s.cwd = ?")
+            parameters.append(project)
+        if skill:
+            clauses.append("sk.name = ?")
+            parameters.append(skill)
+        if evidence_grade:
+            clauses.append("sr.evidence_grade = ?")
+            parameters.append(evidence_grade)
+        if date:
+            clauses.append(f"substr({sort_expression}, 1, 10) = ?")
+            parameters.append(date)
+        if errors_only:
+            clauses.append(
+                "(sr.status = 'failed' OR EXISTS ("
+                "SELECT 1 FROM normalized_events failed_event "
+                "WHERE failed_event.skill_run_id = sr.skill_run_id "
+                "AND failed_event.status = 'failed'))"
+            )
+        where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
         rows = self.connection.execute(
-            """
-            SELECT sr.*, sk.name, sk.description, sk.source_path, sk.digest,
-                   s.title AS session_title, s.cwd, s.model, s.agent_version,
-                   s.adapter, s.duration_ms AS session_duration_ms,
+            f"""
+            WITH page AS (
+                SELECT sr.*, sk.name, sk.description, sk.source_path, sk.digest,
+                       s.title AS session_title, s.cwd, s.model, s.agent_version,
+                       s.adapter, s.duration_ms AS session_duration_ms,
+                       {sort_expression} AS sort_time,
+                       {sort_priority_expression} AS sort_priority
+                FROM skill_runs sr
+                JOIN skills sk ON sk.skill_id = sr.skill_id
+                JOIN sessions s ON s.session_id = sr.session_id
+                {where}
+                ORDER BY sort_priority ASC, sort_time DESC, sr.skill_run_id DESC
+                LIMIT ?
+            )
+            SELECT page.*,
                    COUNT(DISTINCT e.event_id) AS event_count,
                    COUNT(DISTINCT CASE WHEN e.stage = 'execution' THEN e.event_id END)
                        AS execution_count,
@@ -1495,23 +1665,295 @@ class Storage:
                        AS artifact_count,
                    COUNT(DISTINCT CASE WHEN e.status = 'failed' THEN e.event_id END)
                        AS error_count
-            FROM skill_runs sr
-            JOIN skills sk ON sk.skill_id = sr.skill_id
-            JOIN sessions s ON s.session_id = sr.session_id
-            LEFT JOIN normalized_events e ON e.skill_run_id = sr.skill_run_id
-            GROUP BY sr.skill_run_id
-            ORDER BY COALESCE(sr.started_at, s.started_at, s.indexed_at) DESC
-            LIMIT ?
+            FROM page
+            LEFT JOIN normalized_events e ON e.skill_run_id = page.skill_run_id
+            GROUP BY page.skill_run_id
+            ORDER BY page.sort_priority ASC, page.sort_time DESC, page.skill_run_id DESC
             """,
-            (limit,),
+            (*parameters, limit + 1),
         ).fetchall()
-        result = [dict(row) for row in rows]
+        has_more = len(rows) > limit
+        result = [dict(row) for row in rows[:limit]]
         summaries = self._stage_summaries(result)
         for item in result:
             stage_summary = summaries[item["skill_run_id"]]
             item["stage_summary"] = stage_summary
             item["evidence_completeness"] = self._evidence_completeness(stage_summary)
             item["first_gap"] = self._first_gap(stage_summary)
+            item["result_type"] = self._skill_run_result_type(item)
+        next_cursor = ""
+        if has_more and result:
+            last = result[-1]
+            next_cursor = self._encode_skill_run_cursor(
+                int(last["sort_priority"]),
+                str(last["sort_time"]),
+                str(last["skill_run_id"]),
+            )
+        for item in result:
+            item.pop("sort_time", None)
+            item.pop("sort_priority", None)
+        response = {
+            "skill_runs": result,
+            "page": {
+                "limit": limit,
+                "has_more": has_more,
+                "next_cursor": next_cursor,
+            },
+        }
+        if _include_summary:
+            response["summary"] = self._skill_run_summary(
+                query=query,
+                status=status,
+                agent=agent,
+                project=project,
+                skill=skill,
+                evidence_grade=evidence_grade,
+                date=date,
+                errors_only=errors_only,
+            )
+        return response
+
+    def _skill_run_summary(
+        self,
+        *,
+        query: str = "",
+        status: str = "",
+        agent: str = "",
+        project: str = "",
+        skill: str = "",
+        evidence_grade: str = "",
+        date: str = "",
+        errors_only: bool = False,
+        _force_refresh: bool = False,
+    ) -> Dict[str, Any]:
+        """Aggregate the complete filtered result set without materializing its rows."""
+        cache_key = (
+            str(self.path),
+            query,
+            status,
+            agent,
+            project,
+            skill,
+            evidence_grade,
+            date,
+            errors_only,
+        )
+        revision = self.revision()
+        now = time.monotonic()
+        with _SKILL_RUN_SUMMARY_CACHE_LOCK:
+            cached = _SKILL_RUN_SUMMARY_CACHE.get(cache_key)
+        if cached is not None and not _force_refresh:
+            cached_at, cached_revision, cached_summary = cached
+            if cached_revision == revision or now - cached_at < _SKILL_RUN_SUMMARY_CACHE_TTL_SECONDS:
+                return cached_summary
+            should_refresh = False
+            with _SKILL_RUN_SUMMARY_CACHE_LOCK:
+                if cache_key not in _SKILL_RUN_SUMMARY_REFRESHING:
+                    _SKILL_RUN_SUMMARY_REFRESHING.add(cache_key)
+                    should_refresh = True
+            if should_refresh:
+                database_path = self.path
+                refresh_arguments = {
+                    "query": query,
+                    "status": status,
+                    "agent": agent,
+                    "project": project,
+                    "skill": skill,
+                    "evidence_grade": evidence_grade,
+                    "date": date,
+                    "errors_only": errors_only,
+                }
+
+                def refresh() -> None:
+                    storage: Optional[Storage] = None
+                    try:
+                        storage = Storage(database_path)
+                        storage._skill_run_summary(
+                            **refresh_arguments,
+                            _force_refresh=True,
+                        )
+                    finally:
+                        if storage is not None:
+                            storage.close()
+                        with _SKILL_RUN_SUMMARY_CACHE_LOCK:
+                            _SKILL_RUN_SUMMARY_REFRESHING.discard(cache_key)
+
+                threading.Thread(
+                    target=refresh,
+                    daemon=True,
+                    name="skill-run-summary-refresh",
+                ).start()
+            return cached_summary
+        sort_expression = "COALESCE(sr.started_at, s.started_at, s.indexed_at)"
+        result_expression = """
+            CASE
+                WHEN sr.status = 'failed' OR COALESCE(ec.failed_count, 0) > 0
+                    THEN 'explicit_failure'
+                WHEN sr.status = 'incomplete' THEN 'incomplete'
+                WHEN sr.status = 'interrupted' THEN 'interrupted'
+                ELSE 'completed'
+            END
+        """
+        clauses: List[str] = []
+        parameters: List[Any] = []
+        if query:
+            clauses.append(
+                "(sk.name LIKE ? OR sk.description LIKE ? OR s.title LIKE ? "
+                "OR s.cwd LIKE ? OR s.adapter LIKE ? OR s.model LIKE ?)"
+            )
+            pattern = f"%{query}%"
+            parameters.extend([pattern] * 6)
+        if status:
+            if status in {"explicit_failure", "incomplete", "interrupted", "completed"}:
+                clauses.append(f"({result_expression}) = ?")
+                parameters.append(status)
+            else:
+                clauses.append("sr.status = ?")
+                parameters.append(status)
+        if agent:
+            clauses.append("s.adapter = ?")
+            parameters.append(agent)
+        if project:
+            clauses.append("s.cwd = ?")
+            parameters.append(project)
+        if skill:
+            clauses.append("sk.name = ?")
+            parameters.append(skill)
+        if evidence_grade:
+            clauses.append("sr.evidence_grade = ?")
+            parameters.append(evidence_grade)
+        if date:
+            clauses.append(f"substr({sort_expression}, 1, 10) = ?")
+            parameters.append(date)
+        if errors_only:
+            clauses.append(f"({result_expression}) = 'explicit_failure'")
+        where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
+        matched_cte = f"""
+            event_counts AS (
+                SELECT skill_run_id,
+                       SUM(CASE WHEN status = 'failed' THEN 1 ELSE 0 END) AS failed_count
+                FROM normalized_events
+                WHERE skill_run_id IS NOT NULL
+                GROUP BY skill_run_id
+            ),
+            matched AS (
+                SELECT sr.skill_run_id, s.adapter, {result_expression} AS result_type
+                FROM skill_runs sr
+                JOIN skills sk ON sk.skill_id = sr.skill_id
+                JOIN sessions s ON s.session_id = sr.session_id
+                LEFT JOIN event_counts ec ON ec.skill_run_id = sr.skill_run_id
+                {where}
+            )
+        """
+        count_rows = self.connection.execute(
+            f"""
+            WITH {matched_cte}
+            SELECT adapter, result_type, COUNT(*) AS run_count
+            FROM matched
+            GROUP BY adapter, result_type
+            """,
+            parameters,
+        ).fetchall()
+        stage_rows = self.connection.execute(
+            f"""
+            WITH {matched_cte},
+            run_events AS (
+                SELECT DISTINCT relationship.skill_run_id, relationship.target_event_id
+                FROM derived_relationships relationship
+                JOIN matched ON matched.skill_run_id = relationship.skill_run_id
+            )
+            SELECT event.stage, COUNT(DISTINCT run_events.skill_run_id) AS run_count
+            FROM run_events
+            JOIN normalized_events event ON event.event_id = run_events.target_event_id
+            GROUP BY event.stage
+            """,
+            parameters,
+        ).fetchall()
+        adapter_counts: Dict[str, int] = {}
+        result_counts = {
+            result_type: 0
+            for result_type in ("completed", "explicit_failure", "incomplete", "interrupted")
+        }
+        for row in count_rows:
+            run_count = int(row["run_count"] or 0)
+            adapter_name = str(row["adapter"])
+            adapter_counts[adapter_name] = adapter_counts.get(adapter_name, 0) + run_count
+            result_counts[str(row["result_type"])] += run_count
+        total = sum(result_counts.values())
+        unsupported = {stage: 0 for stage in STAGES}
+        for adapter_name, run_count in adapter_counts.items():
+            capabilities = self.capabilities_for(adapter_name)
+            for stage in STAGES:
+                if capabilities.get(stage) == "unsupported":
+                    unsupported[stage] += run_count
+        stage_counts = {stage: 0 for stage in STAGES}
+        for row in stage_rows:
+            if row["stage"] in stage_counts:
+                stage_counts[str(row["stage"])] = int(row["run_count"] or 0)
+        attention_runs: List[Dict[str, Any]] = []
+        attention_count = (
+            result_counts["explicit_failure"]
+            + result_counts["incomplete"]
+            + result_counts["interrupted"]
+        )
+        if attention_count:
+            candidates = self.list_skill_runs_page(
+                limit=8,
+                query=query,
+                status=status,
+                agent=agent,
+                project=project,
+                skill=skill,
+                evidence_grade=evidence_grade,
+                date=date,
+                errors_only=errors_only,
+                _include_summary=False,
+            )["skill_runs"]
+            attention_runs = [
+                run for run in candidates if run["result_type"] != "completed"
+            ]
+        summary = {
+            "total": total,
+            "result_counts": result_counts,
+            "attention_count": attention_count,
+            "stage_counts": stage_counts,
+            "stage_supported_totals": {
+                stage: total - unsupported[stage] for stage in STAGES
+            },
+            "attention_runs": attention_runs,
+        }
+        with _SKILL_RUN_SUMMARY_CACHE_LOCK:
+            _SKILL_RUN_SUMMARY_CACHE[cache_key] = (
+                time.monotonic(),
+                self.revision(),
+                summary,
+            )
+        return summary
+
+    def warm_skill_run_summary(self) -> None:
+        """Populate the default Runtime Overview aggregate before serving traffic."""
+        self._skill_run_summary(_force_refresh=True)
+
+    def skill_run_facets(self) -> Dict[str, List[str]]:
+        fields = {
+            "agents": "s.adapter",
+            "projects": "s.cwd",
+            "skills": "sk.name",
+            "evidence_grades": "sr.evidence_grade",
+        }
+        result: Dict[str, List[str]] = {}
+        for name, expression in fields.items():
+            rows = self.connection.execute(
+                f"""
+                SELECT DISTINCT {expression} AS value
+                FROM skill_runs sr
+                JOIN skills sk ON sk.skill_id = sr.skill_id
+                JOIN sessions s ON s.session_id = sr.session_id
+                WHERE {expression} IS NOT NULL AND {expression} != ''
+                ORDER BY value COLLATE NOCASE
+                """
+            ).fetchall()
+            result[name] = [str(row["value"]) for row in rows]
         return result
 
     def compare_skill_runs(
@@ -1617,14 +2059,16 @@ class Storage:
         result = dict(row)
         events = self.connection.execute(
             """
+            WITH related_events AS (
+                SELECT DISTINCT target_event_id
+                FROM derived_relationships
+                WHERE skill_run_id = ?
+            )
             SELECT e.*, sk.name AS skill_name,
                    CASE WHEN e.skill_run_id = ? THEN 0 ELSE 1 END AS context_only
-            FROM normalized_events e
+            FROM related_events related
+            JOIN normalized_events e ON e.event_id = related.target_event_id
             LEFT JOIN skills sk ON sk.skill_id = e.skill_id
-            WHERE EXISTS (
-                SELECT 1 FROM derived_relationships r
-                WHERE r.skill_run_id = ? AND r.target_event_id = e.event_id
-            )
             ORDER BY e.occurred_at, e.event_id
             """,
             (
@@ -1661,16 +2105,24 @@ class Storage:
         result["stage_summary"] = self._stage_summary(
             skill_run_id, result["adapter"]
         )
-        result["evidence_completeness"] = self._evidence_completeness(
-            result["stage_summary"]
+        # Delegate the projection to the shared engine so a local store and a
+        # remote host that only receives normalized events cannot diverge.
+        payload = build_diagnosis_payload(
+            result,
+            capabilities=self.capabilities_for(result["adapter"]),
+            stage_summary=result["stage_summary"],
         )
-        result["first_gap"] = self._first_gap(result["stage_summary"])
-        result["narrative"] = self._narrative(result)
-        result["adapter_capabilities"] = self.capabilities_for(result["adapter"])
-        result["activity_summary"] = build_activity_summary(result)
-        result["behavior_assessment"] = assess_skill_behavior(result)
-        result["findings"] = diagnose_skill_run(result)
-        result["assessment"] = assess_skill_run(result, result["findings"])
+        for key in (
+            "evidence_completeness",
+            "first_gap",
+            "narrative",
+            "adapter_capabilities",
+            "activity_summary",
+            "behavior_assessment",
+            "findings",
+            "assessment",
+        ):
+            result[key] = payload[key]
         return result
 
     def get_run(self, session_id: str) -> Optional[Dict[str, Any]]:
@@ -1714,6 +2166,11 @@ class Storage:
     def _stage_summary(self, skill_run_id: str, adapter: str) -> List[Dict[str, Any]]:
         rows = self.connection.execute(
             """
+            WITH related_events AS (
+                SELECT DISTINCT target_event_id
+                FROM derived_relationships
+                WHERE skill_run_id = ?
+            )
             SELECT stage, COUNT(*) AS event_count,
                    SUM(CASE WHEN evidence_grade = 'observed' THEN 1 ELSE 0 END)
                        AS observed_count,
@@ -1723,11 +2180,8 @@ class Storage:
                        AS inferred_count,
                    SUM(CASE WHEN status = 'failed' THEN 1 ELSE 0 END)
                        AS failed_count
-            FROM normalized_events e
-            WHERE EXISTS (
-                SELECT 1 FROM derived_relationships r
-                WHERE r.skill_run_id = ? AND r.target_event_id = e.event_id
-            )
+            FROM related_events related
+            JOIN normalized_events e ON e.event_id = related.target_event_id
             GROUP BY stage
             """,
             (skill_run_id,),

@@ -1,4 +1,4 @@
-# Agent Skill Runtime Intelligence
+# SRI · Skill Runtime Intelligence
 
 [![CI](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/hellogxp/skill-runtime-intelligence/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/hellogxp/skill-runtime-intelligence)](https://github.com/hellogxp/skill-runtime-intelligence/releases/latest)
@@ -14,7 +14,8 @@
 [Magyar](README.hu.md)
 <!-- locale-switcher:end -->
 
-> 将 `SKILL.md` 转化为可检查的运行预期：看清实际发生了什么、行为从哪里开始
+> Agent Skill 运行全景与诊断平台：将 `SKILL.md` 转化为可检查的运行预期，
+> 看清实际发生了什么、行为从哪里开始
 > 偏离，以及判断所依据的证据。
 
 Agent Skill Runtime Intelligence 是面向 Agent Skills 的被动运行时智能系统。它从
@@ -25,7 +26,7 @@ Agent Skill Runtime Intelligence 是面向 Agent Skills 的被动运行时智能
 不阻断 Agent 行为，也不修改被观察的源码工作区。除非操作者显式配置 Trace 导入或
 OTLP/HTTP 导出，运行证据始终保留在操作者控制的部署边界内。
 
-![Skill Run Panorama](docs/assets/skill-run-panorama.png)
+![SRI 中文运行总览](docs/assets/sri-runtime-overview-cn.png)
 
 ## 快速开始
 
@@ -82,6 +83,8 @@ python3 -m venv .venv
 | Inferred Analysis | 哪种证据约束下的解释或下一步调查方向是合理的？ |
 | Settings / Doctor | 系统读取、存储和导出了什么，哪些连接待验证？ |
 
+![SRI 中文 SkillRun 运行全景](docs/assets/sri-skillrun-panorama-cn.png)
+
 ## 工作原理
 
 ![运行时架构](docs/assets/runtime-architecture.svg)
@@ -109,6 +112,7 @@ Skill Runtime 伴随观察用户原有的 Agent 工作流。版本化 adapter �
 | Codex | 官方 command Hooks | Session 导入 | Hook 事件暴露时可观察显式激活 |
 | Claude Code | 官方 Hooks | Session 导入 | 来源暴露时可观察 Skill tool 与 slash command |
 | Qoder | 官方 command Hooks | 本地记录 | Skill tool 暴露时可观察显式激活 |
+| QoderWork | 官方 command Hooks | 本地记录 | 来源暴露时可观察精确指令与标准 Skill 资源访问 |
 | OpenCode | 只观测全局插件 | 本地记录 | 来源暴露时可观察 Skill tool callback |
 
 每个版本的精确能力边界见
@@ -193,6 +197,7 @@ UI 绝不能把推断伪装成运行事实：
 - 证据边界内的符合性、结果验证与运行失败检查；
 - 具体的指令、资源、工具、产物与结果清单；
 - 将系统性采集限制与单次运行问题分开的 Runtime Overview；
+- 有边界的服务端 SkillRun 分页，以及覆盖全部筛选结果的聚合统计；
 - First Observable Boundary 诊断；
 - 全景 DAG、事件时间线与 Evidence Inspector；
 - 能力感知的同 Agent 与跨 Agent 对比；
@@ -468,8 +473,8 @@ PYTHONPATH=src python3 experiments/product_lifecycle/run_benchmark.py
 
 ## 路线
 
-1. **v0.3.0 — 下一发行版：** 可检查的 Skill 行为约束、具体运行活动、证据边界内的
-   判断、系统性采集限制诊断，以及既有的实时 Panorama 与 Compare 工作流。
+1. **当前：** 可检查的 Skill 行为约束、具体运行活动、证据边界内的判断、
+   系统性采集限制诊断，以及实时 Panorama 与 Compare 工作流。
 2. **下一步 — Adapter 与诊断加固：** 扩展 Agent／版本覆盖，开展真实故障校准、
    跨平台尾延迟验证与参与者诊断研究。
 3. **后续 — 效果评估：** 受控的有 Skill／无 Skill 配对实验，并与单次运行诊断
@@ -477,10 +482,11 @@ PYTHONPATH=src python3 experiments/product_lifecycle/run_benchmark.py
 
 ## 项目状态
 
-当前源码以 `v0.3.0` 为发行目标；最新公开构建请以页面顶部的 release badge 为准。
+当前源码已在 `v0.3.0` 发行版基础上继续演进；最新打包版本请以页面顶部的
+release badge 为准。
 Runtime 包含可检查的 Skill 行为约束、具体活动摘要、
-已安装定义清单、经用户同意的 Codex、Claude Code 与 Qoder 官方 Hook adapter、
-只观测 OpenCode 插件、明确标识的 session fallback、active-scope 归因、精确
+已安装定义清单、经用户同意的 Codex、Claude Code、Qoder 与 QoderWork 官方
+Hook adapter、只观测 OpenCode 插件、明确标识的 session fallback、active-scope 归因、精确
 文件／产物路径、脱敏、独立
 source／relationship／inference 数据层、SQLite、保留策略、确定性诊断、实时 UI
 以及跨运行和跨 Agent 对比。

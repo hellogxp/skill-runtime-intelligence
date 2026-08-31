@@ -16,7 +16,7 @@ from ..redaction import compact_text, redact, redacted_json
 from .codex import _stable_id
 
 
-ADAPTER_VERSION = "0.1.0"
+ADAPTER_VERSION = "0.1.1"
 SUPPORTED_PROFILES = ("otel", "langfuse", "langsmith", "phoenix", "weave", "datadog")
 SKILL_ATTRIBUTE_KEYS = (
     "skill.runtime.name",
@@ -242,6 +242,7 @@ class ObservabilityAdapter:
                         "parent_id": span.get("parentSpanId"),
                         "name": span.get("name") or "OTel span",
                         "kind": attrs.get("openinference.span.kind")
+                        or attrs.get("gen_ai.span.kind")
                         or attrs.get("gen_ai.operation.name")
                         or span.get("kind"),
                         "start": _timestamp(span.get("startTimeUnixNano")),

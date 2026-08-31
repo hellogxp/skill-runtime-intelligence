@@ -30,18 +30,20 @@ The default route is the runs list, not a command input.
 
 ## 3. Runtime overview
 
-The default Runs route pairs the SkillRun index with a boundary-first overview:
+The default Runs route pairs the SkillRun index with a neutral runtime-evidence
+overview:
 
-- aggregate the first observable boundary across SkillRuns;
-- elevate a boundary shared by most runs as an adapter or telemetry coverage
-  signal instead of duplicating it as hundreds of per-run alerts;
-- rank the remaining attention queue by earliest observable boundary, then
-  explicit failure and recency;
+- aggregate observed evidence by lifecycle stage without implying that every
+  stage is required for every SkillRun;
+- keep `not_observed` and `unsupported` stages neutral and outside the review
+  queue unless a declared expectation makes the missing signal actionable;
+- include explicit failures, incomplete runs, interrupted runs, and supported
+  expectation deviations in the review queue;
 - keep every aggregate statement labeled as Derived;
 - state that missing evidence is not proof that a Skill step failed.
 
-This view answers “what deserves investigation now?” without turning the
-product into a session dashboard or severity-only alert queue.
+This view separates “what evidence is visible?” from “what deserves review?”
+without turning optional lifecycle stages into alerts.
 
 ## 4. Runs list
 
@@ -140,10 +142,11 @@ than being repeated as run-specific failures.
 
 ## 6. First Observable Boundary
 
-Each SkillRun exposes the first lifecycle stage at which evidence becomes
-unavailable before later activity. The boundary is a diagnostic starting
-point, not a causal attribution. A system-wide concentration at one boundary
-is reported separately from run-specific failures.
+Each SkillRun may expose the first lifecycle stage at which evidence becomes
+unavailable before later activity. The boundary is a neutral observability
+description, not a finding, requirement deviation, or causal attribution. It
+enters a review workflow only when an explicit expectation or observed failure
+supports that interpretation.
 
 ## 7. Skill Run Panorama
 

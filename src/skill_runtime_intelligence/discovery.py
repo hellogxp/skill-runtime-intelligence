@@ -48,6 +48,7 @@ def _source_kind(path: Path) -> str:
             home / ".codex" / "skills",
             home / ".claude" / "skills",
             home / ".qoder" / "skills",
+            home / ".qoderwork" / "skills",
             home / ".config" / "opencode" / "skills",
             home / ".agents" / "skills",
         )
@@ -159,6 +160,7 @@ def default_skill_roots(project: Optional[Path] = None) -> List[Path]:
         home / ".codex" / "plugins" / "cache",
         home / ".claude" / "skills",
         home / ".qoder" / "skills",
+        home / ".qoderwork" / "skills",
         home / ".config" / "opencode" / "skills",
         home / ".agents" / "skills",
     ]
@@ -168,6 +170,7 @@ def default_skill_roots(project: Optional[Path] = None) -> List[Path]:
                 project / ".codex" / "skills",
                 project / ".claude" / "skills",
                 project / ".qoder" / "skills",
+                project / ".qoderwork" / "skills",
                 project / ".opencode" / "skills",
                 project / ".agents" / "skills",
             ]

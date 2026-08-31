@@ -18,7 +18,7 @@
 
 Agent Skill Runtime Intelligence Agent Skills için salt okunur bir çalışma zamanı kanıtı ve teşhis sistemidir. Mevcut Beceri tanımından ihtiyatlı, denetlenebilir kısıtlamaları çıkarır, bunları çalışma zamanı etkinliğiyle eşleştirir ve sonucu kanıt dereceli bir sonuç olarak yeniden yapılandırır. Skill Run Panorama. Resmi Agent olaylarını, içe aktarılan izleri, etiketli oturum geri dönüşünü ve gözlemlenebilir çalışma alanı sonuçlarını, model isteklerini proxy olarak göndermeden veya Agent döngüsünü devralmadan birleştirir.
 
-![Skill Run Panorama](docs/assets/skill-run-panorama.png)
+![Basitleştirilmiş Çince SRI çalışma zamanı genel görünümü](docs/assets/sri-runtime-overview-cn.png)
 
 ## Hızlı başlangıç
 

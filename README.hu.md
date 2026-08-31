@@ -18,7 +18,7 @@
 
 Agent Skill Runtime Intelligence egy csak olvasható futásidejű bizonyíték- és diagnosztikai rendszer az Agent Skills számára. Kivonja a konzervatív, ellenőrizhető megszorításokat a jelenlegi Skill definícióból, hozzáigazítja azokat a futásidejű tevékenységhez, és az eredményt bizonyítékok szerinti osztályozásként rekonstruálja. Skill Run Panorama. Egyesíti a hivatalos ügynök-eseményeket, az importált nyomkövetéseket, a címkézett munkamenet-visszaesést és a megfigyelhető munkaterület-eredményeket anélkül, hogy proxy-modellkérelmeket venne át, vagy átvenné az ügynökhurkot.
 
-![Skill Run Panorama](docs/assets/skill-run-panorama.png)
+![SRI futásidejű áttekintés egyszerűsített kínai nyelven](docs/assets/sri-runtime-overview-cn.png)
 
 ## Gyors kezdés
 

@@ -4,6 +4,7 @@ import sys
 import tempfile
 import unittest
 import json
+from argparse import Namespace
 from pathlib import Path
 from unittest import mock
 
@@ -20,6 +21,42 @@ from skill_runtime_intelligence.runtime_manager import (
 
 
 class RuntimeLifecycleTests(unittest.TestCase):
+    def test_transcript_watcher_runs_as_a_supervised_child_process(self):
+        args = Namespace(
+            database=Path("/tmp/runtime.db"),
+            codex_sessions=Path("/tmp/sessions"),
+            project=Path("/tmp/project"),
+            config=Path("/tmp/config.json"),
+            watch_interval=2.0,
+            skill_root=[Path("/tmp/skills")],
+            exclude=[Path("/tmp/excluded")],
+        )
+        with mock.patch.object(
+            cli, "_current_runtime_invocation", return_value=["/tmp/skill-runtime.pyz"]
+        ), mock.patch.object(cli.os, "getpid", return_value=321):
+            command = cli._transcript_watch_command(args, index_first=True)
+
+        self.assertEqual(command[:2], ["/tmp/skill-runtime.pyz", "_collector-watch"])
+        self.assertIn("--index-first", command)
+        self.assertEqual(command[command.index("--parent-pid") + 1], "321")
+        self.assertEqual(command[command.index("--watch-interval") + 1], "2.0")
+        self.assertIn(str(Path("/tmp/skills").resolve()), command)
+        self.assertIn(str(Path("/tmp/excluded").resolve()), command)
+
+    def test_hidden_watcher_command_requires_parent_identity(self):
+        parser = cli.build_parser()
+        args = parser.parse_args(
+            [
+                "_collector-watch",
+                "--parent-pid",
+                "123",
+                "--database",
+                "/tmp/runtime.db",
+            ]
+        )
+        self.assertEqual(args.command, "_collector-watch")
+        self.assertEqual(args.parent_pid, 123)
+
     def test_install_remembers_declined_consent_without_reprompting(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -35,6 +72,8 @@ class RuntimeLifecycleTests(unittest.TestCase):
                 cli, "inspect_claude_integration", return_value={"agent": "claude-code", **absent}
             ), mock.patch.object(
                 cli, "inspect_qoder_integration", return_value={"agent": "qoder", **absent}
+            ), mock.patch.object(
+                cli, "inspect_qoderwork_integration", return_value={"agent": "qoderwork", **absent}
             ), mock.patch.object(
                 cli, "inspect_opencode_integration", return_value={"agent": "opencode", **absent}
             ), mock.patch.object(
@@ -87,6 +126,8 @@ class RuntimeLifecycleTests(unittest.TestCase):
                 cli, "inspect_claude_integration", return_value={"agent": "claude-code", **absent}
             ), mock.patch.object(
                 cli, "inspect_qoder_integration", return_value={"agent": "qoder", **absent}
+            ), mock.patch.object(
+                cli, "inspect_qoderwork_integration", return_value={"agent": "qoderwork", **absent}
             ), mock.patch.object(
                 cli, "inspect_opencode_integration", return_value={"agent": "opencode", **absent}
             ), mock.patch.object(

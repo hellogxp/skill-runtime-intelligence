@@ -5,6 +5,7 @@ import mimetypes
 import shutil
 import ssl
 import sys
+import threading
 import time
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -25,16 +26,19 @@ from .collector import (
     VALID_COLLECTION_MODES,
     normalize_collector_payload,
 )
+from .datav import build_datav_datasets
 from .integrations import (
     IntegrationError,
     enable_claude_hooks,
     enable_codex_hooks,
     enable_opencode_plugin,
     enable_qoder_hooks,
+    enable_qoderwork_hooks,
     inspect_claude_integration,
     inspect_codex_integration,
     inspect_opencode_integration,
     inspect_qoder_integration,
+    inspect_qoderwork_integration,
 )
 from .native_sender import build_native_hook_sender
 from .hook_bridge import HookBridge, default_hook_socket
@@ -44,10 +48,14 @@ from .remote_access import (
     is_loopback_host,
     viewer_authorized,
 )
+from .diagnosis_engine import build_diagnosis_payload
 from .storage import Storage
 
 
 MAX_EVENT_BODY_BYTES = 1024 * 1024
+LIVE_STREAM_LOCK = threading.Lock()
+LIVE_STREAM_TOKENS = []
+MAX_LIVE_STREAMS = 2
 
 
 def _runtime_executable() -> str:
@@ -149,6 +157,7 @@ class PanoramaHandler(BaseHTTPRequestHandler):
                     ("codex", inspect_codex_integration),
                     ("claude-code", inspect_claude_integration),
                     ("qoder", inspect_qoder_integration),
+                    ("qoderwork", inspect_qoderwork_integration),
                     ("opencode", inspect_opencode_integration),
                 ):
                     try:
@@ -205,11 +214,67 @@ class PanoramaHandler(BaseHTTPRequestHandler):
 
             self._with_storage(exporters)
             return
+        if path == "/api/datav" or path.startswith("/api/datav/"):
+            dataset = (
+                path[len("/api/datav/"):]
+                if path.startswith("/api/datav/")
+                else "manifest"
+            )
+            if dataset not in {"manifest", "summary", "boundaries", "skills", "runs"}:
+                self._json({"error": "DataV dataset not found"}, HTTPStatus.NOT_FOUND)
+                return
+            parameters = parse_qs(urlparse(self.path).query)
+            try:
+                limit = int((parameters.get("limit") or ["300"])[0])
+            except ValueError:
+                self._json({"error": "limit must be an integer"}, HTTPStatus.BAD_REQUEST)
+                return
+
+            def datav(storage: Storage) -> None:
+                datasets = build_datav_datasets(storage, limit=limit)
+                self._json(datasets[dataset])
+
+            self._with_storage(datav)
+            return
         if path == "/api/skill-runs":
-            self._with_storage(
-                lambda storage: self._json(
-                    {"skill_runs": storage.list_skill_runs()}
+            parameters = parse_qs(urlparse(self.path).query)
+            try:
+                limit = int((parameters.get("limit") or ["25"])[0])
+            except ValueError:
+                self._json({"error": "limit must be an integer"}, HTTPStatus.BAD_REQUEST)
+                return
+            if limit < 1 or limit > 100:
+                self._json(
+                    {"error": "limit must be between 1 and 100"},
+                    HTTPStatus.BAD_REQUEST,
                 )
+                return
+
+            def list_skill_run_page(storage: Storage) -> None:
+                try:
+                    result = storage.list_skill_runs_page(
+                        limit=limit,
+                        cursor=(parameters.get("cursor") or [""])[0],
+                        query=(parameters.get("q") or [""])[0].strip(),
+                        status=(parameters.get("status") or [""])[0],
+                        agent=(parameters.get("agent") or [""])[0],
+                        project=(parameters.get("project") or [""])[0],
+                        skill=(parameters.get("skill") or [""])[0],
+                        evidence_grade=(parameters.get("grade") or [""])[0],
+                        date=(parameters.get("date") or [""])[0],
+                        errors_only=(parameters.get("errors") or ["false"])[0].lower() == "true",
+                    )
+                except ValueError as exc:
+                    self._json({"error": str(exc)}, HTTPStatus.BAD_REQUEST)
+                    return
+                result["facets_url"] = "/api/skill-run-facets"
+                self._json(result)
+
+            self._with_storage(list_skill_run_page)
+            return
+        if path == "/api/skill-run-facets":
+            self._with_storage(
+                lambda storage: self._json(storage.skill_run_facets())
             )
             return
         if path == "/api/compare":
@@ -388,6 +453,10 @@ class PanoramaHandler(BaseHTTPRequestHandler):
                         enable_claude_hooks,
                     ),
                     "qoder": (inspect_qoder_integration, enable_qoder_hooks),
+                    "qoderwork": (
+                        inspect_qoderwork_integration,
+                        enable_qoderwork_hooks,
+                    ),
                     "opencode": (
                         inspect_opencode_integration,
                         enable_opencode_plugin,
@@ -478,6 +547,66 @@ class PanoramaHandler(BaseHTTPRequestHandler):
                 ValueError,
             ) as exc:
                 self._json({"error": str(exc)}, HTTPStatus.BAD_REQUEST)
+            return
+        if path == "/api/diagnose":
+            # Stateless projection endpoint. A remote host that already holds
+            # normalized events calls this so the diagnosis semantics have one
+            # implementation instead of being reimplemented per product.
+            try:
+                payload = self._read_json_body(MAX_EVENT_BODY_BYTES)
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                self._json({"error": "Invalid JSON body"}, HTTPStatus.BAD_REQUEST)
+                return
+            if not isinstance(payload, dict):
+                self._json(
+                    {"error": "Body must be a JSON object"},
+                    HTTPStatus.BAD_REQUEST,
+                )
+                return
+            run = payload.get("run")
+            if not isinstance(run, dict) or not run.get("name"):
+                self._json(
+                    {"error": "run object with a name is required"},
+                    HTTPStatus.BAD_REQUEST,
+                )
+                return
+            events = payload.get("events")
+            if events is None:
+                events = run.get("events")
+            if events is not None and not isinstance(events, list):
+                self._json(
+                    {"error": "events must be an array"},
+                    HTTPStatus.BAD_REQUEST,
+                )
+                return
+            capabilities = payload.get("capabilities")
+            if not isinstance(capabilities, dict):
+                # Fall back to the declared matrix for the named adapter so an
+                # unknown adapter stays 'unsupported' instead of assumed good.
+                capabilities = Storage.capabilities_for(
+                    str(run.get("adapter") or "otel")
+                )
+            source_content = payload.get("skill_source_content")
+            if source_content is not None and not isinstance(source_content, str):
+                self._json(
+                    {"error": "skill_source_content must be a string"},
+                    HTTPStatus.BAD_REQUEST,
+                )
+                return
+            try:
+                result = build_diagnosis_payload(
+                    run,
+                    capabilities=capabilities,
+                    events=events,
+                    skill_source_content=source_content,
+                )
+            except (KeyError, TypeError, ValueError) as exc:
+                self._json(
+                    {"error": f"Unprocessable run: {exc}"},
+                    HTTPStatus.UNPROCESSABLE_ENTITY,
+                )
+                return
+            self._json(result, HTTPStatus.OK)
             return
         if path != "/api/events":
             self._json({"error": "Not found"}, HTTPStatus.NOT_FOUND)
@@ -620,20 +749,40 @@ class PanoramaHandler(BaseHTTPRequestHandler):
         )
 
     def _stream_revisions(self) -> None:
+        stream_client = (
+            parse_qs(urlparse(self.path).query).get("client") or [""]
+        )[0]
+        current_client = stream_client == "live-v3"
+        stream_token = object() if current_client else None
+        if stream_token is not None:
+            with LIVE_STREAM_LOCK:
+                LIVE_STREAM_TOKENS.append(stream_token)
+                del LIVE_STREAM_TOKENS[:-MAX_LIVE_STREAMS]
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", "text/event-stream; charset=utf-8")
         self.send_header("Cache-Control", "no-cache, no-store")
-        self.send_header("Connection", "keep-alive")
+        self.send_header("Connection", "keep-alive" if current_client else "close")
         self.send_header("X-Accel-Buffering", "no")
         self.end_headers()
         last_revision = -1
         last_heartbeat = 0.0
-        deadline = time.monotonic() + 55.0
+        # Old pages opened before the live-v3 rollout reconnect to their
+        # unversioned URL forever. Give those streams a short lease and a
+        # longer retry delay so stale tabs cannot monopolize the browser's
+        # per-origin HTTP/1.1 connection pool. Current visible pages use the
+        # older stream forever. Give them a short lease; current visible pages
+        # retain the normal long-lived realtime path.
+        deadline = time.monotonic() + (55.0 if current_client else 3.0)
         storage = Storage(self.server.database_path)  # type: ignore[attr-defined]
         try:
-            self.wfile.write(b"retry: 1500\n\n")
+            retry_ms = 1500 if current_client else 5000
+            self.wfile.write(f"retry: {retry_ms}\n\n".encode("ascii"))
             self.wfile.flush()
             while time.monotonic() < deadline:
+                if stream_token is not None:
+                    with LIVE_STREAM_LOCK:
+                        if stream_token not in LIVE_STREAM_TOKENS:
+                            break
                 revision = storage.revision()
                 now = time.monotonic()
                 if revision != last_revision:
@@ -654,6 +803,12 @@ class PanoramaHandler(BaseHTTPRequestHandler):
             return
         finally:
             storage.close()
+            if stream_token is not None:
+                with LIVE_STREAM_LOCK:
+                    if stream_token in LIVE_STREAM_TOKENS:
+                        LIVE_STREAM_TOKENS.remove(stream_token)
+            if not current_client:
+                self.close_connection = True
 
     def _static(self, path: str) -> None:
         filename = {
@@ -663,6 +818,7 @@ class PanoramaHandler(BaseHTTPRequestHandler):
             "/i18n.js": "i18n.js",
             "/app.js": "app.js",
             "/styles.css": "styles.css",
+            "/runtime-detail-v2.css": "runtime-detail-v2.css",
             "/favicon.svg": "favicon.svg",
         }.get(path)
         if not filename:
@@ -673,7 +829,12 @@ class PanoramaHandler(BaseHTTPRequestHandler):
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", f"{content_type}; charset=utf-8")
         self.send_header("Content-Length", str(len(content)))
-        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+        versioned = bool(parse_qs(urlparse(self.path).query).get("v"))
+        self.send_header(
+            "Cache-Control",
+            "public, max-age=31536000, immutable"
+            if versioned else "no-cache, no-store, must-revalidate",
+        )
         self._security_headers()
         self.end_headers()
         self.wfile.write(content)
@@ -725,6 +886,11 @@ def serve(
     remote_access: RemoteAccess = None,
 ) -> None:
     access = remote_access or RemoteAccess()
+    warm_storage = Storage(database)
+    try:
+        warm_storage.warm_skill_run_summary()
+    finally:
+        warm_storage.close()
     server = create_server(database, host, port, config_path, access)
     bridge = HookBridge(
         database,

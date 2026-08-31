@@ -295,8 +295,17 @@ def _evaluate_constraint(
     }
 
 
-def assess_skill_behavior(run: Dict[str, Any]) -> Dict[str, Any]:
-    """Build a privacy-safe, evidence-bounded behavior assessment for a run."""
+def assess_skill_behavior(
+    run: Dict[str, Any], *, source_content: Optional[str] = None
+) -> Dict[str, Any]:
+    """Build a privacy-safe, evidence-bounded behavior assessment for a run.
+
+    ``source_content`` lets a caller inject the current ``SKILL.md`` text when
+    the file is not reachable from this process, for example a remote host that
+    received a Skill inventory snapshot from a collector. When it is omitted and
+    the path cannot be read, the returned assessment keeps its own
+    ``limitation`` instead of guessing constraint outcomes.
+    """
 
     source_path = str(run.get("source_path") or "")
     result: Dict[str, Any] = {
@@ -318,14 +327,18 @@ def assess_skill_behavior(run: Dict[str, Any]) -> Dict[str, Any]:
         "limitation": "No readable current Skill definition is available.",
     }
     if not source_path or source_path.startswith("collector://"):
-        return result
-    path = Path(source_path)
-    try:
-        if not path.is_file() or path.stat().st_size > _MAX_SOURCE_BYTES:
+        if source_content is None:
             return result
-        content = path.read_text(encoding="utf-8")
-    except (OSError, UnicodeError):
-        return result
+    if source_content is not None:
+        content = source_content
+    else:
+        path = Path(source_path)
+        try:
+            if not path.is_file() or path.stat().st_size > _MAX_SOURCE_BYTES:
+                return result
+            content = path.read_text(encoding="utf-8")
+        except (OSError, UnicodeError):
+            return result
 
     digest = hashlib.sha256(content.encode("utf-8")).hexdigest()
     constraints = [

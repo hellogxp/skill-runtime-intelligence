@@ -33,14 +33,30 @@ class InternationalizationTests(unittest.TestCase):
         ).group(1)
         locales = set(re.findall(r'<option value="([^"]+)">', selector))
         self.assertEqual(locales, EXPECTED_LOCALES)
+        self.assertNotIn('src="locale-packs.js', html)
         self.assertLess(
-            html.index('src="/locale-packs.js'),
-            html.index('src="/i18n.js'),
+            html.index('src="i18n.js'),
+            html.index('src="app.js'),
         )
-        self.assertLess(
-            html.index('src="/i18n.js'),
-            html.index('src="/app.js'),
-        )
+
+    def test_product_assets_and_api_support_path_prefixed_deployments(self):
+        html = (WEB / "index.html").read_text(encoding="utf-8")
+        app = (WEB / "app.js").read_text(encoding="utf-8")
+        for asset in (
+            'href="favicon.svg',
+            'href="styles.css',
+            'href="runtime-detail-v2.css',
+            'src="i18n.js',
+            'src="app.js',
+        ):
+            self.assertIn(asset, html)
+        i18n = (WEB / "i18n.js").read_text(encoding="utf-8")
+        self.assertIn('script.src = "locale-packs.js', i18n)
+        self.assertIn('const appBaseUrl = new URL("./", window.location.href);', app)
+        self.assertIn("fetch(endpointUrl(path)", app)
+        self.assertIn("new EventSource(endpointUrl(", app)
+        self.assertIn("const isRemoteViewer = !new Set", app)
+        self.assertIn("Boolean(deployment.viewer_read_only) || isRemoteViewer", app)
 
     def test_diagnostic_controls_are_present_in_the_localized_surface(self):
         html = (WEB / "index.html").read_text(encoding="utf-8")
@@ -89,6 +105,26 @@ class InternationalizationTests(unittest.TestCase):
         self.assertIn("function renderDiagnosisList", app)
         self.assertIn("Evidence coverage is not a pass score", app)
 
+    def test_runtime_overview_keeps_unobserved_stages_neutral(self):
+        html = (WEB / "index.html").read_text(encoding="utf-8")
+        app = (WEB / "app.js").read_text(encoding="utf-8")
+        self.assertIn("Skill runtime overview", html)
+        self.assertIn("A stage may be optional or outside adapter coverage", html)
+        self.assertIn("Only explicit failures, incomplete runs", html)
+        self.assertIn('run.result_type === "explicit_failure"', app)
+        self.assertNotIn("run.first_gap && run.first_gap !== systemicBoundary", app)
+        self.assertIn("runSummary.stage_counts", app)
+        self.assertIn("runSummary.stage_supported_totals", app)
+        self.assertIn("Current sources do not provide this signal", app)
+        self.assertIn("Information collected at each stage", html)
+        self.assertIn("not success", html)
+        self.assertIn('id="result-composition"', html)
+        self.assertNotIn("Average evidence coverage", app)
+        self.assertLess(
+            html.index('class="panel overview-boundaries"'),
+            html.index('class="panel attention-panel overview-attention-wide"'),
+        )
+
     def test_run_activity_summary_exposes_concrete_objects(self):
         html = (WEB / "index.html").read_text(encoding="utf-8")
         app = (WEB / "app.js").read_text(encoding="utf-8")
@@ -100,16 +136,41 @@ class InternationalizationTests(unittest.TestCase):
 
     def test_slow_integration_probe_is_not_on_the_initial_render_path(self):
         app = (WEB / "app.js").read_text(encoding="utf-8")
-        self.assertIn(
-            'const integrationsPromise = getJSON("/api/integrations")',
-            app,
-        )
-        core_fetches = app[
-            app.index("const [", app.index("async function loadIndex")):
-            app.index("skillRuns =", app.index("async function loadIndex"))
+        initial_load = app[
+            app.index("async function loadIndex"):
+            app.index("function ensureSkillsData")
         ]
-        self.assertNotIn("integrationsResponse,", core_fetches)
-        self.assertIn("integrationsPromise.then", app)
+        settings_load = app[
+            app.index("function ensureSettingsData"):
+            app.index("function sourceModeLabel")
+        ]
+        self.assertNotIn('/api/integrations', initial_load)
+        self.assertIn('getJSON("/api/integrations")', settings_load)
+        self.assertIn("ensureSettingsData().catch", app)
+
+    def test_compare_control_reveals_a_nearby_accessible_panel(self):
+        html = (WEB / "index.html").read_text(encoding="utf-8")
+        app = (WEB / "app.js").read_text(encoding="utf-8")
+        styles = (WEB / "styles.css").read_text(encoding="utf-8")
+        toggle = re.search(
+            r'<button\s+id="compare-toggle".*?</button>', html, re.DOTALL
+        ).group(0)
+        panel = re.search(
+            r'<section\s+id="compare-panel".*?</section>', html, re.DOTALL
+        ).group(0)
+
+        self.assertIn('aria-controls="compare-panel"', toggle)
+        self.assertIn('aria-expanded="false"', toggle)
+        self.assertIn('aria-hidden="true"', panel)
+        self.assertIn('tabindex="-1"', panel)
+        self.assertLess(
+            html.index('id="compare-panel"'),
+            html.index('class="panel assessment-panel"'),
+        )
+        self.assertIn("function setComparePanelOpen(open)", app)
+        self.assertIn('panel.scrollIntoView({', app)
+        self.assertIn('button.setAttribute("aria-expanded", String(open))', app)
+        self.assertIn('.compare-toggle[aria-expanded="true"]', styles)
 
     def test_generated_catalogs_are_complete_and_token_free(self):
         source = (WEB / "locale-packs.js").read_text(encoding="utf-8")
@@ -150,7 +211,7 @@ class InternationalizationTests(unittest.TestCase):
             text = path.read_text(encoding="utf-8")
             self.assertEqual(text.count("```"), expected_fences, locale)
             self.assertIn("<!-- locale-switcher:start -->", text)
-            self.assertIn("docs/assets/skill-run-panorama.png", text)
+            self.assertIn("docs/assets/sri-runtime-overview-cn.png", text)
             self.assertIn("docs/assets/runtime-architecture.svg", text)
             self.assertIn("docs/getting-started.md", text)
             self.assertIn(".venv/bin/skill-runtime install --enable-hooks", text)

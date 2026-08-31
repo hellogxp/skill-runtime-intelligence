@@ -18,7 +18,7 @@
 
 Agent Skill Runtime Intelligence 是一個針對代理技能的唯讀運行時證據和診斷系統。它從當前技能定義中提取保守的、可檢查的約束，將它們與運行時活動相匹配，並將結果重建為證據分級的結果 Skill Run Panorama。它結合了官方代理事件、導入的追蹤、標記的會話回退和可觀察的工作區結果，無需代理模型請求或接管代理循環。
 
-![Skill Run Panorama](docs/assets/skill-run-panorama.png)
+![SRI 簡體中文執行總覽](docs/assets/sri-runtime-overview-cn.png)
 
 ## 快速啟動
 

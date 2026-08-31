@@ -18,7 +18,7 @@
 
 Agent Skill Runtime Intelligence je runtime evidence a diagnostický systém pro dovednosti agentů pouze pro čtení. Extrahuje konzervativní, kontrolovatelná omezení ze současné definice dovedností, přiřazuje je k běhové aktivitě a rekonstruuje výsledek jako důkazy klasifikované Skill Run Panorama. Kombinuje oficiální události Agenta, importovaná trasování, označenou nouzovou relace a pozorovatelné výsledky pracovního prostoru bez proxy požadavků modelu nebo převzetí smyčky Agent.
 
-![Skill Run Panorama](docs/assets/skill-run-panorama.png)
+![Přehled běhu SRI ve zjednodušené čínštině](docs/assets/sri-runtime-overview-cn.png)
 
 ## Rychlý start
 

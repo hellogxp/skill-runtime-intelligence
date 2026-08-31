@@ -32,6 +32,7 @@ def default_config(state_root: Optional[Path] = None) -> Dict[str, Any]:
             "codex": {"consent": "not_requested"},
             "claude-code": {"consent": "not_requested"},
             "qoder": {"consent": "not_requested"},
+            "qoderwork": {"consent": "not_requested"},
             "opencode": {"consent": "not_requested"},
         },
     }

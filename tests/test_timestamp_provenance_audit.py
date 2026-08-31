@@ -29,11 +29,12 @@ class TimestampProvenanceAuditTests(unittest.TestCase):
             behavior["fallback_provenance_labeled"],
             behavior["agent_profiles"],
         )
-        self.assertEqual(behavior["normalized_event_count"], 8)
-        self.assertEqual(behavior["persisted_event_count"], 8)
-        self.assertEqual(behavior["ingestion_timestamp_labeled"], 8)
-        self.assertEqual(behavior["clock_domain_labeled"], 8)
-        self.assertEqual(behavior["timestamp_precision_labeled"], 8)
+        expected_events = behavior["agent_profiles"] * 2
+        self.assertEqual(behavior["normalized_event_count"], expected_events)
+        self.assertEqual(behavior["persisted_event_count"], expected_events)
+        self.assertEqual(behavior["ingestion_timestamp_labeled"], expected_events)
+        self.assertEqual(behavior["clock_domain_labeled"], expected_events)
+        self.assertEqual(behavior["timestamp_precision_labeled"], expected_events)
         self.assertEqual(behavior["clock_uncertainty_labeled"], 0)
 
 

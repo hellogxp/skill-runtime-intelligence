@@ -224,6 +224,9 @@ class CollectorTests(unittest.TestCase):
                 self.assertIn("image/svg+xml", content_type)
                 self.assertIn("<svg", favicon)
 
+                with urlopen(f"{base_url}/", timeout=3) as response:
+                    self.assertEqual(response.headers["X-Frame-Options"], "DENY")
+
                 invalid = fixture_event("evt-invalid")
                 invalid["event_type"] = "model.secret_thought"
                 request = Request(

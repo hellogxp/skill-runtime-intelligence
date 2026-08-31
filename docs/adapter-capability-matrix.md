@@ -164,6 +164,30 @@ The adapter does not claim candidate discovery, model-internal selection
 reasons, or semantic effectiveness. Qoder Skills are discovered read-only from
 the [documented user and project Skill directories](https://docs.qoder.com/extensions/skills).
 
+## QoderWork hook adapter
+
+Adapter version: `0.1.0`
+
+Collection mode: `official_hook`
+
+QoderWork is modeled as an independent source adapter. Installation adds only
+managed entries to `~/.qoderwork/settings.json`, preserves unrelated Hooks,
+and discovers Skills read-only from `~/.qoderwork/skills` and project-local
+`.qoderwork/skills` directories.
+
+| Hook signal | Normalized evidence | Limits |
+|---|---|---|
+| `SessionStart` / `Stop` | Session and turn boundaries | Request text and final response content are omitted |
+| `PreToolUse` / `PostToolUse` | Tool start/completion | Inputs are minimized before persistence |
+| `PostToolUseFailure` | Tool failure | Redacted, capped error summary only |
+| Successful access to an exact `SKILL.md` path | `instruction.loaded` and SkillRun scope | Derived from the successful observed tool event; this does not by itself prove the activation entrypoint |
+| Successful access to standard Skill resources | `resource.read` / `resource.executed` | Exact path and resource kind only |
+
+The source currently does not expose a reliable request event or the same
+bounded `session_meta/slash_command` activation record used by the Qoder
+adapter. Those stages therefore remain Partial or Not observed instead of
+being borrowed from Qoder. QoderWork must be restarted after Hook installation.
+
 ## OpenCode plugin adapter
 
 Adapter version: `0.3.0`
@@ -204,16 +228,17 @@ an explicit adapter limitation.
 | Codex | Observed when emitted | Partial; exact structured Hook field only | Partial; source/version dependent | Observed/Derived from exact path |
 | Claude Code | Observed | Partial; exact structured Hook field only | Observed through `UserPromptExpansion` | Partial through `InstructionsLoaded` or exact path |
 | Qoder | Observed when emitted | Observed through structured local `slash_command` metadata | Observed through the same Qoder metadata contract | Derived from exact path |
+| QoderWork | Partial when emitted | Unsupported | Unsupported | Derived from exact path |
 | OpenCode | Observed through stable `skill` tool | Partial; typed part/attachment only | Partial; typed Skill message only | Derived from exact path |
 
-For all four adapters, the runtime event remains Observed while the
+For all five adapters, the runtime event remains Observed while the
 relationship that associates later tool/file events with the persisted active
 Skill scope is Derived. Missing structured metadata remains Not observed or
 Unsupported; SRI never guesses activation from the user's wording.
 
 ## Cross-Agent support boundary
 
-The four adapters normalize into the same evidence schema, but they do not
+The five adapters normalize into the same evidence schema, but they do not
 pretend to have identical source capabilities. Agent name, adapter version,
 collection mode, raw source identity, normalized evidence, and attribution
 relationships remain independently recorded. Cross-Agent comparison is

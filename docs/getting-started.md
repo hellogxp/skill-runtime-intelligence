@@ -13,7 +13,7 @@ mode requires a third-party observability platform.
 
 - macOS or Linux;
 - Python 3.9 or newer;
-- at least one supported Agent: Codex, Claude Code, Qoder, or OpenCode;
+- at least one supported Agent: Codex, Claude Code, Qoder, QoderWork, or OpenCode;
 - a browser for the local UI.
 
 The public installer does not require `sudo`, GitHub CLI, or a source checkout.
@@ -56,6 +56,7 @@ To enable only one integration later:
 skill-runtime setup --enable-codex-hooks
 skill-runtime setup --enable-claude-hooks
 skill-runtime setup --enable-qoder-hooks
+skill-runtime setup --enable-qoderwork-hooks
 skill-runtime setup --enable-opencode-plugin
 ```
 
@@ -87,6 +88,12 @@ begin a new session.
 
 Enable the managed Hooks and restart Qoder. Qoder loads its Hook configuration
 at process startup.
+
+### QoderWork
+
+Enable the managed Hooks and restart QoderWork. SRI treats QoderWork as an
+independent, versioned adapter and does not borrow signals from the Qoder
+adapter when the source does not expose them.
 
 ### OpenCode
 

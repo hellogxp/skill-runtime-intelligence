@@ -4,8 +4,10 @@ import argparse
 import json
 import os
 import shutil
+import subprocess
 import sys
 import threading
+import time
 import webbrowser
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -44,14 +46,17 @@ from .integrations import (
     enable_codex_hooks,
     enable_opencode_plugin,
     enable_qoder_hooks,
+    enable_qoderwork_hooks,
     inspect_claude_integration,
     inspect_codex_integration,
     inspect_opencode_integration,
     inspect_qoder_integration,
+    inspect_qoderwork_integration,
     remove_claude_hooks,
     remove_codex_hooks,
     remove_opencode_plugin,
     remove_qoder_hooks,
+    remove_qoderwork_hooks,
 )
 from .native_sender import build_native_hook_sender, install_native_hook_sender
 from .otlp_exporter import export_otlp_once, watch_otlp_export
@@ -425,6 +430,11 @@ def _integration_operations():
             "enable": enable_qoder_hooks,
             "remove": remove_qoder_hooks,
         },
+        "qoderwork": {
+            "inspect": inspect_qoderwork_integration,
+            "enable": enable_qoderwork_hooks,
+            "remove": remove_qoderwork_hooks,
+        },
         "opencode": {
             "inspect": inspect_opencode_integration,
             "enable": enable_opencode_plugin,
@@ -494,6 +504,17 @@ def _cli_invocation() -> List[str]:
     return [sys.executable, "-m", "skill_runtime_intelligence"]
 
 
+def _current_runtime_invocation() -> List[str]:
+    """Invoke this exact build, never a different installation found on PATH."""
+    candidate = Path(sys.argv[0]).expanduser()
+    if candidate.exists() and (
+        candidate.name in {"skill-runtime", "skill-panorama"}
+        or candidate.suffix == ".pyz"
+    ):
+        return [str(candidate.resolve())]
+    return [sys.executable, "-m", "skill_runtime_intelligence"]
+
+
 def _run_hook(args) -> None:
     """Hook process boundary: intentionally silent and always fail-open."""
     try:
@@ -520,42 +541,12 @@ def _run_hook(args) -> None:
 
 
 def _run_live_runtime(args, *, index_first: bool = True) -> None:
-    index_ready = threading.Event()
     if index_first:
         _run_index(args)
-        index_ready.set()
-    else:
-        def index_worker() -> None:
-            try:
-                _run_index(args)
-            finally:
-                index_ready.set()
-
-        initial_index = threading.Thread(
-            target=index_worker,
-            daemon=True,
-            name="skill-runtime-initial-index",
-        )
-        initial_index.start()
     _start_queue_watcher(args)
     _start_otlp_exporter(args)
     _start_retention_worker(args)
-    def watch_worker() -> None:
-        index_ready.wait()
-        watch_local(
-            args.database,
-            args.codex_sessions,
-            _roots(args),
-            args.watch_interval,
-            _exclusions(args),
-        )
-
-    watcher = threading.Thread(
-        target=watch_worker,
-        daemon=True,
-        name="skill-runtime-watch",
-    )
-    watcher.start()
+    _start_transcript_watcher(args, index_first=not index_first)
     _schedule_browser(args)
     serve(
         args.database,
@@ -566,6 +557,63 @@ def _run_live_runtime(args, *, index_first: bool = True) -> None:
         config_path=args.config,
         remote_access=_remote_access_from_args(args),
     )
+
+
+def _transcript_watch_command(args, *, index_first: bool) -> List[str]:
+    command = _current_runtime_invocation() + [
+        "_collector-watch",
+        "--database",
+        str(args.database.expanduser().resolve()),
+        "--codex-sessions",
+        str(args.codex_sessions.expanduser().resolve()),
+        "--project",
+        str(args.project.expanduser().resolve()),
+        "--config",
+        str(args.config.expanduser().resolve()),
+        "--watch-interval",
+        str(args.watch_interval),
+        "--parent-pid",
+        str(os.getpid()),
+    ]
+    if index_first:
+        command.append("--index-first")
+    for root in args.skill_root:
+        command.extend(["--skill-root", str(root.expanduser().resolve())])
+    for exclusion in args.exclude:
+        command.extend(["--exclude", str(exclusion.expanduser().resolve())])
+    return command
+
+
+def _start_transcript_watcher(args, *, index_first: bool) -> None:
+    """Run transcript reconstruction outside the latency-sensitive web process."""
+    command = _transcript_watch_command(args, index_first=index_first)
+
+    def worker() -> None:
+        next_command = command
+        restart_delay = 1.0
+        while True:
+            started_at = time.monotonic()
+            process = subprocess.Popen(
+                next_command,
+                stdin=subprocess.DEVNULL,
+                close_fds=True,
+            )
+            process.wait()
+            if time.monotonic() - started_at >= 60:
+                restart_delay = 1.0
+            else:
+                restart_delay = min(30.0, restart_delay * 2)
+            time.sleep(restart_delay)
+            # A restart only needs to resume watching; repeating a full initial
+            # import would add load without improving source fidelity.
+            next_command = [token for token in command if token != "--index-first"]
+
+    watcher = threading.Thread(
+        target=worker,
+        daemon=True,
+        name="skill-runtime-watch-supervisor",
+    )
+    watcher.start()
 
 
 def _background_command(args) -> List[str]:
@@ -766,6 +814,15 @@ def build_parser() -> argparse.ArgumentParser:
         help="Run attached to this terminal instead of as a managed local process",
     )
 
+    watch_parser = subparsers.add_parser(
+        "_collector-watch",
+        help=argparse.SUPPRESS,
+    )
+    _index_args(watch_parser)
+    watch_parser.add_argument("--watch-interval", type=float, default=2.0)
+    watch_parser.add_argument("--parent-pid", type=int, required=True)
+    watch_parser.add_argument("--index-first", action="store_true")
+
     for command, help_text in (
         ("stop", "Stop the managed local Collector and UI"),
         ("restart", "Restart the managed local Collector and UI"),
@@ -908,6 +965,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="Remove only Qoder hooks managed by Skill Runtime",
     )
     setup_actions.add_argument(
+        "--enable-qoderwork-hooks",
+        action="store_true",
+        help="Back up settings and install fail-open QoderWork hooks",
+    )
+    setup_actions.add_argument(
+        "--remove-qoderwork-hooks",
+        action="store_true",
+        help="Remove only QoderWork hooks managed by Skill Runtime",
+    )
+    setup_actions.add_argument(
         "--enable-opencode-plugin",
         action="store_true",
         help="Install the managed, observation-only OpenCode event plugin",
@@ -934,6 +1001,12 @@ def build_parser() -> argparse.ArgumentParser:
         type=_path,
         default=Path("~/.qoder/settings.json").expanduser(),
         help="Qoder settings path",
+    )
+    setup_parser.add_argument(
+        "--qoderwork-settings",
+        type=_path,
+        default=Path("~/.qoderwork/settings.json").expanduser(),
+        help="QoderWork settings path",
     )
     setup_parser.add_argument(
         "--opencode-plugin",
@@ -1013,6 +1086,9 @@ def main(argv=None) -> None:
             inspect_qoder_integration(
                 executable=executable, state_root=state_root
             ),
+            inspect_qoderwork_integration(
+                executable=executable, state_root=state_root
+            ),
             inspect_opencode_integration(
                 executable=executable, state_root=state_root
             ),
@@ -1069,6 +1145,10 @@ def main(argv=None) -> None:
                         result = enable_qoder_hooks(
                             executable, state_root=state_root
                         )
+                    elif agent == "qoderwork":
+                        result = enable_qoderwork_hooks(
+                            executable, state_root=state_root
+                        )
                     else:
                         result = enable_opencode_plugin(
                             executable, state_root=state_root
@@ -1103,6 +1183,7 @@ def main(argv=None) -> None:
             inspect_codex_integration(executable=executable, state_root=state_root),
             inspect_claude_integration(executable=executable, state_root=state_root),
             inspect_qoder_integration(executable=executable, state_root=state_root),
+            inspect_qoderwork_integration(executable=executable, state_root=state_root),
             inspect_opencode_integration(executable=executable, state_root=state_root),
         ]
         result = {
@@ -1179,6 +1260,20 @@ def main(argv=None) -> None:
             )
             _open_runtime(args)
             print(json.dumps(result, ensure_ascii=False, indent=2))
+    elif args.command == "_collector-watch":
+        if args.index_first:
+            _run_index(args)
+        try:
+            watch_local(
+                args.database,
+                args.codex_sessions,
+                _roots(args),
+                args.watch_interval,
+                _exclusions(args),
+                parent_pid=args.parent_pid,
+            )
+        except KeyboardInterrupt:
+            pass
     elif args.command == "stop":
         result = stop_runtime(args.state_root, args.host, args.port)
         print(json.dumps(result, ensure_ascii=False, indent=2))
@@ -1236,6 +1331,7 @@ def main(argv=None) -> None:
             ("codex", remove_codex_hooks),
             ("claude-code", remove_claude_hooks),
             ("qoder", remove_qoder_hooks),
+            ("qoderwork", remove_qoderwork_hooks),
             ("opencode", remove_opencode_plugin),
         ):
             consent = (
@@ -1402,6 +1498,22 @@ def main(argv=None) -> None:
             )
             _record_hook_consent(config, "qoder", "revoked", result)
             save_config(config, config_path)
+        elif args.enable_qoderwork_hooks:
+            native_sender = build_native_hook_sender(args.state_root)
+            result = enable_qoderwork_hooks(
+                executable,
+                args.qoderwork_settings,
+                state_root=args.state_root,
+            )
+            _record_hook_consent(config, "qoderwork", "granted", result)
+            save_config(config, config_path)
+        elif args.remove_qoderwork_hooks:
+            result = remove_qoderwork_hooks(
+                args.qoderwork_settings,
+                state_root=args.state_root,
+            )
+            _record_hook_consent(config, "qoderwork", "revoked", result)
+            save_config(config, config_path)
         elif args.enable_opencode_plugin:
             native_sender = build_native_hook_sender(args.state_root)
             result = enable_opencode_plugin(
@@ -1424,6 +1536,9 @@ def main(argv=None) -> None:
                     inspect_codex_integration(args.codex_hooks, executable),
                     inspect_claude_integration(args.claude_settings, executable),
                     inspect_qoder_integration(args.qoder_settings, executable),
+                    inspect_qoderwork_integration(
+                        args.qoderwork_settings, executable
+                    ),
                     inspect_opencode_integration(args.opencode_plugin, executable),
                 ]
             }

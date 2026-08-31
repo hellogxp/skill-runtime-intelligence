@@ -1,6 +1,7 @@
 """Index orchestration for local and observability adapters."""
 
 import hashlib
+import os
 import time
 from pathlib import Path
 from typing import Callable, Dict, Iterable, List, Optional
@@ -184,6 +185,7 @@ def watch_local(
     skill_roots: Iterable[Path],
     interval_seconds: float = 2.0,
     exclusions: Iterable[Path] = (),
+    parent_pid: Optional[int] = None,
 ) -> None:
     """Continuously re-index only changed Codex session files.
 
@@ -203,8 +205,13 @@ def watch_local(
     skill_signature: Optional[str] = None
     skills: List[SkillDefinition] = []
     last_skill_scan = 0.0
+    pending_changes: Dict[Path, tuple[float, float]] = {}
+    settle_seconds = max(1.0, min(5.0, interval_seconds * 2))
+    max_pending_seconds = max(10.0, interval_seconds * 10)
 
     while True:
+        if parent_pid and os.getppid() != parent_pid:
+            return
         now = time.monotonic()
         if not skills or now - last_skill_scan >= 30:
             discovered = discover_skills(roots, excluded)
@@ -223,20 +230,33 @@ def watch_local(
                 finally:
                     storage.close()
 
-        changed = []
         current_paths = set(adapter.session_files())
         removed_paths = set(known_mtimes) - current_paths
         eligible_mtimes = _eligible_source_mtimes(adapter, excluded)
         for path in current_paths:
             if path not in eligible_mtimes:
                 known_mtimes.pop(path, None)
+                pending_changes.pop(path, None)
                 continue
             mtime = eligible_mtimes[path]
             if known_mtimes.get(path) != mtime:
                 known_mtimes[path] = mtime
-                changed.append(path)
+                first_seen, _ = pending_changes.get(path, (now, now))
+                pending_changes[path] = (first_seen, now)
         for removed in removed_paths:
             known_mtimes.pop(removed, None)
+            pending_changes.pop(removed, None)
+
+        changed = [
+            path
+            for path, (first_seen, last_seen) in pending_changes.items()
+            if (
+                now - last_seen >= settle_seconds
+                or now - first_seen >= max_pending_seconds
+            )
+        ]
+        for path in changed:
+            pending_changes.pop(path, None)
 
         if changed or removed_paths:
             _index_changed_batch(

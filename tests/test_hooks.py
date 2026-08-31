@@ -20,6 +20,7 @@ from skill_runtime_intelligence.hook_adapter import (
     build_codex_hook_envelopes,
     build_opencode_hook_envelopes,
     build_qoder_hook_envelopes,
+    build_qoderwork_hook_envelopes,
 )
 from skill_runtime_intelligence.hook_bridge import (
     SAFE_UNIX_SOCKET_PATH_BYTES,
@@ -30,18 +31,22 @@ from skill_runtime_intelligence.integrations import (
     MANAGED_CLAUDE_EVENTS,
     MANAGED_CODEX_EVENTS,
     MANAGED_QODER_EVENTS,
+    MANAGED_QODERWORK_EVENTS,
     enable_claude_hooks,
     enable_codex_hooks,
     enable_opencode_plugin,
     enable_qoder_hooks,
+    enable_qoderwork_hooks,
     inspect_claude_integration,
     inspect_codex_integration,
     inspect_opencode_integration,
     inspect_qoder_integration,
+    inspect_qoderwork_integration,
     remove_claude_hooks,
     remove_codex_hooks,
     remove_opencode_plugin,
     remove_qoder_hooks,
+    remove_qoderwork_hooks,
 )
 from skill_runtime_intelligence.native_sender import (
     build_native_hook_sender,
@@ -388,10 +393,10 @@ class HookAdapterTests(unittest.TestCase):
                     "data": {
                         "meta_type": "slash_command",
                         "content": {
-                            "name": "kbase-mcp-skill",
+                            "name": "enterprise-knowledge-search",
                             "type": "skill",
                             "filePath": (
-                                "/tmp/.agents/skills/kbase-mcp-skill/SKILL.md"
+                                "/tmp/.agents/skills/enterprise-knowledge-search/SKILL.md"
                             ),
                         },
                     },
@@ -436,7 +441,9 @@ class HookAdapterTests(unittest.TestCase):
                 [item["event_type"] for item in envelopes],
                 ["skill.activated", "tool.started"],
             )
-            self.assertEqual(envelopes[0]["skill"]["name"], "kbase-mcp-skill")
+            self.assertEqual(
+                envelopes[0]["skill"]["name"], "enterprise-knowledge-search"
+            )
             self.assertEqual(envelopes[0]["activation_mode"], "slash_command")
             self.assertIn("session_meta/slash_command", envelopes[0]["evidence"]["basis"])
             self.assertNotIn(
@@ -775,7 +782,7 @@ class HookAdapterTests(unittest.TestCase):
             finally:
                 bridge.close()
 
-    def test_native_sender_ingests_qoder_and_opencode_as_distinct_sources(self):
+    def test_native_sender_ingests_qoderwork_qoder_and_opencode_as_distinct_sources(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             built = build_native_hook_sender(root)
@@ -785,7 +792,7 @@ class HookAdapterTests(unittest.TestCase):
             socket_path = root / "run" / "hook.sock"
             bridge = HookBridge(database, socket_path=socket_path).start()
             try:
-                for agent in ("qoder", "opencode"):
+                for agent in ("qoder", "qoderwork", "opencode"):
                     result = subprocess.run(
                         [
                             built["path"],
@@ -814,7 +821,7 @@ class HookAdapterTests(unittest.TestCase):
                 while time.monotonic() < deadline:
                     storage = Storage(database)
                     try:
-                        if storage.counts()["normalized_events"] == 2:
+                        if storage.counts()["normalized_events"] == 3:
                             break
                     finally:
                         storage.close()
@@ -824,7 +831,7 @@ class HookAdapterTests(unittest.TestCase):
                     sources = storage.list_sources()
                     self.assertEqual(
                         {source["adapter"] for source in sources},
-                        {"qoder", "opencode"},
+                        {"qoder", "qoderwork", "opencode"},
                     )
                     self.assertTrue(
                         all(
@@ -1177,6 +1184,57 @@ class HookIntegrationTests(unittest.TestCase):
                 remaining["hooks"]["PostToolUse"][0]["hooks"][0]["command"],
                 "/tmp/unrelated",
             )
+
+    def test_qoderwork_hooks_are_distinct_additive_and_removable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = root / "settings.json"
+            settings.write_text(
+                json.dumps({"hooks": {"Stop": [{"hooks": [{"type": "command", "command": "/tmp/unrelated"}]}]}}),
+                encoding="utf-8",
+            )
+            state_root = root / "state"
+            result = enable_qoderwork_hooks(
+                "/tmp/skill-runtime", settings, state_root=state_root
+            )
+            self.assertTrue(result["changed"])
+            inspected = inspect_qoderwork_integration(
+                settings, "/tmp/skill-runtime", state_root=state_root
+            )
+            self.assertTrue(inspected["installed"])
+            configured = json.loads(settings.read_text(encoding="utf-8"))
+            managed = [
+                hook
+                for groups in configured["hooks"].values()
+                for group in groups
+                for hook in group.get("hooks", [])
+                if "--agent qoderwork" in hook.get("command", "")
+            ]
+            self.assertEqual(len(managed), len(MANAGED_QODERWORK_EVENTS))
+            self.assertFalse(any("--agent qoder " in hook["command"] for hook in managed))
+            removed = remove_qoderwork_hooks(settings, state_root=state_root)
+            self.assertTrue(removed["changed"])
+            remaining = json.loads(settings.read_text(encoding="utf-8"))
+            self.assertEqual(
+                remaining["hooks"]["Stop"][0]["hooks"][0]["command"],
+                "/tmp/unrelated",
+            )
+
+    def test_qoderwork_instruction_access_uses_qoderwork_adapter(self):
+        envelopes = build_qoderwork_hook_envelopes(
+            "PostToolUse",
+            {
+                "session_id": "qoderwork-session",
+                "tool_name": "Read",
+                "tool_use_id": "read-skill",
+                "tool_input": {"file_path": "/tmp/.qoderwork/skills/demo/SKILL.md"},
+            },
+        )
+        instruction = next(
+            item for item in envelopes if item["event_type"] == "instruction.loaded"
+        )
+        self.assertEqual(instruction["source"]["adapter"], "qoderwork")
+        self.assertEqual(instruction["skill"]["name"], "demo")
 
     def test_opencode_plugin_is_owned_idempotent_and_exactly_removable(self):
         with tempfile.TemporaryDirectory() as directory:

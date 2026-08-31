@@ -1,7 +1,7 @@
 # Observability interoperability
 
 Status: import and opt-in OTLP export implemented
-Adapter family version: `0.1.0`  
+Adapter family version: `0.1.1`
 Snapshot date: 2026-07-28
 
 ## Product boundary

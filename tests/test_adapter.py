@@ -537,6 +537,54 @@ class CodexAdapterTests(unittest.TestCase):
                 )
             )
 
+    def test_imports_standard_gen_ai_span_kind(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "otel-gen-ai.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "resourceSpans": [
+                            {
+                                "resource": {"attributes": []},
+                                "scopeSpans": [
+                                    {
+                                        "spans": [
+                                            {
+                                                "traceId": "trace-1",
+                                                "spanId": "span-llm",
+                                                "name": "model call",
+                                                "startTimeUnixNano": "1700000000000000000",
+                                                "endTimeUnixNano": "1700000002000000000",
+                                                "attributes": [
+                                                    {
+                                                        "key": "gen_ai.skill.name",
+                                                        "value": {
+                                                            "stringValue": "data-development"
+                                                        },
+                                                    },
+                                                    {
+                                                        "key": "gen_ai.span.kind",
+                                                        "value": {"stringValue": "LLM"},
+                                                    },
+                                                ],
+                                            }
+                                        ]
+                                    }
+                                ],
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            _, bundles, _ = ObservabilityAdapter(source).parse()
+
+            _, raw, events, runs = bundles[0]
+            self.assertEqual(len(runs), 1)
+            self.assertEqual(raw[0]["record_type"], "LLM")
+            self.assertEqual(events[0]["payload"]["span_id"], "span-llm")
+
 
 if __name__ == "__main__":
     unittest.main()

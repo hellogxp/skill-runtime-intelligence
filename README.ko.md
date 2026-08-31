@@ -18,7 +18,7 @@
 
 Agent Skill Runtime Intelligence 에이전트 스킬에 대한 읽기 전용 런타임 증거 및 진단 시스템입니다. 현재 기술 정의에서 보수적이고 검사 가능한 제약 조건을 추출하여 이를 런타임 활동과 일치시키고 결과를 증거 등급으로 재구성합니다. Skill Run Panorama. 모델 요청을 프록시하거나 에이전트 루프를 인계받지 않고 공식 에이전트 이벤트, 가져온 추적, 레이블이 지정된 세션 대체 및 관찰 가능한 작업 공간 결과를 결합합니다.
 
-![Skill Run Panorama](docs/assets/skill-run-panorama.png)
+![중국어 간체 SRI 런타임 개요](docs/assets/sri-runtime-overview-cn.png)
 
 ## 빠른 시작
 

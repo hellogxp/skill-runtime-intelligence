@@ -29,11 +29,11 @@ def tool_event(name):
 class BehaviorConstraintTests(unittest.TestCase):
     def test_exact_required_tool_is_satisfied_by_runtime_event(self):
         constraints = extract_behavior_constraints(
-            "Must call <tool>aone-km::searchDocChunk</tool> before coding."
+            "Must call <tool>knowledge::searchDocs</tool> before coding."
         )
         evaluated = assess_single(
             constraints[0],
-            run_with(tool_event("mcp__aone_km.searchDocChunk")),
+            run_with(tool_event("mcp__knowledge.searchDocs")),
         )
 
         self.assertEqual(evaluated["status"], "satisfied")
@@ -49,7 +49,7 @@ class BehaviorConstraintTests(unittest.TestCase):
 
     def test_conditional_table_rule_is_not_mislabeled_as_deviation(self):
         constraints = extract_behavior_constraints(
-            "| Scenario | Action |\n| Repo name known | Call <tool>aone-km::getCodeWikiStructure</tool> |"
+            "| Scenario | Action |\n| Repo name known | Call <tool>knowledge::getStructure</tool> |"
         )
         evaluated = assess_single(constraints[0], run_with(tool_event("other")))
 

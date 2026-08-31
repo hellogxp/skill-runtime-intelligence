@@ -28,6 +28,9 @@ class ConfigTests(unittest.TestCase):
                 config["hooks"]["qoder"]["consent"], "not_requested"
             )
             self.assertEqual(
+                config["hooks"]["qoderwork"]["consent"], "not_requested"
+            )
+            self.assertEqual(
                 config["hooks"]["opencode"]["consent"], "not_requested"
             )
 

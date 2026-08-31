@@ -9,8 +9,26 @@ const stageLabels = {
   outcome: "Outcome",
 };
 const stageOrder = Object.keys(stageLabels);
+const stageHelpDescriptions = {
+  request: "Task input and runtime context received by the Agent.",
+  discovery: "Records indicating that the Agent identified a Skill relevant to the task.",
+  activation: "Records indicating whether and how the Skill was enabled.",
+  instructions: "Records of Skill instructions, rules, or operating requirements being loaded.",
+  resources: "Records of access to Skill-provided scripts, templates, or reference files.",
+  execution: "Observed tool calls, commands, and other actions during the run.",
+  artifacts: "Files or other outputs created, modified, retained, or removed during the run.",
+  outcome: "Final response, terminal state, and independent verification records when available.",
+};
 
 let skillRuns = [];
+let runSummary = {
+  total: 0,
+  result_counts: {},
+  attention_count: 0,
+  stage_counts: {},
+  stage_supported_totals: {},
+  attention_runs: [],
+};
 let selectedRunId = null;
 let selectedRun = null;
 let statusFilter = "all";
@@ -31,9 +49,26 @@ let selectedComparisonId = null;
 let streamConnected = false;
 let streamRefreshTimer = null;
 let streamRefreshInFlight = false;
+let runtimeStream = null;
 let lastStreamRefreshAt = 0;
-const STREAM_REFRESH_INTERVAL_MS = 1500;
+const STREAM_REFRESH_INTERVAL_MS = 2500;
 const graphEventHistory = new Map();
+const RUN_PAGE_SIZE = 25;
+let runFacets = {agents: [], projects: [], skills: [], evidence_grades: []};
+let runPage = {cursor: "", nextCursor: "", hasMore: false, number: 1, cursors: [""]};
+let runFilterTimer = null;
+let selectedRuntimeStage = "execution";
+let skillsDataPromise = null;
+let settingsDataPromise = null;
+let appliedStreamRevision = 0;
+let pendingStreamRevision = 0;
+
+const runResultLabels = {
+  explicit_failure: "Explicit failures",
+  incomplete: "Incomplete",
+  interrupted: "Interrupted",
+  completed: "Completed",
+};
 
 const esc = (value) => String(value ?? "")
   .replaceAll("&", "&amp;")
@@ -42,6 +77,126 @@ const esc = (value) => String(value ?? "")
   .replaceAll('"', "&quot;");
 
 const tr = (value) => window.SkillRuntimeI18n?.translateText(String(value)) || String(value);
+
+const evidencePresentation = {
+  observed: {
+    label: "Observed",
+    description: "Direct record from the source, with a time and source locator.",
+  },
+  derived: {
+    label: "Derived",
+    description: "Calculated from collected records by explicit deterministic rules; not a model guess.",
+  },
+  inferred: {
+    label: "Inferred",
+    description: "A possible explanation supported by limited evidence; not a confirmed fact.",
+  },
+  experimental: {
+    label: "Experimental",
+    description: "Produced by a detection method still under validation; use for investigation only.",
+  },
+  not_observed: {
+    label: "Not observed",
+    description: "No matching record was collected in this run; this does not prove the stage did not happen.",
+    metaLabel: "Collection status",
+  },
+  unsupported: {
+    label: "Unsupported",
+    description: "The current Agent or Adapter does not provide the signal needed to judge this stage.",
+    metaLabel: "Source capability",
+  },
+};
+
+function evidenceKind(node) {
+  if (node?.status === "unsupported") return "unsupported";
+  if (node?.status === "not_observed") return "not_observed";
+  return evidencePresentation[node?.evidence_grade] ? node.evidence_grade : "derived";
+}
+
+function hideEvidenceTooltip() {
+  const tooltip = document.querySelector("#evidence-grade-tooltip");
+  if (!tooltip) return;
+  tooltip.classList.remove("visible");
+  tooltip.setAttribute("aria-hidden", "true");
+}
+
+function showEvidenceTooltip(anchor, kind) {
+  const tooltip = document.querySelector("#evidence-grade-tooltip");
+  const presentation = evidencePresentation[kind];
+  if (!tooltip || !anchor || !presentation) return;
+  tooltip.innerHTML = `<strong>${esc(tr(presentation.label))}</strong><span>${esc(tr(presentation.description))}</span><small>${esc(tr(presentation.metaLabel || "Evidence grade"))}: ${esc(presentation.label)}</small>`;
+  tooltip.setAttribute("aria-hidden", "false");
+  tooltip.classList.add("visible");
+  const anchorRect = anchor.getBoundingClientRect();
+  const tooltipRect = tooltip.getBoundingClientRect();
+  const left = Math.min(window.innerWidth - tooltipRect.width - 12, Math.max(12, anchorRect.left));
+  const below = anchorRect.bottom + 9;
+  const top = below + tooltipRect.height <= window.innerHeight - 12
+    ? below
+    : Math.max(12, anchorRect.top - tooltipRect.height - 9);
+  tooltip.style.left = `${left}px`;
+  tooltip.style.top = `${top}px`;
+}
+
+function positionOverviewTooltip(anchor, title, description, note) {
+  const tooltip = document.querySelector("#evidence-grade-tooltip");
+  if (!tooltip || !anchor) return;
+  tooltip.innerHTML = `<strong>${esc(tr(title))}</strong><span>${esc(tr(description))}</span>${note ? `<small>${esc(tr(note))}</small>` : ""}`;
+  tooltip.setAttribute("aria-hidden", "false");
+  tooltip.classList.add("visible");
+  const anchorRect = anchor.getBoundingClientRect();
+  const tooltipRect = tooltip.getBoundingClientRect();
+  const left = Math.min(window.innerWidth - tooltipRect.width - 12, Math.max(12, anchorRect.left));
+  const below = anchorRect.bottom + 9;
+  const top = below + tooltipRect.height <= window.innerHeight - 12
+    ? below
+    : Math.max(12, anchorRect.top - tooltipRect.height - 9);
+  tooltip.style.left = `${left}px`;
+  tooltip.style.top = `${top}px`;
+}
+
+function showStageTooltip(anchor, stage, count, total) {
+  const note = Number(total) > 0
+    ? `${count} / ${total} ${tr("runs with information")} · ${tr("This is not a success rate.")}`
+    : tr("Current sources do not provide this signal");
+  positionOverviewTooltip(
+    anchor,
+    stageLabels[stage],
+    stageHelpDescriptions[stage],
+    note,
+  );
+}
+
+function bindStageInformationHelp() {
+  const guide = document.querySelector("#stage-guide-trigger");
+  const showGuide = () => positionOverviewTooltip(
+    guide,
+    "Lifecycle",
+    "A stage may be optional or outside adapter coverage. No information does not mean failure.",
+    "Counts cover all matching SkillRuns and show collected information, not success rates.",
+  );
+  if (guide) {
+    guide.onmouseenter = showGuide;
+    guide.onmouseleave = hideEvidenceTooltip;
+    guide.onfocus = showGuide;
+    guide.onblur = hideEvidenceTooltip;
+    guide.onclick = showGuide;
+  }
+
+  document.querySelectorAll("[data-stage-help]").forEach((button) => {
+    const show = () => showStageTooltip(
+      button,
+      button.dataset.stageHelp,
+      button.dataset.stageCount,
+      button.dataset.stageTotal,
+    );
+    button.addEventListener("mouseenter", show);
+    button.addEventListener("mouseleave", hideEvidenceTooltip);
+    button.addEventListener("focus", show);
+    button.addEventListener("blur", hideEvidenceTooltip);
+    button.addEventListener("click", show);
+  });
+}
 
 const formatTime = (value, includeDate = true) => {
   if (!value) return "—";
@@ -59,35 +214,73 @@ const percentBucket = (value) => Math.max(
   Math.min(100, Math.round((Number(value) || 0) / 10) * 10),
 );
 
+// Resolve API requests beside the page instead of assuming that SRI is mounted
+// at the origin root. The local product still resolves to /api/*, while a
+// self-hosted instance can live under an operator-controlled path prefix.
+const appBaseUrl = new URL("./", window.location.href);
+const isRemoteViewer = !new Set(["localhost", "127.0.0.1", "::1"]).has(window.location.hostname);
+const endpointUrl = (path) => new URL(
+  String(path || "").replace(/^\/+/, ""),
+  appBaseUrl,
+).toString();
+
 async function getJSON(path) {
-  const response = await fetch(path, {cache: "no-store"});
+  const response = await fetch(endpointUrl(path), {cache: "no-store"});
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
   return response.json();
+}
+
+function skillRunPagePath(cursor = runPage.cursor) {
+  const parameters = new URLSearchParams({limit: String(RUN_PAGE_SIZE)});
+  const query = document.querySelector("#run-filter").value.trim();
+  const agent = document.querySelector("#run-agent-filter").value;
+  const project = document.querySelector("#run-project-filter").value;
+  const skill = document.querySelector("#run-skill-filter").value;
+  const grade = document.querySelector("#run-grade-filter").value;
+  const date = document.querySelector("#run-date-filter").value;
+  const errorsOnly = document.querySelector("#run-error-filter").checked;
+  if (cursor) parameters.set("cursor", cursor);
+  if (query) parameters.set("q", query);
+  if (statusFilter !== "all") {
+    parameters.set("status", statusFilter);
+  }
+  if (agent) parameters.set("agent", agent);
+  if (project) parameters.set("project", project);
+  if (skill) parameters.set("skill", skill);
+  if (grade) parameters.set("grade", grade);
+  if (date) parameters.set("date", date);
+  if (errorsOnly) parameters.set("errors", "true");
+  return `/api/skill-runs?${parameters}`;
+}
+
+function applySkillRunPage(response) {
+  runPage.nextCursor = response.page?.next_cursor || "";
+  runPage.hasMore = Boolean(response.page?.has_more);
+  runSummary = response.summary || runSummary;
+  return response.skill_runs || [];
+}
+
+function resetRunPagination() {
+  runPage = {cursor: "", nextCursor: "", hasMore: false, number: 1, cursors: [""]};
 }
 
 async function loadIndex(isBackground = false) {
   if (!selectedRunId && location.hash.startsWith("#/runs/")) {
     selectedRunId = decodeURIComponent(location.hash.slice("#/runs/".length));
   }
-  const previousSelected = skillRuns.find((run) => run.skill_run_id === selectedRunId);
   if (isBackground) {
-    const runsResponse = await getJSON("/api/skill-runs");
-    skillRuns = runsResponse.skill_runs || [];
-    populateRunFilters();
+    const runsResponse = await getJSON(skillRunPagePath());
+    skillRuns = applySkillRunPage(runsResponse);
     renderRuns();
     renderRuntimeOverview();
-    const currentSelected = skillRuns.find((run) => run.skill_run_id === selectedRunId);
-    const previousSignature = previousSelected
-      ? `${previousSelected.event_count}:${previousSelected.status}:${previousSelected.evidence_completeness}`
-      : "";
-    const currentSignature = currentSelected
-      ? `${currentSelected.event_count}:${currentSelected.status}:${currentSelected.evidence_completeness}`
-      : "";
+    const selectedRunIsTerminal = ["completed", "failed", "interrupted"].includes(
+      selectedRun?.status
+    );
     if (
-      currentSelected
-      && currentSignature !== previousSignature
+      selectedRunId
+      && !selectedRunIsTerminal
       && activeView === "runs"
-      && location.hash.startsWith("#/runs")
+      && location.hash.startsWith("#/runs/")
     ) {
       await loadSkillRun(selectedRunId);
     }
@@ -108,54 +301,74 @@ async function loadIndex(isBackground = false) {
     }
     return detail;
   });
-  // Agent binary/version inspection can take seconds on a cold host. It is
-  // useful header/settings metadata, not a prerequisite for the run index or
-  // detail diagnosis, so keep it out of the critical rendering path.
-  const integrationsPromise = getJSON("/api/integrations")
-    .catch(() => ({integrations: []}));
   const [
     runsResponse,
+    facetsResponse,
     sourcesResponse,
-    skillsResponse,
-    conflictsResponse,
-    settingsResponse,
-    exportersResponse,
     healthResponse,
     initialDetail,
   ] = await Promise.all([
-    getJSON("/api/skill-runs"),
+    getJSON(skillRunPagePath()),
+    getJSON("/api/skill-run-facets").catch(() => runFacets),
     getJSON("/api/sources"),
-    getJSON("/api/skills"),
-    getJSON("/api/skill-conflicts"),
-    getJSON("/api/settings"),
-    getJSON("/api/exporters"),
     getJSON("/api/health"),
     earlyDetailPromise,
   ]);
-  skillRuns = runsResponse.skill_runs || [];
+  skillRuns = applySkillRunPage(runsResponse);
+  runFacets = facetsResponse || runFacets;
   runtimeSources = sourcesResponse.sources || [];
-  skillInventory = skillsResponse.skills || [];
-  skillConflicts = conflictsResponse.conflicts || [];
-  runtimeSettings = settingsResponse;
-  runtimeExporters = exportersResponse.exporters || [];
   runtimeHealth = healthResponse || {deployment: "local"};
+  appliedStreamRevision = Math.max(
+    appliedStreamRevision,
+    Number(runtimeHealth.revision) || 0,
+  );
   populateRunFilters();
   renderSourceSummary();
   renderRuns();
   renderRuntimeOverview();
-  renderSkills();
-  renderSettings();
   if (initialDetail && selectedRun?.skill_run_id !== initialDetail.skill_run_id) {
     showSkillRunDetail(initialDetail);
   } else if (initialDetail) {
     renderComparePicker(initialDetail);
   }
   routeFromLocation();
-  integrationsPromise.then((integrationsResponse) => {
+}
+
+function ensureSkillsData() {
+  if (skillsDataPromise) return skillsDataPromise;
+  skillsDataPromise = Promise.all([
+    getJSON("/api/skills"),
+    getJSON("/api/skill-conflicts"),
+  ]).then(([skillsResponse, conflictsResponse]) => {
+    skillInventory = skillsResponse.skills || [];
+    skillConflicts = conflictsResponse.conflicts || [];
+    renderSkills();
+    return skillInventory;
+  }).catch((error) => {
+    skillsDataPromise = null;
+    throw error;
+  });
+  return skillsDataPromise;
+}
+
+function ensureSettingsData() {
+  if (settingsDataPromise) return settingsDataPromise;
+  settingsDataPromise = Promise.all([
+    getJSON("/api/settings"),
+    getJSON("/api/exporters"),
+    getJSON("/api/integrations"),
+  ]).then(([settingsResponse, exportersResponse, integrationsResponse]) => {
+    runtimeSettings = settingsResponse;
+    runtimeExporters = exportersResponse.exporters || [];
     runtimeIntegrations = integrationsResponse.integrations || [];
     renderSourceSummary();
     renderSettings();
+    return runtimeSettings;
+  }).catch((error) => {
+    settingsDataPromise = null;
+    throw error;
   });
+  return settingsDataPromise;
 }
 
 function sourceModeLabel(mode) {
@@ -228,71 +441,80 @@ function setConnectionState(state, label) {
 }
 
 function deploymentLabel() {
-  return runtimeHealth.deployment === "self_hosted_remote" ? "Remote" : "Local";
+  return runtimeHealth.deployment === "self_hosted_remote" || isRemoteViewer ? "Remote" : "Local";
 }
 
-function scheduleStreamRefresh() {
+function scheduleStreamRefresh(event = null) {
+  if (event?.data) {
+    try {
+      const revision = Number(JSON.parse(event.data).revision) || 0;
+      if (revision <= Math.max(appliedStreamRevision, pendingStreamRevision)) return;
+      pendingStreamRevision = revision;
+    } catch (_error) {
+      return;
+    }
+  }
+  if (pendingStreamRevision <= appliedStreamRevision) return;
   window.clearTimeout(streamRefreshTimer);
   const elapsed = Date.now() - lastStreamRefreshAt;
   const delay = Math.max(150, STREAM_REFRESH_INTERVAL_MS - elapsed);
   streamRefreshTimer = window.setTimeout(() => {
     if (document.visibilityState !== "visible") return;
     if (streamRefreshInFlight) {
-      scheduleStreamRefresh();
       return;
     }
+    const targetRevision = pendingStreamRevision;
     streamRefreshInFlight = true;
     loadIndex(true)
       .then(() => {
+        appliedStreamRevision = Math.max(appliedStreamRevision, targetRevision);
         lastStreamRefreshAt = Date.now();
       })
       .catch(() => setConnectionState("offline", "Collector unavailable"))
       .finally(() => {
         streamRefreshInFlight = false;
+        if (pendingStreamRevision > appliedStreamRevision) scheduleStreamRefresh();
       });
   }, delay);
 }
 
 function connectRuntimeStream() {
+  if (document.visibilityState !== "visible") {
+    setConnectionState("fallback", `${deploymentLabel()} · paused in background`);
+    return;
+  }
+  if (runtimeStream) return;
   if (!window.EventSource) {
     setConnectionState("fallback", `${deploymentLabel()} · polling fallback`);
     return;
   }
-  const stream = new EventSource("/api/stream");
-  stream.addEventListener("open", () => {
+  runtimeStream = new EventSource(endpointUrl("/api/stream?client=live-v3"));
+  runtimeStream.addEventListener("open", () => {
     streamConnected = true;
     setConnectionState("live", `${deploymentLabel()} · live`);
   });
-  stream.addEventListener("revision", scheduleStreamRefresh);
-  stream.addEventListener("error", () => {
+  runtimeStream.addEventListener("revision", scheduleStreamRefresh);
+  runtimeStream.addEventListener("error", () => {
     streamConnected = false;
     setConnectionState("fallback", `${deploymentLabel()} · reconnecting`);
   });
 }
 
+function syncRuntimeStreamVisibility() {
+  if (document.visibilityState === "visible") {
+    connectRuntimeStream();
+    loadIndex(true).catch(() => setConnectionState("offline", "Collector unavailable"));
+    return;
+  }
+  window.clearTimeout(streamRefreshTimer);
+  runtimeStream?.close();
+  runtimeStream = null;
+  streamConnected = false;
+  setConnectionState("fallback", `${deploymentLabel()} · paused in background`);
+}
+
 function visibleRuns() {
-  const query = document.querySelector("#run-filter").value.toLowerCase().trim();
-  const agent = document.querySelector("#run-agent-filter").value;
-  const project = document.querySelector("#run-project-filter").value;
-  const skill = document.querySelector("#run-skill-filter").value;
-  const grade = document.querySelector("#run-grade-filter").value;
-  const date = document.querySelector("#run-date-filter").value;
-  const errorsOnly = document.querySelector("#run-error-filter").checked;
-  return skillRuns.filter((run) => {
-    const matchesStatus = statusFilter === "all" || run.status === statusFilter;
-    const haystack = [
-      run.name, run.description, run.session_title, run.cwd, run.adapter,
-      run.model, run.activation_mode,
-    ].join(" ").toLowerCase();
-    return matchesStatus
-      && (!agent || run.adapter === agent)
-      && (!project || run.cwd === project)
-      && (!skill || run.name === skill)
-      && (!grade || run.evidence_grade === grade)
-      && (!date || String(run.started_at || "").slice(0, 10) === date)
-      && (!errorsOnly || Number(run.error_count) > 0 || run.status === "failed")
-      && (!query || haystack.includes(query));
-  });
+  return skillRuns;
 }
 
 function fillSelect(id, values, emptyLabel) {
@@ -308,17 +530,25 @@ function fillSelect(id, values, emptyLabel) {
 }
 
 function populateRunFilters() {
-  fillSelect("#run-agent-filter", skillRuns.map((run) => run.adapter), "All Agents");
-  fillSelect("#run-project-filter", skillRuns.map((run) => run.cwd), "All projects");
-  fillSelect("#run-skill-filter", skillRuns.map((run) => run.name), "All Skills");
-  fillSelect("#run-grade-filter", skillRuns.map((run) => run.evidence_grade), "All grades");
+  fillSelect("#run-agent-filter", runFacets.agents || [], "All Agents");
+  fillSelect("#run-project-filter", runFacets.projects || [], "All projects");
+  fillSelect("#run-skill-filter", runFacets.skills || [], "All Skills");
+  fillSelect("#run-grade-filter", runFacets.evidence_grades || [], "All grades");
 }
 
 function renderRuns() {
   const visible = visibleRuns();
-  document.querySelector("#run-count").textContent = visible.length;
+  document.querySelector("#run-count").textContent = `${visible.length} / page`;
+  const resultCounts = runSummary.result_counts || {};
+  document.querySelector("#run-result-summary").innerHTML = `
+    ${["explicit_failure", "incomplete", "interrupted", "completed"].map((type) => `
+      <span class="result-summary-chip ${type}">
+        ${esc(tr(runResultLabels[type]))} <strong>${esc(resultCounts[type] || 0)}</strong>
+      </span>
+    `).join("")}
+  `;
   document.querySelector("#runs").innerHTML = visible.map((run) => `
-    <button class="run-card ${esc(run.status)} ${selectedRunId === run.skill_run_id ? "active" : ""}"
+    <button class="run-card result-${esc(run.result_type || "completed")} ${selectedRunId === run.skill_run_id ? "active" : ""}"
             type="button" data-run="${esc(run.skill_run_id)}">
       <div class="card-top">
         <span class="card-source">${esc(run.adapter)} · ${esc(tr(pretty(run.activation_mode)))}</span>
@@ -326,6 +556,10 @@ function renderRuns() {
       </div>
       <h3>${esc(run.name)}</h3>
       <p class="card-task">${esc(run.session_title || "Untitled runtime context")}</p>
+      <div class="card-result-row">
+        <span class="result-badge ${esc(run.result_type || "completed")}">${esc(tr(runResultLabels[run.result_type] || "Completed"))}</span>
+        <span class="terminal-status">${esc(tr(pretty(run.status)))}</span>
+      </div>
       <div class="card-foot">
         <div class="mini-coverage" title="Evidence coverage ${esc(run.evidence_completeness)}%">
           <i class="fill-pct-${percentBucket(run.evidence_completeness)}"></i>
@@ -337,52 +571,32 @@ function renderRuns() {
   document.querySelectorAll(".run-card").forEach((button) => {
     button.addEventListener("click", () => loadSkillRun(button.dataset.run, true));
   });
+  const previous = document.querySelector("#runs-previous");
+  const next = document.querySelector("#runs-next");
+  const pageLabel = document.querySelector("#runs-page-label");
+  if (previous) previous.disabled = runPage.number <= 1;
+  if (next) next.disabled = !runPage.hasMore;
+  if (pageLabel) pageLabel.textContent = `Page ${runPage.number} · up to ${RUN_PAGE_SIZE} runs`;
 }
 
 function renderRuntimeOverview() {
   const metrics = document.querySelector("#overview-metrics");
   if (!metrics) return;
-  const boundaryCounts = Object.fromEntries(stageOrder.map((stage) => [stage, 0]));
-  for (const run of skillRuns) {
-    if (run.first_gap && Object.hasOwn(boundaryCounts, run.first_gap)) {
-      boundaryCounts[run.first_gap] += 1;
-    }
-  }
-  const dominant = Object.entries(boundaryCounts)
-    .sort((left, right) => right[1] - left[1])[0] || [null, 0];
-  const runsWithBoundary = Object.values(boundaryCounts).reduce((sum, count) => sum + count, 0);
-  const dominantShare = runsWithBoundary
-    ? Math.round((dominant[1] / runsWithBoundary) * 100)
-    : 0;
-  const systemicBoundary = dominant[1] >= 5 && dominantShare >= 80
-    ? dominant[0]
-    : null;
-  const attention = skillRuns.filter((run) => (
-    Number(run.error_count) > 0
-    || ["failed", "incomplete", "interrupted"].includes(run.status)
-    || (run.first_gap && run.first_gap !== systemicBoundary)
-  ));
-  attention.sort((left, right) => {
-    const leftBoundary = left.first_gap ? stageOrder.indexOf(left.first_gap) : stageOrder.length;
-    const rightBoundary = right.first_gap ? stageOrder.indexOf(right.first_gap) : stageOrder.length;
-    if (leftBoundary !== rightBoundary) return leftBoundary - rightBoundary;
-    if (Number(right.error_count) !== Number(left.error_count)) {
-      return Number(right.error_count) - Number(left.error_count);
-    }
-    return String(right.started_at || "").localeCompare(String(left.started_at || ""));
-  });
-  const liveSources = runtimeIntegrations.filter(
-    (item) => item.connection_status === "verified" || item.live_evidence_seen
+  const stageEvidenceCounts = runSummary.stage_counts || {};
+  const stageSupportedTotals = runSummary.stage_supported_totals || {};
+  const attention = runSummary.attention_runs || [];
+  const resultCounts = runSummary.result_counts || {};
+  const liveSources = runtimeSources.filter(
+    (item) => item.source_health === "active" || item.live
   ).length;
+  const explicitFailureCount = Number(resultCounts.explicit_failure) || 0;
+  const unresolvedTerminalCount = (Number(resultCounts.incomplete) || 0)
+    + (Number(resultCounts.interrupted) || 0);
   metrics.innerHTML = [
-    ["Indexed SkillRuns", skillRuns.length, "Observed and derived runtime records"],
-    ["Need attention", attention.length, "Boundary-first, not severity-first"],
-    [
-      "Coverage concentration",
-      dominant[1] ? `${dominantShare}% ${stageLabels[dominant[0]]}` : "No systemic gap",
-      dominant[1] ? "Derived across runs; not a root-cause claim" : "No repeated boundary in the current index",
-    ],
-    ["Verified runtime sources", liveSources, `${runtimeIntegrations.length} integrations detected`],
+    ["Runs to review", runSummary.attention_count || 0, "Explicit failure or unresolved terminal state"],
+    ["Explicit failures", explicitFailureCount, "Source-reported failure evidence"],
+    ["Incomplete or interrupted", unresolvedTerminalCount, "Terminal evidence requires review"],
+    ["Active runtime sources", liveSources, `${runtimeSources.length} source channels detected`],
   ].map(([label, value, note]) => `
     <article>
       <span>${esc(label)}</span>
@@ -391,26 +605,69 @@ function renderRuntimeOverview() {
     </article>
   `).join("");
 
-  const maxBoundary = Math.max(1, ...Object.values(boundaryCounts));
-  document.querySelector("#boundary-distribution").innerHTML = stageOrder.map((stage) => {
-    const count = boundaryCounts[stage];
-    const width = Math.round((count / maxBoundary) * 100);
-    const widthBucket = percentBucket(width);
-    return `
-      <div class="boundary-row">
-        <span>${esc(stageLabels[stage])}</span>
-        <div class="boundary-track"><i class="fill-pct-${widthBucket}"></i></div>
-        <strong>${count}</strong>
-      </div>`;
+  const resultTypes = ["completed", "explicit_failure", "incomplete", "interrupted"];
+  const resultTotal = Math.max(1, Number(runSummary.total) || 0);
+  const radius = 42;
+  const circumference = 2 * Math.PI * radius;
+  let resultOffset = 0;
+  const resultArcs = resultTypes.map((type) => {
+    const count = resultCounts[type] || 0;
+    const length = (count / resultTotal) * circumference;
+    const arc = `<circle class="result-arc ${esc(type)}" cx="56" cy="56" r="${radius}"
+      stroke-dasharray="${length.toFixed(2)} ${(circumference - length).toFixed(2)}"
+      stroke-dashoffset="${(-resultOffset).toFixed(2)}"></circle>`;
+    resultOffset += length;
+    return arc;
   }).join("");
+  document.querySelector("#result-composition").innerHTML = `
+    <div class="result-donut" role="img"
+      aria-label="${esc(tr("All matching SkillRun result composition"))}"
+      title="${esc(tr("Mutually exclusive terminal result types across all SkillRuns matching the active filters."))}">
+      <svg viewBox="0 0 112 112" aria-hidden="true">
+        <circle class="result-arc-base" cx="56" cy="56" r="${radius}"></circle>
+        ${resultArcs}
+      </svg>
+      <div class="result-donut-label"><strong>${runSummary.total || 0}</strong><span>${esc(tr("matching runs"))}</span></div>
+    </div>
+    <div class="result-legend">
+      ${resultTypes.map((type) => {
+        const count = resultCounts[type] || 0;
+        const percent = Math.round((count / resultTotal) * 100);
+        return `<div class="result-legend-row ${esc(type)}">
+          <i></i><span>${esc(tr(runResultLabels[type]))}</span>
+          <strong>${count}</strong><small>${percent}%</small>
+        </div>`;
+      }).join("")}
+    </div>`;
+
+  document.querySelector("#boundary-distribution").innerHTML = stageOrder.map((stage) => {
+    const count = Number(stageEvidenceCounts[stage]) || 0;
+    const supportedTotal = Number(stageSupportedTotals[stage]) || 0;
+    const width = supportedTotal ? Math.round((count / supportedTotal) * 100) : 0;
+    const widthBucket = percentBucket(width);
+    const value = supportedTotal ? `${count}<small>/${supportedTotal}</small>` : `<span class="stage-unavailable">—</span>`;
+    return `
+      <button class="stage-evidence-column" type="button"
+        data-stage-help="${esc(stage)}" data-stage-count="${esc(count)}" data-stage-total="${esc(supportedTotal)}"
+        aria-label="${esc(tr(stageLabels[stage]))}: ${supportedTotal ? `${esc(count)} / ${esc(supportedTotal)} ${esc(tr("runs with information"))}` : esc(tr("Current sources do not provide this signal"))}.">
+        <strong>${value}</strong>
+        <div class="stage-column-track"><i class="fill-height-${widthBucket}"></i></div>
+        <span>${esc(tr(stageLabels[stage]))}</span>
+      </button>`;
+  }).join("");
+  bindStageInformationHelp();
 
   const queue = attention.slice(0, 8);
-  document.querySelector("#attention-count").textContent = attention.length;
+  document.querySelector("#attention-count").textContent = runSummary.attention_count || 0;
   document.querySelector("#attention-queue").innerHTML = queue.length
-    ? queue.map((run) => `
+    ? queue.map((run) => {
+      const reviewType = run.result_type === "explicit_failure" || Number(run.error_count) > 0 || run.status === "failed"
+        ? "explicit_failure"
+        : run.status;
+      return `
       <button type="button" class="attention-item" data-overview-run="${esc(run.skill_run_id)}">
-        <span class="attention-boundary">
-          ${esc(run.first_gap ? stageLabels[run.first_gap] : pretty(run.status))}
+        <span class="attention-boundary ${esc(reviewType)}">
+          ${esc(tr(runResultLabels[reviewType] || pretty(reviewType)))}
         </span>
         <span class="attention-copy">
           <strong>${esc(run.name)}</strong>
@@ -421,12 +678,13 @@ function renderRuntimeOverview() {
           <small>${esc(formatTime(run.started_at))}</small>
         </span>
       </button>
-    `).join("")
+    `;
+    }).join("")
     : `
       <div class="overview-clear">
         <span class="healthy-dot"></span>
-        <div><strong>No SkillRun currently needs attention</strong>
-        <small>The system abstains when no evidence-bounded concern is available.</small></div>
+        <div><strong>No SkillRun currently requires review</strong>
+        <small>Unobserved optional stages are not treated as problems.</small></div>
       </div>`;
   document.querySelectorAll("[data-overview-run]").forEach((button) => {
     button.addEventListener("click", () => loadSkillRun(button.dataset.overviewRun, true));
@@ -445,8 +703,14 @@ function setView(view, navigate = false) {
     const hash = activeView === "runs" ? "#/runs" : `#/${activeView}`;
     history.pushState({}, "", hash);
   }
-  if (activeView === "skills") renderSkills();
-  if (activeView === "settings") renderSettings();
+  if (activeView === "skills") {
+    renderSkills();
+    ensureSkillsData().catch(() => setConnectionState("offline", "Skill index unavailable"));
+  }
+  if (activeView === "settings") {
+    renderSettings();
+    ensureSettingsData().catch(() => setConnectionState("offline", "Settings unavailable"));
+  }
   window.scrollTo({top: 0, behavior: "smooth"});
 }
 
@@ -636,7 +900,7 @@ function renderConflicts() {
 function renderSettings() {
   if (!runtimeSettings || !document.querySelector("#integration-list")) return;
   const deployment = runtimeSettings.deployment || {mode: "local"};
-  const remoteReadOnly = Boolean(deployment.viewer_read_only);
+  const remoteReadOnly = Boolean(deployment.viewer_read_only) || isRemoteViewer;
   document.querySelector("#integration-list").innerHTML = runtimeIntegrations.map((item) => `
     <article class="integration-row">
       <span class="integration-status ${item.connection_status === "verified" ? "active" : item.detected ? "available" : "missing"}"></span>
@@ -717,7 +981,7 @@ async function enableRuntimeIntegration(button) {
   button.disabled = true;
   button.textContent = tr("Enabling…");
   try {
-    const response = await fetch("/api/integrations/enable", {
+    const response = await fetch(endpointUrl("/api/integrations/enable"), {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({agent}),
@@ -750,7 +1014,7 @@ async function saveRuntimeSettings() {
     .split("\n").map((value) => value.trim()).filter(Boolean);
   const retentionValue = document.querySelector("#retention-days").value.trim();
   const retentionDays = retentionValue ? Number(retentionValue) : null;
-  const response = await fetch("/api/settings", {
+  const response = await fetch(endpointUrl("/api/settings"), {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
@@ -774,7 +1038,7 @@ async function deleteSelectedRun() {
   );
   if (!confirmed) return;
   const response = await fetch(
-    `/api/skill-runs/${encodeURIComponent(selectedRun.skill_run_id)}`,
+    endpointUrl(`/api/skill-runs/${encodeURIComponent(selectedRun.skill_run_id)}`),
     {method: "DELETE"}
   );
   const result = await response.json();
@@ -787,6 +1051,7 @@ async function deleteSelectedRun() {
 
 async function loadSkillRun(skillRunId, navigate = false) {
   if (navigate || location.hash.startsWith("#/runs")) setView("runs", false);
+  if (selectedRunId !== skillRunId) selectedRuntimeStage = "execution";
   selectedRunId = skillRunId;
   if (navigate) history.pushState({}, "", `#/runs/${encodeURIComponent(skillRunId)}`);
   renderRuns();
@@ -898,6 +1163,142 @@ function renderDetail(run) {
   renderTimeline(run);
   renderCapabilities(run);
   resetInspector();
+  renderOfficialRuntimeDetail(run);
+}
+
+function runtimeActivity(run, stage) {
+  return (run.activity_summary?.entries || []).find((entry) => entry.stage === stage) || {};
+}
+
+function runtimeCallCount(run) {
+  return (runtimeActivity(run, "execution").objects || []).reduce(
+    (total, object) => total + Number(object.call_count || 0), 0
+  );
+}
+
+function runtimeStageState(stage) {
+  if (stage.status === "unsupported" || stage.capability === "unsupported") {
+    return {kind: "unsupported", label: "当前来源未提供"};
+  }
+  if (stage.status === "observed" && stage.capability === "observed") {
+    return {kind: "observed", label: "已采集记录"};
+  }
+  if (stage.status === "observed" || stage.capability === "partial") {
+    return {kind: "partial", label: stage.status === "observed" ? "部分记录可见" : "暂未采集到直接记录"};
+  }
+  return {kind: "not-observed", label: "暂未采集到"};
+}
+
+function renderOfficialRuntimeDetail(run) {
+  const calls = runtimeCallCount(run);
+  const outcome = runtimeActivity(run, "outcome");
+  const finalResponses = (outcome.objects || []).find(
+    (object) => object.label === "Final response"
+  )?.count || 0;
+  const hasFailure = (run.events || []).some((event) => /failed$/.test(event.event_type || ""));
+  const verified = (outcome.objects || []).some(
+    (object) => object.label === "Independent verification" && object.count
+  );
+  const conclusion = hasFailure
+    ? "观察到明确的失败记录，建议从最早失败阶段开始检查。"
+    : verified
+      ? "未观察到明确运行故障，并且结果已有独立验证证据。"
+      : "现有证据中没有发现明确运行故障；运行活动和最终回复可见，但结果正确性尚未独立验证。";
+  const boundary = run.first_gap
+    ? `当前最早无法确认的是「${tr(stageLabels[run.first_gap] || run.first_gap)}」阶段；缺少证据不代表该步骤没有发生。`
+    : "当前可观察生命周期内没有发现证据缺口。";
+  document.querySelector("#runtime-conclusion").innerHTML = `
+    <div>
+      <span class="eyebrow">本次运行结论</span>
+      <h2>${esc(conclusion)}</h2>
+      <p>已关联 ${esc(calls)} 次工具调用和 ${esc(finalResponses)} 条最终回复。这里描述可观察事实，不把关联关系解释为 Skill 导致了结果。</p>
+      <p class="candidate-boundary">${esc(boundary)}</p>
+    </div>
+    <span class="candidate-source">${esc(run.adapter)} · ${esc(run.evidence_grade || "unknown")} evidence</span>`;
+
+  const stageButtons = (run.stage_summary || []).map((stage) => {
+    const state = runtimeStageState(stage);
+    return `<button class="candidate-stage ${esc(state.kind)}" type="button" data-runtime-stage="${esc(stage.stage)}" title="${esc(stageLabels[stage.stage] || stage.stage)} · ${esc(state.label)} · ${esc(stage.event_count || 0)} 条记录">
+      <span class="candidate-stage-dot"></span><span class="candidate-stage-name">${esc(tr(stageLabels[stage.stage] || stage.stage))}</span><span class="candidate-stage-state">${esc(state.label)}</span>
+    </button>`;
+  }).join("");
+  const activationLabels = {
+    explicit_tool: "明确调用", slash_command: "命令调用", automatic: "自动触发",
+    nested: "间接调用", unknown: "无法确认",
+  };
+  const tools = (runtimeActivity(run, "execution").objects || []).slice(0, 4).map(
+    (object) => `<span>${esc(object.label)} ×${esc(object.call_count || 0)}</span>`
+  ).join("");
+  document.querySelector("#runtime-evidence-overview").innerHTML = `
+    <article class="candidate-evidence-card candidate-process-card">
+      <div class="candidate-card-head"><div><span class="eyebrow">运行证据范围</span><h3>运行过程可见度</h3></div><strong class="candidate-coverage-value">${esc(run.evidence_completeness)}%<small>不是质量得分</small></strong></div>
+      <div class="candidate-stage-track">${stageButtons}</div>
+      <section id="runtime-stage-detail" class="candidate-stage-detail"></section>
+      <div class="candidate-process-footer"><span>阶段状态来自当前 Adapter 的真实运行记录与能力声明。</span></div>
+    </article>
+    <article class="candidate-evidence-card candidate-activation-card"><span class="eyebrow">它是怎么被调用的</span><h3>Skill 启用方式</h3><div class="candidate-card-value">${esc(activationLabels[run.activation_mode] || pretty(run.activation_mode))}</div><p class="candidate-card-copy">${run.activation_mode === "unknown" ? "已看到 Skill 指令和后续活动，但来源没有记录它是手动调用还是自动触发。" : "来源记录了本次 Skill 的启用方式。"}</p><div class="candidate-card-meta">${esc(run.evidence_grade || "unknown")} evidence</div></article>
+    <article class="candidate-evidence-card candidate-activity-card"><span class="eyebrow">本次实际发生</span><h3>本次观察到的活动</h3><div class="candidate-activity-chips">${tools || "<span>没有匹配的工具记录</span>"}<span>最终回复 ×${esc(finalResponses)}</span></div><button class="candidate-activity-link" type="button" data-runtime-stage-link="execution">查看具体活动 ↓</button></article>`;
+
+  const showStage = (stageName) => {
+    const stage = (run.stage_summary || []).find((item) => item.stage === stageName);
+    if (!stage) return;
+    selectedRuntimeStage = stageName;
+    const state = runtimeStageState(stage);
+    const entry = runtimeActivity(run, stageName);
+    document.querySelectorAll("[data-runtime-stage]").forEach((button) => {
+      button.classList.toggle("active", button.dataset.runtimeStage === stageName);
+    });
+    const objects = (entry.objects || []).slice(0, 6).map(
+      (object) => `<span>${esc(activityObjectLabel(object))}</span>`
+    ).join("");
+    document.querySelector("#runtime-stage-detail").innerHTML = `
+      <div class="candidate-stage-detail-head"><div><span class="eyebrow">当前查看</span><h4>${esc(tr(stageLabels[stageName] || stageName))}</h4></div><span class="candidate-stage-detail-status ${esc(state.kind)}">${esc(state.label)}</span></div>
+      <div class="candidate-stage-objects">${objects || `<span class="candidate-stage-empty">${esc(stage.event_count ? `${stage.event_count} 条阶段记录` : "没有匹配的运行记录")}</span>`}</div>
+      <div class="candidate-stage-boundary"><strong>证据说明</strong><p>${esc(entry.limitation || "这里只展示当前来源能够支持的活动；没有记录不等于没有发生。")}</p></div>
+      <button class="candidate-stage-evidence-link" type="button">查看该阶段底层证据 ↓</button>`;
+    document.querySelector("#runtime-stage-detail .candidate-stage-evidence-link")?.addEventListener("click", () => {
+      const filter = document.querySelector("#event-filter");
+      filter.value = stageName;
+      filter.dispatchEvent(new Event("change", {bubbles: true}));
+      document.querySelector(".evidence-workbench")?.scrollIntoView({behavior: "smooth", block: "start"});
+    });
+  };
+  document.querySelectorAll("[data-runtime-stage]").forEach((button) => {
+    button.addEventListener("click", () => showStage(button.dataset.runtimeStage));
+  });
+  document.querySelector("[data-runtime-stage-link]")?.addEventListener("click", () => showStage("execution"));
+  const initialStage = (run.stage_summary || []).some((stage) => stage.stage === selectedRuntimeStage)
+    ? selectedRuntimeStage
+    : (run.stage_summary || []).some((stage) => stage.stage === "execution")
+      ? "execution"
+      : run.stage_summary?.[0]?.stage;
+  showStage(initialStage);
+
+  renderOfficialDiagnosisThread(run, calls, finalResponses);
+}
+
+function renderOfficialDiagnosisThread(run, calls, finalResponses) {
+  const diagnosis = run.assessment?.diagnosis || {};
+  const counts = diagnosis.counts || {};
+  const conformance = diagnosis.conformance || {};
+  const behavior = conformance.counts || {};
+  const review = Number(behavior.deviations || 0) + Number(behavior.expected_not_observed || 0);
+  const errors = (run.findings || []).filter((finding) => finding.severity === "error").length;
+  const rows = [
+    [counts.confirmed_failures ? "failure" : "confirmed", "运行过程检查", counts.confirmed_failures ? `${counts.confirmed_failures} 条失败` : "未发现失败", `${calls} 次工具调用 · ${counts.confirmed_failures || 0} 条明确失败 · ${finalResponses} 条最终回复`],
+    [review ? "failure" : behavior.not_evaluable ? "limited" : "confirmed", "Skill 行为检查", review ? `${review} 项需要核查` : behavior.not_evaluable ? `${behavior.not_evaluable} 项暂不能判断` : `${behavior.satisfied || 0} 项已满足`, `从当前 SKILL.md 提取 ${behavior.total || 0} 项可检查要求，与本次运行证据逐项对照。`],
+    [diagnosis.status === "result_verified" ? "confirmed" : counts.verification_gaps ? "failure" : "neutral", "结果验证", diagnosis.status === "result_verified" ? "已验证" : counts.verification_gaps ? "缺少验证" : "未配置", counts.verification_gaps ? "已声明验证要求，但没有找到匹配证据。" : "未配置验证要求时保持中性，不计为失败。"],
+    [errors ? "failure" : "confirmed", "需要处理的诊断问题", String(errors), errors ? "由运行证据和确定性规则识别，需要进一步检查。" : "当前没有需要处理的确定性诊断问题。"],
+    ["limited", "当前证据边界", `${counts.observability_limits || 0} 项`, "受 Adapter 能力或来源完整性限制的问题，当前不能可靠回答。"],
+  ];
+  document.querySelector("#runtime-diagnosis-thread").innerHTML = `
+    <div class="candidate-thread-head"><div><strong>诊断依据</strong><small>五个独立检查维度，共同说明当前结论和证据边界</small></div><button class="candidate-matrix-link" type="button">查看 8 阶段信号矩阵 →</button></div>
+    ${rows.map(([tone, title, status, copy]) => `<article class="candidate-thread-item ${tone}"><span class="candidate-thread-node"></span><div class="candidate-thread-main"><div class="candidate-thread-title"><strong>${esc(title)}</strong><span>${esc(status)}</span></div><p>${esc(copy)}</p></div></article>`).join("")}`;
+  document.querySelector("#runtime-diagnosis-thread .candidate-matrix-link")?.addEventListener("click", () => {
+    const matrix = document.querySelector(".assessment-details");
+    matrix.open = true;
+    matrix.scrollIntoView({behavior: "smooth", block: "start"});
+  });
 }
 
 function activityObjectLabel(object) {
@@ -1504,6 +1905,27 @@ async function loadComparison() {
   renderComparison(comparison);
 }
 
+function setComparePanelOpen(open) {
+  const panel = document.querySelector("#compare-panel");
+  const button = document.querySelector("#compare-toggle");
+  panel.classList.toggle("hidden", !open);
+  panel.setAttribute("aria-hidden", String(!open));
+  button.setAttribute("aria-expanded", String(open));
+  if (!open) return;
+
+  window.requestAnimationFrame(() => {
+    const reducedMotion = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)"
+    )?.matches;
+    panel.scrollIntoView({
+      behavior: reducedMotion ? "auto" : "smooth",
+      block: "nearest",
+    });
+    const target = document.querySelector("#compare-target");
+    (target.disabled ? panel : target).focus({preventScroll: true});
+  });
+}
+
 function renderComparison(comparison) {
   const changedLabel = comparison.first_changed_stage
     ? stageLabels[comparison.first_changed_stage] || pretty(comparison.first_changed_stage)
@@ -1806,15 +2228,12 @@ function buildEvidenceGraph(run) {
       .map((event) => event.event_id)
   );
   const latestOwnEvent = ownEvents.at(-1);
-  const stageRanks = {
-    request: 0, discovery: 1, activation: 2, instructions: 3,
-    resources: 4, execution: 6, artifacts: 8, outcome: 10,
-  };
+  const sequence = Object.keys(stageLabels);
   const summaries = Object.fromEntries(run.stage_summary.map((stage) => [stage.stage, stage]));
   const activityEntries = Object.fromEntries(
     (run.activity_summary?.entries || []).map((entry) => [entry.stage, entry])
   );
-  Object.keys(stageLabels).forEach((stage, index) => {
+  sequence.forEach((stage, index) => {
     const summary = summaries[stage] || {status: "not_observed", event_count: 0};
     const stageEvents = run.events.filter((event) => event.stage === stage);
     const entry = activityEntries[stage];
@@ -1823,7 +2242,7 @@ function buildEvidenceGraph(run) {
       id: `stage-${stage}`,
       type: "stage",
       stage,
-      rank: stageRanks[stage],
+      rank: index,
       label: stageLabels[stage],
       subtitle: presentation.subtitle,
       detail: presentation.detail,
@@ -1845,13 +2264,24 @@ function buildEvidenceGraph(run) {
   detailedStages.forEach((stage) => {
     const grouped = activityDetailNodes(activityEntries[stage]);
     grouped.forEach((node) => {
-      node.rank = stageRanks[stage] + 1;
       nodes.push(node);
     });
     detailNodes[stage] = grouped;
   });
 
-  const sequence = Object.keys(stageLabels);
+  // Reserve expansion space only when this run actually has detail nodes for
+  // the stage. Empty columns make adjacent lifecycle stages look unrelated.
+  let nextRank = 0;
+  sequence.forEach((stage) => {
+    const stageNode = nodes.find((node) => node.id === `stage-${stage}`);
+    if (stageNode) stageNode.rank = nextRank;
+    const groups = detailNodes[stage] || [];
+    groups.forEach((node) => {
+      node.rank = nextRank + 1;
+    });
+    nextRank += groups.length ? 2 : 1;
+  });
+
   sequence.forEach((stage, index) => {
     const nextStage = sequence[index + 1];
     const groups = detailNodes[stage] || [];
@@ -1955,6 +2385,55 @@ function updateMotionControls() {
   document.querySelector("#motion-status").textContent = labels[graphMotionMode];
 }
 
+function compactDagPath(value) {
+  const parts = String(value || "").split(/[\\/]/).filter(Boolean);
+  if (parts.length <= 2) return String(value || "");
+  return `…/${parts.slice(-2).join("/")}`;
+}
+
+function dagTextCandidate(value, retained, strategy) {
+  const characters = Array.from(value);
+  if (retained >= characters.length) return value;
+  if (strategy === "path") {
+    return `…${characters.slice(-retained).join("")}`;
+  }
+  if (strategy === "middle") {
+    const leading = Math.ceil(retained * .58);
+    const trailing = Math.max(1, retained - leading);
+    return `${characters.slice(0, leading).join("")}…${characters.slice(-trailing).join("")}`;
+  }
+  return `${characters.slice(0, retained).join("")}…`;
+}
+
+function fitDagText(element, maxWidth) {
+  const fullText = element.dataset.fullText || element.textContent || "";
+  const strategy = element.dataset.fit || "end";
+  const displaySource = strategy === "path" ? compactDagPath(fullText) : fullText;
+  element.textContent = displaySource;
+  if (element.getBoundingClientRect().width <= maxWidth) return;
+  let low = 1;
+  let high = Array.from(displaySource).length;
+  let best = "…";
+  while (low <= high) {
+    const retained = Math.floor((low + high) / 2);
+    const candidate = dagTextCandidate(displaySource, retained, strategy);
+    element.textContent = candidate;
+    if (element.getBoundingClientRect().width <= maxWidth) {
+      best = candidate;
+      low = retained + 1;
+    } else {
+      high = retained - 1;
+    }
+  }
+  element.textContent = best;
+}
+
+function fitDagNodeText(svg, maxWidth) {
+  svg.querySelectorAll(".dag-node-copy text[data-full-text]").forEach((element) => {
+    fitDagText(element, maxWidth);
+  });
+}
+
 function renderPanorama(run) {
   currentGraph = buildEvidenceGraph(run);
   selectedGraphNodeId = null;
@@ -1968,9 +2447,9 @@ function renderPanorama(run) {
   const svg = document.querySelector("#panorama");
   svg.setAttribute("class", `panorama motion-${graphMotionMode}`);
   updateMotionControls();
-  const nodeWidth = 184;
+  const nodeWidth = 196;
   const nodeHeight = 92;
-  const rankGap = 58;
+  const rankGap = 46;
   const rowGap = 18;
   const padX = 34;
   const padY = 34;
@@ -2042,9 +2521,11 @@ function renderPanorama(run) {
     </circle>`;
   }).join("");
 
-  const nodeMarkup = currentGraph.nodes.map((node) => {
+  const nodeMarkup = currentGraph.nodes.map((node, nodeIndex) => {
     const position = positions.get(node.id);
     const grade = node.evidence_grade || "derived";
+    const presentedKind = evidenceKind(node);
+    const presentation = evidencePresentation[presentedKind];
     const indexLabel = node.type === "stage" ? String(node.index).padStart(2, "0") : grade.slice(0, 1).toUpperCase();
     const hasNewEvidence = node.event_ids.some((eventId) => newEventIds.has(eventId));
     const hasNewFailure = hasNewEvidence && run.events.some((event) =>
@@ -2053,18 +2534,30 @@ function renderPanorama(run) {
       && event.status === "failed"
     );
     const entering = firstGraphRender || hasNewEvidence;
+    const label = tr(node.label);
+    const subtitle = tr(node.subtitle);
+    const detail = node.detail ? tr(node.detail) : "";
+    const copyClipId = `dag-copy-clip-${nodeIndex}`;
+    const detailFit = /[\\/]/.test(detail) ? "path" : "end";
     return `<g class="dag-node ${esc(node.status)} ${esc(grade)} ${entering ? "entering" : ""} ${hasNewEvidence ? "evidence-arrived" : ""} ${hasNewFailure ? "failure-arrived" : ""}"
       data-node="${esc(node.id)}"
       transform="translate(${position.x} ${position.y})" tabindex="0" role="button"
-      aria-label="${esc(node.label)}: ${esc(node.subtitle)}">
+      aria-label="${esc(label)}: ${esc(subtitle)}${detail ? ` · ${esc(detail)}` : ""} · ${esc(tr(presentation.label))}: ${esc(tr(presentation.description))}">
+      <title>${esc([label, subtitle, detail].filter(Boolean).join(" · "))}</title>
+      <defs><clipPath id="${copyClipId}"><rect x="57" y="11" width="${nodeWidth - 69}" height="54" rx="2"/></clipPath></defs>
       <rect class="dag-node-body" width="${nodeWidth}" height="${nodeHeight}" rx="11"/>
       <rect class="dag-node-accent" width="3" height="${nodeHeight - 20}" y="10" rx="2"/>
       <rect class="dag-node-icon-bg" x="14" y="14" width="34" height="34" rx="9"/>
       <g class="dag-node-icon" transform="translate(19 19) scale(1)" aria-hidden="true">${graphIcon(node)}</g>
-      <text class="dag-node-label" x="59" y="25">${esc(tr(node.label))}</text>
-      <text class="dag-node-subtitle" x="59" y="43">${esc(tr(node.subtitle))}</text>
-      ${node.detail ? `<text class="dag-node-detail" x="59" y="59">${esc(tr(node.detail))}</text>` : ""}
-      <text class="dag-node-grade" x="59" y="78">${esc(indexLabel)} · ${esc(tr(pretty(grade)))}</text>
+      <g class="dag-node-copy" clip-path="url(#${copyClipId})">
+        <text class="dag-node-label" x="59" y="25" data-full-text="${esc(label)}" data-fit="middle">${esc(label)}</text>
+        <text class="dag-node-subtitle" x="59" y="43" data-full-text="${esc(subtitle)}" data-fit="end">${esc(subtitle)}</text>
+        ${detail ? `<text class="dag-node-detail" x="59" y="59" data-full-text="${esc(detail)}" data-fit="${detailFit}">${esc(detail)}</text>` : ""}
+      </g>
+      <g class="dag-grade-help" data-evidence-kind="${esc(presentedKind)}" aria-label="${esc(tr(presentation.label))}: ${esc(tr(presentation.description))}">
+        <rect class="dag-grade-help-hit" x="53" y="65" width="104" height="21" rx="4"/>
+        <text class="dag-node-grade" x="59" y="78">${esc(indexLabel)} · ${esc(tr(presentation.label))}</text>
+      </g>
       ${node.occurred_at ? `<text class="dag-node-time" x="${nodeWidth - 12}" y="79" text-anchor="end">${esc(formatTime(node.occurred_at, false))}</text>` : ""}
     </g>`;
   }).join("");
@@ -2083,6 +2576,7 @@ function renderPanorama(run) {
     <g class="dag-edges">${edgeMarkup}</g>
     <g class="dag-tracers" pointer-events="none">${tracerMarkup}</g>
     <g class="dag-nodes">${nodeMarkup}</g>`;
+  fitDagNodeText(svg, nodeWidth - 71);
   graphReplayRequested = false;
 
   svg.querySelectorAll(".dag-node").forEach((element) => {
@@ -2099,6 +2593,12 @@ function renderPanorama(run) {
       if (selectedGraphNodeId) highlightGraphNode(selectedGraphNodeId);
       else clearGraphHighlight();
     });
+    const gradeHelp = element.querySelector(".dag-grade-help");
+    const kind = gradeHelp?.dataset.evidenceKind;
+    gradeHelp?.addEventListener("mouseenter", () => showEvidenceTooltip(gradeHelp, kind));
+    gradeHelp?.addEventListener("mouseleave", hideEvidenceTooltip);
+    element.addEventListener("focus", () => showEvidenceTooltip(gradeHelp || element, kind));
+    element.addEventListener("blur", hideEvidenceTooltip);
   });
 }
 
@@ -2327,7 +2827,15 @@ function renderCapabilities(run) {
     `).join("")}`;
 }
 
-document.querySelector("#run-filter").addEventListener("input", renderRuns);
+function reloadRunsFromFirstPage() {
+  resetRunPagination();
+  loadIndex(true).catch(showLoadError);
+}
+
+document.querySelector("#run-filter").addEventListener("input", () => {
+  window.clearTimeout(runFilterTimer);
+  runFilterTimer = window.setTimeout(reloadRunsFromFirstPage, 250);
+});
 [
   "#run-agent-filter",
   "#run-project-filter",
@@ -2336,7 +2844,7 @@ document.querySelector("#run-filter").addEventListener("input", renderRuns);
   "#run-date-filter",
   "#run-error-filter",
 ].forEach((selector) => {
-  document.querySelector(selector).addEventListener("change", renderRuns);
+  document.querySelector(selector).addEventListener("change", reloadRunsFromFirstPage);
 });
 document.querySelector("#skill-filter").addEventListener("input", renderSkills);
 document.querySelectorAll(".nav-item").forEach((button) => {
@@ -2346,8 +2854,21 @@ document.querySelectorAll(".filter").forEach((button) => {
   button.addEventListener("click", () => {
     statusFilter = button.dataset.filter;
     document.querySelectorAll(".filter").forEach((item) => item.classList.toggle("active", item === button));
-    renderRuns();
+    reloadRunsFromFirstPage();
   });
+});
+document.querySelector("#runs-previous").addEventListener("click", () => {
+  if (runPage.number <= 1) return;
+  runPage.number -= 1;
+  runPage.cursor = runPage.cursors[runPage.number - 1] || "";
+  loadIndex(true).catch(showLoadError);
+});
+document.querySelector("#runs-next").addEventListener("click", () => {
+  if (!runPage.hasMore || !runPage.nextCursor) return;
+  runPage.number += 1;
+  runPage.cursor = runPage.nextCursor;
+  runPage.cursors[runPage.number - 1] = runPage.cursor;
+  loadIndex(true).catch(showLoadError);
 });
 [
   "#event-filter",
@@ -2362,9 +2883,16 @@ document.querySelectorAll(".filter").forEach((button) => {
 document.querySelector("#refresh").addEventListener("click", () => {
   loadIndex().catch(showLoadError);
 });
+document.addEventListener("visibilitychange", syncRuntimeStreamVisibility);
 document.querySelector("#back-to-runs").addEventListener("click", () => showRunIndex(true));
 document.querySelector("#compare-toggle").addEventListener("click", () => {
-  document.querySelector("#compare-panel").classList.toggle("hidden");
+  const panel = document.querySelector("#compare-panel");
+  setComparePanelOpen(panel.classList.contains("hidden"));
+});
+document.querySelector("#compare-panel").addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") return;
+  setComparePanelOpen(false);
+  document.querySelector("#compare-toggle").focus();
 });
 document.querySelector("#compare-target").addEventListener("change", (event) => {
   selectedComparisonId = event.target.value;

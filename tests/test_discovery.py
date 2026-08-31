@@ -14,10 +14,12 @@ class SkillDiscoveryTests(unittest.TestCase):
         project = Path("/tmp/skill-runtime-project")
         roots = {str(path) for path in default_skill_roots(project)}
         self.assertIn(str(Path.home() / ".qoder" / "skills"), roots)
+        self.assertIn(str(Path.home() / ".qoderwork" / "skills"), roots)
         self.assertIn(
             str(Path.home() / ".config" / "opencode" / "skills"), roots
         )
         self.assertIn(str(project / ".qoder" / "skills"), roots)
+        self.assertIn(str(project / ".qoderwork" / "skills"), roots)
         self.assertIn(str(project / ".opencode" / "skills"), roots)
 
     def test_qoder_and_opencode_user_skills_are_not_labeled_project(self):
@@ -29,6 +31,7 @@ class SkillDiscoveryTests(unittest.TestCase):
             ):
                 for relative in (
                     Path(".qoder/skills/demo/SKILL.md"),
+                    Path(".qoderwork/skills/demo/SKILL.md"),
                     Path(".config/opencode/skills/demo/SKILL.md"),
                 ):
                     skill_file = root / relative

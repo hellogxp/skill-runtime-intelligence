@@ -18,7 +18,7 @@
 
 Agent Skill Runtime Intelligence è un sistema di prova e diagnosi runtime di sola lettura per le competenze dell'agente. Estrae vincoli conservativi e ispezionabili dall'attuale definizione di abilità, li abbina all'attività di runtime e ricostruisce il risultato come un risultato classificato in base all'evidenza Skill Run Panorama. Combina eventi ufficiali dell'agente, tracce importate, fallback della sessione etichettata e risultati osservabili dell'area di lavoro senza inoltrare richieste di modelli tramite proxy o assumere il controllo del ciclo dell'agente.
 
-![Skill Run Panorama](docs/assets/skill-run-panorama.png)
+![Panoramica runtime SRI in cinese semplificato](docs/assets/sri-runtime-overview-cn.png)
 
 ## Avvio rapido
 

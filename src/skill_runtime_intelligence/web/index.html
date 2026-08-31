@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="dark">
     <title>Skill Runtime Intelligence</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/styles.css?v=20260811-onboarding1">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css?v=20260830-runlabel2">
+    <link rel="stylesheet" href="runtime-detail-v2.css?v=20260830-terms1">
   </head>
-  <body>
+  <body class="runtime-detail-v2">
     <div class="ambient ambient-a"></div>
     <div class="ambient ambient-b"></div>
     <header class="topbar">
@@ -16,9 +17,9 @@
         <span class="brand-mark" aria-hidden="true">
           <i></i><i></i><i></i>
         </span>
-        <span>
-          <strong>Skill Runtime</strong>
-          <small>Evidence intelligence</small>
+        <span class="brand-copy">
+          <strong><b>SRI</b><i>·</i> Skill Runtime Intelligence</strong>
+          <small>Agent Skill runtime panorama and diagnosis platform</small>
         </span>
       </div>
       <nav class="primary-nav" aria-label="Product navigation">
@@ -64,6 +65,7 @@
             <span id="run-count" class="count">—</span>
           </div>
           <p class="pane-copy">Skill execution is primary. Agent sessions remain context.</p>
+          <div id="run-result-summary" class="run-result-summary" aria-label="Run result types"></div>
           <label class="search">
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
             <input id="run-filter" type="search" placeholder="Filter Skill, project, adapter">
@@ -72,7 +74,8 @@
             <button class="filter active" type="button" data-filter="all">All</button>
             <button class="filter" type="button" data-filter="completed">Completed</button>
             <button class="filter" type="button" data-filter="incomplete">Incomplete</button>
-            <button class="filter" type="button" data-filter="failed">Failed</button>
+            <button class="filter" type="button" data-filter="interrupted">interrupted</button>
+            <button class="filter" type="button" data-filter="explicit_failure">Explicit failures</button>
           </div>
           <details class="advanced-filter-panel">
             <summary>More filters</summary>
@@ -87,14 +90,19 @@
           </details>
         </div>
         <div id="runs" class="run-list" aria-live="polite"></div>
+        <nav class="run-pagination" aria-label="SkillRun pages">
+          <button id="runs-previous" type="button" disabled>Previous</button>
+          <span id="runs-page-label">Page 1 · up to 25 runs</span>
+          <button id="runs-next" type="button" disabled>Next</button>
+        </nav>
       </aside>
 
       <section id="empty-detail" class="empty-detail runtime-overview">
         <header class="overview-head">
           <div>
             <p class="eyebrow">RUNTIME OVERVIEW</p>
-            <h2>Boundary-first attention</h2>
-            <p>Start with the earliest observable gap, then inspect the supporting evidence.</p>
+            <h2>Skill runtime overview</h2>
+            <p>See which runs require review and why, then inspect what information was collected at each stage.</p>
           </div>
           <div class="evidence-legend compact">
             <span><i class="shape observed"></i>Observed</span>
@@ -104,29 +112,45 @@
           </div>
         </header>
         <div id="overview-metrics" class="overview-metrics"></div>
-        <div class="overview-grid">
-          <section class="panel overview-boundaries">
+        <div class="overview-grid overview-visual-grid">
+          <section class="panel overview-results">
             <div class="section-head">
               <div>
-                <p class="eyebrow">FIRST OBSERVABLE BOUNDARY</p>
-                <h3>Where evidence first becomes unavailable</h3>
+                <p class="eyebrow">RUN RESULT COMPOSITION</p>
+                <h3>What happened across matching runs</h3>
               </div>
               <span class="grade-pill derived">Derived</span>
             </div>
-            <div id="boundary-distribution" class="boundary-distribution"></div>
-            <p class="overview-discipline">A missing signal is an observability boundary, not proof that the Skill failed.</p>
+            <p class="panel-intro">Mutually exclusive terminal result types across all SkillRuns matching the active filters.</p>
+            <div id="result-composition" class="result-composition"></div>
           </section>
-          <section class="panel attention-panel">
+          <section class="panel overview-boundaries">
             <div class="section-head">
               <div>
-                <p class="eyebrow">ATTENTION QUEUE</p>
-                <h3>SkillRuns to inspect first</h3>
+                <p class="eyebrow">COLLECTED STAGE INFORMATION</p>
+                <div class="stage-heading-line">
+                  <h3>Information collected at each stage</h3>
+                  <button id="stage-guide-trigger" class="stage-guide-trigger" type="button" aria-label="Evidence guide">i</button>
+                </div>
               </div>
-              <span id="attention-count" class="count">—</span>
+              <span class="grade-pill derived">Derived</span>
             </div>
-            <div id="attention-queue" class="attention-queue"></div>
+            <p class="panel-intro">Bar height shows the share of matching, observable runs with information at that stage, not success.</p>
+            <div id="boundary-distribution" class="boundary-distribution"></div>
+            <p class="overview-discipline">A stage may be optional or outside adapter coverage. No information does not mean failure.</p>
           </section>
         </div>
+        <section class="panel attention-panel overview-attention-wide">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">RUNS REQUIRING REVIEW</p>
+              <h3>Review these runs first</h3>
+            </div>
+            <span id="attention-count" class="count">—</span>
+          </div>
+          <p class="panel-intro">Only explicit failures, incomplete runs, and interrupted runs appear here.</p>
+          <div id="attention-queue" class="attention-queue"></div>
+        </section>
       </section>
 
       <section id="run-detail" class="run-detail hidden">
@@ -141,12 +165,67 @@
               <div class="title-row">
                 <h2 id="detail-title"></h2>
                 <span id="detail-status"></span>
-                <button id="compare-toggle" class="compare-toggle" type="button">Compare</button>
+                <button
+                  id="compare-toggle"
+                  class="compare-toggle"
+                  type="button"
+                  aria-controls="compare-panel"
+                  aria-expanded="false"
+                >Compare</button>
                 <button id="delete-run" class="delete-run" type="button">Delete index</button>
               </div>
               <p id="detail-description" class="detail-description"></p>
             </div>
           </header>
+
+          <section id="runtime-conclusion" class="candidate-summary" aria-live="polite"></section>
+
+          <section class="panel panorama-panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">LIFECYCLE GRAPH</p>
+                <h3>Skill Runtime Panorama</h3>
+              </div>
+              <div class="evidence-legend compact">
+                <span><i class="shape observed"></i>Observed</span>
+                <span><i class="shape derived"></i>Derived</span>
+                <span><i class="shape inferred"></i>Inferred</span>
+                <span class="edge-key solid">Source fact</span>
+                <span class="edge-key dashed">Lifecycle</span>
+                <details class="evidence-guide">
+                  <summary>Evidence guide</summary>
+                  <div class="evidence-guide-popover">
+                    <article><i class="shape observed"></i><div><strong>Observed</strong><p>Direct record from the source, with a time and source locator.</p></div></article>
+                    <article><i class="shape derived"></i><div><strong>Derived</strong><p>Calculated from collected records by explicit deterministic rules; not a model guess.</p></div></article>
+                    <article><i class="shape inferred"></i><div><strong>Inferred</strong><p>A possible explanation supported by limited evidence; not a confirmed fact.</p></div></article>
+                    <article><i class="shape experimental"></i><div><strong>Experimental</strong><p>Produced by a detection method still under validation; use for investigation only.</p></div></article>
+                    <article><i class="shape not-observed"></i><div><strong>Not observed</strong><p>No matching record was collected in this run; this does not prove the stage did not happen.</p></div></article>
+                    <article><i class="shape unsupported"></i><div><strong>Unsupported</strong><p>The current Agent or Adapter does not provide the signal needed to judge this stage.</p></div></article>
+                  </div>
+                </details>
+              </div>
+            </div>
+            <p class="panel-intro panorama-intro">Follow the run sequence across observed, derived, and capability-limited information. Select a node to inspect its evidence.</p>
+            <div class="dag-shell">
+              <div class="dag-toolbar">
+                <span id="motion-status" class="motion-status">Live · semantic motion</span>
+                <div class="dag-toolbar-actions">
+                  <div class="motion-controls" role="group" aria-label="Graph motion mode">
+                    <button class="motion-mode active" type="button" data-motion="live">Live</button>
+                    <button class="motion-mode" type="button" data-motion="replay">Replay</button>
+                    <button class="motion-mode" type="button" data-motion="static">Static</button>
+                  </div>
+                  <button id="dag-reset" type="button">Fit start</button>
+                </div>
+              </div>
+              <div id="dag-scroll" class="dag-scroll">
+                <svg id="panorama" class="panorama" role="img"
+                     aria-label="Skill runtime evidence graph"></svg>
+              </div>
+            </div>
+          </section>
+
+          <section id="runtime-evidence-overview" class="candidate-evidence-grid" aria-label="SkillRun evidence overview"></section>
 
           <section class="metrics" aria-label="SkillRun summary">
             <article class="metric">
@@ -171,6 +250,33 @@
             </article>
           </section>
 
+          <section
+            id="compare-panel"
+            class="panel compare-panel hidden"
+            aria-hidden="true"
+            tabindex="-1"
+          >
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">EVIDENCE-AWARE COMPARE</p>
+                <h3>Run and adapter differences</h3>
+              </div>
+              <div class="compare-controls">
+                <select id="compare-axis" aria-label="Comparison axis">
+                  <option value="same_skill">Same Skill behavior</option>
+                  <option value="skill_version">Skill version change</option>
+                </select>
+                <select id="compare-target" aria-label="Select a SkillRun to compare"></select>
+                <label class="alignment-confirm">
+                  <input id="compare-aligned" type="checkbox">
+                  Same evaluation task
+                </label>
+                <button id="compare-run" type="button">Compare runs</button>
+              </div>
+            </div>
+            <div id="comparison" class="comparison"></div>
+          </section>
+
           <section class="panel assessment-panel" aria-labelledby="assessment-heading">
             <div class="section-head assessment-head">
               <div>
@@ -187,6 +293,7 @@
               </div>
               <div id="diagnosis-counts" class="diagnosis-counts"></div>
             </div>
+            <section id="runtime-diagnosis-thread" class="candidate-diagnosis-thread" aria-label="Diagnosis basis"></section>
             <section class="behavior-assessment" aria-labelledby="behavior-heading">
               <div class="diagnosis-section-head behavior-head">
                 <div>
@@ -314,28 +421,6 @@
             </div>
           </details>
 
-          <section id="compare-panel" class="panel compare-panel hidden">
-            <div class="section-head">
-              <div>
-                <p class="eyebrow">EVIDENCE-AWARE COMPARE</p>
-                <h3>Run and adapter differences</h3>
-              </div>
-              <div class="compare-controls">
-                <select id="compare-axis" aria-label="Comparison axis">
-                  <option value="same_skill">Same Skill behavior</option>
-                  <option value="skill_version">Skill version change</option>
-                </select>
-                <select id="compare-target" aria-label="Select a SkillRun to compare"></select>
-                <label class="alignment-confirm">
-                  <input id="compare-aligned" type="checkbox">
-                  Same evaluation task
-                </label>
-                <button id="compare-run" type="button">Compare runs</button>
-              </div>
-            </div>
-            <div id="comparison" class="comparison"></div>
-          </section>
-
           <section class="panel diagnostics-panel">
             <div class="section-head diagnostics-head">
               <div>
@@ -357,39 +442,6 @@
             </div>
             <p class="inferred-discipline">These suggestions never overwrite runtime facts and never claim root cause.</p>
             <div id="inferred-analysis" class="inferred-analysis"></div>
-          </section>
-
-          <section class="panel panorama-panel">
-            <div class="section-head">
-              <div>
-                <p class="eyebrow">LIFECYCLE GRAPH</p>
-                <h3>Skill Runtime Panorama</h3>
-              </div>
-              <div class="evidence-legend compact">
-                <span><i class="shape observed"></i>Observed</span>
-                <span><i class="shape derived"></i>Derived</span>
-                <span><i class="shape inferred"></i>Inferred</span>
-                <span class="edge-key solid">Source fact</span>
-                <span class="edge-key dashed">Lifecycle</span>
-              </div>
-            </div>
-            <div class="dag-shell">
-              <div class="dag-toolbar">
-                <span id="motion-status" class="motion-status">Live · semantic motion</span>
-                <div class="dag-toolbar-actions">
-                  <div class="motion-controls" role="group" aria-label="Graph motion mode">
-                    <button class="motion-mode active" type="button" data-motion="live">Live</button>
-                    <button class="motion-mode" type="button" data-motion="replay">Replay</button>
-                    <button class="motion-mode" type="button" data-motion="static">Static</button>
-                  </div>
-                  <button id="dag-reset" type="button">Fit start</button>
-                </div>
-              </div>
-              <div id="dag-scroll" class="dag-scroll">
-                <svg id="panorama" class="panorama" role="img"
-                     aria-label="Skill runtime evidence graph"></svg>
-              </div>
-            </div>
           </section>
 
           <section class="panel narrative-panel">
@@ -542,8 +594,8 @@
         </article>
       </section>
     </main>
-    <script src="/locale-packs.js?v=20260811-onboarding1" defer></script>
-    <script src="/i18n.js?v=20260811-onboarding1" defer></script>
-    <script src="/app.js?v=20260811-onboarding1" defer></script>
+    <div id="evidence-grade-tooltip" class="evidence-grade-tooltip" role="tooltip" aria-hidden="true"></div>
+    <script src="i18n.js?v=20260830-runlabel1" defer></script>
+    <script src="app.js?v=20260830-runlabel1" defer></script>
   </body>
 </html>

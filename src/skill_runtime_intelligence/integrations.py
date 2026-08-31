@@ -54,6 +54,13 @@ MANAGED_QODER_EVENTS = {
     "PostToolUseFailure": "",
     "Stop": "",
 }
+MANAGED_QODERWORK_EVENTS = {
+    "SessionStart": "",
+    "PreToolUse": "",
+    "PostToolUse": "",
+    "PostToolUseFailure": "",
+    "Stop": "",
+}
 OPENCODE_PLUGIN_MARKER = (
     "// managed-by: skill-runtime-intelligence; adapter: opencode"
 )
@@ -138,6 +145,10 @@ def default_claude_settings_path() -> Path:
 
 def default_qoder_settings_path() -> Path:
     return Path.home() / ".qoder" / "settings.json"
+
+
+def default_qoderwork_settings_path() -> Path:
+    return Path.home() / ".qoderwork" / "settings.json"
 
 
 def default_opencode_plugin_path() -> Path:
@@ -344,6 +355,55 @@ def inspect_qoder_integration(
         "note": (
             "Qoder command hooks are synchronous. Skill Runtime always returns "
             "success and performs only bounded local delivery on the hook path."
+        ),
+    }
+
+
+def inspect_qoderwork_integration(
+    config_path: Optional[Path] = None,
+    executable: str = "",
+    state_root: Optional[Path] = None,
+) -> Dict[str, Any]:
+    path = (config_path or default_qoderwork_settings_path()).expanduser()
+    config = _load_hooks(path, "QoderWork")
+    installed_events = _managed_events(config, "qoderwork")
+    cli = _detect_cli_version("qoderwork")
+    return {
+        "agent": "qoderwork",
+        "detected": (Path.home() / ".qoderwork").is_dir()
+        or bool(shutil.which("qoderwork")),
+        "config_path": str(path),
+        "config_exists": path.exists(),
+        "config_valid": True,
+        "executable": executable,
+        "installed": bool(installed_events),
+        **cli,
+        "installed_events": installed_events,
+        "planned_events": sorted(MANAGED_QODERWORK_EVENTS),
+        "collection_mode": "official_hook",
+        "selected_collection_mode": (
+            "official_hook" if installed_events else "not_configured"
+        ),
+        "available_collection_modes": ["official_hook"],
+        "native_skill_telemetry": "not_detected",
+        "fail_open": True,
+        "async": False,
+        "collector_endpoint": _collector_endpoint(),
+        "fast_path": "unix_socket",
+        "hook_socket": str(default_hook_socket()),
+        "hook_socket_active": default_hook_socket().is_socket(),
+        "native_sender": str(native_hook_sender_path(state_root)),
+        "native_sender_available": native_hook_sender_path(state_root).is_file(),
+        "offline_queue": str(default_event_queue()),
+        "paths_read": [
+            str(Path.home() / ".qoderwork" / "skills"),
+            str(Path.home() / ".qoderwork" / "projects"),
+            str(path),
+        ],
+        "changes_without_consent": [],
+        "note": (
+            "QoderWork command hooks are synchronous. Skill Runtime always "
+            "returns success and performs only bounded local delivery on the hook path."
         ),
     }
 
@@ -858,6 +918,24 @@ def enable_qoder_hooks(
     )
 
 
+def enable_qoderwork_hooks(
+    executable: str,
+    config_path: Optional[Path] = None,
+    state_root: Optional[Path] = None,
+) -> Dict[str, Any]:
+    path = (config_path or default_qoderwork_settings_path()).expanduser()
+    return _enable_hooks(
+        agent="qoderwork",
+        integration_name="qoderwork-hooks",
+        agent_label="QoderWork",
+        executable=executable,
+        path=path,
+        managed_events=MANAGED_QODERWORK_EVENTS,
+        state_root=state_root,
+        asynchronous=False,
+    )
+
+
 def enable_opencode_plugin(
     executable: str,
     plugin_path: Optional[Path] = None,
@@ -1018,6 +1096,17 @@ def remove_qoder_hooks(
         agent="qoder",
         agent_label="Qoder",
         path=(config_path or default_qoder_settings_path()).expanduser(),
+        state_root=state_root,
+    )
+
+
+def remove_qoderwork_hooks(
+    config_path: Optional[Path] = None, state_root: Optional[Path] = None
+) -> Dict[str, Any]:
+    return _remove_hooks(
+        agent="qoderwork",
+        agent_label="QoderWork",
+        path=(config_path or default_qoderwork_settings_path()).expanduser(),
         state_root=state_root,
     )
 

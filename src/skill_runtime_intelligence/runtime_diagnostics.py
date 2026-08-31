@@ -15,6 +15,7 @@ from .integrations import (
     inspect_codex_integration,
     inspect_opencode_integration,
     inspect_qoder_integration,
+    inspect_qoderwork_integration,
 )
 from .native_sender import native_hook_sender_path
 from .runtime_manager import runtime_status
@@ -162,6 +163,7 @@ def diagnose_runtime(
         ("codex", inspect_codex_integration),
         ("claude-code", inspect_claude_integration),
         ("qoder", inspect_qoder_integration),
+        ("qoderwork", inspect_qoderwork_integration),
         ("opencode", inspect_opencode_integration),
     ):
         try:
