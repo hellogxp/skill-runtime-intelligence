@@ -1,5 +1,5 @@
 {
-  "file_count": 556,
+  "file_count": 555,
   "files": [
     {
       "bytes": 16632,
@@ -8,15 +8,6 @@
       "published_sha256": "5a93f4b0b17fdcdb5295b53dbb4bc6623c3de17ba2f47c0a35b2c84f35d87ed0",
       "source_path": "reproducibility/artifacts/skill-runtime-hook-native-linux-x86_64-v0.1.6",
       "source_sha256": "5a93f4b0b17fdcdb5295b53dbb4bc6623c3de17ba2f47c0a35b2c84f35d87ed0",
-      "supporting_file": true
-    },
-    {
-      "bytes": 1816,
-      "path_replacements": 0,
-      "published_path": "reproducibility/environments/pai-dsw-qwen36-20260801.json",
-      "published_sha256": "714b0313d01a4c32aee0bee23176913e04a379b9370782ebb1dc9d9e5c68576c",
-      "source_path": "reproducibility/environments/pai-dsw-qwen36-20260801.json",
-      "source_sha256": "714b0313d01a4c32aee0bee23176913e04a379b9370782ebb1dc9d9e5c68576c",
       "supporting_file": true
     },
     {
@@ -1516,18 +1507,18 @@
       "source_sha256": "411d4a6271e88295de52ada21b2472fa3e4ae826d04a5f240d66f1e1dbc56cae"
     },
     {
-      "bytes": 112023,
-      "path_replacements": 1,
+      "bytes": 111999,
+      "path_replacements": 2,
       "published_path": "reproducibility/results/experiments/diagnostic_usefulness/results/e3-qwen36-dsw-8x11-20260801.json",
-      "published_sha256": "cb99e91f179067a746be7e2611de34cf94aa3d1c612e81469eb94739c536b6df",
+      "published_sha256": "3c78f194c9ea893a69d2f85dde00f7216ceb23b145fe226e154381cc36b3501d",
       "source_path": "experiments/diagnostic_usefulness/results/e3-qwen36-dsw-8x11-20260801.json",
       "source_sha256": "094a023a80f954bc841695190519a532e1ebdcbea226f593614c116b7a81a09a"
     },
     {
-      "bytes": 8388,
-      "path_replacements": 2,
+      "bytes": 8364,
+      "path_replacements": 3,
       "published_path": "reproducibility/results/experiments/diagnostic_usefulness/results/e3-qwen36-failure-modes-20260801.json",
-      "published_sha256": "4ab908263c709090bc123e59efcbc111e41768c4e35c61a5b246e4f544c6fe39",
+      "published_sha256": "397166a4cdb020bd642183e4153315619a08eb11897d700812edcd5421ddb715",
       "source_path": "experiments/diagnostic_usefulness/results/e3-qwen36-failure-modes-20260801.json",
       "source_sha256": "2064278862652f4237d8758685bdc35871b8e7dd236fcbcd7ba428f844c364f8"
     },
@@ -1956,18 +1947,18 @@
       "source_sha256": "0225389d95c38d66525581acfbf3176c0ef2bfa57e370258b65f4128b7288ec9"
     },
     {
-      "bytes": 77985,
-      "path_replacements": 0,
+      "bytes": 77961,
+      "path_replacements": 1,
       "published_path": "reproducibility/results/experiments/hook_transport/results/hook-contention-dsw-forward-20260801.json",
-      "published_sha256": "4ab5d240fea97172fd50a76c6328f8c9d931b4e44063109f702d991c217b1b33",
+      "published_sha256": "05ee8ad44fdedac0f0d70ec7c5d1baf3c7bab398f9f03730b88dd6056e68b768",
       "source_path": "experiments/hook_transport/results/hook-contention-dsw-forward-20260801.json",
       "source_sha256": "4ab5d240fea97172fd50a76c6328f8c9d931b4e44063109f702d991c217b1b33"
     },
     {
-      "bytes": 77953,
-      "path_replacements": 0,
+      "bytes": 77929,
+      "path_replacements": 1,
       "published_path": "reproducibility/results/experiments/hook_transport/results/hook-contention-dsw-reverse-20260801.json",
-      "published_sha256": "1efe2d37bc51686e69a87d0b54b4327fc548c1db8da563b230e5cbca8e954632",
+      "published_sha256": "298bf9638a0c3129dabc2b0ffa63ef53c6f7a3f2c8cc462c8f26849e06e24124",
       "source_path": "experiments/hook_transport/results/hook-contention-dsw-reverse-20260801.json",
       "source_sha256": "1efe2d37bc51686e69a87d0b54b4327fc548c1db8da563b230e5cbca8e954632"
     },
@@ -2276,58 +2267,58 @@
       "source_sha256": "660c10eba311bac6950ea637f6da86e23f1afa07f3f6bc80102934e0f1dac89f"
     },
     {
-      "bytes": 30119,
-      "path_replacements": 0,
+      "bytes": 30095,
+      "path_replacements": 1,
       "published_path": "reproducibility/results/experiments/hook_transport/results/hook-transport-dsw-prewarm1-20260801.json",
-      "published_sha256": "1e0848356a06b796ee437c2b99e1ceadd70d4e9e69d6a61bfd7a9b4a5f7dc6ab",
+      "published_sha256": "a53cc10f76e1ed2555b5e58f96935a8018563833dc47a4f88dc107ad188d663d",
       "source_path": "experiments/hook_transport/results/hook-transport-dsw-prewarm1-20260801.json",
       "source_sha256": "1e0848356a06b796ee437c2b99e1ceadd70d4e9e69d6a61bfd7a9b4a5f7dc6ab"
     },
     {
-      "bytes": 30147,
-      "path_replacements": 0,
+      "bytes": 30123,
+      "path_replacements": 1,
       "published_path": "reproducibility/results/experiments/hook_transport/results/hook-transport-dsw-prewarm2-20260801.json",
-      "published_sha256": "ef4fd30ad0f51330a587a289d9b343946dc8dd9b5111d4fdf8b767530b3ec2f5",
+      "published_sha256": "f2af0de05b760504f2e9456cceddf15fe60fe977a1b38c17d195566741277404",
       "source_path": "experiments/hook_transport/results/hook-transport-dsw-prewarm2-20260801.json",
       "source_sha256": "ef4fd30ad0f51330a587a289d9b343946dc8dd9b5111d4fdf8b767530b3ec2f5"
     },
     {
-      "bytes": 30108,
-      "path_replacements": 0,
+      "bytes": 30084,
+      "path_replacements": 1,
       "published_path": "reproducibility/results/experiments/hook_transport/results/hook-transport-dsw-run1-20260801.json",
-      "published_sha256": "698326e85312fb06a60c4e6e3925ba09ffcc48651a9205522cbd90109f413e87",
+      "published_sha256": "c2cd509989629ff6bf592e0b7f4dc7bf634e04d55349db976d8c55223b96a9d9",
       "source_path": "experiments/hook_transport/results/hook-transport-dsw-run1-20260801.json",
       "source_sha256": "698326e85312fb06a60c4e6e3925ba09ffcc48651a9205522cbd90109f413e87"
     },
     {
-      "bytes": 30116,
-      "path_replacements": 0,
+      "bytes": 30092,
+      "path_replacements": 1,
       "published_path": "reproducibility/results/experiments/hook_transport/results/hook-transport-dsw-run2-20260801.json",
-      "published_sha256": "79415d5d9ce8dd669ea2aa944a0d70ded92a399c2764fe1181640d5d73c71f14",
+      "published_sha256": "8a5e85904ffcf72067c5b1897f79d539f083cfe200cc1bf3d9d82bbdb27d9dd2",
       "source_path": "experiments/hook_transport/results/hook-transport-dsw-run2-20260801.json",
       "source_sha256": "79415d5d9ce8dd669ea2aa944a0d70ded92a399c2764fe1181640d5d73c71f14"
     },
     {
-      "bytes": 30087,
-      "path_replacements": 0,
+      "bytes": 30063,
+      "path_replacements": 1,
       "published_path": "reproducibility/results/experiments/hook_transport/results/hook-transport-dsw-run3-20260801.json",
-      "published_sha256": "2adce3a1bd53b0f7507bd31633bb6554ae2066e765a22e0824e6604ebd46ef52",
+      "published_sha256": "f03e8ea59ae15242dec531283efd4480b3dc13ec21fab90f2d3ab56b4d845f98",
       "source_path": "experiments/hook_transport/results/hook-transport-dsw-run3-20260801.json",
       "source_sha256": "2adce3a1bd53b0f7507bd31633bb6554ae2066e765a22e0824e6604ebd46ef52"
     },
     {
-      "bytes": 30043,
-      "path_replacements": 0,
+      "bytes": 30019,
+      "path_replacements": 1,
       "published_path": "reproducibility/results/experiments/hook_transport/results/hook-transport-dsw-run4-20260801.json",
-      "published_sha256": "95426dfee9c4f75681e35350311af734e0ab2e0bc325d29f08df2a089b7c70f5",
+      "published_sha256": "0f2b7b02536d696eeed42c442c75b404ebcc7efa92e903996593ed5e0d61a482",
       "source_path": "experiments/hook_transport/results/hook-transport-dsw-run4-20260801.json",
       "source_sha256": "95426dfee9c4f75681e35350311af734e0ab2e0bc325d29f08df2a089b7c70f5"
     },
     {
-      "bytes": 29985,
-      "path_replacements": 0,
+      "bytes": 29961,
+      "path_replacements": 1,
       "published_path": "reproducibility/results/experiments/hook_transport/results/hook-transport-dsw-run5-20260801.json",
-      "published_sha256": "3dde3fb2b5de8d39e0456a329038cf01f944b38cfcc607972b71bb3743afc971",
+      "published_sha256": "5dc6eb6548f1fac0ecb1d012c06be4f1853829300b84a0fd64ad7e59b83b4fc0",
       "source_path": "experiments/hook_transport/results/hook-transport-dsw-run5-20260801.json",
       "source_sha256": "3dde3fb2b5de8d39e0456a329038cf01f944b38cfcc607972b71bb3743afc971"
     },
@@ -2884,18 +2875,18 @@
       "source_sha256": "52602e0d0ba4dbe3f74b9fc8fd03390bfcced30f81bd799ac57e00d8eadda910"
     },
     {
-      "bytes": 14991,
-      "path_replacements": 16,
+      "bytes": 14863,
+      "path_replacements": 20,
       "published_path": "reproducibility/results/experiments/product_lifecycle/results/native-launch-factor-20260730T144821Z.json",
-      "published_sha256": "9703c3781ac68e298fc90d2124ea315a6652cce18da72e5c50c3f63d03fc93ae",
+      "published_sha256": "8c4a8f04ff3c7c894f056cc5165b7c70a3d621eb5704da347ad1cc7096db30fd",
       "source_path": "experiments/product_lifecycle/results/native-launch-factor-20260730T144821Z.json",
       "source_sha256": "f1481debe78eef11861eede86a0d35715b5085a07c9111ab69e6b8118801aee8"
     },
     {
-      "bytes": 44275,
-      "path_replacements": 64,
+      "bytes": 43795,
+      "path_replacements": 79,
       "published_path": "reproducibility/results/experiments/product_lifecycle/results/native-launch-factor-20260730T145039Z.json",
-      "published_sha256": "77f175067eb0495efb61c4829ea4899fc5bfbe10c4feafc7183253e46374d397",
+      "published_sha256": "c00acf01783567872c698180d3273b3a234ff797dbba7e2ca567f5a868aba312",
       "source_path": "experiments/product_lifecycle/results/native-launch-factor-20260730T145039Z.json",
       "source_sha256": "7e7b571d4d2b553e10706f64cbe2d10d742c8b5cf7553a8ab17484ecdfb4c7eb"
     },
@@ -2988,10 +2979,10 @@
       "source_sha256": "6e4c0b50c4a47a4a1e75037c7dc1ef3114e8383e92b07b8c534dafd5ce2d7e24"
     },
     {
-      "bytes": 2567,
-      "path_replacements": 2,
+      "bytes": 2543,
+      "path_replacements": 3,
       "published_path": "reproducibility/results/experiments/product_lifecycle/results/native-sender-host-linux-x86_64-20260801.json",
-      "published_sha256": "f1c97da9874b8800eb04519e004d44494ead8acdfb98aefbb039a4b135e29f7e",
+      "published_sha256": "e26c884d44fdd0247354ba1d8b1b291aeb8de8fbfbf51fd05e59c79d5ce61806",
       "source_path": "experiments/product_lifecycle/results/native-sender-host-linux-x86_64-20260801.json",
       "source_sha256": "bd8c38d128ee1ae89f9446b712625c10d69fe20829a22ea269b58cb65a6c4c2c"
     },
@@ -3780,18 +3771,18 @@
       "source_sha256": "810385fb2ed118a78f70ea68848ee00fcf0bb883901f5a56c61e56b28df41e1c"
     },
     {
-      "bytes": 7154,
-      "path_replacements": 13,
+      "bytes": 7126,
+      "path_replacements": 14,
       "published_path": "reproducibility/results/experiments/results/suite-pai-dsw-20260801.json",
-      "published_sha256": "ee0318c950f6dee60e2cac1a159376a4add3ce0f4085d15ba6a33e082bf7b3a4",
+      "published_sha256": "56ed872c2836402133fb4f6b15e6e9d3ad4f5428cc89d7b762eb663730c06db2",
       "source_path": "experiments/results/suite-pai-dsw-20260801.json",
       "source_sha256": "94755fd329a025fa271681666b3488c81682b6da26d00f6f70782b5bac8ef07e"
     },
     {
-      "bytes": 7131,
-      "path_replacements": 13,
+      "bytes": 7103,
+      "path_replacements": 14,
       "published_path": "reproducibility/results/experiments/results/suite-pai-dsw-first-20260801.json",
-      "published_sha256": "4fb706dc86f9de8e868e86ded92654ef3ce72c666d86348aa92e88d448908761",
+      "published_sha256": "f4cec69ec9bdffb213ff31113855bd50a826545c1418bfd0f2c9c3fd61c8d513",
       "source_path": "experiments/results/suite-pai-dsw-first-20260801.json",
       "source_sha256": "2bc4c0924c6b2ebbae03150b86c82ce7b2036d602e152d1e087ee16139ff386c"
     },
@@ -4172,42 +4163,42 @@
       "source_sha256": "0bd9515ac8eab4a3c05809abad3820aa388f267a42db3100168bce4fefc1a627"
     },
     {
-      "bytes": 14345,
-      "path_replacements": 1,
+      "bytes": 14321,
+      "path_replacements": 2,
       "published_path": "reproducibility/results/experiments/semantic_diagnosis/results/real-failure-semantic-qwen36-20260801.json",
-      "published_sha256": "e5932377be076e0ce32ca9185bb32779b875dbfa07bec64b2a15df1b2e04ef21",
+      "published_sha256": "31a8865db9d708d1df56f012e0faae84a653533d74a4e017d37f3b6e9ca5a381",
       "source_path": "experiments/semantic_diagnosis/results/real-failure-semantic-qwen36-20260801.json",
       "source_sha256": "b2bb077ecc3f65e03d19b00b16d61a542c9ad6328564930444f63c9ac9c11ff0"
     },
     {
-      "bytes": 26001,
-      "path_replacements": 1,
+      "bytes": 25977,
+      "path_replacements": 2,
       "published_path": "reproducibility/results/experiments/semantic_diagnosis/results/real-failure-semantic-qwen36-retry1-20260801.json",
-      "published_sha256": "1cc9c0ff1b7ff36b1fc573bd9ae9f3b1502a176c2063c899bbb2dc180e6cb3ac",
+      "published_sha256": "11362f5d1c6f69526c871efcbcd0a3a38fcd22573fe63f620a327403b2d7fd8a",
       "source_path": "experiments/semantic_diagnosis/results/real-failure-semantic-qwen36-retry1-20260801.json",
       "source_sha256": "e807a32453a949fdd961aac19bc3257e10d90496e1f677037ae9ca6c45455151"
     },
     {
-      "bytes": 30973,
-      "path_replacements": 1,
+      "bytes": 30949,
+      "path_replacements": 2,
       "published_path": "reproducibility/results/experiments/semantic_diagnosis/results/real-failure-semantic-qwen36-retry2-20260801.json",
-      "published_sha256": "4fb66be77053307a60ed64ce2c4d4c39a5389eadc0a50624b295de1b9dfc6b9a",
+      "published_sha256": "d5af3ecfe9bf452faa2217d829075977823fd473afb21a6b729d82e709915a5d",
       "source_path": "experiments/semantic_diagnosis/results/real-failure-semantic-qwen36-retry2-20260801.json",
       "source_sha256": "adb3f991d69188cb7b95e6b69a17e5f68fe0b9d8d00f26fafd4607106e59aca8"
     },
     {
-      "bytes": 14856,
-      "path_replacements": 1,
+      "bytes": 14832,
+      "path_replacements": 2,
       "published_path": "reproducibility/results/experiments/semantic_diagnosis/results/real-failure-semantic-qwen36-thinking-20260801.json",
-      "published_sha256": "4feb1ea7d78f0a60a3f746f4d07c2ecbca6d2e13bdbf51fef7f8869754e88a90",
+      "published_sha256": "699d6a95451c7b432edfb9530ab2fd9cf2272f16611d78fe2b083f25bc15a600",
       "source_path": "experiments/semantic_diagnosis/results/real-failure-semantic-qwen36-thinking-20260801.json",
       "source_sha256": "1a36a31fb5ca1a60d67257cbaf5ffdf9228c827b4517190ddffd1d23e4feee4e"
     },
     {
-      "bytes": 33616,
-      "path_replacements": 1,
+      "bytes": 33592,
+      "path_replacements": 2,
       "published_path": "reproducibility/results/experiments/semantic_diagnosis/results/real-failure-semantic-qwen36-thinking-retry1-20260801.json",
-      "published_sha256": "17d1fdc1af5c26144e319a974851dc8497e1095a2ce4a355d5a9b57a7893a85f",
+      "published_sha256": "402da90b1c317bd03711dfa3667509735168907d148f517272cc648287046aa5",
       "source_path": "experiments/semantic_diagnosis/results/real-failure-semantic-qwen36-thinking-retry1-20260801.json",
       "source_sha256": "af515b3e7c5435cc89c3fa57d21115c06cdd00b377f763407748de52c0bda31a"
     },
@@ -4457,7 +4448,9 @@
     "regex_replacement_tokens": [
       "${TEMP_PATH}",
       "${TEMP_PATH}",
-      "${LOOPBACK}"
+      "${LOOPBACK}",
+      "${REMOTE_INSTANCE}",
+      "${HOST_PROCESS}"
     ],
     "replacement_tokens": [
       "${REPO_ROOT}",
@@ -4476,7 +4469,7 @@
       "profile-package-03"
     ],
     "repository_identifiers_aliased": true,
-    "scope": "known machine-local path prefixes only"
+    "scope": "known machine-local paths and environment identifiers"
   },
   "schema_version": "sri.reproducibility-bundle.v1"
 }

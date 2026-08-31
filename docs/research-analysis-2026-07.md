@@ -394,7 +394,7 @@ The research artifact would contain:
 
 ### 6.1 Available Resources
 
-- PAI-DSW server: 121.41.193.56, GPU available, `/mnt/workspace` working directory
+- Isolated remote Linux environment with GPU capacity; host address and workspace path are intentionally excluded from public materials
 - GitHub repos for code sync: skill-research, skillweaver, compositional-skill-routing
 
 ### 6.2 Experiment Phases

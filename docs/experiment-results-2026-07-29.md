@@ -1533,7 +1533,7 @@ never relabeled as human evidence.
 ## PAI-DSW Linux replication
 
 The repository's first formally attributable PAI-DSW result was run on
-`dsw-2032100-64b9d7c65d-tg9lx`, an Ubuntu 22.04/Linux x86_64 environment with
+an anonymized Ubuntu 22.04/Linux x86_64 remote environment with
 Python 3.12.13 and one NVIDIA H20. Earlier DSW state contained only an empty
 SRI workspace marker; local result bundles had no non-null
 `pai_dsw_instance_id`, so prior local and container results are not relabeled

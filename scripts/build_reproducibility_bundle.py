@@ -30,12 +30,13 @@ REGEX_REPLACEMENTS = (
     (re.compile(r"/(?:private/)?var/folders/[^\"\\\s]+"), "${TEMP_PATH}"),
     (re.compile(r"/tmp/[^\"\\\s]+"), "${TEMP_PATH}"),
     (re.compile(r"127\.0\.0\.1"), "${LOOPBACK}"),
+    (re.compile(r"dsw-[A-Za-z0-9-]+"), "${REMOTE_INSTANCE}"),
+    (
+        re.compile(r"com\.alibaba\.security\.[A-Za-z0-9_.-]+"),
+        "${HOST_PROCESS}",
+    ),
 )
 SUPPORTING_FILES = (
-    REPOSITORY_ROOT
-    / "reproducibility"
-    / "environments"
-    / "pai-dsw-qwen36-20260801.json",
     REPOSITORY_ROOT
     / "reproducibility"
     / "artifacts"

@@ -259,7 +259,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 4054.598916,
@@ -299,7 +299,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 3470.528792,
@@ -374,7 +374,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 3148.821625,
@@ -484,7 +484,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 3906.903875,
@@ -559,7 +559,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 3398.31075,
@@ -599,7 +599,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 3218.357625,
@@ -674,7 +674,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 3697.106167,
@@ -784,7 +784,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 6142.331959,
@@ -859,7 +859,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 3509.219625,
@@ -899,7 +899,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 3736.075541,
@@ -974,7 +974,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 7180.056458,
@@ -1084,7 +1084,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 3722.546,
@@ -1159,7 +1159,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 3130.126083,
@@ -1199,7 +1199,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 3146.458833,
@@ -1274,7 +1274,7 @@
         "passed": true
       },
       "xattrs_after_launch": [
-        "com.alibaba.security.edr.antivirus.cloudquery",
+"redacted-host-process",
         "com.apple.provenance"
       ],
       "wall_ms": 3238.267958,

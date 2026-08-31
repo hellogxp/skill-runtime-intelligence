@@ -15,7 +15,7 @@ implementation, is published as
 - all retained JSON/JSONL experiment reports from the working tree;
 - source and published SHA-256 digests in `manifest.json`;
 - a flat checksum ledger in `CHECKSUMS.sha256`;
-- the exact PAI-DSW environment fingerprint used for the Linux and Qwen runs;
+- anonymized Linux and model-run evidence without publishing host or instance fingerprints;
 - the 16,632-byte Linux x86_64 native sender artifact used by the host contract
   experiment;
 - deterministic experiment, analysis, and test code in the main repository.

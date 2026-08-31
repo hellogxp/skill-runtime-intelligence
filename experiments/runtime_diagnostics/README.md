@@ -22,7 +22,7 @@ The runner:
 On PAI-DSW, keep results on a persistent mount and identify the instance:
 
 ```bash
-export SRI_EXPERIMENT_ROOT=/mnt/workspace/sri-experiments
+export SRI_EXPERIMENT_ROOT=/path/to/persistent/sri-experiments
 export PAI_DSW_INSTANCE_ID=<instance-id>
 python3 experiments/runtime_diagnostics/run_benchmark.py \
   --output "$SRI_EXPERIMENT_ROOT/runtime-diagnostics-smoke.json"

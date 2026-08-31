@@ -2981,7 +2981,7 @@
     "machine": "x86_64",
     "git_commit": "a1f2cfca6a4c7cc75e7a995ed54f48ca99c131f9",
     "git_dirty": true,
-    "pai_dsw_instance_id": "dsw-2032100-64b9d7c65d-tg9lx",
+"pai_dsw_instance_id": "redacted",
     "experiment_root": null
   }
 }
