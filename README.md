@@ -27,7 +27,7 @@ take over the Agent loop, block Agent actions, or modify the observed source
 workspace. Evidence remains inside the operator-controlled deployment boundary
 unless trace import or OTLP/HTTP export is explicitly configured.
 
-![SRI runtime overview in Simplified Chinese](docs/assets/sri-runtime-overview-cn.png)
+![SRI runtime overview](docs/assets/sri-runtime-overview-en.png)
 
 ## Quick start
 
@@ -89,7 +89,7 @@ python3 -m venv .venv
 | Inferred Analysis | What evidence-bounded explanation or next investigation is plausible? |
 | Settings / Doctor | What is read, stored, exported, pending, and verified? |
 
-![SRI SkillRun Panorama in Simplified Chinese](docs/assets/sri-skillrun-panorama-cn.png)
+![SRI SkillRun Panorama](docs/assets/sri-skillrun-panorama-en.png)
 
 ## How it works
 

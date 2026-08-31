@@ -11,8 +11,8 @@ The project follows [Semantic Versioning](https://semver.org/).
   conservative capability reporting.
 - A versioned evidence-bounded diagnosis endpoint and privacy-minimized DataV
   datasets for product visualizations.
-- A Chinese-first Runtime Overview and SkillRun Panorama with evidence labels,
-  lifecycle graph explanations, and clearer run-level diagnosis.
+- Runtime Overview and SkillRun Panorama screenshots in English and Simplified
+  Chinese, with evidence labels and lifecycle graph explanations.
 - Authenticated self-hosted remote deployment with independent read-only
   viewer and write-only Collector credentials.
 - Direct TLS or loopback-behind-HTTPS-proxy transport enforcement, secure

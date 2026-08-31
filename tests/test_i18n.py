@@ -204,6 +204,8 @@ class InternationalizationTests(unittest.TestCase):
 
     def test_localized_readmes_preserve_quickstart_links_and_code(self):
         english = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("docs/assets/sri-runtime-overview-en.png", english)
+        self.assertIn("docs/assets/sri-skillrun-panorama-en.png", english)
         expected_fences = english.count("```")
         for locale in EXPECTED_LOCALES - {"en"}:
             path = ROOT / f"README.{locale}.md"
@@ -211,7 +213,12 @@ class InternationalizationTests(unittest.TestCase):
             text = path.read_text(encoding="utf-8")
             self.assertEqual(text.count("```"), expected_fences, locale)
             self.assertIn("<!-- locale-switcher:start -->", text)
-            self.assertIn("docs/assets/sri-runtime-overview-cn.png", text)
+            expected_screenshot = (
+                "docs/assets/sri-runtime-overview-cn.png"
+                if locale == "zh-CN"
+                else "docs/assets/sri-runtime-overview-en.png"
+            )
+            self.assertIn(expected_screenshot, text)
             self.assertIn("docs/assets/runtime-architecture.svg", text)
             self.assertIn("docs/getting-started.md", text)
             self.assertIn(".venv/bin/skill-runtime install --enable-hooks", text)

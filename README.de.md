@@ -18,7 +18,7 @@
 
 Agent Skill Runtime Intelligence ist ein schreibgeschütztes Laufzeit-Beweis- und Diagnosesystem für Agent Skills. Es extrahiert konservative, überprüfbare Einschränkungen aus der aktuellen Skill-Definition, ordnet sie der Laufzeitaktivität zu und rekonstruiert das Ergebnis als evidenzbewertetes Ergebnis Skill Run Panorama. Es kombiniert offizielle Agent-Ereignisse, importierte Ablaufverfolgungen, gekennzeichnete Sitzungs-Fallbacks und beobachtbare Arbeitsbereichsergebnisse, ohne Modellanforderungen weiterzuleiten oder die Agent-Schleife zu übernehmen.
 
-![SRI-Laufzeitübersicht auf vereinfachtem Chinesisch](docs/assets/sri-runtime-overview-cn.png)
+![SRI-Laufzeitübersicht auf Englisch](docs/assets/sri-runtime-overview-en.png)
 
 ## Schnellstart
 

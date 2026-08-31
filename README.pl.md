@@ -18,7 +18,7 @@
 
 Agent Skill Runtime Intelligence to system dowodowy i diagnostyczny w trybie tylko do odczytu dla Agent Skills. Wyodrębnia konserwatywne, możliwe do sprawdzenia ograniczenia z bieżącej definicji Umiejętności, dopasowuje je do aktywności w czasie wykonywania i rekonstruuje wynik w postaci oceny opartej na dowodach Skill Run Panorama. Łączy w sobie oficjalne zdarzenia Agenta, zaimportowane ślady, oznaczony powrót do sesji i obserwowalne wyniki obszaru roboczego bez pośrednictwa żądań modelu lub przejmowania pętli Agenta.
 
-![Przegląd środowiska SRI w języku chińskim uproszczonym](docs/assets/sri-runtime-overview-cn.png)
+![Przegląd środowiska SRI w języku angielskim](docs/assets/sri-runtime-overview-en.png)
 
 ## Szybki start
 

@@ -86,6 +86,8 @@ def validate_release(tag: str = "", require_clean: bool = False) -> List[str]:
         ".github/ISSUE_TEMPLATE/bug_report.yml",
         ".github/ISSUE_TEMPLATE/feature_request.yml",
         ".github/pull_request_template.md",
+        "docs/assets/sri-runtime-overview-en.png",
+        "docs/assets/sri-skillrun-panorama-en.png",
         "docs/assets/sri-runtime-overview-cn.png",
         "docs/assets/sri-skillrun-panorama-cn.png",
         "src/skill_runtime_intelligence/web/favicon.svg",
@@ -104,16 +106,24 @@ def validate_release(tag: str = "", require_clean: bool = False) -> List[str]:
     ):
         errors.extend(_local_link_errors(path))
 
-    screenshot = ROOT / "docs/assets/sri-runtime-overview-cn.png"
-    if screenshot.is_file():
-        try:
-            width, height = _png_size(screenshot)
-            if width < 1280 or height < 720:
-                errors.append(
-                    f"release screenshot is only {width}x{height}; expected at least 1280x720"
-                )
-        except ValueError as exc:
-            errors.append(str(exc))
+    screenshot_requirements = {
+        "docs/assets/sri-runtime-overview-en.png": (1280, 720),
+        "docs/assets/sri-skillrun-panorama-en.png": (1280, 480),
+        "docs/assets/sri-runtime-overview-cn.png": (1280, 720),
+        "docs/assets/sri-skillrun-panorama-cn.png": (1280, 480),
+    }
+    for relative, (minimum_width, minimum_height) in screenshot_requirements.items():
+        screenshot = ROOT / relative
+        if screenshot.is_file():
+            try:
+                width, height = _png_size(screenshot)
+                if width < minimum_width or height < minimum_height:
+                    errors.append(
+                        f"release screenshot {relative} is only {width}x{height}; "
+                        f"expected at least {minimum_width}x{minimum_height}"
+                    )
+            except ValueError as exc:
+                errors.append(str(exc))
 
     if require_clean:
         dirty = subprocess.run(
