@@ -105,19 +105,20 @@ class StorageTests(unittest.TestCase):
                     },
                 )
                 self.assertEqual(first["summary"]["stage_supported_totals"]["discovery"], 0)
+                self.assertEqual(
+                    identifiers,
+                    [f"skillrun-page-{index:02d}" for index in range(29, -1, -1)],
+                )
+                self.assertEqual(
+                    [item["result_type"] for item in first["skill_runs"][:4]],
+                    ["completed", "explicit_failure", "completed", "explicit_failure"],
+                )
+                self.assertEqual(len(first["summary"]["attention_runs"]), 8)
                 self.assertTrue(
                     all(
                         item["result_type"] == "explicit_failure"
-                        for item in first["skill_runs"]
+                        for item in first["summary"]["attention_runs"]
                     )
-                )
-                self.assertEqual(
-                    [item["result_type"] for item in second["skill_runs"][:5]],
-                    ["explicit_failure"] * 5,
-                )
-                self.assertEqual(
-                    [item["result_type"] for item in second["skill_runs"][5:]],
-                    ["completed"] * 5,
                 )
                 failed = storage.list_skill_runs_page(limit=7, status="failed")
                 self.assertEqual(len(failed["skill_runs"]), 7)

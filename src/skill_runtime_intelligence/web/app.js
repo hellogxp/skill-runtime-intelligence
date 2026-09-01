@@ -36,6 +36,8 @@ let selectedGraphNodeId = null;
 let currentGraph = null;
 let graphMotionMode = "live";
 let graphReplayRequested = false;
+let graphViewportRunId = null;
+let graphSpineScrollTop = 0;
 let runtimeSources = [];
 let runtimeIntegrations = [];
 let skillInventory = [];
@@ -2434,7 +2436,15 @@ function fitDagNodeText(svg, maxWidth) {
   });
 }
 
+function focusDagLifecycleSpine(behavior = "auto") {
+  const scroll = document.querySelector("#dag-scroll");
+  if (!scroll) return;
+  scroll.scrollTo({left: 0, top: graphSpineScrollTop, behavior});
+}
+
 function renderPanorama(run) {
+  const runChanged = graphViewportRunId !== run.skill_run_id;
+  graphViewportRunId = run.skill_run_id;
   currentGraph = buildEvidenceGraph(run);
   selectedGraphNodeId = null;
   const currentEventIds = new Set(run.events.map((event) => event.event_id));
@@ -2577,6 +2587,10 @@ function renderPanorama(run) {
     <g class="dag-tracers" pointer-events="none">${tracerMarkup}</g>
     <g class="dag-nodes">${nodeMarkup}</g>`;
   fitDagNodeText(svg, nodeWidth - 71);
+  graphSpineScrollTop = Math.max(0, Math.round(canvasHeight / 2 - 172));
+  if (runChanged) {
+    window.requestAnimationFrame(() => focusDagLifecycleSpine());
+  }
   graphReplayRequested = false;
 
   svg.querySelectorAll(".dag-node").forEach((element) => {
@@ -2919,7 +2933,7 @@ document.querySelectorAll(".motion-mode").forEach((button) => {
   });
 });
 document.querySelector("#dag-reset").addEventListener("click", () => {
-  document.querySelector("#dag-scroll").scrollTo({left: 0, behavior: "smooth"});
+  focusDagLifecycleSpine("smooth");
   selectedGraphNodeId = null;
   clearGraphHighlight();
   resetInspector();

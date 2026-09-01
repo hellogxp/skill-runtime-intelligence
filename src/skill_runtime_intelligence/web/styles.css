@@ -951,7 +951,7 @@ h1, h2, h3, p { margin: 0; }
   box-shadow: inset 0 0 0 1px rgba(110,168,254,.22);
 }
 .dag-scroll {
-  min-height: 344px; overflow-x: auto; overflow-y: hidden; scrollbar-color: rgba(99,213,205,.28) transparent;
+  height: 344px; min-height: 344px; overflow: auto; scrollbar-color: rgba(99,213,205,.28) transparent;
   scroll-behavior: smooth;
 }
 .panorama { display: block; min-height: 344px; overflow: visible; }

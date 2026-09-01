@@ -1519,28 +1519,34 @@ class Storage:
 
     @staticmethod
     def _encode_skill_run_cursor(
-        sort_priority: int, sort_time: str, skill_run_id: str
+        sort_time: str, skill_run_id: str
     ) -> str:
-        payload = json.dumps(
-            [sort_priority, sort_time, skill_run_id], separators=(",", ":")
-        )
+        payload = json.dumps([sort_time, skill_run_id], separators=(",", ":"))
         return base64.urlsafe_b64encode(payload.encode("utf-8")).decode("ascii").rstrip("=")
 
     @staticmethod
-    def _decode_skill_run_cursor(cursor: str) -> tuple[int, str, str]:
+    def _decode_skill_run_cursor(cursor: str) -> tuple[str, str]:
         try:
             padded = cursor + "=" * (-len(cursor) % 4)
             value = json.loads(base64.urlsafe_b64decode(padded).decode("utf-8"))
         except (ValueError, TypeError, json.JSONDecodeError) as exc:
             raise ValueError("invalid SkillRun cursor") from exc
         if (
-            not isinstance(value, list)
-            or len(value) != 3
-            or not isinstance(value[0], int)
-            or not all(isinstance(item, str) and item for item in value[1:])
+            isinstance(value, list)
+            and len(value) == 2
+            and all(isinstance(item, str) and item for item in value)
         ):
-            raise ValueError("invalid SkillRun cursor")
-        return value[0], value[1], value[2]
+            return value[0], value[1]
+        # Cursors emitted before v0.3 included a result-priority prefix. Keep
+        # accepting them during the transition, but pagination is chronological.
+        if (
+            isinstance(value, list)
+            and len(value) == 3
+            and isinstance(value[0], int)
+            and all(isinstance(item, str) and item for item in value[1:])
+        ):
+            return value[1], value[2]
+        raise ValueError("invalid SkillRun cursor")
 
     @staticmethod
     def _skill_run_result_type(item: Dict[str, Any]) -> str:
@@ -1566,34 +1572,19 @@ class Storage:
         date: str = "",
         errors_only: bool = False,
         _include_summary: bool = True,
+        _attention_only: bool = False,
     ) -> Dict[str, Any]:
         limit = max(1, int(limit))
         sort_expression = "COALESCE(sr.started_at, s.started_at, s.indexed_at)"
-        sort_priority_expression = """
-            CASE
-                WHEN sr.status = 'failed' OR EXISTS (
-                    SELECT 1 FROM normalized_events priority_failure
-                    WHERE priority_failure.skill_run_id = sr.skill_run_id
-                      AND priority_failure.status = 'failed'
-                ) THEN 0
-                WHEN sr.status = 'incomplete' THEN 1
-                WHEN sr.status = 'interrupted' THEN 2
-                ELSE 3
-            END
-        """
         clauses: List[str] = []
         parameters: List[Any] = []
         if cursor:
-            cursor_priority, cursor_time, cursor_id = self._decode_skill_run_cursor(cursor)
+            cursor_time, cursor_id = self._decode_skill_run_cursor(cursor)
             clauses.append(
-                f"(({sort_priority_expression}) > ? OR "
-                f"(({sort_priority_expression}) = ? AND "
                 f"({sort_expression} < ? OR "
-                f"({sort_expression} = ? AND sr.skill_run_id < ?))))"
+                f"({sort_expression} = ? AND sr.skill_run_id < ?))"
             )
-            parameters.extend(
-                [cursor_priority, cursor_priority, cursor_time, cursor_time, cursor_id]
-            )
+            parameters.extend([cursor_time, cursor_time, cursor_id])
         if query:
             clauses.append(
                 "(sk.name LIKE ? OR sk.description LIKE ? OR s.title LIKE ? "
@@ -1641,6 +1632,13 @@ class Storage:
                 "WHERE failed_event.skill_run_id = sr.skill_run_id "
                 "AND failed_event.status = 'failed'))"
             )
+        if _attention_only:
+            clauses.append(
+                "(sr.status IN ('failed', 'incomplete', 'interrupted') OR EXISTS ("
+                "SELECT 1 FROM normalized_events attention_failure "
+                "WHERE attention_failure.skill_run_id = sr.skill_run_id "
+                "AND attention_failure.status = 'failed'))"
+            )
         where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
         rows = self.connection.execute(
             f"""
@@ -1648,13 +1646,12 @@ class Storage:
                 SELECT sr.*, sk.name, sk.description, sk.source_path, sk.digest,
                        s.title AS session_title, s.cwd, s.model, s.agent_version,
                        s.adapter, s.duration_ms AS session_duration_ms,
-                       {sort_expression} AS sort_time,
-                       {sort_priority_expression} AS sort_priority
+                       {sort_expression} AS sort_time
                 FROM skill_runs sr
                 JOIN skills sk ON sk.skill_id = sr.skill_id
                 JOIN sessions s ON s.session_id = sr.session_id
                 {where}
-                ORDER BY sort_priority ASC, sort_time DESC, sr.skill_run_id DESC
+                ORDER BY sort_time DESC, sr.skill_run_id DESC
                 LIMIT ?
             )
             SELECT page.*,
@@ -1668,7 +1665,7 @@ class Storage:
             FROM page
             LEFT JOIN normalized_events e ON e.skill_run_id = page.skill_run_id
             GROUP BY page.skill_run_id
-            ORDER BY page.sort_priority ASC, page.sort_time DESC, page.skill_run_id DESC
+            ORDER BY page.sort_time DESC, page.skill_run_id DESC
             """,
             (*parameters, limit + 1),
         ).fetchall()
@@ -1685,13 +1682,11 @@ class Storage:
         if has_more and result:
             last = result[-1]
             next_cursor = self._encode_skill_run_cursor(
-                int(last["sort_priority"]),
                 str(last["sort_time"]),
                 str(last["skill_run_id"]),
             )
         for item in result:
             item.pop("sort_time", None)
-            item.pop("sort_priority", None)
         response = {
             "skill_runs": result,
             "page": {
@@ -1908,10 +1903,9 @@ class Storage:
                 date=date,
                 errors_only=errors_only,
                 _include_summary=False,
+                _attention_only=True,
             )["skill_runs"]
-            attention_runs = [
-                run for run in candidates if run["result_type"] != "completed"
-            ]
+            attention_runs = candidates
         summary = {
             "total": total,
             "result_counts": result_counts,
