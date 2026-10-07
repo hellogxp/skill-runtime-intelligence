@@ -1,3 +1,4 @@
+import os
 import tempfile
 import threading
 import unittest
@@ -12,6 +13,47 @@ from skill_runtime_intelligence.storage import Storage
 
 
 class StorageTests(unittest.TestCase):
+    def test_local_index_uses_persistent_source_checkpoint(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            sessions = root / "sessions"
+            skills = root / "skills"
+            sessions.mkdir()
+            skills.mkdir()
+            source = sessions / "session.jsonl"
+            source.write_text("{}\n", encoding="utf-8")
+            database = root / "panorama.db"
+
+            first = index_local(database, sessions, [skills])
+            second = index_local(database, sessions, [skills])
+
+            self.assertEqual(first["imported"], 1)
+            self.assertEqual(second["imported"], 0)
+            self.assertEqual(second["skipped_unchanged"], 1)
+
+    def test_local_index_skips_old_unseen_sources_with_history_window(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            sessions = root / "sessions"
+            skills = root / "skills"
+            sessions.mkdir()
+            skills.mkdir()
+            source = sessions / "old.jsonl"
+            source.write_text("{}\n", encoding="utf-8")
+            old = 1_600_000_000
+            source.touch()
+            os.utime(source, (old, old))
+
+            result = index_local(
+                root / "panorama.db",
+                sessions,
+                [skills],
+                history_days=30,
+            )
+
+            self.assertEqual(result["imported"], 0)
+            self.assertEqual(result["skipped_history"], 1)
+
     def test_schema_initialization_runs_once_per_database_path(self):
         with tempfile.TemporaryDirectory() as directory:
             database = Path(directory) / "panorama.db"

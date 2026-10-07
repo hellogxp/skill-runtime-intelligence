@@ -5,11 +5,29 @@ from unittest.mock import patch
 
 from skill_runtime_intelligence.discovery import (
     default_skill_roots,
+    discover_skills,
     parse_skill,
 )
 
 
 class SkillDiscoveryTests(unittest.TestCase):
+    def test_discovers_a_skill_installed_as_a_symlink(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "source" / "demo"
+            source.mkdir(parents=True)
+            (source / "SKILL.md").write_text(
+                "---\nname: linked-demo\ndescription: linked skill\n---\n",
+                encoding="utf-8",
+            )
+            installed = root / "installed"
+            installed.mkdir()
+            (installed / "linked-demo").symlink_to(source, target_is_directory=True)
+
+            skills = discover_skills([installed])
+
+            self.assertEqual([item.name for item in skills], ["linked-demo"])
+            self.assertEqual(skills[0].source_path, str((source / "SKILL.md").resolve()))
     def test_mainstream_agent_skill_roots_are_included(self):
         project = Path("/tmp/skill-runtime-project")
         roots = {str(path) for path in default_skill_roots(project)}

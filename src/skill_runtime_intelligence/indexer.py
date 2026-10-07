@@ -11,6 +11,10 @@ from .config import path_is_excluded
 from .discovery import SkillDefinition, discover_skills
 from .storage import Storage
 
+_LARGE_ACTIVE_SOURCE_BYTES = 8 * 1024 * 1024
+_LARGE_SOURCE_SETTLE_SECONDS = 30.0
+_LARGE_SOURCE_MAX_PENDING_SECONDS = 300.0
+
 
 def _source_watermark(source_mtimes: Dict[Path, int]) -> str:
     payload = "\0".join(
@@ -42,6 +46,9 @@ def index_local(
     codex_sessions: Path,
     skill_roots: Iterable[Path],
     exclusions: Iterable[Path] = (),
+    *,
+    rebuild: bool = False,
+    history_days: Optional[int] = None,
 ) -> Dict[str, int]:
     excluded = list(exclusions)
     skills: List[SkillDefinition] = discover_skills(skill_roots, excluded)
@@ -49,20 +56,105 @@ def index_local(
     try:
         storage.replace_skills(skill.to_dict() for skill in skills)
         adapter = CodexAdapter(codex_sessions)
+        checkpoints = storage.source_checkpoints("codex")
+        existing_sources = storage.session_source_versions("codex")
+        cutoff_ns = None
+        if history_days is not None and history_days > 0:
+            cutoff_ns = time.time_ns() - history_days * 86_400 * 1_000_000_000
         imported = 0
         failed = 0
+        skipped_unchanged = 0
+        skipped_history = 0
+        skipped_active = 0
+        checkpointed_existing = 0
         for source_path in adapter.session_files():
-            cwd = adapter.peek_cwd(source_path)
-            if cwd and path_is_excluded(Path(cwd), excluded):
-                continue
             try:
+                resolved = str(source_path.resolve())
+                before = source_path.stat()
+                checkpoint = checkpoints.get(resolved)
+                signature = (
+                    int(before.st_dev),
+                    int(before.st_ino),
+                    int(before.st_size),
+                    int(before.st_mtime_ns),
+                )
+                if not rebuild and checkpoint:
+                    saved = (
+                        int(checkpoint["device"]),
+                        int(checkpoint["inode"]),
+                        int(checkpoint["size"]),
+                        int(checkpoint["mtime_ns"]),
+                    )
+                    if (
+                        checkpoint["adapter_version"] == adapter.version
+                        and saved == signature
+                    ):
+                        skipped_unchanged += 1
+                        continue
+                    if (
+                        before.st_size >= _LARGE_ACTIVE_SOURCE_BYTES
+                        and time.time_ns() - before.st_mtime_ns
+                        < int(_LARGE_SOURCE_SETTLE_SECONDS * 1_000_000_000)
+                    ):
+                        skipped_active += 1
+                        continue
+                existing = existing_sources.get(resolved)
+                if (
+                    not rebuild
+                    and checkpoint is None
+                    and existing
+                    and existing["adapter_version"] == adapter.version
+                    and int(before.st_mtime_ns)
+                    <= int(existing["indexed_at_ns"] or 0) + 1_000_000_000
+                ):
+                    storage.set_source_checkpoint(
+                        source_path, "codex", adapter.version, before
+                    )
+                    checkpointed_existing += 1
+                    continue
+                if (
+                    not rebuild
+                    and checkpoint is None
+                    and existing is None
+                    and cutoff_ns is not None
+                    and before.st_mtime_ns < cutoff_ns
+                ):
+                    skipped_history += 1
+                    continue
+                cwd = adapter.peek_cwd(source_path)
+                if cwd and path_is_excluded(Path(cwd), excluded):
+                    continue
                 session, raw, events, skill_runs = adapter.parse(source_path, skills)
                 storage.replace_session(session, raw, events, skill_runs)
+                after = source_path.stat()
+                if (
+                    before.st_dev,
+                    before.st_ino,
+                    before.st_size,
+                    before.st_mtime_ns,
+                ) == (
+                    after.st_dev,
+                    after.st_ino,
+                    after.st_size,
+                    after.st_mtime_ns,
+                ):
+                    storage.set_source_checkpoint(
+                        source_path, "codex", adapter.version, after
+                    )
                 imported += 1
             except (OSError, UnicodeError, ValueError):
                 failed += 1
         counts = storage.counts()
-        counts.update({"imported": imported, "failed": failed})
+        counts.update(
+            {
+                "imported": imported,
+                "failed": failed,
+                "skipped_unchanged": skipped_unchanged,
+                "skipped_history": skipped_history,
+                "skipped_active": skipped_active,
+                "checkpointed_existing": checkpointed_existing,
+            }
+        )
         return counts
     finally:
         storage.close()
@@ -138,6 +230,15 @@ def _index_changed_batch(
                         source_path, skills
                     )
                     storage.replace_session(session, raw, events, skill_runs)
+                    try:
+                        storage.set_source_checkpoint(
+                            source_path,
+                            "codex",
+                            str(session.get("adapter_version") or "unknown"),
+                            source_path.stat(),
+                        )
+                    except OSError:
+                        pass
                     processed += 1
                 except (OSError, UnicodeError, ValueError):
                     failed += 1
@@ -247,14 +348,25 @@ def watch_local(
             known_mtimes.pop(removed, None)
             pending_changes.pop(removed, None)
 
-        changed = [
-            path
-            for path, (first_seen, last_seen) in pending_changes.items()
-            if (
-                now - last_seen >= settle_seconds
-                or now - first_seen >= max_pending_seconds
+        changed = []
+        for path, (first_seen, last_seen) in pending_changes.items():
+            try:
+                is_large = path.stat().st_size >= _LARGE_ACTIVE_SOURCE_BYTES
+            except OSError:
+                is_large = False
+            path_settle = (
+                _LARGE_SOURCE_SETTLE_SECONDS if is_large else settle_seconds
             )
-        ]
+            path_max_pending = (
+                _LARGE_SOURCE_MAX_PENDING_SECONDS
+                if is_large
+                else max_pending_seconds
+            )
+            if (
+                now - last_seen >= path_settle
+                or now - first_seen >= path_max_pending
+            ):
+                changed.append(path)
         for path in changed:
             pending_changes.pop(path, None)
 

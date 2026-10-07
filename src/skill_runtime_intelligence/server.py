@@ -34,11 +34,13 @@ from .integrations import (
     enable_opencode_plugin,
     enable_qoder_hooks,
     enable_qoderwork_hooks,
+    enable_qwenworkcn_hooks,
     inspect_claude_integration,
     inspect_codex_integration,
     inspect_opencode_integration,
     inspect_qoder_integration,
     inspect_qoderwork_integration,
+    inspect_qwenworkcn_integration,
 )
 from .native_sender import build_native_hook_sender
 from .hook_bridge import HookBridge, default_hook_socket
@@ -158,6 +160,7 @@ class PanoramaHandler(BaseHTTPRequestHandler):
                     ("claude-code", inspect_claude_integration),
                     ("qoder", inspect_qoder_integration),
                     ("qoderwork", inspect_qoderwork_integration),
+                    ("qwenworkcn", inspect_qwenworkcn_integration),
                     ("opencode", inspect_opencode_integration),
                 ):
                     try:
@@ -456,6 +459,10 @@ class PanoramaHandler(BaseHTTPRequestHandler):
                     "qoderwork": (
                         inspect_qoderwork_integration,
                         enable_qoderwork_hooks,
+                    ),
+                    "qwenworkcn": (
+                        inspect_qwenworkcn_integration,
+                        enable_qwenworkcn_hooks,
                     ),
                     "opencode": (
                         inspect_opencode_integration,

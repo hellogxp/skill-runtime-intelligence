@@ -21,6 +21,7 @@ from skill_runtime_intelligence.hook_adapter import (
     build_opencode_hook_envelopes,
     build_qoder_hook_envelopes,
     build_qoderwork_hook_envelopes,
+    build_qwenworkcn_hook_envelopes,
 )
 from skill_runtime_intelligence.hook_bridge import (
     SAFE_UNIX_SOCKET_PATH_BYTES,
@@ -32,21 +33,25 @@ from skill_runtime_intelligence.integrations import (
     MANAGED_CODEX_EVENTS,
     MANAGED_QODER_EVENTS,
     MANAGED_QODERWORK_EVENTS,
+    MANAGED_QWENWORKCN_EVENTS,
     enable_claude_hooks,
     enable_codex_hooks,
     enable_opencode_plugin,
     enable_qoder_hooks,
     enable_qoderwork_hooks,
+    enable_qwenworkcn_hooks,
     inspect_claude_integration,
     inspect_codex_integration,
     inspect_opencode_integration,
     inspect_qoder_integration,
     inspect_qoderwork_integration,
+    inspect_qwenworkcn_integration,
     remove_claude_hooks,
     remove_codex_hooks,
     remove_opencode_plugin,
     remove_qoder_hooks,
     remove_qoderwork_hooks,
+    remove_qwenworkcn_hooks,
 )
 from skill_runtime_intelligence.native_sender import (
     build_native_hook_sender,
@@ -173,6 +178,29 @@ class HookAdapterTests(unittest.TestCase):
         serialized = json.dumps(envelopes, ensure_ascii=False)
         self.assertNotIn("must-not-leak", serialized)
         self.assertNotIn("python3", serialized)
+
+    def test_root_level_skill_resource_access_identifies_the_skill(self):
+        path = "/tmp/.agents/skills/hologres-code-search/product-profile.md"
+        envelopes = build_opencode_hook_envelopes(
+            "PostToolUse",
+            {
+                "session_id": "opencode-root-resource",
+                "turn_id": "turn-root-resource",
+                "tool_name": "read",
+                "tool_use_id": "read-root-resource",
+                "tool_input": {"file_path": path},
+                "cwd": "/tmp/project",
+            },
+        )
+
+        self.assertEqual(
+            [item["event_type"] for item in envelopes],
+            ["tool.completed", "resource.read"],
+        )
+        resource = envelopes[1]
+        self.assertEqual(resource["skill"]["name"], "hologres-code-search")
+        self.assertEqual(resource["payload"]["resource_kind"], "other")
+        self.assertEqual(resource["payload"]["file_path"], str(Path(path).resolve()))
 
     def test_relative_agents_skill_resource_is_resolved_from_hook_cwd(self):
         envelopes = build_codex_hook_envelopes(
@@ -393,10 +421,10 @@ class HookAdapterTests(unittest.TestCase):
                     "data": {
                         "meta_type": "slash_command",
                         "content": {
-                            "name": "enterprise-knowledge-search",
+                            "name": "kbase-mcp-skill",
                             "type": "skill",
                             "filePath": (
-                                "/tmp/.agents/skills/enterprise-knowledge-search/SKILL.md"
+                                "/tmp/.agents/skills/kbase-mcp-skill/SKILL.md"
                             ),
                         },
                     },
@@ -441,9 +469,7 @@ class HookAdapterTests(unittest.TestCase):
                 [item["event_type"] for item in envelopes],
                 ["skill.activated", "tool.started"],
             )
-            self.assertEqual(
-                envelopes[0]["skill"]["name"], "enterprise-knowledge-search"
-            )
+            self.assertEqual(envelopes[0]["skill"]["name"], "kbase-mcp-skill")
             self.assertEqual(envelopes[0]["activation_mode"], "slash_command")
             self.assertIn("session_meta/slash_command", envelopes[0]["evidence"]["basis"])
             self.assertNotIn(
@@ -1235,6 +1261,80 @@ class HookIntegrationTests(unittest.TestCase):
         )
         self.assertEqual(instruction["source"]["adapter"], "qoderwork")
         self.assertEqual(instruction["skill"]["name"], "demo")
+
+    def test_qwenworkcn_hooks_use_distinct_adapter_and_config(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = root / "settings.json"
+            settings.write_text('{"hooks": {}}', encoding="utf-8")
+            state_root = root / "state"
+
+            enabled = enable_qwenworkcn_hooks(
+                "/tmp/skill-runtime", settings, state_root=state_root
+            )
+            inspected = inspect_qwenworkcn_integration(
+                settings, "/tmp/skill-runtime", state_root=state_root
+            )
+            envelopes = build_qwenworkcn_hook_envelopes(
+                "PostToolUse",
+                {
+                    "session_id": "qwen-office-session",
+                    "tool_name": "Read",
+                    "tool_use_id": "read-skill",
+                    "tool_input": {
+                        "file_path": "/tmp/.qwenworkcn/skills/demo/SKILL.md"
+                    },
+                },
+            )
+
+            self.assertTrue(enabled["changed"])
+            self.assertTrue(inspected["installed"])
+            self.assertEqual(
+                len(inspected["installed_events"]),
+                len(MANAGED_QWENWORKCN_EVENTS),
+            )
+            instruction = next(
+                item
+                for item in envelopes
+                if item["event_type"] == "instruction.loaded"
+            )
+            self.assertEqual(instruction["source"]["adapter"], "qwenworkcn")
+            self.assertTrue(
+                remove_qwenworkcn_hooks(settings, state_root=state_root)["changed"]
+            )
+
+    def test_qoderwork_enable_refreshes_stale_managed_commands(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = root / "settings.json"
+            stale = (
+                "if true; then /private/var/folders/stale/hook-native "
+                "--agent qoderwork --event Stop; else /tmp/skill-runtime hook "
+                "--agent qoderwork --event Stop --managed-by "
+                "skill-runtime-intelligence; fi"
+            )
+            settings.write_text(
+                json.dumps(
+                    {
+                        "hooks": {
+                            "Stop": [
+                                {"hooks": [{"type": "command", "command": stale}]}
+                            ]
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_root = root / "state"
+
+            refreshed = enable_qoderwork_hooks(
+                "/opt/skill-runtime", settings, state_root=state_root
+            )
+
+            self.assertIn("Stop", refreshed["refreshed_events"])
+            content = settings.read_text(encoding="utf-8")
+            self.assertNotIn("/private/var/folders/stale", content)
+            self.assertIn("/opt/skill-runtime", content)
 
     def test_opencode_plugin_is_owned_idempotent_and_exactly_removable(self):
         with tempfile.TemporaryDirectory() as directory:

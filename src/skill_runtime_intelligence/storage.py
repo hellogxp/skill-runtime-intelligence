@@ -8,6 +8,7 @@ entity; an agent session is only its runtime context.
 import base64
 import hashlib
 import json
+import os
 import re
 import sqlite3
 import threading
@@ -84,6 +85,16 @@ ADAPTER_CAPABILITIES = {
         "execution": "observed",
         "artifacts": "partial",
         "outcome": "partial",
+    },
+    "qwenworkcn": {
+        "request": "observed",
+        "discovery": "unsupported",
+        "activation": "partial",
+        "instructions": "partial",
+        "resources": "partial",
+        "execution": "observed",
+        "artifacts": "partial",
+        "outcome": "observed",
     },
     "opencode": {
         "request": "observed",
@@ -311,6 +322,17 @@ CREATE TABLE IF NOT EXISTS runtime_state (
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS source_checkpoints (
+    source_path TEXT PRIMARY KEY,
+    adapter TEXT NOT NULL,
+    adapter_version TEXT NOT NULL,
+    device INTEGER NOT NULL,
+    inode INTEGER NOT NULL,
+    size INTEGER NOT NULL,
+    mtime_ns INTEGER NOT NULL,
+    indexed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 INSERT OR IGNORE INTO runtime_state (key, value) VALUES ('revision', '0');
@@ -640,6 +662,65 @@ class Storage:
             (f"{prefix}%",),
         ).fetchall()
         return [dict(row) for row in rows]
+
+    def source_checkpoints(self, adapter: str) -> Dict[str, Dict[str, Any]]:
+        rows = self.connection.execute(
+            """
+            SELECT source_path, adapter, adapter_version, device, inode, size,
+                   mtime_ns, indexed_at
+            FROM source_checkpoints
+            WHERE adapter = ?
+            """,
+            (adapter,),
+        ).fetchall()
+        return {str(row["source_path"]): dict(row) for row in rows}
+
+    def session_source_versions(self, adapter: str) -> Dict[str, Dict[str, Any]]:
+        rows = self.connection.execute(
+            """
+            SELECT source_path, adapter_version,
+                   CAST(strftime('%s', indexed_at) AS INTEGER) * 1000000000
+                       AS indexed_at_ns
+            FROM sessions
+            WHERE adapter = ?
+            """,
+            (adapter,),
+        ).fetchall()
+        return {str(row["source_path"]): dict(row) for row in rows}
+
+    def set_source_checkpoint(
+        self,
+        source_path: Path,
+        adapter: str,
+        adapter_version: str,
+        stat_result: os.stat_result,
+    ) -> None:
+        with self.connection:
+            self.connection.execute(
+                """
+                INSERT INTO source_checkpoints (
+                    source_path, adapter, adapter_version, device, inode, size,
+                    mtime_ns, indexed_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+                ON CONFLICT(source_path) DO UPDATE SET
+                    adapter=excluded.adapter,
+                    adapter_version=excluded.adapter_version,
+                    device=excluded.device,
+                    inode=excluded.inode,
+                    size=excluded.size,
+                    mtime_ns=excluded.mtime_ns,
+                    indexed_at=CURRENT_TIMESTAMP
+                """,
+                (
+                    str(source_path.resolve()),
+                    adapter,
+                    adapter_version,
+                    int(stat_result.st_dev),
+                    int(stat_result.st_ino),
+                    int(stat_result.st_size),
+                    int(stat_result.st_mtime_ns),
+                ),
+            )
 
     def export_events_after(
         self, row_id: int = 0, limit: int = 200

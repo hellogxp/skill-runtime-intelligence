@@ -49,6 +49,7 @@ def _source_kind(path: Path) -> str:
             home / ".claude" / "skills",
             home / ".qoder" / "skills",
             home / ".qoderwork" / "skills",
+            home / ".qwenworkcn" / "skills",
             home / ".config" / "opencode" / "skills",
             home / ".agents" / "skills",
         )
@@ -139,7 +140,23 @@ def discover_skills(
         root = root.expanduser()
         if not root.is_dir():
             continue
-        for skill_file in root.rglob("SKILL.md"):
+        skill_files = list(root.rglob("SKILL.md"))
+        # ``Path.rglob`` does not descend into a symlinked Skill directory on
+        # all supported Python/macOS combinations. Agent installers commonly
+        # expose user Skills as ``~/.<agent>/skills/<name> -> <source>``. Treat
+        # those direct children as first-class installations without walking
+        # arbitrary symlink trees or risking cycles.
+        try:
+            linked_skill_dirs = [
+                child
+                for child in root.iterdir()
+                if child.is_symlink() and child.is_dir()
+            ]
+        except OSError:
+            linked_skill_dirs = []
+        for linked_dir in linked_skill_dirs:
+            skill_files.extend(linked_dir.rglob("SKILL.md"))
+        for skill_file in skill_files:
             if path_is_excluded(skill_file, exclusions):
                 continue
             try:
@@ -161,6 +178,7 @@ def default_skill_roots(project: Optional[Path] = None) -> List[Path]:
         home / ".claude" / "skills",
         home / ".qoder" / "skills",
         home / ".qoderwork" / "skills",
+        home / ".qwenworkcn" / "skills",
         home / ".config" / "opencode" / "skills",
         home / ".agents" / "skills",
     ]
@@ -171,6 +189,7 @@ def default_skill_roots(project: Optional[Path] = None) -> List[Path]:
                 project / ".claude" / "skills",
                 project / ".qoder" / "skills",
                 project / ".qoderwork" / "skills",
+                project / ".qwenworkcn" / "skills",
                 project / ".opencode" / "skills",
                 project / ".agents" / "skills",
             ]

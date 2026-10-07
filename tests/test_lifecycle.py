@@ -75,6 +75,8 @@ class RuntimeLifecycleTests(unittest.TestCase):
             ), mock.patch.object(
                 cli, "inspect_qoderwork_integration", return_value={"agent": "qoderwork", **absent}
             ), mock.patch.object(
+                cli, "inspect_qwenworkcn_integration", return_value={"agent": "qwenworkcn", **absent}
+            ), mock.patch.object(
                 cli, "inspect_opencode_integration", return_value={"agent": "opencode", **absent}
             ), mock.patch.object(
                 cli,
@@ -128,6 +130,8 @@ class RuntimeLifecycleTests(unittest.TestCase):
                 cli, "inspect_qoder_integration", return_value={"agent": "qoder", **absent}
             ), mock.patch.object(
                 cli, "inspect_qoderwork_integration", return_value={"agent": "qoderwork", **absent}
+            ), mock.patch.object(
+                cli, "inspect_qwenworkcn_integration", return_value={"agent": "qwenworkcn", **absent}
             ), mock.patch.object(
                 cli, "inspect_opencode_integration", return_value={"agent": "opencode", **absent}
             ), mock.patch.object(

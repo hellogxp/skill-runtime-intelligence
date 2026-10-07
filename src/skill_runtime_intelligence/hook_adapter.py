@@ -15,6 +15,7 @@ CODEX_HOOK_ADAPTER_VERSION = "0.3.0"
 CLAUDE_HOOK_ADAPTER_VERSION = "0.3.0"
 QODER_HOOK_ADAPTER_VERSION = "0.3.0"
 QODERWORK_HOOK_ADAPTER_VERSION = "0.1.0"
+QWENWORKCN_HOOK_ADAPTER_VERSION = "0.1.0"
 OPENCODE_PLUGIN_ADAPTER_VERSION = "0.3.0"
 
 QUOTED_SKILL_PATH = re.compile(
@@ -34,15 +35,15 @@ QUOTED_SKILL_RESOURCE_PATH = re.compile(
     r"""(?:
         "((?:~?/|\./|\.\./|[A-Za-z0-9._-]+/)
         [^\s"'`|;&<>\r\n]*?skills/[^\s/"']+/
-        (?:references|scripts|assets)/[^\s"'`|;&<>\r\n]+)"
+        [^\s"'`|;&<>\r\n]+)"
         |
         '((?:~?/|\./|\.\./|[A-Za-z0-9._-]+/)
         [^\s"'`|;&<>\r\n]*?skills/[^\s/"']+/
-        (?:references|scripts|assets)/[^\s"'`|;&<>\r\n]+)'
+        [^\s"'`|;&<>\r\n]+)'
         |
         ((?:~?/|\./|\.\./|[A-Za-z0-9._-]+/)
         [^\s"'`|;&<>\r\n]*?skills/[^\s/"']+/
-        (?:references|scripts|assets)/[^\s"'`|;&<>\r\n]+)
+        [^\s"'`|;&<>\r\n]+)
     )""",
     re.IGNORECASE | re.VERBOSE,
 )
@@ -73,6 +74,7 @@ SUPPORTED_HOOK_AGENTS = {
     "claude-code": CLAUDE_HOOK_ADAPTER_VERSION,
     "qoder": QODER_HOOK_ADAPTER_VERSION,
     "qoderwork": QODERWORK_HOOK_ADAPTER_VERSION,
+    "qwenworkcn": QWENWORKCN_HOOK_ADAPTER_VERSION,
     "opencode": OPENCODE_PLUGIN_ADAPTER_VERSION,
 }
 
@@ -226,11 +228,11 @@ def _skill_resource_identity(path: str) -> Optional[Dict[str, str]]:
     parts = Path(path).parts
     lower = [part.lower() for part in parts]
     for index, part in enumerate(lower):
-        if part != "skills" or index + 3 >= len(parts):
+        if part != "skills" or index + 2 >= len(parts):
             continue
         kind = lower[index + 2]
         if kind not in {"references", "scripts", "assets"}:
-            continue
+            kind = "other"
         return {
             "skill_name": parts[index + 1],
             "kind": kind,
@@ -253,6 +255,8 @@ def _skill_resource_paths(payload: Dict[str, Any]) -> List[Dict[str, str]]:
     seen = set()
     for candidate in candidates:
         normalized = _normalize_path(candidate, cwd)
+        if _looks_like_skill_instruction(normalized):
+            continue
         identity = _skill_resource_identity(normalized)
         if not identity or normalized in seen:
             continue
@@ -1072,6 +1076,14 @@ def build_qoderwork_hook_envelopes(
     )
 
 
+def build_qwenworkcn_hook_envelopes(
+    hook_event: str, payload: Dict[str, Any]
+) -> List[Dict[str, Any]]:
+    return build_agent_hook_envelopes(
+        "qwenworkcn", QWENWORKCN_HOOK_ADAPTER_VERSION, hook_event, payload
+    )
+
+
 def build_hook_envelopes(
     agent: str, hook_event: str, payload: Dict[str, Any]
 ) -> List[Dict[str, Any]]:
@@ -1083,6 +1095,8 @@ def build_hook_envelopes(
         return build_qoder_hook_envelopes(hook_event, payload)
     if agent == "qoderwork":
         return build_qoderwork_hook_envelopes(hook_event, payload)
+    if agent == "qwenworkcn":
+        return build_qwenworkcn_hook_envelopes(hook_event, payload)
     if agent == "opencode":
         return build_opencode_hook_envelopes(hook_event, payload)
     return []

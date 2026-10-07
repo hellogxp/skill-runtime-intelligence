@@ -47,16 +47,19 @@ from .integrations import (
     enable_opencode_plugin,
     enable_qoder_hooks,
     enable_qoderwork_hooks,
+    enable_qwenworkcn_hooks,
     inspect_claude_integration,
     inspect_codex_integration,
     inspect_opencode_integration,
     inspect_qoder_integration,
     inspect_qoderwork_integration,
+    inspect_qwenworkcn_integration,
     remove_claude_hooks,
     remove_codex_hooks,
     remove_opencode_plugin,
     remove_qoder_hooks,
     remove_qoderwork_hooks,
+    remove_qwenworkcn_hooks,
 )
 from .native_sender import build_native_hook_sender, install_native_hook_sender
 from .otlp_exporter import export_otlp_once, watch_otlp_export
@@ -115,6 +118,17 @@ def _index_args(parser: argparse.ArgumentParser) -> None:
         default=default_config_path(),
         help="Local Skill Runtime configuration path",
     )
+    parser.add_argument(
+        "--history-days",
+        type=int,
+        default=30,
+        help="On first import, index source files changed in the last N days (default: 30)",
+    )
+    parser.add_argument(
+        "--rebuild",
+        action="store_true",
+        help="Explicitly rebuild every eligible session, ignoring checkpoints and history window",
+    )
 
 
 def _roots(args) -> List[Path]:
@@ -135,6 +149,8 @@ def _run_index(args) -> dict:
         args.codex_sessions,
         _roots(args),
         _exclusions(args),
+        rebuild=bool(getattr(args, "rebuild", False)),
+        history_days=max(0, int(getattr(args, "history_days", 30))),
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return result
@@ -434,6 +450,11 @@ def _integration_operations():
             "inspect": inspect_qoderwork_integration,
             "enable": enable_qoderwork_hooks,
             "remove": remove_qoderwork_hooks,
+        },
+        "qwenworkcn": {
+            "inspect": inspect_qwenworkcn_integration,
+            "enable": enable_qwenworkcn_hooks,
+            "remove": remove_qwenworkcn_hooks,
         },
         "opencode": {
             "inspect": inspect_opencode_integration,
@@ -975,6 +996,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="Remove only QoderWork hooks managed by Skill Runtime",
     )
     setup_actions.add_argument(
+        "--enable-qwenworkcn-hooks",
+        action="store_true",
+        help="Back up settings and install fail-open 千问办公 hooks",
+    )
+    setup_actions.add_argument(
+        "--remove-qwenworkcn-hooks",
+        action="store_true",
+        help="Remove only 千问办公 hooks managed by Skill Runtime",
+    )
+    setup_actions.add_argument(
         "--enable-opencode-plugin",
         action="store_true",
         help="Install the managed, observation-only OpenCode event plugin",
@@ -1007,6 +1038,12 @@ def build_parser() -> argparse.ArgumentParser:
         type=_path,
         default=Path("~/.qoderwork/settings.json").expanduser(),
         help="QoderWork settings path",
+    )
+    setup_parser.add_argument(
+        "--qwenworkcn-settings",
+        type=_path,
+        default=Path("~/.qwenworkcn/settings.json").expanduser(),
+        help="千问办公 settings path",
     )
     setup_parser.add_argument(
         "--opencode-plugin",
@@ -1089,6 +1126,9 @@ def main(argv=None) -> None:
             inspect_qoderwork_integration(
                 executable=executable, state_root=state_root
             ),
+            inspect_qwenworkcn_integration(
+                executable=executable, state_root=state_root
+            ),
             inspect_opencode_integration(
                 executable=executable, state_root=state_root
             ),
@@ -1149,6 +1189,10 @@ def main(argv=None) -> None:
                         result = enable_qoderwork_hooks(
                             executable, state_root=state_root
                         )
+                    elif agent == "qwenworkcn":
+                        result = enable_qwenworkcn_hooks(
+                            executable, state_root=state_root
+                        )
                     else:
                         result = enable_opencode_plugin(
                             executable, state_root=state_root
@@ -1178,12 +1222,14 @@ def main(argv=None) -> None:
             args.codex_sessions,
             roots,
             [Path(value) for value in config["exclude_paths"]],
+            history_days=30,
         )
         integrations = [
             inspect_codex_integration(executable=executable, state_root=state_root),
             inspect_claude_integration(executable=executable, state_root=state_root),
             inspect_qoder_integration(executable=executable, state_root=state_root),
             inspect_qoderwork_integration(executable=executable, state_root=state_root),
+            inspect_qwenworkcn_integration(executable=executable, state_root=state_root),
             inspect_opencode_integration(executable=executable, state_root=state_root),
         ]
         result = {
@@ -1332,6 +1378,7 @@ def main(argv=None) -> None:
             ("claude-code", remove_claude_hooks),
             ("qoder", remove_qoder_hooks),
             ("qoderwork", remove_qoderwork_hooks),
+            ("qwenworkcn", remove_qwenworkcn_hooks),
             ("opencode", remove_opencode_plugin),
         ):
             consent = (
@@ -1514,6 +1561,22 @@ def main(argv=None) -> None:
             )
             _record_hook_consent(config, "qoderwork", "revoked", result)
             save_config(config, config_path)
+        elif args.enable_qwenworkcn_hooks:
+            native_sender = build_native_hook_sender(args.state_root)
+            result = enable_qwenworkcn_hooks(
+                executable,
+                args.qwenworkcn_settings,
+                state_root=args.state_root,
+            )
+            _record_hook_consent(config, "qwenworkcn", "granted", result)
+            save_config(config, config_path)
+        elif args.remove_qwenworkcn_hooks:
+            result = remove_qwenworkcn_hooks(
+                args.qwenworkcn_settings,
+                state_root=args.state_root,
+            )
+            _record_hook_consent(config, "qwenworkcn", "revoked", result)
+            save_config(config, config_path)
         elif args.enable_opencode_plugin:
             native_sender = build_native_hook_sender(args.state_root)
             result = enable_opencode_plugin(
@@ -1538,6 +1601,9 @@ def main(argv=None) -> None:
                     inspect_qoder_integration(args.qoder_settings, executable),
                     inspect_qoderwork_integration(
                         args.qoderwork_settings, executable
+                    ),
+                    inspect_qwenworkcn_integration(
+                        args.qwenworkcn_settings, executable
                     ),
                     inspect_opencode_integration(args.opencode_plugin, executable),
                 ]

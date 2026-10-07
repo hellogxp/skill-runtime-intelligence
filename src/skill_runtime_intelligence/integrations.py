@@ -61,6 +61,17 @@ MANAGED_QODERWORK_EVENTS = {
     "PostToolUseFailure": "",
     "Stop": "",
 }
+MANAGED_QWENWORKCN_EVENTS = {
+    "SessionStart": "startup|resume|compact",
+    "UserPromptSubmit": "",
+    "PreToolUse": "",
+    "PostToolUse": "",
+    "PostToolUseFailure": "",
+    "SubagentStart": "",
+    "SubagentStop": "",
+    "Stop": "",
+    "SessionEnd": "",
+}
 OPENCODE_PLUGIN_MARKER = (
     "// managed-by: skill-runtime-intelligence; adapter: opencode"
 )
@@ -151,6 +162,10 @@ def default_qoderwork_settings_path() -> Path:
     return Path.home() / ".qoderwork" / "settings.json"
 
 
+def default_qwenworkcn_settings_path() -> Path:
+    return Path.home() / ".qwenworkcn" / "settings.json"
+
+
 def default_opencode_plugin_path() -> Path:
     return (
         Path.home()
@@ -205,6 +220,38 @@ def _managed_events(config: Dict[str, Any], agent: str = "codex") -> List[str]:
         ):
             found.append(event)
     return sorted(found)
+
+
+def _stale_managed_events(
+    config: Dict[str, Any],
+    agent: str,
+    executable: str = "",
+    state_root: Optional[Path] = None,
+) -> List[str]:
+    stale = []
+    temporary_roots = ("/tmp/", "/private/var/folders/", "/var/folders/")
+    for event, groups in config.get("hooks", {}).items():
+        if not isinstance(groups, list):
+            continue
+        commands = [
+            str(hook.get("command") or "")
+            for group in groups
+            if isinstance(group, dict)
+            for hook in group.get("hooks", [])
+            if isinstance(hook, dict)
+            and _is_managed_command(hook.get("command"), agent)
+        ]
+        if executable and commands:
+            is_stale = commands != [
+                _hook_command(executable, event, agent, state_root)
+            ]
+        else:
+            is_stale = any(
+                root in command for command in commands for root in temporary_roots
+            )
+        if commands and is_stale:
+            stale.append(event)
+    return sorted(stale)
 
 
 def inspect_codex_integration(
@@ -367,6 +414,9 @@ def inspect_qoderwork_integration(
     path = (config_path or default_qoderwork_settings_path()).expanduser()
     config = _load_hooks(path, "QoderWork")
     installed_events = _managed_events(config, "qoderwork")
+    stale_events = _stale_managed_events(
+        config, "qoderwork", executable, state_root
+    )
     cli = _detect_cli_version("qoderwork")
     return {
         "agent": "qoderwork",
@@ -376,13 +426,13 @@ def inspect_qoderwork_integration(
         "config_exists": path.exists(),
         "config_valid": True,
         "executable": executable,
-        "installed": bool(installed_events),
+        "installed": bool(installed_events) and not stale_events,
         **cli,
         "installed_events": installed_events,
         "planned_events": sorted(MANAGED_QODERWORK_EVENTS),
         "collection_mode": "official_hook",
         "selected_collection_mode": (
-            "official_hook" if installed_events else "not_configured"
+            "official_hook" if installed_events and not stale_events else "not_configured"
         ),
         "available_collection_modes": ["official_hook"],
         "native_skill_telemetry": "not_detected",
@@ -401,9 +451,67 @@ def inspect_qoderwork_integration(
             str(path),
         ],
         "changes_without_consent": [],
+        "stale_events": stale_events,
         "note": (
             "QoderWork command hooks are synchronous. Skill Runtime always "
             "returns success and performs only bounded local delivery on the hook path."
+        ),
+    }
+
+
+def inspect_qwenworkcn_integration(
+    config_path: Optional[Path] = None,
+    executable: str = "",
+    state_root: Optional[Path] = None,
+) -> Dict[str, Any]:
+    path = (config_path or default_qwenworkcn_settings_path()).expanduser()
+    config = _load_hooks(path, "QwenWorkCN")
+    installed_events = _managed_events(config, "qwenworkcn")
+    stale_events = _stale_managed_events(
+        config, "qwenworkcn", executable, state_root
+    )
+    app = Path("/Applications/QwenWorkCN.app")
+    cli_path = Path.home() / ".qwenworkcn" / "bin" / "qwenwork"
+    return {
+        "agent": "qwenworkcn",
+        "display_name": "千问办公",
+        "detected": (Path.home() / ".qwenworkcn").is_dir() or app.exists(),
+        "config_path": str(path),
+        "config_exists": path.exists(),
+        "config_valid": True,
+        "executable": executable,
+        "installed": bool(installed_events) and not stale_events,
+        "cli_path": str(cli_path) if cli_path.is_file() else "",
+        "agent_version": "",
+        "version_status": "unavailable",
+        "version_source": "application_presence" if app.exists() else "none",
+        "installed_events": installed_events,
+        "planned_events": sorted(MANAGED_QWENWORKCN_EVENTS),
+        "collection_mode": "official_hook",
+        "selected_collection_mode": (
+            "official_hook" if installed_events and not stale_events else "not_configured"
+        ),
+        "available_collection_modes": ["official_hook"],
+        "native_skill_telemetry": "not_detected",
+        "fail_open": True,
+        "async": False,
+        "collector_endpoint": _collector_endpoint(),
+        "fast_path": "unix_socket",
+        "hook_socket": str(default_hook_socket()),
+        "hook_socket_active": default_hook_socket().is_socket(),
+        "native_sender": str(native_hook_sender_path(state_root)),
+        "native_sender_available": native_hook_sender_path(state_root).is_file(),
+        "offline_queue": str(default_event_queue()),
+        "paths_read": [
+            str(Path.home() / ".qwenworkcn" / "skills"),
+            str(Path.home() / ".qwenworkcn" / "projects"),
+            str(path),
+        ],
+        "changes_without_consent": [],
+        "stale_events": stale_events,
+        "note": (
+            "QwenWorkCN uses its own Qoder Agent SDK configuration root. "
+            "It is collected as a distinct adapter instead of being merged with QoderWork."
         ),
     }
 
@@ -583,7 +691,11 @@ const SkillRuntimePlugin = async ({{ directory }}) => ({{
       session_id: String(input?.sessionID || ""),
       turn_id: String(first(input?.messageID, input?.messageId, output?.message?.id)),
       ...selection,
-      cwd: String(directory || ""),
+      cwd: String(first(
+        input?.directory, input?.cwd,
+        output?.directory, output?.cwd,
+        directory
+      )),
       timestamp: new Date().toISOString(),
     }})
   }},
@@ -593,17 +705,25 @@ const SkillRuntimePlugin = async ({{ directory }}) => ({{
       tool_name: String(input?.tool || ""),
       tool_use_id: String(input?.callID || ""),
       tool_input: output?.args && typeof output.args === "object" ? output.args : {{}},
-      cwd: String(directory || ""),
+      cwd: String(first(
+        input?.directory, input?.cwd,
+        output?.directory, output?.cwd,
+        directory
+      )),
       timestamp: new Date().toISOString(),
     }})
   }},
-  "tool.execute.after": async (input) => {{
+  "tool.execute.after": async (input, output) => {{
     deliver("PostToolUse", {{
       session_id: String(input?.sessionID || ""),
       tool_name: String(input?.tool || ""),
       tool_use_id: String(input?.callID || ""),
       tool_input: input?.args && typeof input.args === "object" ? input.args : {{}},
-      cwd: String(directory || ""),
+      cwd: String(first(
+        input?.directory, input?.cwd,
+        output?.directory, output?.cwd,
+        directory
+      )),
       timestamp: new Date().toISOString(),
     }})
   }},
@@ -810,15 +930,44 @@ def _enable_hooks(
     hooks = config["hooks"]
     existing = set(_managed_events(config, agent))
     added = []
+    refreshed = []
     for event, matcher in managed_events.items():
-        if event in existing:
-            continue
+        expected_command = _hook_command(executable, event, agent, state_root)
         groups = hooks.setdefault(event, [])
         if not isinstance(groups, list):
             raise IntegrationError(f"{agent_label} hook group `{event}` must be a list")
+        managed_commands = [
+            str(hook.get("command") or "")
+            for group in groups
+            if isinstance(group, dict)
+            for hook in group.get("hooks", [])
+            if isinstance(hook, dict)
+            and _is_managed_command(hook.get("command"), agent)
+        ]
+        if managed_commands == [expected_command]:
+            continue
+        next_groups = []
+        for group in groups:
+            if not isinstance(group, dict):
+                next_groups.append(group)
+                continue
+            group_hooks = group.get("hooks", [])
+            kept = [
+                hook
+                for hook in group_hooks
+                if not (
+                    isinstance(hook, dict)
+                    and _is_managed_command(hook.get("command"), agent)
+                )
+            ]
+            if kept:
+                updated_group = dict(group)
+                updated_group["hooks"] = kept
+                next_groups.append(updated_group)
+        hooks[event] = next_groups
         hook = {
             "type": "command",
-            "command": _hook_command(executable, event, agent, state_root),
+            "command": expected_command,
             "timeout": 2,
         }
         if asynchronous:
@@ -826,9 +975,12 @@ def _enable_hooks(
         group = {"hooks": [hook]}
         if matcher:
             group["matcher"] = matcher
-        groups.append(group)
-        added.append(event)
-    if not added:
+        hooks[event].append(group)
+        if managed_commands:
+            refreshed.append(event)
+        else:
+            added.append(event)
+    if not added and not refreshed:
         return {
             "changed": False,
             "installed_events": sorted(existing),
@@ -857,6 +1009,7 @@ def _enable_hooks(
     return {
         "changed": True,
         "added_events": sorted(added),
+        "refreshed_events": sorted(refreshed),
         "installed_events": manifest["installed_events"],
         "config_path": str(path),
         "backup_path": str(backup) if backup else None,
@@ -931,6 +1084,24 @@ def enable_qoderwork_hooks(
         executable=executable,
         path=path,
         managed_events=MANAGED_QODERWORK_EVENTS,
+        state_root=state_root,
+        asynchronous=False,
+    )
+
+
+def enable_qwenworkcn_hooks(
+    executable: str,
+    config_path: Optional[Path] = None,
+    state_root: Optional[Path] = None,
+) -> Dict[str, Any]:
+    path = (config_path or default_qwenworkcn_settings_path()).expanduser()
+    return _enable_hooks(
+        agent="qwenworkcn",
+        integration_name="qwenworkcn-hooks",
+        agent_label="QwenWorkCN",
+        executable=executable,
+        path=path,
+        managed_events=MANAGED_QWENWORKCN_EVENTS,
         state_root=state_root,
         asynchronous=False,
     )
@@ -1107,6 +1278,17 @@ def remove_qoderwork_hooks(
         agent="qoderwork",
         agent_label="QoderWork",
         path=(config_path or default_qoderwork_settings_path()).expanduser(),
+        state_root=state_root,
+    )
+
+
+def remove_qwenworkcn_hooks(
+    config_path: Optional[Path] = None, state_root: Optional[Path] = None
+) -> Dict[str, Any]:
+    return _remove_hooks(
+        agent="qwenworkcn",
+        agent_label="QwenWorkCN",
+        path=(config_path or default_qwenworkcn_settings_path()).expanduser(),
         state_root=state_root,
     )
 
