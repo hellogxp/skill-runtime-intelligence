@@ -1,0 +1,37 @@
+{
+  "schema_version": "sri.native-sender-manifest.v1",
+  "repository": "hellogxp/skill-runtime-intelligence",
+  "tag": "v0.1.6",
+  "queried_at": "2026-07-30T12:43:00Z",
+  "evidence_grade": "Observed",
+  "assets": [
+    {
+      "name": "skill-runtime-hook-native-darwin-arm64",
+      "os": "darwin",
+      "label_architecture": "arm64",
+      "bytes": 50520,
+      "sha256": "db4267ab98cca9cda634ec6aff9865882205e6c0722412fccf5779b1d716497e"
+    },
+    {
+      "name": "skill-runtime-hook-native-darwin-x86_64",
+      "os": "darwin",
+      "label_architecture": "x86_64",
+      "bytes": 50520,
+      "sha256": "db4267ab98cca9cda634ec6aff9865882205e6c0722412fccf5779b1d716497e"
+    },
+    {
+      "name": "skill-runtime-hook-native-linux-arm64",
+      "os": "linux",
+      "label_architecture": "arm64",
+      "bytes": 71056,
+      "sha256": "26ecac96ba167264c65348d74a597bd7a52b33f5ebdae0741e10d48dee79265f"
+    },
+    {
+      "name": "skill-runtime-hook-native-linux-x86_64",
+      "os": "linux",
+      "label_architecture": "x86_64",
+      "bytes": 16632,
+      "sha256": "5a93f4b0b17fdcdb5295b53dbb4bc6623c3de17ba2f47c0a35b2c84f35d87ed0"
+    }
+  ]
+}

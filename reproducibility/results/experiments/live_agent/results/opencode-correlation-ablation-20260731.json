@@ -1,0 +1,652 @@
+{
+  "schema_version": "sri.experiment.opencodelive-correlation-ablation.v1",
+  "experiment": {
+    "name": "randomized-blocked-opencode-token-on-off",
+    "evidence_grade": "Experimental",
+    "agent_version": "1.18.5",
+    "model": "opencode/deepseek-v4-flash-free",
+    "design": "within-block randomized order; same plugin in both conditions",
+    "limitations": [
+      "One installed OpenCode system and one local machine were tested.",
+      "Model and service latency remain noisy despite randomized order.",
+      "The bootstrap interval is descriptive for these blocks only.",
+      "Passing non-interference gates does not prove zero overhead."
+    ]
+  },
+  "metrics": {
+    "pairs_planned": 8,
+    "complete_pairs": 8,
+    "randomization_seed": 20260731,
+    "per_condition": {
+      "token_on": {
+        "planned": 8,
+        "completed": 8,
+        "verified_outcomes": 8,
+        "verified_correlations": 8,
+        "silent_controls": 0,
+        "raw_token_persistence_findings": 0,
+        "workload_mutations": 0,
+        "wall_p50_ms": 16688.921082997695,
+        "wall_p95_ms": 24769.574485643534
+      },
+      "token_off": {
+        "planned": 8,
+        "completed": 8,
+        "verified_outcomes": 8,
+        "verified_correlations": 0,
+        "silent_controls": 8,
+        "raw_token_persistence_findings": 0,
+        "workload_mutations": 0,
+        "wall_p50_ms": 20794.608479496674,
+        "wall_p95_ms": 28194.33921874879
+      }
+    },
+    "paired_wall_difference_on_minus_off_ms": {
+      "mean": -2028.4042188741296,
+      "median": -479.9823130015284,
+      "bootstrap_95_ci": [
+        -6739.470697997604,
+        2508.836194014474
+      ],
+      "differences": [
+        -8532.850749994395,
+        8098.451584010036,
+        2660.7890000013867,
+        -6876.6714999947,
+        -2963.2461669971235,
+        2003.2815409940667,
+        2736.8571659899317,
+        -13353.844625002239
+      ]
+    },
+    "collector_delta": {
+      "sessions": 16,
+      "events": 110,
+      "skill_runs": 16
+    }
+  },
+  "trials": [
+    {
+      "trial": 1,
+      "condition": "token_off",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 24942.11337500019,
+      "outcome_verified": true,
+      "correlation_verified": false,
+      "control_silent": true,
+      "evidence_event_count": 0,
+      "evidence_event_types": [],
+      "unique_evidence_sessions": 0,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 15961,
+        "input": 59,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "block": 1,
+      "order": 1
+    },
+    {
+      "trial": 2,
+      "condition": "token_on",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 16409.262625005795,
+      "outcome_verified": true,
+      "correlation_verified": true,
+      "control_silent": false,
+      "evidence_event_count": 3,
+      "evidence_event_types": [
+        "session.created",
+        "tool.execute.before"
+      ],
+      "unique_evidence_sessions": 1,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 16036,
+        "input": 134,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "block": 1,
+      "order": 2
+    },
+    {
+      "trial": 3,
+      "condition": "token_on",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 23810.712334001437,
+      "outcome_verified": true,
+      "correlation_verified": true,
+      "control_silent": false,
+      "evidence_event_count": 4,
+      "evidence_event_types": [
+        "session.created",
+        "tool.execute.before"
+      ],
+      "unique_evidence_sessions": 1,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 16375,
+        "input": 89,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16256
+        }
+      },
+      "block": 2,
+      "order": 1
+    },
+    {
+      "trial": 4,
+      "condition": "token_off",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 15712.260749991401,
+      "outcome_verified": true,
+      "correlation_verified": false,
+      "control_silent": true,
+      "evidence_event_count": 0,
+      "evidence_event_types": [],
+      "unique_evidence_sessions": 0,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 15978,
+        "input": 76,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "block": 2,
+      "order": 2
+    },
+    {
+      "trial": 5,
+      "condition": "token_off",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 18655.618292003055,
+      "outcome_verified": true,
+      "correlation_verified": false,
+      "control_silent": true,
+      "evidence_event_count": 0,
+      "evidence_event_types": [],
+      "unique_evidence_sessions": 0,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 15956,
+        "input": 54,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "block": 3,
+      "order": 1
+    },
+    {
+      "trial": 6,
+      "condition": "token_on",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 21316.407292004442,
+      "outcome_verified": true,
+      "correlation_verified": true,
+      "control_silent": false,
+      "evidence_event_count": 3,
+      "evidence_event_types": [
+        "session.created",
+        "tool.execute.before"
+      ],
+      "unique_evidence_sessions": 1,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 15960,
+        "input": 58,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "block": 3,
+      "order": 2
+    },
+    {
+      "trial": 7,
+      "condition": "token_off",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 22745.961833003093,
+      "outcome_verified": true,
+      "correlation_verified": false,
+      "control_silent": true,
+      "evidence_event_count": 0,
+      "evidence_event_types": [],
+      "unique_evidence_sessions": 0,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 16035,
+        "input": 133,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "block": 4,
+      "order": 1
+    },
+    {
+      "trial": 8,
+      "condition": "token_on",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 15869.290333008394,
+      "outcome_verified": true,
+      "correlation_verified": true,
+      "control_silent": false,
+      "evidence_event_count": 3,
+      "evidence_event_types": [
+        "session.created",
+        "tool.execute.before"
+      ],
+      "unique_evidence_sessions": 1,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 15961,
+        "input": 59,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "block": 4,
+      "order": 2
+    },
+    {
+      "trial": 9,
+      "condition": "token_off",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 19040.189249994,
+      "outcome_verified": true,
+      "correlation_verified": false,
+      "control_silent": true,
+      "evidence_event_count": 0,
+      "evidence_event_types": [],
+      "unique_evidence_sessions": 0,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 15978,
+        "input": 76,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "block": 5,
+      "order": 1
+    },
+    {
+      "trial": 10,
+      "condition": "token_on",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 16076.943082996877,
+      "outcome_verified": true,
+      "correlation_verified": true,
+      "control_silent": false,
+      "evidence_event_count": 3,
+      "evidence_event_types": [
+        "session.created",
+        "tool.execute.before"
+      ],
+      "unique_evidence_sessions": 1,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 15964,
+        "input": 62,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "block": 5,
+      "order": 2
+    },
+    {
+      "trial": 11,
+      "condition": "token_on",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 16786.14904099959,
+      "outcome_verified": true,
+      "correlation_verified": true,
+      "control_silent": false,
+      "evidence_event_count": 3,
+      "evidence_event_types": [
+        "session.created",
+        "tool.execute.before"
+      ],
+      "unique_evidence_sessions": 1,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 15983,
+        "input": 81,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "block": 6,
+      "order": 1
+    },
+    {
+      "trial": 12,
+      "condition": "token_off",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 14782.867500005523,
+      "outcome_verified": true,
+      "correlation_verified": false,
+      "control_silent": true,
+      "evidence_event_count": 0,
+      "evidence_event_types": [],
+      "unique_evidence_sessions": 0,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 16009,
+        "input": 107,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "block": 6,
+      "order": 2
+    },
+    {
+      "trial": 13,
+      "condition": "token_off",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 22549.027708999347,
+      "outcome_verified": true,
+      "correlation_verified": false,
+      "control_silent": true,
+      "evidence_event_count": 0,
+      "evidence_event_types": [],
+      "unique_evidence_sessions": 0,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 16257,
+        "input": 99,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 16128
+        }
+      },
+      "block": 7,
+      "order": 1
+    },
+    {
+      "trial": 14,
+      "condition": "token_on",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 25285.88487498928,
+      "outcome_verified": true,
+      "correlation_verified": true,
+      "control_silent": false,
+      "evidence_event_count": 3,
+      "evidence_event_types": [
+        "session.created",
+        "tool.execute.before"
+      ],
+      "unique_evidence_sessions": 1,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 15952,
+        "input": 50,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "block": 7,
+      "order": 2
+    },
+    {
+      "trial": 15,
+      "condition": "token_on",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 16591.6931249958,
+      "outcome_verified": true,
+      "correlation_verified": true,
+      "control_silent": false,
+      "evidence_event_count": 3,
+      "evidence_event_types": [
+        "session.created",
+        "tool.execute.before"
+      ],
+      "unique_evidence_sessions": 1,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 15978,
+        "input": 76,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "block": 8,
+      "order": 1
+    },
+    {
+      "trial": 16,
+      "condition": "token_off",
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 29945.53774999804,
+      "outcome_verified": true,
+      "correlation_verified": false,
+      "control_silent": true,
+      "evidence_event_count": 0,
+      "evidence_event_types": [],
+      "unique_evidence_sessions": 0,
+      "raw_token_persisted": false,
+      "workload_unchanged": true,
+      "runtime_change_roots": [
+        ".opencode/.gitignore",
+        ".opencode/node_modules",
+        ".opencode/package-lock.json",
+        ".opencode/package.json"
+      ],
+      "usage": {
+        "total": 15981,
+        "input": 79,
+        "output": 30,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 15872
+        }
+      },
+      "block": 8,
+      "order": 2
+    }
+  ],
+  "gate": {
+    "name": "Token processing preserves outcomes/workload and emits evidence only when enabled",
+    "passed": true
+  },
+  "created_at": "2026-07-31T16:00:40.755298+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "d8df7047db21d26568e805b8d2369ebf3a1306ca",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

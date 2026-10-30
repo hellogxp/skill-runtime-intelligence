@@ -1,0 +1,773 @@
+{
+  "schema_version": "sri.experiment.model-agent-usefulness-result.v1",
+  "experiment": {
+    "name": "counterbalanced-model-agent-diagnostic-usefulness",
+    "evidence_grade": "experimental",
+    "dataset_path": "${REPO_ROOT}/experiments/runtime_diagnostics/cases.jsonl",
+    "dataset_sha256": "a7728ebae830fe9fa58b04a5865fa9ea344d1149ab2ea29075e366af194522e5",
+    "seed": 20260731,
+    "model": "opencode/deepseek-v4-flash-free",
+    "model_cli": "opencode",
+    "model_cli_version": "1.18.5",
+    "session_policy": "fresh pure session per trial; prompt via stdin; isolated temporary XDG state deleted after response",
+    "limitations": [
+      "These are model-agent responses, not human participants.",
+      "Repeated sessions from one model are stochastic samples, not independent model families.",
+      "The synthetic cases were built from the deterministic diagnostic corpus.",
+      "Latency is specific to this model/provider/CLI environment.",
+      "A condition difference from this pilot is exploratory and is not a general causal product claim."
+    ]
+  },
+  "metrics": {
+    "planned_trials": 22,
+    "completed_trials": 20,
+    "response_completion_rate": 0.9090909090909091,
+    "unique_session_count": 20,
+    "overall_accuracy": 0.85,
+    "overall_unsupported_causal_claim_rate": 0.05,
+    "by_condition": {
+      "raw": {
+        "planned": 11,
+        "completed": 11,
+        "correct": 8,
+        "complete_case_accuracy": 0.7272727272727273,
+        "intention_to_treat_accuracy": 0.7272727272727273,
+        "unsupported_causal_claim_rate": 0.09090909090909091,
+        "mean_confidence_0_100": 83.81818181818181,
+        "brier_score": 0.17694545454545454,
+        "latency_p50_ms": 11772.901207994437
+      },
+      "panorama": {
+        "planned": 11,
+        "completed": 9,
+        "correct": 9,
+        "complete_case_accuracy": 1.0,
+        "intention_to_treat_accuracy": 0.8181818181818182,
+        "unsupported_causal_claim_rate": 0.0,
+        "mean_confidence_0_100": 82.22222222222223,
+        "brier_score": 0.04055555555555555,
+        "latency_p50_ms": 14377.30720800755
+      }
+    },
+    "panorama_minus_raw_complete_case_accuracy": 0.2727272727272727,
+    "panorama_minus_raw_intention_to_treat_accuracy": 0.09090909090909094,
+    "matched_case_count": 9,
+    "matched_case_direction": {
+      "panorama_wins": 2,
+      "raw_wins": 0,
+      "ties": 7
+    }
+  },
+  "trials": [
+    {
+      "model_sample_slot": 1,
+      "order_index": 0,
+      "case_id": "request_gap_first",
+      "condition": "panorama",
+      "gold_stage": "request",
+      "prompt_sha256": "c5b78cb8298b783c29b243344ee7370c493d3bae48b0f2d9ad7d7dc34188affd",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 11441.201207999256,
+      "session_id_sha256": "23a1955d8ca47e8863cdc490ebbc00c59a0c2fb42dec862efb610f5225b50d98",
+      "usage": {
+        "total": 10372,
+        "input": 9824,
+        "output": 74,
+        "reasoning": 474,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "parse_error",
+      "error": "Expecting ',' delimiter: line 1 column 153 (char 152)",
+      "response_sha256": "261061e663c8a1457edc0cd34fe1b2032926cad98df3e175a7363c0d422a5a2a"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 1,
+      "case_id": "derived_failure_grade",
+      "condition": "raw",
+      "gold_stage": "execution",
+      "prompt_sha256": "5df809aa7e803b86774e46aee04cca9db41853df224363068fe78bc9cd319a11",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 12279.901667003287,
+      "session_id_sha256": "4580985b2195b54e0ba13a2ae176c7cb0dfaf39a1ca7b10bbb44248d0e1d63cc",
+      "usage": {
+        "total": 10186,
+        "input": 9754,
+        "output": 53,
+        "reasoning": 379,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "execution",
+      "correct": true,
+      "confidence_0_100": 85.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "event tool.failed stage=execution status=failed Failure derived from exported span status."
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 2,
+      "case_id": "resource_failure",
+      "condition": "panorama",
+      "gold_stage": "resources",
+      "prompt_sha256": "6b54d45d63014be0b3b0e6586b927415ed7ffd4af953843496199684421d79d0",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 13959.306500008097,
+      "session_id_sha256": "69b3e9cb8943bb816b0a3032c28b566728fe444ee3c8a7f95b18e58ffcf727da",
+      "usage": {
+        "total": 10246,
+        "input": 9787,
+        "output": 62,
+        "reasoning": 397,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "findings[0].title: 'Resources reported a failure'; basis: 'Required reference file was not found.' (evidence_grade: observed, severity: error)"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 3,
+      "case_id": "execution_failure",
+      "condition": "raw",
+      "gold_stage": "execution",
+      "prompt_sha256": "69e4ed7439fe79889e108bdba809833871fc4f7fa97b6fa924b66a23422cfd6b",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 9824.747874998138,
+      "session_id_sha256": "722290e605f917605acb74d099408c1695209709c7d0fd8efa6fd9a7fe36aeda",
+      "usage": {
+        "total": 10253,
+        "input": 9734,
+        "output": 54,
+        "reasoning": 465,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "execution",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "event tool.completed stage=execution status=failed Renderer exited with status 1."
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 4,
+      "case_id": "instructions_gap",
+      "condition": "panorama",
+      "gold_stage": "instructions",
+      "prompt_sha256": "c023b0b9951ce56a129f0b92fd0b0e46387cfba2b030b33a6abbeaef49f90ab0",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 12519.273458994576,
+      "session_id_sha256": "4390445d5c0f2c99d4bab71c03736686eb320683b07c4d7a3eca29a928447395",
+      "usage": {
+        "total": 10282,
+        "input": 9819,
+        "output": 62,
+        "reasoning": 401,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "instructions",
+      "correct": true,
+      "confidence_0_100": 85.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "No instructions event was observed even though later lifecycle activity exists. This is an evidence gap, not proof that the instructions step did not occur."
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 5,
+      "case_id": "incomplete_with_report",
+      "condition": "panorama",
+      "gold_stage": "resources",
+      "prompt_sha256": "7d5d2d2a0ee51647f6b37f13481b498ff5a58f8b2f86bdb64670d467779acd7b",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 13950.031415995909,
+      "session_id_sha256": "6c5e0fbbd7e0d23e3dbeff4a63d0dbcf34326b15878e6ebad4e52c1ae16bbec6",
+      "usage": {
+        "total": 10760,
+        "input": 9957,
+        "output": 72,
+        "reasoning": 731,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": true,
+      "confidence_0_100": 80.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "findings[0] stage=resources: 'No resources event was observed even though later lifecycle activity exists. This is an evidence gap, not proof that the resources step did not occur.'"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 6,
+      "case_id": "failure_and_incomplete",
+      "condition": "raw",
+      "gold_stage": "resources",
+      "prompt_sha256": "70323fa1eae97311d37d440bc1f985efafe1e57efca67b4c3afd794ea869791e",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 19942.34491699899,
+      "session_id_sha256": "a3c75cec2adf82166c6b2792295f5374a1688eb53b698e33779565fea4fce31d",
+      "usage": {
+        "total": 11176,
+        "input": 9752,
+        "output": 53,
+        "reasoning": 1371,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "execution",
+      "correct": false,
+      "confidence_0_100": 80.0,
+      "causal_proven": true,
+      "unsupported_causal_claim": true,
+      "evidence_reference": "event tool.failed stage=execution status=failed Tool failed before the source ended."
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 7,
+      "case_id": "earliest_of_multiple_failures",
+      "condition": "raw",
+      "gold_stage": "resources",
+      "prompt_sha256": "bdb6f4b02dabbdb0a4f767c733d5af865d6654be999492358c51ea1b1a5438e2",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 9486.963584000478,
+      "session_id_sha256": "6545c8bdabb5a129259d921e23f88e530f24cee4355b7da279587a7ffde19088",
+      "usage": {
+        "total": 10104,
+        "input": 9744,
+        "output": 43,
+        "reasoning": 317,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": true,
+      "confidence_0_100": 92.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "event resource.load_failed stage=resources status=failed Reference load failed."
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 8,
+      "case_id": "incomplete_run",
+      "condition": "panorama",
+      "gold_stage": "outcome",
+      "prompt_sha256": "cf04433e3971fca43592e3041483999c0e7d9117d23d1927750c5b518a1434e9",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 14377.30720800755,
+      "session_id_sha256": "c34a39fff2d124969bf21cf5c1d96052c6e09b8673d11b291c7af52138f09161",
+      "usage": {
+        "total": 10444,
+        "input": 9816,
+        "output": 70,
+        "reasoning": 558,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "outcome",
+      "correct": true,
+      "confidence_0_100": 75.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "finding 'The SkillRun did not reach a complete recorded outcome' (stage=outcome, evidence_grade=observed, missing_signals=['outcome completion event'])"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 9,
+      "case_id": "reported_outcome_only",
+      "condition": "raw",
+      "gold_stage": "outcome",
+      "prompt_sha256": "0475e773073673c4c4349ae5c6bf407d90b092d9a9bf08e8d6e177e673ea8812",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 11772.901207994437,
+      "session_id_sha256": "36483a0a897b8077e4749a3a9988f1c30f5476d2da8031ed38b26243908e313c",
+      "usage": {
+        "total": 10097,
+        "input": 9713,
+        "output": 55,
+        "reasoning": 329,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "outcome",
+      "correct": true,
+      "confidence_0_100": 80.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "event outcome.reported stage=outcome status=succeeded Agent reported that the requested artifact was produced."
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 10,
+      "case_id": "activation_gap",
+      "condition": "raw",
+      "gold_stage": "activation",
+      "prompt_sha256": "56b065ad827e6b96c3f7c2f85212c9025fa79c714661678fa565373162dc8917",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 11212.359333992936,
+      "session_id_sha256": "27eb5d2e691379c2b3456b1f448320979cc682a2cb06a37d7ef92bb3b3124933",
+      "usage": {
+        "total": 10094,
+        "input": 9716,
+        "output": 45,
+        "reasoning": 333,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "activation",
+      "correct": true,
+      "confidence_0_100": 80.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "event outcome.verified stage=outcome status=succeeded Deterministic test suite passed."
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 0,
+      "case_id": "execution_failure",
+      "condition": "panorama",
+      "gold_stage": "execution",
+      "prompt_sha256": "e0272bc7b8f1e09a2d336dd3708fc070c8c401be8c12c2746e64bda2f51384bc",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 8754.667125002015,
+      "session_id_sha256": "e4302bf05bd18cbb5e9606fe79da6a682e77b3ae563af298a525ed0522264ed8",
+      "usage": {
+        "total": 9946,
+        "input": 9789,
+        "output": 39,
+        "reasoning": 118,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "execution",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Execution reported a failure"
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 1,
+      "case_id": "instructions_gap",
+      "condition": "raw",
+      "gold_stage": "instructions",
+      "prompt_sha256": "d317f14c62977f26f60882d12159eaac782710797b7f9ca2bb189f240800af0e",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 10264.783042002819,
+      "session_id_sha256": "e435433b9ef30047fc9ab314817d5566c1c9dfed0024eac40951142d957d5ca7",
+      "usage": {
+        "total": 9876,
+        "input": 9714,
+        "output": 38,
+        "reasoning": 124,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "instructions",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "case description states instruction-load evidence is missing before execution"
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 2,
+      "case_id": "reported_outcome_only",
+      "condition": "panorama",
+      "gold_stage": "outcome",
+      "prompt_sha256": "c7f3a3b4fc71e0eb48b06af272a2fc3c6f4927538dea882f2a2ba9dac1697d09",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 15003.29291599337,
+      "session_id_sha256": "a58ceeef32956c5795782f909e49010bdd8a55125c39d31f4eb71f41e944aa4d",
+      "usage": {
+        "total": 10355,
+        "input": 9817,
+        "output": 88,
+        "reasoning": 450,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "outcome",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "panorama.findings[0]"
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 3,
+      "case_id": "activation_gap",
+      "condition": "panorama",
+      "gold_stage": "activation",
+      "prompt_sha256": "20f67e051b370291832c2daf227806056c74b4c73ff532fb12ca26b9866008a1",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 16441.348624997772,
+      "session_id_sha256": "72ee58177eb6749432a59244075fd7dec8ee41dfb2e0dc6fead7c6bd2ce9a609",
+      "usage": {
+        "total": 10031,
+        "input": 9849,
+        "output": 63,
+        "reasoning": 119,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "activation",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "findings[0].stage=activation, missing_signals=[activation lifecycle event], basis=Adapter capability for activation: partial; later stages observed"
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 4,
+      "case_id": "derived_failure_grade",
+      "condition": "panorama",
+      "gold_stage": "execution",
+      "prompt_sha256": "a73f7e4589645d32cbedb36a10e874bcc081b8578431100dee1a77a040dc2ca9",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 18535.803042002954,
+      "session_id_sha256": "ccc518a23fd674d3223a5c8ccf21fe9df029b040d8f9df223d9cfc7982206b45",
+      "usage": {
+        "total": 10497,
+        "input": 9809,
+        "output": 67,
+        "reasoning": 621,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "execution",
+      "correct": true,
+      "confidence_0_100": 60.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Derived evidence: Failure derived from exported span status, stage execution, severity error, evidence_grade derived, no direct observation of causal link to Skill outcome."
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 5,
+      "case_id": "resource_failure",
+      "condition": "raw",
+      "gold_stage": "resources",
+      "prompt_sha256": "6136ad09ed1d875c410ca356c9dc9925e70ff8249814dcc9ad324c9fe256beb0",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 13159.171625011368,
+      "session_id_sha256": "aefbb0d0a1bbc3ca43eefe048d9653ae1d4e3850b894d731fcdea447c8edfaaa",
+      "usage": {
+        "total": 10171,
+        "input": 9731,
+        "output": 45,
+        "reasoning": 395,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "event resource.missing stage=resources status=failed Required reference file was not found."
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 6,
+      "case_id": "incomplete_run",
+      "condition": "raw",
+      "gold_stage": "outcome",
+      "prompt_sha256": "53d45a046bd3f8a4fb619598e56e5f5a5c4c5eb15e4fdfb630970b93f1fff9b1",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 12177.823292004177,
+      "session_id_sha256": "fe0f060620b0edcb5d5733808535899ee5cd735b710f871264d90c198cee721e",
+      "usage": {
+        "total": 10290,
+        "input": 9695,
+        "output": 38,
+        "reasoning": 557,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": false,
+      "confidence_0_100": 65.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "source completeness=partial; run status=incomplete"
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 7,
+      "case_id": "request_gap_first",
+      "condition": "raw",
+      "gold_stage": "request",
+      "prompt_sha256": "6673d527eedb512ee62f57ed2df36472e4f061c6f9d9cbf5fed016c3e866aecb",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 10967.916125009651,
+      "session_id_sha256": "9cab5a53dfa2c60e4b50922ba7d4d335ba9ca302a6fd4534508fc1e1614d6a73",
+      "usage": {
+        "total": 10286,
+        "input": 9717,
+        "output": 52,
+        "reasoning": 517,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "request",
+      "correct": true,
+      "confidence_0_100": 85.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "redacted source-like event list (run status=completed; source completeness=complete; outcome.verified Verifier passed)"
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 8,
+      "case_id": "failure_and_incomplete",
+      "condition": "panorama",
+      "gold_stage": "resources",
+      "prompt_sha256": "fccc7f666161e4e0058f12dc301905596ded502d637c253ee6fed8be782573a4",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 17235.822000002372,
+      "session_id_sha256": "59239d87bc2beb5ff7d4a1e89cb43c955dcca06540119d11784a5215d0804043",
+      "usage": {
+        "total": 10977,
+        "input": 10051,
+        "output": 100,
+        "reasoning": 826,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "parse_error",
+      "error": "Extra data: line 3 column 1 (char 197)",
+      "response_sha256": "cdb07b293c455706f4d111f94cc3d92972a0959207485efed0ce86ad8746abae"
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 9,
+      "case_id": "earliest_of_multiple_failures",
+      "condition": "panorama",
+      "gold_stage": "resources",
+      "prompt_sha256": "881d2f48643d0ddacb811c5720f656b9628af577de398b6ff8c09e2046ff89fb",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 17314.785167007358,
+      "session_id_sha256": "fec8f603d9957d06a337c4175bc2ea687b7cc4df92d647e258b63a16a87a28ac",
+      "usage": {
+        "total": 10372,
+        "input": 9783,
+        "output": 58,
+        "reasoning": 531,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": true,
+      "confidence_0_100": 80.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "findings[0].stage=resources, severity=error, basis='Reference load failed.', evidence_grade=observed"
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 10,
+      "case_id": "incomplete_with_report",
+      "condition": "raw",
+      "gold_stage": "resources",
+      "prompt_sha256": "7c48f7816a9f0634ee659765192e38a04e611e5735900a2caa2bacbea023083d",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 28959.256041998742,
+      "session_id_sha256": "fc960e0345233b8ffaf442b478b74e9dd4d7bc48a029eb31b501b476bf451e0c",
+      "usage": {
+        "total": 11498,
+        "input": 9733,
+        "output": 64,
+        "reasoning": 1701,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "execution",
+      "correct": false,
+      "confidence_0_100": 85.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "run status=interrupted; source completeness=partial; outcome.reported (status=reported) was only a partial status emitted before interruption"
+    }
+  ],
+  "gate": {
+    "name": "model-agent pilot integrity",
+    "passed": false
+  },
+  "created_at": "2026-07-31T03:13:08.839861+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": "sri.experiment.codex-watch-epoch.v1",
+  "experiment": {
+    "name": "isolated-production-codex-watch-epoch",
+    "evidence_grade": "Experimental",
+    "production_adapter": true,
+    "isolated_temporary_database": true,
+    "synthetic_transcript": true,
+    "row_level_records_included": false,
+    "raw_content_included": false,
+    "limitations": [
+      "Synthetic transcripts are not independent live Agent runs.",
+      "Process termination tests harness cleanup, not graceful product shutdown.",
+      "Three deterministic trials do not estimate field failure rates."
+    ]
+  },
+  "metrics": {
+    "trial_count": 3,
+    "watcher_ready": 3,
+    "initial_ingestion": 3,
+    "append_reindexed": 3,
+    "deletion_epoch_advanced": 3,
+    "deletion_count_recorded": 3,
+    "session_retained_after_source_deletion": 3,
+    "watcher_process_cleaned": 3
+  },
+  "gates": {
+    "new_and_appended_source_watch_path": {
+      "passed": true
+    },
+    "deleted_source_collection_boundary": {
+      "passed": true
+    }
+  },
+  "gate": {
+    "name": "production Codex watch epoch boundary",
+    "passed": true
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "created_at": "2026-07-30T02:01:54.886384+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "c6ddc8387b15e0333bbf350ef3aeb468049d4a66",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": "sri.experiment.native-launch-phase-readiness.v1",
+  "experiment": {
+    "name": "native-launch-phase-aware-readiness-audit",
+    "evidence_grade": "Derived",
+    "method_status": "post_hoc_exploratory_audit",
+    "limitations": [
+      "No change point or steady state is inferred from the short interleaved sequence.",
+      "The reports lack a stable privacy-safe host identifier.",
+      "Three same-environment runs do not justify a confirmatory effect estimate.",
+      "Readiness criteria describe evidence availability, not a latency mechanism."
+    ]
+  },
+  "metrics": {
+    "report_count": 3,
+    "raw_trial_count": 96,
+    "observed_host_context_count": 1,
+    "cell_run_p50_ratio": {
+      "atomic_replace:preserved:adhoc_resigned": 16.705240942564632,
+      "atomic_replace:preserved:original_linker": 1.169147699450783,
+      "direct_copy:preserved:adhoc_resigned": 15.575271692914807,
+      "direct_copy:preserved:original_linker": 1.0445960387329236
+    },
+    "factor_direction_consistency": {
+      "placement": false,
+      "signature": false
+    },
+    "criteria_passed": 5,
+    "criteria_total": 10
+  },
+  "criteria": {
+    "raw_trials_available": true,
+    "all_integrity_gates_passed": true,
+    "all_manipulation_checks_passed": true,
+    "run_boundaries_preserved": true,
+    "within_run_position_balanced": true,
+    "stable_host_identity_recorded": false,
+    "independent_host_replication": false,
+    "factor_direction_consistent_across_runs": false,
+    "steady_state_established": false,
+    "confirmatory_sample_size_justified": false
+  },
+  "readiness": {
+    "descriptive_analysis_ready": true,
+    "confirmatory_effect_ready": false,
+    "allowed_claim": "phase-preserving descriptive association",
+    "prohibited_claims": [
+      "steady-state latency effect",
+      "signature causal effect",
+      "cross-host generalization"
+    ]
+  },
+  "gate": {
+    "name": "phase-readiness audit integrity",
+    "passed": true
+  },
+  "created_at": "2026-07-30T15:20:20.301584+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

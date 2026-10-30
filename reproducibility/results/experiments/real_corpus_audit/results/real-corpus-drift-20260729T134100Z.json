@@ -1,0 +1,78 @@
+{
+  "schema_version": "sri.experiment.real-corpus-drift.v1",
+  "experiment": {
+    "name": "privacy-safe-real-corpus-aggregate-drift",
+    "evidence_grade": "Derived",
+    "row_level_records_included": false,
+    "limitations": [
+      "Aggregate drift cannot identify which runs changed.",
+      "The comparison does not establish whether restart, re-indexing, source availability, or retention caused the drift.",
+      "Two snapshots do not estimate a population drift rate."
+    ]
+  },
+  "comparison": {
+    "count_deltas": {
+      "run_count": {
+        "before": 97,
+        "after": 75,
+        "delta": -22,
+        "relative_delta": -0.2268041237113402
+      },
+      "session_count": {
+        "before": 16,
+        "after": 15,
+        "delta": -1,
+        "relative_delta": -0.0625
+      },
+      "skill_definition_count": {
+        "before": 11,
+        "after": 9,
+        "delta": -2,
+        "relative_delta": -0.18181818181818182
+      }
+    },
+    "finding_signature_deltas": [
+      {
+        "code": "lifecycle_evidence_gap",
+        "stage": "activation",
+        "evidence_grade": "derived",
+        "before": 97,
+        "after": 75,
+        "delta": -22
+      },
+      {
+        "code": "outcome_unverified",
+        "stage": "outcome",
+        "evidence_grade": "derived",
+        "before": 51,
+        "after": 38,
+        "delta": -13
+      },
+      {
+        "code": "run_incomplete",
+        "stage": "outcome",
+        "evidence_grade": "observed",
+        "before": 46,
+        "after": 37,
+        "delta": -9
+      }
+    ],
+    "before_readiness_passed": 1,
+    "after_readiness_passed": 1,
+    "population_stable_on_aggregate_fields": false
+  },
+  "gate": {
+    "name": "privacy-safe aggregate comparison completed",
+    "passed": true
+  },
+  "created_at": "2026-07-29T13:41:00.322298+00:00",
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "6397467557509d0333706496bf0cfd672321ac7b",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

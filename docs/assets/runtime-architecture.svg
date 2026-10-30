@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="720" viewBox="0 0 1440 720" role="img" aria-labelledby="title desc">
+  <title id="title">Agent Skill Runtime Intelligence architecture</title>
+  <desc id="desc">Agent runtime signals flow through versioned fail-open adapters into a local evidence engine, then to diagnostic views and optional observability exports.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071016"/>
+      <stop offset="1" stop-color="#0d1722"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#111d28"/>
+      <stop offset="1" stop-color="#0d1620"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#50e3c2"/>
+      <stop offset="1" stop-color="#6da8ff"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#9bb3c8" stroke-opacity=".045"/>
+    </pattern>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#4fd6b5"/>
+    </marker>
+    <style>
+      .eyebrow{font:600 13px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:2.2px;fill:#5edbc2}
+      .heading{font:700 25px Inter,ui-sans-serif,system-ui,sans-serif;fill:#f4f8fb}
+      .sub{font:400 15px Inter,ui-sans-serif,system-ui,sans-serif;fill:#91a3b4}
+      .label{font:650 17px Inter,ui-sans-serif,system-ui,sans-serif;fill:#edf4f8}
+      .small{font:400 13px Inter,ui-sans-serif,system-ui,sans-serif;fill:#8da0b2}
+      .chip{font:600 12px Inter,ui-sans-serif,system-ui,sans-serif;fill:#b9c8d4}
+      .mono{font:500 12px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#75e5cd}
+    </style>
+  </defs>
+
+  <rect width="1440" height="720" rx="24" fill="url(#bg)"/>
+  <rect width="1440" height="720" rx="24" fill="url(#grid)"/>
+  <rect x="1" y="1" width="1438" height="718" rx="23" fill="none" stroke="#263746"/>
+
+  <text x="56" y="55" class="eyebrow">HOW IT WORKS</text>
+  <text x="56" y="92" class="heading">A Skill-specific evidence pipeline beside your Agent</text>
+  <text x="56" y="121" class="sub">Observe the existing workflow. Preserve source truth. Diagnose only what the evidence supports.</text>
+
+  <!-- Source signals -->
+  <g transform="translate(56 176)">
+    <rect width="270" height="395" rx="18" fill="url(#panel)" stroke="#263746"/>
+    <text x="24" y="37" class="eyebrow">01 · SIGNALS</text>
+    <text x="24" y="70" class="label">Real runtime inputs</text>
+    <g transform="translate(20 96)">
+      <rect width="230" height="58" rx="12" fill="#0b141d" stroke="#2a3d4c"/>
+      <circle cx="26" cy="29" r="6" fill="#51dfbd"/>
+      <text x="44" y="25" class="label" font-size="15">Agent runtime events</text>
+      <text x="44" y="43" class="small">official hooks / plugins / SDK</text>
+    </g>
+    <g transform="translate(20 166)">
+      <rect width="230" height="58" rx="12" fill="#0b141d" stroke="#2a3d4c"/>
+      <circle cx="26" cy="29" r="6" fill="#6da8ff"/>
+      <text x="44" y="25" class="label" font-size="15">Skill definitions</text>
+      <text x="44" y="43" class="small">SKILL.md · scripts · resources</text>
+    </g>
+    <g transform="translate(20 236)">
+      <rect width="230" height="58" rx="12" fill="#0b141d" stroke="#2a3d4c"/>
+      <circle cx="26" cy="29" r="6" fill="#b68cff"/>
+      <text x="44" y="25" class="label" font-size="15">Observable outcomes</text>
+      <text x="44" y="43" class="small">files · artifacts · tests</text>
+    </g>
+    <g transform="translate(20 306)">
+      <rect width="230" height="58" rx="12" fill="#0b141d" stroke="#2a3d4c"/>
+      <circle cx="26" cy="29" r="6" fill="#8596a6"/>
+      <text x="44" y="25" class="label" font-size="15">Fallback / imports</text>
+      <text x="44" y="43" class="small">sessions · OTLP trace exports</text>
+    </g>
+  </g>
+
+  <!-- Adapter -->
+  <g transform="translate(382 234)">
+    <rect width="235" height="278" rx="18" fill="url(#panel)" stroke="#2c6e67"/>
+    <rect x="1" y="1" width="233" height="5" rx="3" fill="url(#accent)"/>
+    <text x="22" y="39" class="eyebrow">02 · ADAPTERS</text>
+    <text x="22" y="73" class="label">Versioned + fail-open</text>
+    <text x="22" y="101" class="small">Codex · Claude Code</text>
+    <text x="22" y="123" class="small">Qoder · OpenCode</text>
+    <path d="M22 145H213" stroke="#263746"/>
+    <g transform="translate(22 163)">
+      <rect width="90" height="28" rx="14" fill="#14312d" stroke="#2c6e67"/>
+      <text x="45" y="19" text-anchor="middle" class="mono">redact</text>
+      <rect x="101" width="90" height="28" rx="14" fill="#132637" stroke="#345878"/>
+      <text x="146" y="19" text-anchor="middle" class="mono" fill="#8fc4ff">normalize</text>
+    </g>
+    <text x="22" y="224" class="small">Bounded delivery timeout</text>
+    <text x="22" y="246" class="small">Never changes Agent decisions</text>
+  </g>
+
+  <!-- Engine -->
+  <g transform="translate(674 176)">
+    <rect width="380" height="395" rx="18" fill="url(#panel)" stroke="#335064"/>
+    <text x="24" y="37" class="eyebrow">03 · EVIDENCE ENGINE</text>
+    <text x="24" y="70" class="label">Local reconstruction + diagnosis</text>
+    <g transform="translate(22 100)">
+      <rect width="336" height="63" rx="12" fill="#0a151b" stroke="#2d695f"/>
+      <text x="18" y="27" class="label" font-size="15">Immutable source envelopes</text>
+      <text x="18" y="47" class="small">redacted raw evidence kept separately</text>
+    </g>
+    <g transform="translate(22 175)">
+      <rect width="336" height="63" rx="12" fill="#0a151b" stroke="#31536c"/>
+      <text x="18" y="27" class="label" font-size="15">Normalized Skill lifecycle</text>
+      <text x="18" y="47" class="small">request → activation → outcome</text>
+    </g>
+    <g transform="translate(22 250)">
+      <rect width="336" height="63" rx="12" fill="#0a151b" stroke="#544170"/>
+      <text x="18" y="27" class="label" font-size="15">Relationships + inference</text>
+      <text x="18" y="47" class="small">stored apart from observed facts</text>
+    </g>
+    <text x="24" y="358" class="mono">SQLite · retention · SSE live stream</text>
+  </g>
+
+  <!-- Surfaces -->
+  <g transform="translate(1111 176)">
+    <rect width="273" height="395" rx="18" fill="url(#panel)" stroke="#263746"/>
+    <text x="22" y="37" class="eyebrow">04 · OUTPUTS</text>
+    <text x="22" y="70" class="label">Understand and connect</text>
+    <g transform="translate(20 96)">
+      <rect width="233" height="56" rx="12" fill="#0b141d" stroke="#2a3d4c"/>
+      <text x="16" y="24" class="label" font-size="15">Runtime Overview</text>
+      <text x="16" y="42" class="small">attention queue + boundaries</text>
+    </g>
+    <g transform="translate(20 164)">
+      <rect width="233" height="56" rx="12" fill="#0b141d" stroke="#2a3d4c"/>
+      <text x="16" y="24" class="label" font-size="15">Panorama + Inspector</text>
+      <text x="16" y="42" class="small">typed lifecycle evidence</text>
+    </g>
+    <g transform="translate(20 232)">
+      <rect width="233" height="56" rx="12" fill="#0b141d" stroke="#2a3d4c"/>
+      <text x="16" y="24" class="label" font-size="15">Compare + Analysis</text>
+      <text x="16" y="42" class="small">capability-aware differences</text>
+    </g>
+    <g transform="translate(20 310)">
+      <rect width="233" height="54" rx="12" fill="#10222b" stroke="#2c6e67"/>
+      <text x="16" y="23" class="label" font-size="15">Optional OTLP export</text>
+      <text x="16" y="41" class="small">Grafana · Datadog · others</text>
+    </g>
+  </g>
+
+  <!-- Flow lines -->
+  <path d="M326 374H371" fill="none" stroke="#4fd6b5" stroke-width="2" marker-end="url(#arrow)" filter="url(#glow)"/>
+  <path d="M617 374H663" fill="none" stroke="#4fd6b5" stroke-width="2" marker-end="url(#arrow)" filter="url(#glow)"/>
+  <path d="M1054 374H1100" fill="none" stroke="#4fd6b5" stroke-width="2" marker-end="url(#arrow)" filter="url(#glow)"/>
+
+  <!-- Footer legend -->
+  <g transform="translate(56 625)">
+    <text x="0" y="18" class="eyebrow">EVIDENCE GRADES</text>
+    <circle cx="185" cy="13" r="6" fill="#51dfbd"/>
+    <text x="199" y="18" class="chip">Observed</text>
+    <rect x="281" y="7" width="12" height="12" transform="rotate(45 287 13)" fill="#6da8ff"/>
+    <text x="305" y="18" class="chip">Derived</text>
+    <rect x="380" y="7" width="12" height="12" transform="rotate(45 386 13)" fill="none" stroke="#d7a94c"/>
+    <text x="404" y="18" class="chip">Inferred</text>
+    <rect x="481" y="7" width="12" height="12" rx="2" fill="#b68cff"/>
+    <text x="505" y="18" class="chip">Experimental</text>
+    <text x="800" y="18" class="small">Local by default · no model proxy · no execution control</text>
+  </g>
+</svg>

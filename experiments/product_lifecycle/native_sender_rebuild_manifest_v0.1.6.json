@@ -1,0 +1,19 @@
+{
+  "schema_version": "sri.native-sender-rebuild-manifest.v1",
+  "repository": "hellogxp/skill-runtime-intelligence",
+  "tag": "v0.1.6",
+  "commit": "28f146c876a7d548cfaa5dd9ceee5c73ba9e163f",
+  "source_path": "src/skill_runtime_intelligence/native/hook_sender.c",
+  "source_sha256": "abb0091b3de08f87c3fad147381110672582f1956144463a3a6311f7a22fdea3",
+  "workflow_path": ".github/workflows/release.yml",
+  "workflow_sha256": "4be3f1566c506b2193e115a714f158771efcfd32c01bb17d816075b964ca2d26",
+  "build_flags": [
+    "-O2",
+    "-std=c99"
+  ],
+  "darwin_architectures": [
+    "x86_64",
+    "arm64"
+  ],
+  "evidence_grade": "Observed"
+}

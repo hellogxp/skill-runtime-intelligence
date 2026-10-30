@@ -1,0 +1,39 @@
+{
+  "schema_version": "sri.native-sender-launch-factor-manifest.v2",
+  "name": "native-sender-placement-signature-factorial",
+  "artifact": "skill-runtime-hook-native-darwin-arm64",
+  "release_manifest": "native_sender_manifest_v0.1.6.json",
+  "factors": {
+    "placement": [
+      "direct_copy",
+      "atomic_replace"
+    ],
+    "provenance": [
+      "preserved"
+    ],
+    "signature": [
+      "original_linker",
+      "adhoc_resigned"
+    ]
+  },
+  "excluded_factors": {
+    "provenance_removal": {
+      "reason": "v1 pilot deletion returned success but the attribute was present again before launch in 4/4 cells",
+      "pilot_status": "not_identifiable"
+    }
+  },
+  "repetitions_per_cell": 8,
+  "primary_endpoint": "missing_socket_launch_wall_ms",
+  "correctness_contract": {
+    "exit_code": 1,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0
+  },
+  "latency_gate": "descriptive_not_predeclared",
+  "analysis": [
+    "cell p50/p95/max",
+    "within-block marginal placement and signature deltas",
+    "factor-application audit"
+  ],
+  "evidence_grade": "Experimental"
+}

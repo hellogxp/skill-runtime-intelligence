@@ -1,0 +1,282 @@
+{
+  "schema_version": "sri.experiment.cross-model-guard-summary.v1",
+  "experiment": {
+    "name": "cross-model-semantic-guard-accuracy-cost-summary",
+    "evidence_grade": "derived",
+    "aggregation_policy": "retain per-corpus and per-direction latency; aggregate only counts, usage, and safety events",
+    "limitations": [
+      "All latency values are from concurrent multi-worker experiment runs, not controlled single-request production traffic.",
+      "Serial and parallel path latency values are arithmetic replays over observed calls; those schedules were not directly executed.",
+      "Reported token usage includes provider and CLI context beyond the visible claim prompt.",
+      "Prompt bytes are reconstructed minimum outbound payload sizes, not network-capture measurements.",
+      "The corpora are hand-authored and reuse two recorded model IDs."
+    ]
+  },
+  "metrics": {
+    "study_count": 3,
+    "unique_case_count": 44,
+    "structured_call_count": 88,
+    "additional_verifier_call_count": 44,
+    "combined_usage": {
+      "input": 800959,
+      "output": 1471,
+      "reasoning": 30187,
+      "total": 885353
+    },
+    "usage_by_model": {
+      "opencode/deepseek-v4-flash-free": {
+        "input": 424076,
+        "output": 717,
+        "reasoning": 3955,
+        "total": 428748
+      },
+      "opencode/mimo-v2.5-free": {
+        "input": 376883,
+        "output": 754,
+        "reasoning": 26232,
+        "total": 456605
+      }
+    },
+    "minimum_additional_prompt_bytes": 28682,
+    "baseline_false_allows": 1,
+    "baseline_false_denies": 0,
+    "hybrid_false_allows": 0,
+    "hybrid_false_denies": 0,
+    "semantic_disagreements": 6,
+    "exact_kind_consensus_false_denies": 4
+  },
+  "studies": [
+    {
+      "cross_model_report_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/cross-model-semantic-guard-challenge-20260731.json",
+      "cross_model_report_sha256": "482de2555e49fe7a877197aa1c3f9d6c140d4b09f1d5c4a6d8b8a23faa853a46",
+      "dataset_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/causal_claim_challenge_cases.jsonl",
+      "dataset_sha256": "ca863a3f2e6a18ce0fbdcca51a0708cc55fbcc5f6a9a25d48653c2a56b9f46ec",
+      "case_count": 16,
+      "recorded_models": [
+        "opencode/deepseek-v4-flash-free",
+        "opencode/mimo-v2.5-free"
+      ],
+      "structured_call_count": 32,
+      "baseline_single_model_call_count": 16,
+      "additional_verifier_call_count": 16,
+      "usage": {
+        "combined": {
+          "input": 291586,
+          "output": 539,
+          "reasoning": 11393,
+          "total": 322206
+        },
+        "by_model": [
+          {
+            "input": 154107,
+            "output": 262,
+            "reasoning": 1701,
+            "total": 156070
+          },
+          {
+            "input": 137479,
+            "output": 277,
+            "reasoning": 9692,
+            "total": 166136
+          }
+        ]
+      },
+      "minimum_claim_prompt_bytes": {
+        "one_model": 10217,
+        "two_models": 20434,
+        "additional_verifier": 10217
+      },
+      "observed_single_call_latency_p50_ms": 8424.04658349551,
+      "directions": [
+        {
+          "producer_model": "opencode/deepseek-v4-flash-free",
+          "verifier_model": "opencode/mimo-v2.5-free",
+          "observed_producer_latency_p50_ms": 5726.904187496984,
+          "observed_verifier_latency_p50_ms": 11549.400916992454,
+          "computed_serial_path_p50_ms": 17237.147729501885,
+          "computed_parallel_path_p50_ms": 11549.400916992454,
+          "computed_parallel_increment_p50_ms": 5249.379354492703,
+          "computed_parallel_increment_p95_ms": 26332.050135744794
+        },
+        {
+          "producer_model": "opencode/mimo-v2.5-free",
+          "verifier_model": "opencode/deepseek-v4-flash-free",
+          "observed_producer_latency_p50_ms": 11549.400916992454,
+          "observed_verifier_latency_p50_ms": 5726.904187496984,
+          "computed_serial_path_p50_ms": 17237.147729501885,
+          "computed_parallel_path_p50_ms": 11549.400916992454,
+          "computed_parallel_increment_p50_ms": 0.0,
+          "computed_parallel_increment_p95_ms": 181.10105200321414
+        }
+      ],
+      "guard_metrics": {
+        "direction_count": 2,
+        "baseline_false_allows": 1,
+        "baseline_false_denies": 0,
+        "hybrid_false_allows": 0,
+        "hybrid_false_denies": 0,
+        "semantic_disagreements": 2,
+        "exact_kind_consensus_false_allows": 0,
+        "exact_kind_consensus_false_denies": 0
+      }
+    },
+    {
+      "cross_model_report_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/cross-model-semantic-guard-holdout-v2-20260731.json",
+      "cross_model_report_sha256": "89af98693c3e93cb301544f110dcca8c70dfef67bbf09ca60fe86a6434a92005",
+      "dataset_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/causal_claim_holdout_v2.jsonl",
+      "dataset_sha256": "6d4231f0c22dd8392d8b6968603edda6f8a4cba87f51abee72ca8d0a8ba5b21e",
+      "case_count": 16,
+      "recorded_models": [
+        "opencode/deepseek-v4-flash-free",
+        "opencode/mimo-v2.5-free"
+      ],
+      "structured_call_count": 32,
+      "baseline_single_model_call_count": 16,
+      "additional_verifier_call_count": 16,
+      "usage": {
+        "combined": {
+          "input": 292402,
+          "output": 532,
+          "reasoning": 11632,
+          "total": 322486
+        },
+        "by_model": [
+          {
+            "input": 154179,
+            "output": 262,
+            "reasoning": 1415,
+            "total": 155856
+          },
+          {
+            "input": 138223,
+            "output": 270,
+            "reasoning": 10217,
+            "total": 166630
+          }
+        ]
+      },
+      "minimum_claim_prompt_bytes": {
+        "one_model": 10111,
+        "two_models": 20222,
+        "additional_verifier": 10111
+      },
+      "observed_single_call_latency_p50_ms": 11653.140396003437,
+      "directions": [
+        {
+          "producer_model": "opencode/deepseek-v4-flash-free",
+          "verifier_model": "opencode/mimo-v2.5-free",
+          "observed_producer_latency_p50_ms": 7392.622895997192,
+          "observed_verifier_latency_p50_ms": 19299.911791495106,
+          "computed_serial_path_p50_ms": 27043.494854493474,
+          "computed_parallel_path_p50_ms": 19299.911791495106,
+          "computed_parallel_increment_p50_ms": 10952.37854149309,
+          "computed_parallel_increment_p95_ms": 32581.38777050044
+        },
+        {
+          "producer_model": "opencode/mimo-v2.5-free",
+          "verifier_model": "opencode/deepseek-v4-flash-free",
+          "observed_producer_latency_p50_ms": 19299.911791495106,
+          "observed_verifier_latency_p50_ms": 7392.622895997192,
+          "computed_serial_path_p50_ms": 27043.494854493474,
+          "computed_parallel_path_p50_ms": 19299.911791495106,
+          "computed_parallel_increment_p50_ms": 0.0,
+          "computed_parallel_increment_p95_ms": 0.0
+        }
+      ],
+      "guard_metrics": {
+        "direction_count": 2,
+        "baseline_false_allows": 0,
+        "baseline_false_denies": 0,
+        "hybrid_false_allows": 0,
+        "hybrid_false_denies": 0,
+        "semantic_disagreements": 0,
+        "exact_kind_consensus_false_allows": 0,
+        "exact_kind_consensus_false_denies": 0
+      }
+    },
+    {
+      "cross_model_report_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/cross-model-semantic-guard-discourse-20260731.json",
+      "cross_model_report_sha256": "2b5778f1839cebfc2694290bd42818a30b0d060e0077351efe112f9e4fbdb130",
+      "dataset_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/causal_claim_discourse_holdout.jsonl",
+      "dataset_sha256": "4023ee26d4de86c39b5ca4e546a02f76f879c5bb59d34ccadfa3681f1299c709",
+      "case_count": 12,
+      "recorded_models": [
+        "opencode/deepseek-v4-flash-free",
+        "opencode/mimo-v2.5-free"
+      ],
+      "structured_call_count": 24,
+      "baseline_single_model_call_count": 12,
+      "additional_verifier_call_count": 12,
+      "usage": {
+        "combined": {
+          "input": 216971,
+          "output": 400,
+          "reasoning": 7162,
+          "total": 240661
+        },
+        "by_model": [
+          {
+            "input": 115790,
+            "output": 193,
+            "reasoning": 839,
+            "total": 116822
+          },
+          {
+            "input": 101181,
+            "output": 207,
+            "reasoning": 6323,
+            "total": 123839
+          }
+        ]
+      },
+      "minimum_claim_prompt_bytes": {
+        "one_model": 8354,
+        "two_models": 16708,
+        "additional_verifier": 8354
+      },
+      "observed_single_call_latency_p50_ms": 10944.535687005555,
+      "directions": [
+        {
+          "producer_model": "opencode/deepseek-v4-flash-free",
+          "verifier_model": "opencode/mimo-v2.5-free",
+          "observed_producer_latency_p50_ms": 7479.828395997174,
+          "observed_verifier_latency_p50_ms": 14725.959479503217,
+          "computed_serial_path_p50_ms": 23054.253937509202,
+          "computed_parallel_path_p50_ms": 14725.959479503217,
+          "computed_parallel_increment_p50_ms": 5832.625395501964,
+          "computed_parallel_increment_p95_ms": 26062.340418602245
+        },
+        {
+          "producer_model": "opencode/mimo-v2.5-free",
+          "verifier_model": "opencode/deepseek-v4-flash-free",
+          "observed_producer_latency_p50_ms": 14725.959479503217,
+          "observed_verifier_latency_p50_ms": 7479.828395997174,
+          "computed_serial_path_p50_ms": 23054.253937509202,
+          "computed_parallel_path_p50_ms": 14725.959479503217,
+          "computed_parallel_increment_p50_ms": 0.0,
+          "computed_parallel_increment_p95_ms": 0.0
+        }
+      ],
+      "guard_metrics": {
+        "direction_count": 2,
+        "baseline_false_allows": 0,
+        "baseline_false_denies": 0,
+        "hybrid_false_allows": 0,
+        "hybrid_false_denies": 0,
+        "semantic_disagreements": 4,
+        "exact_kind_consensus_false_allows": 0,
+        "exact_kind_consensus_false_denies": 4
+      }
+    }
+  ],
+  "created_at": "2026-07-31T06:28:33.690605+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

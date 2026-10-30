@@ -1,0 +1,508 @@
+{
+  "schema_version": "sri.experiment.fixed-epoch-rebuild.v1",
+  "experiment": {
+    "name": "fixed-epoch-sdist-rebuild-repeatability",
+    "evidence_grade": "Experimental",
+    "source_date_epoch": "315532800",
+    "build_repetitions": 3,
+    "build_network_disabled": true,
+    "build_isolation_disabled": true,
+    "live_database_used": false,
+    "row_level_records_included": false,
+    "limitations": [
+      "One local build toolchain and one fixed epoch are covered.",
+      "There is no randomized control, so causal attribution is not supported.",
+      "File-level drift is descriptive and excludes runtime behavior beyond the selected contract.",
+      "Published build-environment details are inferred only from wheel metadata."
+    ]
+  },
+  "environment": {
+    "platform_system": "Darwin",
+    "platform_machine": "arm64",
+    "python_version": "3.11.7",
+    "pip_version": "23.3.1",
+    "setuptools_version": "68.2.2",
+    "wheel_version": "0.41.2",
+    "logical_cpu_count": 12,
+    "load_average_1m": 10.72021484375,
+    "load_average_5m": 10.05322265625,
+    "load_average_15m": 8.322265625
+  },
+  "metrics": {
+    "version_pairs": 7,
+    "completed_pairs": 7,
+    "not_run_pairs": 0,
+    "passed_pairs": 7,
+    "failed_pairs": 0,
+    "fixed_epoch_repeatable_pairs": 7,
+    "contract_parity_pairs": 7,
+    "rebuilt_digest_matches_published_pairs": 0,
+    "total_only_published_files": 4,
+    "total_only_rebuilt_files": 4,
+    "total_differing_common_content_files": 21
+  },
+  "pairs": [
+    {
+      "version": "0.1.0",
+      "status": "completed",
+      "build_repetitions": 3,
+      "repeated_digest_match": true,
+      "rebuilt_matches_published_digest": false,
+      "contract_parity": true,
+      "published_header": {
+        "metadata_version": "2.4",
+        "wheel_generator": "setuptools (83.0.0)"
+      },
+      "rebuilt_header": {
+        "metadata_version": "2.1",
+        "wheel_generator": "bdist_wheel (0.41.2)"
+      },
+      "published_file_count": 35,
+      "rebuilt_file_count": 35,
+      "only_published_files": [],
+      "only_rebuilt_files": [],
+      "differing_common_content_files": [
+        "skill_runtime_intelligence-0.1.0.dist-info/METADATA",
+        "skill_runtime_intelligence-0.1.0.dist-info/RECORD",
+        "skill_runtime_intelligence-0.1.0.dist-info/WHEEL"
+      ],
+      "differing_common_zip_metadata_files": [
+        "skill_runtime_intelligence-0.1.0.dist-info/METADATA",
+        "skill_runtime_intelligence-0.1.0.dist-info/RECORD",
+        "skill_runtime_intelligence-0.1.0.dist-info/WHEEL",
+        "skill_runtime_intelligence-0.1.0.dist-info/entry_points.txt",
+        "skill_runtime_intelligence-0.1.0.dist-info/top_level.txt",
+        "skill_runtime_intelligence/__init__.py",
+        "skill_runtime_intelligence/__main__.py",
+        "skill_runtime_intelligence/adapters/__init__.py",
+        "skill_runtime_intelligence/adapters/codex.py",
+        "skill_runtime_intelligence/adapters/observability.py",
+        "skill_runtime_intelligence/cli.py",
+        "skill_runtime_intelligence/collector.py",
+        "skill_runtime_intelligence/config.py",
+        "skill_runtime_intelligence/diagnostics.py",
+        "skill_runtime_intelligence/discovery.py",
+        "skill_runtime_intelligence/event_queue.py",
+        "skill_runtime_intelligence/hook_adapter.py",
+        "skill_runtime_intelligence/hook_bridge.py",
+        "skill_runtime_intelligence/hook_cli.py",
+        "skill_runtime_intelligence/indexer.py",
+        "skill_runtime_intelligence/integrations.py",
+        "skill_runtime_intelligence/native/hook_sender.c",
+        "skill_runtime_intelligence/native_sender.py",
+        "skill_runtime_intelligence/otlp_exporter.py",
+        "skill_runtime_intelligence/redaction.py",
+        "skill_runtime_intelligence/runtime_diagnostics.py",
+        "skill_runtime_intelligence/runtime_manager.py",
+        "skill_runtime_intelligence/server.py",
+        "skill_runtime_intelligence/storage.py",
+        "skill_runtime_intelligence/web/__init__.py",
+        "skill_runtime_intelligence/web/app.js",
+        "skill_runtime_intelligence/web/i18n.js",
+        "skill_runtime_intelligence/web/index.html",
+        "skill_runtime_intelligence/web/locale-packs.js",
+        "skill_runtime_intelligence/web/styles.css"
+      ],
+      "passed": true
+    },
+    {
+      "version": "0.1.1",
+      "status": "completed",
+      "build_repetitions": 3,
+      "repeated_digest_match": true,
+      "rebuilt_matches_published_digest": false,
+      "contract_parity": true,
+      "published_header": {
+        "metadata_version": "2.4",
+        "wheel_generator": "setuptools (83.0.0)"
+      },
+      "rebuilt_header": {
+        "metadata_version": "2.1",
+        "wheel_generator": "bdist_wheel (0.41.2)"
+      },
+      "published_file_count": 35,
+      "rebuilt_file_count": 35,
+      "only_published_files": [],
+      "only_rebuilt_files": [],
+      "differing_common_content_files": [
+        "skill_runtime_intelligence-0.1.1.dist-info/METADATA",
+        "skill_runtime_intelligence-0.1.1.dist-info/RECORD",
+        "skill_runtime_intelligence-0.1.1.dist-info/WHEEL"
+      ],
+      "differing_common_zip_metadata_files": [
+        "skill_runtime_intelligence-0.1.1.dist-info/METADATA",
+        "skill_runtime_intelligence-0.1.1.dist-info/RECORD",
+        "skill_runtime_intelligence-0.1.1.dist-info/WHEEL",
+        "skill_runtime_intelligence-0.1.1.dist-info/entry_points.txt",
+        "skill_runtime_intelligence-0.1.1.dist-info/top_level.txt",
+        "skill_runtime_intelligence/__init__.py",
+        "skill_runtime_intelligence/__main__.py",
+        "skill_runtime_intelligence/adapters/__init__.py",
+        "skill_runtime_intelligence/adapters/codex.py",
+        "skill_runtime_intelligence/adapters/observability.py",
+        "skill_runtime_intelligence/cli.py",
+        "skill_runtime_intelligence/collector.py",
+        "skill_runtime_intelligence/config.py",
+        "skill_runtime_intelligence/diagnostics.py",
+        "skill_runtime_intelligence/discovery.py",
+        "skill_runtime_intelligence/event_queue.py",
+        "skill_runtime_intelligence/hook_adapter.py",
+        "skill_runtime_intelligence/hook_bridge.py",
+        "skill_runtime_intelligence/hook_cli.py",
+        "skill_runtime_intelligence/indexer.py",
+        "skill_runtime_intelligence/integrations.py",
+        "skill_runtime_intelligence/native/hook_sender.c",
+        "skill_runtime_intelligence/native_sender.py",
+        "skill_runtime_intelligence/otlp_exporter.py",
+        "skill_runtime_intelligence/redaction.py",
+        "skill_runtime_intelligence/runtime_diagnostics.py",
+        "skill_runtime_intelligence/runtime_manager.py",
+        "skill_runtime_intelligence/server.py",
+        "skill_runtime_intelligence/storage.py",
+        "skill_runtime_intelligence/web/__init__.py",
+        "skill_runtime_intelligence/web/app.js",
+        "skill_runtime_intelligence/web/i18n.js",
+        "skill_runtime_intelligence/web/index.html",
+        "skill_runtime_intelligence/web/locale-packs.js",
+        "skill_runtime_intelligence/web/styles.css"
+      ],
+      "passed": true
+    },
+    {
+      "version": "0.1.2",
+      "status": "completed",
+      "build_repetitions": 3,
+      "repeated_digest_match": true,
+      "rebuilt_matches_published_digest": false,
+      "contract_parity": true,
+      "published_header": {
+        "metadata_version": "2.4",
+        "wheel_generator": "setuptools (83.0.0)"
+      },
+      "rebuilt_header": {
+        "metadata_version": "2.1",
+        "wheel_generator": "bdist_wheel (0.41.2)"
+      },
+      "published_file_count": 35,
+      "rebuilt_file_count": 35,
+      "only_published_files": [],
+      "only_rebuilt_files": [],
+      "differing_common_content_files": [
+        "skill_runtime_intelligence-0.1.2.dist-info/METADATA",
+        "skill_runtime_intelligence-0.1.2.dist-info/RECORD",
+        "skill_runtime_intelligence-0.1.2.dist-info/WHEEL"
+      ],
+      "differing_common_zip_metadata_files": [
+        "skill_runtime_intelligence-0.1.2.dist-info/METADATA",
+        "skill_runtime_intelligence-0.1.2.dist-info/RECORD",
+        "skill_runtime_intelligence-0.1.2.dist-info/WHEEL",
+        "skill_runtime_intelligence-0.1.2.dist-info/entry_points.txt",
+        "skill_runtime_intelligence-0.1.2.dist-info/top_level.txt",
+        "skill_runtime_intelligence/__init__.py",
+        "skill_runtime_intelligence/__main__.py",
+        "skill_runtime_intelligence/adapters/__init__.py",
+        "skill_runtime_intelligence/adapters/codex.py",
+        "skill_runtime_intelligence/adapters/observability.py",
+        "skill_runtime_intelligence/cli.py",
+        "skill_runtime_intelligence/collector.py",
+        "skill_runtime_intelligence/config.py",
+        "skill_runtime_intelligence/diagnostics.py",
+        "skill_runtime_intelligence/discovery.py",
+        "skill_runtime_intelligence/event_queue.py",
+        "skill_runtime_intelligence/hook_adapter.py",
+        "skill_runtime_intelligence/hook_bridge.py",
+        "skill_runtime_intelligence/hook_cli.py",
+        "skill_runtime_intelligence/indexer.py",
+        "skill_runtime_intelligence/integrations.py",
+        "skill_runtime_intelligence/native/hook_sender.c",
+        "skill_runtime_intelligence/native_sender.py",
+        "skill_runtime_intelligence/otlp_exporter.py",
+        "skill_runtime_intelligence/redaction.py",
+        "skill_runtime_intelligence/runtime_diagnostics.py",
+        "skill_runtime_intelligence/runtime_manager.py",
+        "skill_runtime_intelligence/server.py",
+        "skill_runtime_intelligence/storage.py",
+        "skill_runtime_intelligence/web/__init__.py",
+        "skill_runtime_intelligence/web/app.js",
+        "skill_runtime_intelligence/web/i18n.js",
+        "skill_runtime_intelligence/web/index.html",
+        "skill_runtime_intelligence/web/locale-packs.js",
+        "skill_runtime_intelligence/web/styles.css"
+      ],
+      "passed": true
+    },
+    {
+      "version": "0.1.3",
+      "status": "completed",
+      "build_repetitions": 3,
+      "repeated_digest_match": true,
+      "rebuilt_matches_published_digest": false,
+      "contract_parity": true,
+      "published_header": {
+        "metadata_version": "2.4",
+        "wheel_generator": "setuptools (83.0.0)"
+      },
+      "rebuilt_header": {
+        "metadata_version": "2.1",
+        "wheel_generator": "bdist_wheel (0.41.2)"
+      },
+      "published_file_count": 36,
+      "rebuilt_file_count": 36,
+      "only_published_files": [
+        "skill_runtime_intelligence-0.1.3.dist-info/licenses/LICENSE"
+      ],
+      "only_rebuilt_files": [
+        "skill_runtime_intelligence-0.1.3.dist-info/LICENSE"
+      ],
+      "differing_common_content_files": [
+        "skill_runtime_intelligence-0.1.3.dist-info/METADATA",
+        "skill_runtime_intelligence-0.1.3.dist-info/RECORD",
+        "skill_runtime_intelligence-0.1.3.dist-info/WHEEL"
+      ],
+      "differing_common_zip_metadata_files": [
+        "skill_runtime_intelligence-0.1.3.dist-info/METADATA",
+        "skill_runtime_intelligence-0.1.3.dist-info/RECORD",
+        "skill_runtime_intelligence-0.1.3.dist-info/WHEEL",
+        "skill_runtime_intelligence-0.1.3.dist-info/entry_points.txt",
+        "skill_runtime_intelligence-0.1.3.dist-info/top_level.txt",
+        "skill_runtime_intelligence/__init__.py",
+        "skill_runtime_intelligence/__main__.py",
+        "skill_runtime_intelligence/adapters/__init__.py",
+        "skill_runtime_intelligence/adapters/codex.py",
+        "skill_runtime_intelligence/adapters/observability.py",
+        "skill_runtime_intelligence/cli.py",
+        "skill_runtime_intelligence/collector.py",
+        "skill_runtime_intelligence/config.py",
+        "skill_runtime_intelligence/diagnostics.py",
+        "skill_runtime_intelligence/discovery.py",
+        "skill_runtime_intelligence/event_queue.py",
+        "skill_runtime_intelligence/hook_adapter.py",
+        "skill_runtime_intelligence/hook_bridge.py",
+        "skill_runtime_intelligence/hook_cli.py",
+        "skill_runtime_intelligence/indexer.py",
+        "skill_runtime_intelligence/integrations.py",
+        "skill_runtime_intelligence/native/hook_sender.c",
+        "skill_runtime_intelligence/native_sender.py",
+        "skill_runtime_intelligence/otlp_exporter.py",
+        "skill_runtime_intelligence/redaction.py",
+        "skill_runtime_intelligence/runtime_diagnostics.py",
+        "skill_runtime_intelligence/runtime_manager.py",
+        "skill_runtime_intelligence/server.py",
+        "skill_runtime_intelligence/storage.py",
+        "skill_runtime_intelligence/web/__init__.py",
+        "skill_runtime_intelligence/web/app.js",
+        "skill_runtime_intelligence/web/i18n.js",
+        "skill_runtime_intelligence/web/index.html",
+        "skill_runtime_intelligence/web/locale-packs.js",
+        "skill_runtime_intelligence/web/styles.css"
+      ],
+      "passed": true
+    },
+    {
+      "version": "0.1.4",
+      "status": "completed",
+      "build_repetitions": 3,
+      "repeated_digest_match": true,
+      "rebuilt_matches_published_digest": false,
+      "contract_parity": true,
+      "published_header": {
+        "metadata_version": "2.4",
+        "wheel_generator": "setuptools (83.0.0)"
+      },
+      "rebuilt_header": {
+        "metadata_version": "2.1",
+        "wheel_generator": "bdist_wheel (0.41.2)"
+      },
+      "published_file_count": 36,
+      "rebuilt_file_count": 36,
+      "only_published_files": [
+        "skill_runtime_intelligence-0.1.4.dist-info/licenses/LICENSE"
+      ],
+      "only_rebuilt_files": [
+        "skill_runtime_intelligence-0.1.4.dist-info/LICENSE"
+      ],
+      "differing_common_content_files": [
+        "skill_runtime_intelligence-0.1.4.dist-info/METADATA",
+        "skill_runtime_intelligence-0.1.4.dist-info/RECORD",
+        "skill_runtime_intelligence-0.1.4.dist-info/WHEEL"
+      ],
+      "differing_common_zip_metadata_files": [
+        "skill_runtime_intelligence-0.1.4.dist-info/METADATA",
+        "skill_runtime_intelligence-0.1.4.dist-info/RECORD",
+        "skill_runtime_intelligence-0.1.4.dist-info/WHEEL",
+        "skill_runtime_intelligence-0.1.4.dist-info/entry_points.txt",
+        "skill_runtime_intelligence-0.1.4.dist-info/top_level.txt",
+        "skill_runtime_intelligence/__init__.py",
+        "skill_runtime_intelligence/__main__.py",
+        "skill_runtime_intelligence/adapters/__init__.py",
+        "skill_runtime_intelligence/adapters/codex.py",
+        "skill_runtime_intelligence/adapters/observability.py",
+        "skill_runtime_intelligence/cli.py",
+        "skill_runtime_intelligence/collector.py",
+        "skill_runtime_intelligence/config.py",
+        "skill_runtime_intelligence/diagnostics.py",
+        "skill_runtime_intelligence/discovery.py",
+        "skill_runtime_intelligence/event_queue.py",
+        "skill_runtime_intelligence/hook_adapter.py",
+        "skill_runtime_intelligence/hook_bridge.py",
+        "skill_runtime_intelligence/hook_cli.py",
+        "skill_runtime_intelligence/indexer.py",
+        "skill_runtime_intelligence/integrations.py",
+        "skill_runtime_intelligence/native/hook_sender.c",
+        "skill_runtime_intelligence/native_sender.py",
+        "skill_runtime_intelligence/otlp_exporter.py",
+        "skill_runtime_intelligence/redaction.py",
+        "skill_runtime_intelligence/runtime_diagnostics.py",
+        "skill_runtime_intelligence/runtime_manager.py",
+        "skill_runtime_intelligence/server.py",
+        "skill_runtime_intelligence/storage.py",
+        "skill_runtime_intelligence/web/__init__.py",
+        "skill_runtime_intelligence/web/app.js",
+        "skill_runtime_intelligence/web/i18n.js",
+        "skill_runtime_intelligence/web/index.html",
+        "skill_runtime_intelligence/web/locale-packs.js",
+        "skill_runtime_intelligence/web/styles.css"
+      ],
+      "passed": true
+    },
+    {
+      "version": "0.1.5",
+      "status": "completed",
+      "build_repetitions": 3,
+      "repeated_digest_match": true,
+      "rebuilt_matches_published_digest": false,
+      "contract_parity": true,
+      "published_header": {
+        "metadata_version": "2.4",
+        "wheel_generator": "setuptools (83.0.0)"
+      },
+      "rebuilt_header": {
+        "metadata_version": "2.1",
+        "wheel_generator": "bdist_wheel (0.41.2)"
+      },
+      "published_file_count": 36,
+      "rebuilt_file_count": 36,
+      "only_published_files": [
+        "skill_runtime_intelligence-0.1.5.dist-info/licenses/LICENSE"
+      ],
+      "only_rebuilt_files": [
+        "skill_runtime_intelligence-0.1.5.dist-info/LICENSE"
+      ],
+      "differing_common_content_files": [
+        "skill_runtime_intelligence-0.1.5.dist-info/METADATA",
+        "skill_runtime_intelligence-0.1.5.dist-info/RECORD",
+        "skill_runtime_intelligence-0.1.5.dist-info/WHEEL"
+      ],
+      "differing_common_zip_metadata_files": [
+        "skill_runtime_intelligence-0.1.5.dist-info/METADATA",
+        "skill_runtime_intelligence-0.1.5.dist-info/RECORD",
+        "skill_runtime_intelligence-0.1.5.dist-info/WHEEL",
+        "skill_runtime_intelligence-0.1.5.dist-info/entry_points.txt",
+        "skill_runtime_intelligence-0.1.5.dist-info/top_level.txt",
+        "skill_runtime_intelligence/__init__.py",
+        "skill_runtime_intelligence/__main__.py",
+        "skill_runtime_intelligence/adapters/__init__.py",
+        "skill_runtime_intelligence/adapters/codex.py",
+        "skill_runtime_intelligence/adapters/observability.py",
+        "skill_runtime_intelligence/cli.py",
+        "skill_runtime_intelligence/collector.py",
+        "skill_runtime_intelligence/config.py",
+        "skill_runtime_intelligence/diagnostics.py",
+        "skill_runtime_intelligence/discovery.py",
+        "skill_runtime_intelligence/event_queue.py",
+        "skill_runtime_intelligence/hook_adapter.py",
+        "skill_runtime_intelligence/hook_bridge.py",
+        "skill_runtime_intelligence/hook_cli.py",
+        "skill_runtime_intelligence/indexer.py",
+        "skill_runtime_intelligence/integrations.py",
+        "skill_runtime_intelligence/native/hook_sender.c",
+        "skill_runtime_intelligence/native_sender.py",
+        "skill_runtime_intelligence/otlp_exporter.py",
+        "skill_runtime_intelligence/redaction.py",
+        "skill_runtime_intelligence/runtime_diagnostics.py",
+        "skill_runtime_intelligence/runtime_manager.py",
+        "skill_runtime_intelligence/server.py",
+        "skill_runtime_intelligence/storage.py",
+        "skill_runtime_intelligence/web/__init__.py",
+        "skill_runtime_intelligence/web/app.js",
+        "skill_runtime_intelligence/web/i18n.js",
+        "skill_runtime_intelligence/web/index.html",
+        "skill_runtime_intelligence/web/locale-packs.js",
+        "skill_runtime_intelligence/web/styles.css"
+      ],
+      "passed": true
+    },
+    {
+      "version": "0.1.6",
+      "status": "completed",
+      "build_repetitions": 3,
+      "repeated_digest_match": true,
+      "rebuilt_matches_published_digest": false,
+      "contract_parity": true,
+      "published_header": {
+        "metadata_version": "2.4",
+        "wheel_generator": "setuptools (83.0.0)"
+      },
+      "rebuilt_header": {
+        "metadata_version": "2.1",
+        "wheel_generator": "bdist_wheel (0.41.2)"
+      },
+      "published_file_count": 36,
+      "rebuilt_file_count": 36,
+      "only_published_files": [
+        "skill_runtime_intelligence-0.1.6.dist-info/licenses/LICENSE"
+      ],
+      "only_rebuilt_files": [
+        "skill_runtime_intelligence-0.1.6.dist-info/LICENSE"
+      ],
+      "differing_common_content_files": [
+        "skill_runtime_intelligence-0.1.6.dist-info/METADATA",
+        "skill_runtime_intelligence-0.1.6.dist-info/RECORD",
+        "skill_runtime_intelligence-0.1.6.dist-info/WHEEL"
+      ],
+      "differing_common_zip_metadata_files": [
+        "skill_runtime_intelligence-0.1.6.dist-info/METADATA",
+        "skill_runtime_intelligence-0.1.6.dist-info/RECORD",
+        "skill_runtime_intelligence-0.1.6.dist-info/WHEEL",
+        "skill_runtime_intelligence-0.1.6.dist-info/entry_points.txt",
+        "skill_runtime_intelligence-0.1.6.dist-info/top_level.txt",
+        "skill_runtime_intelligence/__init__.py",
+        "skill_runtime_intelligence/__main__.py",
+        "skill_runtime_intelligence/adapters/__init__.py",
+        "skill_runtime_intelligence/adapters/codex.py",
+        "skill_runtime_intelligence/adapters/observability.py",
+        "skill_runtime_intelligence/cli.py",
+        "skill_runtime_intelligence/collector.py",
+        "skill_runtime_intelligence/config.py",
+        "skill_runtime_intelligence/diagnostics.py",
+        "skill_runtime_intelligence/discovery.py",
+        "skill_runtime_intelligence/event_queue.py",
+        "skill_runtime_intelligence/hook_adapter.py",
+        "skill_runtime_intelligence/hook_bridge.py",
+        "skill_runtime_intelligence/hook_cli.py",
+        "skill_runtime_intelligence/indexer.py",
+        "skill_runtime_intelligence/integrations.py",
+        "skill_runtime_intelligence/native/hook_sender.c",
+        "skill_runtime_intelligence/native_sender.py",
+        "skill_runtime_intelligence/otlp_exporter.py",
+        "skill_runtime_intelligence/redaction.py",
+        "skill_runtime_intelligence/runtime_diagnostics.py",
+        "skill_runtime_intelligence/runtime_manager.py",
+        "skill_runtime_intelligence/server.py",
+        "skill_runtime_intelligence/storage.py",
+        "skill_runtime_intelligence/web/__init__.py",
+        "skill_runtime_intelligence/web/app.js",
+        "skill_runtime_intelligence/web/i18n.js",
+        "skill_runtime_intelligence/web/index.html",
+        "skill_runtime_intelligence/web/locale-packs.js",
+        "skill_runtime_intelligence/web/styles.css"
+      ],
+      "passed": true
+    }
+  ],
+  "gate": {
+    "name": "fixed-epoch rebuilds repeat and preserve selected contracts",
+    "passed": true
+  },
+  "created_at": "2026-07-30T11:15:51.186810+00:00"
+}

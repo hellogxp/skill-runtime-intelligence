@@ -1,0 +1,202 @@
+{
+  "schema_version": "sri.experiment.live-agent.cross-agent-cli.v1",
+  "experiment": {
+    "name": "cross-agent-same-skill-black-box-cli-pilot",
+    "evidence_grade": "Experimental",
+    "design": "installed Agent systems, same task and fixture, isolated workspaces, hidden deterministic verifier",
+    "agent_versions": {
+      "codex": "codex-cli 0.145.0"
+    },
+    "models": {
+      "codex": "gpt-5.6-sol"
+    },
+    "task_sha256": "94bca5b0a0309cb6596a2ea70c9dce702807f435b4cd1dd53d109eba59faea45",
+    "skill_sha256": "0df4598647f79d3553786cadbaecfb377cbddb079760881e975a8e9e458018ec",
+    "limitations": [
+      "This compares installed Agent systems, not isolated model or scaffold effects.",
+      "Four deterministic trials per Agent are a mechanism pilot, not a population estimate.",
+      "Different Agent products use different configured model families and runtime context.",
+      "Collector deltas establish observed ingestion counts, not exact task-level pairing."
+    ]
+  },
+  "metrics": {
+    "planned_calls": 4,
+    "completed_calls": 4,
+    "verified_outcomes": 4,
+    "workload_mutations": 0,
+    "runtime_metadata_mutations": 0,
+    "per_agent": {
+      "codex": {
+        "planned": 4,
+        "completed": 4,
+        "verified_outcomes": 4,
+        "workload_mutations": 0,
+        "runtime_metadata_mutations": 0,
+        "process_failures": 0,
+        "precondition_failures": 0,
+        "invalid_responses": 0,
+        "wall_p50_ms": 40609.92910400091,
+        "wall_p95_ms": 45315.82620799454
+      }
+    },
+    "collector_before": {
+      "codex": {
+        "sessions": 196,
+        "skill_runs": 426,
+        "events": 61464
+      },
+      "opencode": {
+        "sessions": 37,
+        "skill_runs": 32,
+        "events": 229
+      },
+      "qoder": {
+        "sessions": 16,
+        "skill_runs": 1,
+        "events": 353
+      }
+    },
+    "collector_after": {
+      "codex": {
+        "sessions": 200,
+        "skill_runs": 426,
+        "events": 61520
+      },
+      "opencode": {
+        "sessions": 39,
+        "skill_runs": 34,
+        "events": 240
+      },
+      "qoder": {
+        "sessions": 16,
+        "skill_runs": 1,
+        "events": 353
+      }
+    },
+    "collector_deltas": {
+      "codex": {
+        "sessions": 4,
+        "skill_runs": 0,
+        "events": 56
+      },
+      "opencode": {
+        "sessions": 2,
+        "skill_runs": 2,
+        "events": 11
+      },
+      "qoder": {
+        "sessions": 0,
+        "skill_runs": 0,
+        "events": 0
+      }
+    }
+  },
+  "trials": [
+    {
+      "agent": "codex",
+      "trial": 1,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 40267.8151250002,
+      "outcome_verified": true,
+      "workload_unchanged": true,
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "session_id_sha256": "a1d0e6e2e26ff2cdc9e1aded2548658831ca8a6bdf40fb5fb4c3f3ffb70610c3",
+      "response_sha256": "134c45121e43abf7db59283fea28b14e10a14ca5f6f5ce196cb8261381c79fa8",
+      "stderr_sha256": "0fc8c4ea14059d3229b85a5db6c72a194d1b9d454736f07b144966bd36479101",
+      "usage": {
+        "input_tokens": 50311,
+        "cached_input_tokens": 38144,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 305,
+        "reasoning_output_tokens": 31
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 2,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 32974.63287500432,
+      "outcome_verified": true,
+      "workload_unchanged": true,
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "session_id_sha256": "524ad487c985dfd0d33b78a8c41b8b5946865b15a4757c0a465a5ac5aed8e7c1",
+      "response_sha256": "134c45121e43abf7db59283fea28b14e10a14ca5f6f5ce196cb8261381c79fa8",
+      "stderr_sha256": "9d0ff227b25f0590ed982ee601795f0812a8fb2fd40c9115a1561f363f3611a5",
+      "usage": {
+        "input_tokens": 50249,
+        "cached_input_tokens": 43264,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 319,
+        "reasoning_output_tokens": 21
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 3,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 46085.90558299329,
+      "outcome_verified": true,
+      "workload_unchanged": true,
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "session_id_sha256": "1811a766477a0c3fca1c6fd5d850076026e4a888361301c90a94144cdc394f14",
+      "response_sha256": "134c45121e43abf7db59283fea28b14e10a14ca5f6f5ce196cb8261381c79fa8",
+      "stderr_sha256": "30ddd68fb3a30b3508bd4fd9ea4cedd1fdc92e92d767a61a961fdc5cc2c04e27",
+      "usage": {
+        "input_tokens": 50259,
+        "cached_input_tokens": 43264,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 335,
+        "reasoning_output_tokens": 9
+      }
+    },
+    {
+      "agent": "codex",
+      "trial": 4,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 40952.04308300163,
+      "outcome_verified": true,
+      "workload_unchanged": true,
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "session_id_sha256": "37e1554c67f6c16f94c69d71fd19a23d2d4c6a699413eb8439c3882df4268ff0",
+      "response_sha256": "134c45121e43abf7db59283fea28b14e10a14ca5f6f5ce196cb8261381c79fa8",
+      "stderr_sha256": "dbdf255b1cde05610acc5989f574f4ce3c03f6ef4e9c8e612c5dd29c600f6613",
+      "usage": {
+        "input_tokens": 50234,
+        "cached_input_tokens": 43264,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 308,
+        "reasoning_output_tokens": 9
+      }
+    }
+  ],
+  "gate": {
+    "name": "codex deterministic outcome and workload-integrity",
+    "passed": true
+  },
+  "created_at": "2026-07-31T18:46:41.912039+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "250fb9c5ab070e0c8a19d59f0e630f8fdefe2531",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

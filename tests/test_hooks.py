@@ -1,0 +1,1387 @@
+import json
+import os
+import subprocess
+import sys
+import tempfile
+import time
+import unittest
+import socket
+import platform
+import shutil
+from pathlib import Path
+
+from skill_runtime_intelligence.event_queue import (
+    deliver_or_queue,
+    drain_event_queue,
+)
+from skill_runtime_intelligence.collector import normalize_collector_payload
+from skill_runtime_intelligence.hook_adapter import (
+    build_claude_hook_envelopes,
+    build_codex_hook_envelopes,
+    build_opencode_hook_envelopes,
+    build_qoder_hook_envelopes,
+    build_qoderwork_hook_envelopes,
+    build_qwenworkcn_hook_envelopes,
+)
+from skill_runtime_intelligence.hook_bridge import (
+    SAFE_UNIX_SOCKET_PATH_BYTES,
+    HookBridge,
+    default_hook_socket,
+)
+from skill_runtime_intelligence.integrations import (
+    MANAGED_CLAUDE_EVENTS,
+    MANAGED_CODEX_EVENTS,
+    MANAGED_QODER_EVENTS,
+    MANAGED_QODERWORK_EVENTS,
+    MANAGED_QWENWORKCN_EVENTS,
+    enable_claude_hooks,
+    enable_codex_hooks,
+    enable_opencode_plugin,
+    enable_qoder_hooks,
+    enable_qoderwork_hooks,
+    enable_qwenworkcn_hooks,
+    inspect_claude_integration,
+    inspect_codex_integration,
+    inspect_opencode_integration,
+    inspect_qoder_integration,
+    inspect_qoderwork_integration,
+    inspect_qwenworkcn_integration,
+    remove_claude_hooks,
+    remove_codex_hooks,
+    remove_opencode_plugin,
+    remove_qoder_hooks,
+    remove_qoderwork_hooks,
+    remove_qwenworkcn_hooks,
+)
+from skill_runtime_intelligence.native_sender import (
+    build_native_hook_sender,
+    install_native_hook_sender,
+)
+from skill_runtime_intelligence.storage import Storage
+
+
+class HookAdapterTests(unittest.TestCase):
+    def test_long_state_root_uses_a_short_stable_socket_path(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / ("nested-" + "x" * 120)
+            first = default_hook_socket(root)
+            second = default_hook_socket(root)
+            self.assertEqual(first, second)
+            self.assertLessEqual(
+                len(os.fsencode(str(first))),
+                SAFE_UNIX_SOCKET_PATH_BYTES,
+            )
+            self.assertNotEqual(first, root / "run" / "hook.sock")
+            bridge = HookBridge(
+                Path(directory) / "panorama.db",
+                socket_path=first,
+            ).start()
+            self.assertTrue(first.is_socket())
+            bridge.close()
+            self.assertFalse(first.exists())
+            self.assertFalse(first.parent.exists())
+
+    def test_native_sender_install_prewarms_against_a_missing_socket(self):
+        with tempfile.TemporaryDirectory() as directory:
+            state_root = (
+                Path(directory)
+                / ("state-" + ("long-" * 24))
+                / ("nested-" + ("path-" * 12))
+            )
+            result = install_native_hook_sender(
+                state_root,
+                download_first=False,
+            )
+            if not result["available"]:
+                self.skipTest(result["reason"])
+            self.assertTrue(result["prewarm"]["attempted"])
+            self.assertTrue(result["prewarm"]["passed"])
+            self.assertEqual(result["prewarm"]["exit_code"], 1)
+            self.assertEqual(result["prewarm"]["stdout_bytes"], 0)
+            self.assertEqual(result["prewarm"]["stderr_bytes"], 0)
+
+    def test_skill_tool_hooks_create_correlated_minimal_events(self):
+        payload = {
+            "session_id": "session-1",
+            "turn_id": "turn-1",
+            "tool_name": "Skill",
+            "tool_use_id": "call-1",
+            "tool_input": {
+                "skill": "pdf",
+                "access_token": "must-not-leak",
+            },
+            "cwd": "/tmp/project",
+        }
+        started = build_codex_hook_envelopes("PreToolUse", payload)
+        completed = build_codex_hook_envelopes("PostToolUse", payload)
+
+        self.assertEqual(started[0]["event_type"], "skill.activated")
+        self.assertEqual(completed[0]["event_type"], "skill.activation_completed")
+        self.assertEqual(completed[0]["parent_event_id"], started[0]["event_id"])
+        serialized = json.dumps([started, completed], ensure_ascii=False)
+        self.assertNotIn("must-not-leak", serialized)
+        self.assertEqual(started[0]["source"]["collection_mode"], "official_hook")
+
+    def test_successful_skill_instruction_access_opens_realtime_scope(self):
+        secret = "secret-that-must-not-be-persisted"
+        path = "/tmp/.codex/skills/pdf/SKILL.md"
+        envelopes = build_codex_hook_envelopes(
+            "PostToolUse",
+            {
+                "session_id": "session-instruction",
+                "turn_id": "turn-instruction",
+                "tool_name": "Bash",
+                "tool_use_id": "call-instruction",
+                "tool_input": {
+                    "cmd": f"sed -n '1,240p' {path} && echo {secret}"
+                },
+                "cwd": "/tmp",
+            },
+        )
+        self.assertEqual(
+            [item["event_type"] for item in envelopes],
+            ["tool.completed", "instruction.loaded"],
+        )
+        instruction = envelopes[1]
+        self.assertEqual(instruction["skill"]["name"], "pdf")
+        self.assertEqual(instruction["skill"]["source_path"], str(Path(path).resolve()))
+        self.assertEqual(instruction["activation_mode"], "instruction_access")
+        self.assertEqual(instruction["evidence"]["grade"], "derived")
+        serialized = json.dumps(envelopes, ensure_ascii=False)
+        self.assertNotIn(secret, serialized)
+        self.assertNotIn("sed -n", serialized)
+
+    def test_skill_resource_access_is_derived_without_raw_command(self):
+        path = "/tmp/.codex/skills/pdf/scripts/render.py"
+        envelopes = build_codex_hook_envelopes(
+            "PostToolUse",
+            {
+                "session_id": "session-resource",
+                "turn_id": "turn-resource",
+                "tool_name": "Bash",
+                "tool_use_id": "call-resource",
+                "tool_input": {
+                    "cmd": f"python3 {path} --token must-not-leak",
+                },
+                "cwd": "/tmp",
+            },
+        )
+        self.assertEqual(
+            [item["event_type"] for item in envelopes],
+            ["tool.completed", "resource.executed"],
+        )
+        resource = envelopes[1]
+        self.assertEqual(resource["skill"]["name"], "pdf")
+        self.assertEqual(resource["activation_mode"], "resource_access")
+        self.assertEqual(resource["payload"]["resource_kind"], "scripts")
+        self.assertEqual(resource["payload"]["file_path"], str(Path(path).resolve()))
+        serialized = json.dumps(envelopes, ensure_ascii=False)
+        self.assertNotIn("must-not-leak", serialized)
+        self.assertNotIn("python3", serialized)
+
+    def test_root_level_skill_resource_access_identifies_the_skill(self):
+        path = "/tmp/.agents/skills/hologres-code-search/product-profile.md"
+        envelopes = build_opencode_hook_envelopes(
+            "PostToolUse",
+            {
+                "session_id": "opencode-root-resource",
+                "turn_id": "turn-root-resource",
+                "tool_name": "read",
+                "tool_use_id": "read-root-resource",
+                "tool_input": {"file_path": path},
+                "cwd": "/tmp/project",
+            },
+        )
+
+        self.assertEqual(
+            [item["event_type"] for item in envelopes],
+            ["tool.completed", "resource.read"],
+        )
+        resource = envelopes[1]
+        self.assertEqual(resource["skill"]["name"], "hologres-code-search")
+        self.assertEqual(resource["payload"]["resource_kind"], "other")
+        self.assertEqual(resource["payload"]["file_path"], str(Path(path).resolve()))
+
+    def test_relative_agents_skill_resource_is_resolved_from_hook_cwd(self):
+        envelopes = build_codex_hook_envelopes(
+            "PostToolUse",
+            {
+                "session_id": "session-relative-resource",
+                "turn_id": "turn-relative-resource",
+                "tool_name": "Bash",
+                "tool_use_id": "call-relative-resource",
+                "tool_input": {
+                    "command": (
+                        "python3 "
+                        ".agents/skills/checksum-skill/scripts/verify.py"
+                    ),
+                },
+                "cwd": "/tmp/project",
+            },
+        )
+        self.assertEqual(
+            [item["event_type"] for item in envelopes],
+            ["tool.completed", "resource.executed"],
+        )
+        self.assertEqual(
+            envelopes[1]["payload"]["file_path"],
+            str(
+                Path(
+                    "/tmp/project/.agents/skills/checksum-skill/scripts/verify.py"
+                ).resolve()
+            ),
+        )
+
+    def test_apply_patch_emits_each_changed_path_without_patch_content(self):
+        envelopes = build_codex_hook_envelopes(
+            "PostToolUse",
+            {
+                "session_id": "session-patch",
+                "turn_id": "turn-patch",
+                "tool_name": "apply_patch",
+                "tool_use_id": "call-patch",
+                "tool_input": {
+                    "patch": (
+                        "*** Begin Patch\n"
+                        "*** Update File: src/one.py\n"
+                        "@@\n"
+                        "+must-not-leak\n"
+                        "*** Add File: src/two.py\n"
+                        "+must-not-leak\n"
+                        "*** End Patch\n"
+                    )
+                },
+                "cwd": "/tmp/project",
+            },
+        )
+        self.assertEqual(
+            [item["event_type"] for item in envelopes],
+            ["tool.completed", "file.modified", "file.modified"],
+        )
+        self.assertEqual(
+            [item["payload"]["file_path"] for item in envelopes[1:]],
+            [
+                str(Path("/tmp/project/src/one.py").resolve()),
+                str(Path("/tmp/project/src/two.py").resolve()),
+            ],
+        )
+        self.assertNotIn(
+            "must-not-leak", json.dumps(envelopes, ensure_ascii=False)
+        )
+
+    def test_hook_without_session_identity_is_ignored(self):
+        self.assertEqual(
+            build_codex_hook_envelopes(
+                "PreToolUse", {"tool_name": "Skill", "tool_input": {"skill": "pdf"}}
+            ),
+            [],
+        )
+
+    def test_tool_call_identity_is_scoped_to_agent_session(self):
+        first = build_codex_hook_envelopes(
+            "PreToolUse",
+            {
+                "session_id": "session-a",
+                "tool_name": "Skill",
+                "tool_use_id": "call-1",
+                "tool_input": {"skill": "pdf"},
+            },
+        )
+        second = build_codex_hook_envelopes(
+            "PreToolUse",
+            {
+                "session_id": "session-b",
+                "tool_name": "Skill",
+                "tool_use_id": "call-1",
+                "tool_input": {"skill": "pdf"},
+            },
+        )
+        self.assertNotEqual(first[0]["event_id"], second[0]["event_id"])
+
+    def test_claude_explicit_and_slash_skill_activation_are_observed(self):
+        explicit = build_claude_hook_envelopes(
+            "PreToolUse",
+            {
+                "session_id": "claude-1",
+                "tool_name": "Skill",
+                "tool_use_id": "skill-call-1",
+                "tool_input": {"skill": "pdf", "token": "must-not-leak"},
+            },
+        )
+        slash = build_claude_hook_envelopes(
+            "UserPromptExpansion",
+            {
+                "session_id": "claude-2",
+                "expansion_type": "slash_command",
+                "command_name": "pdf",
+            },
+        )
+
+        self.assertEqual(explicit[0]["event_type"], "skill.activated")
+        self.assertEqual(explicit[0]["source"]["adapter"], "claude-code")
+        self.assertEqual(explicit[0]["activation_mode"], "explicit_tool")
+        self.assertEqual(slash[0]["event_type"], "skill.activated")
+        self.assertEqual(slash[0]["activation_mode"], "slash_command")
+        self.assertNotIn(
+            "must-not-leak", json.dumps(explicit, ensure_ascii=False)
+        )
+
+    def test_claude_instruction_signal_uses_instruction_evidence_mode(self):
+        envelopes = build_claude_hook_envelopes(
+            "InstructionsLoaded",
+            {
+                "session_id": "claude-instructions",
+                "skill_name": "paper-review",
+                "file_path": "/tmp/.agents/skills/paper-review/SKILL.md",
+            },
+        )
+        self.assertEqual(envelopes[0]["event_type"], "instruction.loaded")
+        self.assertEqual(
+            envelopes[0]["activation_mode"], "instruction_evidence"
+        )
+        self.assertEqual(
+            envelopes[0]["skill"]["source_path"],
+            "/tmp/.agents/skills/paper-review/SKILL.md",
+        )
+
+    def test_qoder_skill_hook_uses_the_shared_minimal_event_model(self):
+        envelopes = build_qoder_hook_envelopes(
+            "PreToolUse",
+            {
+                "session_id": "qoder-session",
+                "tool_name": "Skill",
+                "tool_use_id": "qoder-call",
+                "tool_input": {
+                    "name": "pdf",
+                    "secret": "must-not-leak",
+                },
+                "transcript_path": "/private/qoder/transcript.jsonl",
+            },
+        )
+        self.assertEqual(envelopes[0]["event_type"], "skill.activated")
+        self.assertEqual(envelopes[0]["source"]["adapter"], "qoder")
+        self.assertEqual(envelopes[0]["skill"]["name"], "pdf")
+        serialized = json.dumps(envelopes, ensure_ascii=False)
+        self.assertNotIn("must-not-leak", serialized)
+        self.assertNotIn("transcript.jsonl", serialized)
+
+    def test_structured_ui_selection_preserves_request_and_activation(self):
+        builders = (
+            build_codex_hook_envelopes,
+            build_claude_hook_envelopes,
+            build_qoder_hook_envelopes,
+            build_opencode_hook_envelopes,
+        )
+        for builder in builders:
+            with self.subTest(builder=builder.__name__):
+                envelopes = builder(
+                    "UserPromptSubmit",
+                    {
+                        "session_id": f"session-{builder.__name__}",
+                        "turn_id": "turn-ui",
+                        "selected_skill": {
+                            "name": "paper-review",
+                            "file_path": "/tmp/.agents/skills/paper-review/SKILL.md",
+                            "private_prompt": "must-not-leak",
+                        },
+                    },
+                )
+                self.assertEqual(
+                    [item["event_type"] for item in envelopes],
+                    ["turn.started", "skill.activated"],
+                )
+                self.assertNotIn("skill", envelopes[0])
+                self.assertEqual(
+                    envelopes[1]["activation_mode"], "ui_selection"
+                )
+                self.assertEqual(
+                    envelopes[1]["skill"]["name"], "paper-review"
+                )
+                self.assertNotIn(
+                    "must-not-leak", json.dumps(envelopes, ensure_ascii=False)
+                )
+
+    def test_qoder_ui_skill_selection_is_read_from_structured_transcript_tail(self):
+        with tempfile.TemporaryDirectory() as directory:
+            transcript = (
+                Path(directory)
+                / ".qoder"
+                / "projects"
+                / "demo"
+                / "transcript"
+                / "qoder-session.jsonl"
+            )
+            transcript.parent.mkdir(parents=True)
+            records = [
+                {
+                    "uuid": "selection-record",
+                    "sessionId": "qoder-session",
+                    "timestamp": "2026-08-02T10:24:40.242846Z",
+                    "type": "session_meta",
+                    "data": {
+                        "meta_type": "slash_command",
+                        "content": {
+                            "name": "kbase-mcp-skill",
+                            "type": "skill",
+                            "filePath": (
+                                "/tmp/.agents/skills/kbase-mcp-skill/SKILL.md"
+                            ),
+                        },
+                    },
+                },
+                {
+                    "uuid": "session-info",
+                    "sessionId": "qoder-session",
+                    "timestamp": "2026-08-02T10:24:40.243358Z",
+                    "type": "session_meta",
+                    "data": {"meta_type": "session_info", "content": {}},
+                },
+                {
+                    "uuid": "user-record",
+                    "sessionId": "qoder-session",
+                    "timestamp": "2026-08-02T10:24:43.368785Z",
+                    "type": "user",
+                    "message": {"content": "private prompt must-not-leak"},
+                },
+                {
+                    "uuid": "later-user-record",
+                    "sessionId": "qoder-session",
+                    "timestamp": "2026-08-02T10:40:24.240898Z",
+                    "type": "user",
+                    "message": {"content": "later prompt must-not-leak"},
+                },
+            ]
+            transcript.write_text(
+                "\n".join(json.dumps(record) for record in records) + "\n",
+                encoding="utf-8",
+            )
+            envelopes = build_qoder_hook_envelopes(
+                "PreToolUse",
+                {
+                    "session_id": "qoder-session",
+                    "tool_name": "Bash",
+                    "tool_use_id": "work-call",
+                    "transcript_path": str(transcript),
+                    "timestamp": "2026-08-02T10:25:09.143975Z",
+                },
+            )
+            self.assertEqual(
+                [item["event_type"] for item in envelopes],
+                ["skill.activated", "tool.started"],
+            )
+            self.assertEqual(envelopes[0]["skill"]["name"], "kbase-mcp-skill")
+            self.assertEqual(envelopes[0]["activation_mode"], "slash_command")
+            self.assertIn("session_meta/slash_command", envelopes[0]["evidence"]["basis"])
+            self.assertNotIn(
+                "must-not-leak", json.dumps(envelopes, ensure_ascii=False)
+            )
+
+    def test_opencode_skill_and_session_error_are_observed(self):
+        activated = build_opencode_hook_envelopes(
+            "PreToolUse",
+            {
+                "session_id": "opencode-session",
+                "tool_name": "skill",
+                "tool_use_id": "opencode-call",
+                "tool_input": {"name": "pdf", "content": "must-not-leak"},
+            },
+        )
+        failed = build_opencode_hook_envelopes(
+            "SessionError",
+            {
+                "session_id": "opencode-session",
+                "error": "redacted failure",
+            },
+        )
+        self.assertEqual(activated[0]["event_type"], "skill.activated")
+        self.assertEqual(activated[0]["source"]["adapter"], "opencode")
+        self.assertEqual(failed[0]["event_type"], "turn.failed")
+        self.assertEqual(failed[0]["status"], "failed")
+        self.assertNotIn(
+            "must-not-leak", json.dumps(activated, ensure_ascii=False)
+        )
+
+    def test_active_skill_scope_survives_separate_collector_processes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            database = Path(directory) / "panorama.db"
+            base = {
+                "session_id": "fallback-session",
+                "turn_id": "fallback-turn",
+                "tool_name": "Skill",
+                "tool_use_id": "skill-call",
+                "tool_input": {"skill": "pdf"},
+            }
+            first_process = Storage(database)
+            try:
+                first_process.append_collector_events(
+                    normalize_collector_payload(
+                        build_codex_hook_envelopes("PreToolUse", base)
+                        + build_codex_hook_envelopes("PostToolUse", base)
+                    )
+                )
+            finally:
+                first_process.close()
+
+            second_process = Storage(database)
+            try:
+                second_process.append_collector_events(
+                    normalize_collector_payload(
+                        build_codex_hook_envelopes(
+                            "PreToolUse",
+                            {
+                                "session_id": "fallback-session",
+                                "turn_id": "fallback-turn",
+                                "tool_name": "Bash",
+                                "tool_use_id": "work-call",
+                            },
+                        )
+                        + build_codex_hook_envelopes(
+                            "Stop",
+                            {
+                                "session_id": "fallback-session",
+                                "turn_id": "fallback-turn",
+                            },
+                        )
+                    )
+                )
+                runs = second_process.list_skill_runs()
+                self.assertEqual(len(runs), 1)
+                self.assertEqual(runs[0]["status"], "completed")
+                detail = second_process.get_skill_run(runs[0]["skill_run_id"])
+                linked = {
+                    event["event_type"]: event.get("context_only")
+                    for event in detail["events"]
+                }
+                self.assertEqual(linked["tool.started"], 0)
+                self.assertEqual(linked["turn.completed"], 0)
+                remaining = second_process.connection.execute(
+                    "SELECT COUNT(*) FROM active_skill_scopes"
+                ).fetchone()[0]
+                self.assertEqual(remaining, 0)
+            finally:
+                second_process.close()
+
+    def test_claude_successful_write_emits_exact_derived_artifact(self):
+        envelopes = build_claude_hook_envelopes(
+            "PostToolUse",
+            {
+                "session_id": "claude-write",
+                "tool_name": "Write",
+                "tool_use_id": "write-call",
+                "tool_input": {
+                    "file_path": "/tmp/report.md",
+                    "content": "private-content",
+                },
+                "tool_response": {"filePath": "/tmp/report.md"},
+            },
+        )
+
+        self.assertEqual([item["event_type"] for item in envelopes], [
+            "tool.completed",
+            "file.created",
+        ])
+        artifact = envelopes[1]
+        self.assertEqual(
+            artifact["payload"]["file_path"],
+            str(Path("/tmp/report.md").resolve()),
+        )
+        self.assertEqual(artifact["evidence"]["grade"], "derived")
+        serialized = json.dumps(envelopes, ensure_ascii=False)
+        self.assertNotIn("private-content", serialized)
+
+    def test_claude_file_changed_maps_add_and_unlink_without_content(self):
+        created = build_claude_hook_envelopes(
+            "FileChanged",
+            {
+                "session_id": "claude-file",
+                "file_path": "/tmp/new.py",
+                "event": "add",
+                "content": "never-store-this",
+            },
+        )
+        deleted = build_claude_hook_envelopes(
+            "FileChanged",
+            {
+                "session_id": "claude-file",
+                "file_path": "/tmp/new.py",
+                "event": "unlink",
+            },
+        )
+
+        self.assertEqual(created[0]["event_type"], "file.created")
+        self.assertEqual(created[0]["evidence"]["grade"], "observed")
+        self.assertEqual(deleted[0]["event_type"], "file.deleted")
+        self.assertNotIn(
+            "never-store-this", json.dumps(created, ensure_ascii=False)
+        )
+
+    def test_cli_hook_boundary_is_silent_and_fail_open(self):
+        root = Path(__file__).resolve().parents[1]
+        environment = dict(os.environ)
+        environment["PYTHONPATH"] = str(root / "src")
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "skill_runtime_intelligence",
+                "hook",
+                "--agent",
+                "codex",
+                "--event",
+                "PreToolUse",
+            ],
+            input=b"{invalid-json",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            cwd=str(root),
+            env=environment,
+            check=False,
+            timeout=3,
+        )
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout, b"")
+        self.assertEqual(result.stderr, b"")
+
+    def test_lightweight_hook_boundary_is_silent_and_fail_open(self):
+        root = Path(__file__).resolve().parents[1]
+        environment = dict(os.environ)
+        environment["PYTHONPATH"] = str(root / "src")
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "skill_runtime_intelligence.hook_cli",
+                "--agent",
+                "codex",
+                "--event",
+                "PreToolUse",
+            ],
+            input=b"{invalid-json",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            cwd=str(root),
+            env=environment,
+            check=False,
+            timeout=3,
+        )
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout, b"")
+        self.assertEqual(result.stderr, b"")
+
+    def test_unavailable_collector_queues_and_replays(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            queue = root / "events.jsonl"
+            database = root / "panorama.db"
+            envelopes = build_codex_hook_envelopes(
+                "PreToolUse",
+                {
+                    "session_id": "session-queue",
+                    "turn_id": "turn-1",
+                    "tool_name": "Skill",
+                    "tool_use_id": "call-queue",
+                    "tool_input": {"skill": "pdf"},
+                },
+            )
+            envelopes[0]["payload"]["api_key"] = "secret-value"
+
+            started_at = time.monotonic()
+            delivery = deliver_or_queue(
+                envelopes,
+                endpoint="http://127.0.0.1:1/api/events",
+                queue_path=queue,
+                timeout_seconds=0.02,
+            )
+            elapsed = time.monotonic() - started_at
+
+            self.assertEqual(delivery, "queued")
+            self.assertLess(elapsed, 0.5)
+            queued = queue.read_text(encoding="utf-8")
+            self.assertNotIn("secret-value", queued)
+            self.assertIn("[REDACTED]", queued)
+
+            result = drain_event_queue(database, queue)
+            self.assertEqual(result["accepted"], 1)
+            self.assertEqual(queue.read_text(encoding="utf-8"), "")
+            storage = Storage(database)
+            try:
+                source = storage.list_sources()[0]
+                self.assertEqual(source["collection_mode"], "official_hook")
+                self.assertEqual(source["role"], "primary")
+            finally:
+                storage.close()
+
+    def test_running_hook_bridge_ingests_over_private_unix_socket(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            database = root / "panorama.db"
+            socket_path = root / "run" / "hook.sock"
+            bridge = HookBridge(database, socket_path=socket_path).start()
+            try:
+                client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+                client.connect(str(socket_path))
+                header = json.dumps({"event": "PreToolUse"}).encode("utf-8")
+                payload = json.dumps(
+                    {
+                        "session_id": "bridge-session",
+                        "turn_id": "turn-1",
+                        "tool_name": "Skill",
+                        "tool_use_id": "bridge-call",
+                        "tool_input": {"skill": "pdf"},
+                    }
+                ).encode("utf-8")
+                client.sendall(header + b"\n" + payload)
+                client.close()
+                deadline = time.monotonic() + 2
+                while time.monotonic() < deadline:
+                    storage = Storage(database)
+                    try:
+                        if storage.counts()["normalized_events"] == 1:
+                            break
+                    finally:
+                        storage.close()
+                    time.sleep(0.02)
+                storage = Storage(database)
+                try:
+                    self.assertEqual(storage.counts()["normalized_events"], 1)
+                    self.assertEqual(
+                        storage.list_sources()[0]["collection_mode"],
+                        "official_hook",
+                    )
+                finally:
+                    storage.close()
+                self.assertEqual(socket_path.stat().st_mode & 0o777, 0o600)
+            finally:
+                bridge.close()
+            self.assertFalse(socket_path.exists())
+
+    def test_optional_native_sender_delivers_to_hook_bridge(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            built = build_native_hook_sender(root)
+            if not built["available"]:
+                self.skipTest(built["reason"])
+            database = root / "panorama.db"
+            socket_path = root / "run" / "hook.sock"
+            bridge = HookBridge(database, socket_path=socket_path).start()
+            try:
+                result = subprocess.run(
+                    [
+                        built["path"],
+                        "--agent",
+                        "codex",
+                        "--event",
+                        "PreToolUse",
+                        "--socket",
+                        str(socket_path),
+                    ],
+                    input=json.dumps(
+                        {
+                            "session_id": "native-session",
+                            "turn_id": "turn-1",
+                            "tool_name": "Skill",
+                            "tool_use_id": "native-call",
+                            "tool_input": {"skill": "pdf"},
+                        }
+                    ).encode("utf-8"),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    check=False,
+                    timeout=2,
+                )
+                self.assertEqual(result.returncode, 0)
+                self.assertEqual(result.stdout, b"")
+                deadline = time.monotonic() + 2
+                while time.monotonic() < deadline:
+                    storage = Storage(database)
+                    try:
+                        if storage.counts()["normalized_events"] == 1:
+                            break
+                    finally:
+                        storage.close()
+                    time.sleep(0.02)
+                storage = Storage(database)
+                try:
+                    self.assertEqual(storage.counts()["normalized_events"], 1)
+                finally:
+                    storage.close()
+            finally:
+                bridge.close()
+
+    def test_native_sender_ingests_qoderwork_qoder_and_opencode_as_distinct_sources(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            built = build_native_hook_sender(root)
+            if not built["available"]:
+                self.skipTest(built["reason"])
+            database = root / "panorama.db"
+            socket_path = root / "run" / "hook.sock"
+            bridge = HookBridge(database, socket_path=socket_path).start()
+            try:
+                for agent in ("qoder", "qoderwork", "opencode"):
+                    result = subprocess.run(
+                        [
+                            built["path"],
+                            "--agent",
+                            agent,
+                            "--event",
+                            "PreToolUse",
+                            "--socket",
+                            str(socket_path),
+                        ],
+                        input=json.dumps(
+                            {
+                                "session_id": f"{agent}-session",
+                                "tool_name": "Skill",
+                                "tool_use_id": f"{agent}-call",
+                                "tool_input": {"name": "pdf"},
+                            }
+                        ).encode("utf-8"),
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        check=False,
+                        timeout=2,
+                    )
+                    self.assertEqual(result.returncode, 0)
+                deadline = time.monotonic() + 2
+                while time.monotonic() < deadline:
+                    storage = Storage(database)
+                    try:
+                        if storage.counts()["normalized_events"] == 3:
+                            break
+                    finally:
+                        storage.close()
+                    time.sleep(0.02)
+                storage = Storage(database)
+                try:
+                    sources = storage.list_sources()
+                    self.assertEqual(
+                        {source["adapter"] for source in sources},
+                        {"qoder", "qoderwork", "opencode"},
+                    )
+                    self.assertTrue(
+                        all(
+                            source["collection_mode"] == "official_hook"
+                            for source in sources
+                        )
+                    )
+                finally:
+                    storage.close()
+            finally:
+                bridge.close()
+
+    def test_hook_only_instruction_access_creates_and_completes_skill_run(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            database = root / "panorama.db"
+            socket_path = root / "run" / "hook.sock"
+            bridge = HookBridge(database, socket_path=socket_path).start()
+
+            def send(event, payload):
+                client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+                client.connect(str(socket_path))
+                client.sendall(
+                    json.dumps(
+                        {"agent": "codex", "event": event}
+                    ).encode("utf-8")
+                    + b"\n"
+                    + json.dumps(payload).encode("utf-8")
+                )
+                client.close()
+
+            base = {
+                "session_id": "hook-only-session",
+                "turn_id": "hook-only-turn",
+                "cwd": str(root),
+            }
+            skill_path = root / ".codex" / "skills" / "pdf" / "SKILL.md"
+            try:
+                send(
+                    "PostToolUse",
+                    {
+                        **base,
+                        "tool_name": "Bash",
+                        "tool_use_id": "read-skill",
+                        "tool_input": {"cmd": f"sed -n 1,200p {skill_path}"},
+                    },
+                )
+                send(
+                    "PostToolUse",
+                    {
+                        **base,
+                        "tool_name": "Bash",
+                        "tool_use_id": "run-resource",
+                        "tool_input": {
+                            "command": (
+                                "python3 "
+                                ".codex/skills/pdf/scripts/render.py"
+                            )
+                        },
+                    },
+                )
+                send(
+                    "PreToolUse",
+                    {
+                        **base,
+                        "tool_name": "Bash",
+                        "tool_use_id": "work",
+                        "tool_input": {"cmd": "true"},
+                    },
+                )
+                send("Stop", base)
+                deadline = time.monotonic() + 2
+                while time.monotonic() < deadline:
+                    storage = Storage(database)
+                    try:
+                        runs = storage.list_skill_runs()
+                        if runs and runs[0]["status"] == "completed":
+                            break
+                    finally:
+                        storage.close()
+                    time.sleep(0.02)
+                storage = Storage(database)
+                try:
+                    runs = storage.list_skill_runs()
+                    self.assertEqual(len(runs), 1)
+                    self.assertEqual(runs[0]["name"], "pdf")
+                    self.assertEqual(
+                        runs[0]["activation_mode"], "instruction_access"
+                    )
+                    self.assertEqual(runs[0]["status"], "completed")
+                    source = storage.list_sources()[0]
+                    self.assertEqual(
+                        source["collection_mode"], "official_hook"
+                    )
+                    detail = storage.get_skill_run(
+                        runs[0]["skill_run_id"]
+                    )
+                    self.assertTrue(
+                        any(
+                            event["event_type"] == "instruction.loaded"
+                            for event in detail["events"]
+                        )
+                    )
+                    self.assertTrue(
+                        any(
+                            event["event_type"] == "tool.started"
+                            and event.get("context_only") == 0
+                            for event in detail["events"]
+                        )
+                    )
+                    self.assertTrue(
+                        any(
+                            event["event_type"] == "resource.executed"
+                            for event in detail["events"]
+                        )
+                    )
+                finally:
+                    storage.close()
+            finally:
+                bridge.close()
+
+
+class HookIntegrationTests(unittest.TestCase):
+    def test_enable_is_additive_idempotent_and_exactly_removable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config = root / "hooks.json"
+            state_root = root / "state"
+            existing = {
+                "hooks": {
+                    "PostToolUse": [
+                        {
+                            "matcher": "*",
+                            "hooks": [
+                                {
+                                    "type": "command",
+                                    "command": "rapid-tele agent hook --event PostToolUse",
+                                    "timeout": 15,
+                                }
+                            ],
+                        }
+                    ]
+                }
+            }
+            config.write_text(json.dumps(existing), encoding="utf-8")
+            config.chmod(0o640)
+
+            before = inspect_codex_integration(config, "/tmp/skill-runtime")
+            self.assertFalse(before["installed"])
+            first = enable_codex_hooks(
+                "/tmp/skill-runtime", config, state_root=state_root
+            )
+            second = enable_codex_hooks(
+                "/tmp/skill-runtime", config, state_root=state_root
+            )
+            enabled = json.loads(config.read_text(encoding="utf-8"))
+
+            self.assertTrue(first["changed"])
+            self.assertFalse(second["changed"])
+            self.assertEqual(
+                set(first["added_events"]), set(MANAGED_CODEX_EVENTS)
+            )
+            self.assertNotIn("PostToolUseFailure", MANAGED_CODEX_EVENTS)
+            self.assertIn("PreCompact", MANAGED_CODEX_EVENTS)
+            self.assertIn("PostCompact", MANAGED_CODEX_EVENTS)
+            self.assertEqual(
+                enabled["hooks"]["PostToolUse"][0]["hooks"][0]["command"],
+                "rapid-tele agent hook --event PostToolUse",
+            )
+            self.assertEqual(config.stat().st_mode & 0o777, 0o640)
+            self.assertTrue(
+                (state_root / "integrations" / "codex.json").exists()
+            )
+            self.assertEqual(
+                len(list(root.glob("hooks.json.skill-runtime.bak.*"))), 1
+            )
+
+            removed = remove_codex_hooks(config, state_root=state_root)
+            final = json.loads(config.read_text(encoding="utf-8"))
+            self.assertTrue(removed["changed"])
+            self.assertEqual(
+                set(removed["removed_events"]), set(MANAGED_CODEX_EVENTS)
+            )
+            self.assertEqual(final, existing)
+            self.assertFalse(
+                (state_root / "integrations" / "codex.json").exists()
+            )
+
+    def test_codex_stop_hooks_return_empty_json_without_blocking(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config = root / "hooks.json"
+            enable_codex_hooks(
+                "/tmp/skill-runtime", config, state_root=root / "state"
+            )
+            enabled = json.loads(config.read_text(encoding="utf-8"))
+            for event in ("Stop", "SubagentStop"):
+                command = enabled["hooks"][event][0]["hooks"][0]["command"]
+                self.assertIn("printf '%s\\n' '{}'", command)
+                self.assertIn("|| true", command)
+
+    def test_prefers_installed_lightweight_hook_entrypoint(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            executable = root / "skill-runtime"
+            fast_hook = root / "skill-runtime-hook"
+            executable.write_text("#!/bin/sh\n", encoding="utf-8")
+            fast_hook.write_text("#!/bin/sh\n", encoding="utf-8")
+            config = root / "hooks.json"
+
+            result = enable_codex_hooks(
+                str(executable), config, state_root=root / "state"
+            )
+            enabled = json.loads(config.read_text(encoding="utf-8"))
+            commands = [
+                hook["command"]
+                for groups in enabled["hooks"].values()
+                for group in groups
+                for hook in group["hooks"]
+            ]
+
+            self.assertTrue(result["changed"])
+            self.assertTrue(all(str(fast_hook) in command for command in commands))
+            if platform.system() != "Darwin":
+                self.assertTrue(
+                    all("/usr/bin/nc -N -U" in command for command in commands)
+                )
+            removed = remove_codex_hooks(config, state_root=root / "state")
+            self.assertTrue(removed["changed"])
+            self.assertEqual(
+                json.loads(config.read_text(encoding="utf-8")), {"hooks": {}}
+            )
+
+    def test_claude_hooks_are_async_additive_and_exactly_removable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = root / "settings.json"
+            state_root = root / "state"
+            existing = {
+                "permissions": {"allow": ["Read"]},
+                "hooks": {
+                    "PostToolUse": [
+                        {
+                            "matcher": "Write",
+                            "hooks": [
+                                {
+                                    "type": "command",
+                                    "command": "other-observer",
+                                }
+                            ],
+                        }
+                    ]
+                },
+            }
+            settings.write_text(json.dumps(existing), encoding="utf-8")
+
+            self.assertFalse(
+                inspect_claude_integration(
+                    settings, "/tmp/skill-runtime"
+                )["installed"]
+            )
+            first = enable_claude_hooks(
+                "/tmp/skill-runtime", settings, state_root=state_root
+            )
+            second = enable_claude_hooks(
+                "/tmp/skill-runtime", settings, state_root=state_root
+            )
+            enabled = json.loads(settings.read_text(encoding="utf-8"))
+            managed = [
+                hook
+                for groups in enabled["hooks"].values()
+                for group in groups
+                for hook in group.get("hooks", [])
+                if "--managed-by skill-runtime-intelligence"
+                in hook.get("command", "")
+            ]
+
+            self.assertTrue(first["changed"])
+            self.assertFalse(second["changed"])
+            self.assertEqual(set(first["added_events"]), set(MANAGED_CLAUDE_EVENTS))
+            self.assertTrue(all(hook.get("async") is True for hook in managed))
+            self.assertTrue(
+                all("--agent claude-code" in hook["command"] for hook in managed)
+            )
+            self.assertNotIn("FileChanged", first["installed_events"])
+            self.assertEqual(
+                enabled["hooks"]["PostToolUse"][0]["hooks"][0]["command"],
+                "other-observer",
+            )
+
+            removed = remove_claude_hooks(settings, state_root=state_root)
+            self.assertTrue(removed["changed"])
+            self.assertEqual(
+                json.loads(settings.read_text(encoding="utf-8")), existing
+            )
+
+    def test_qoder_hooks_are_additive_fail_open_and_exactly_removable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = root / "settings.json"
+            settings.write_text(
+                json.dumps(
+                    {
+                        "general": {"enableAutoUpdate": False},
+                        "hooks": {
+                            "PostToolUse": [
+                                {
+                                    "matcher": "Bash",
+                                    "hooks": [
+                                        {
+                                            "type": "command",
+                                            "command": "/tmp/unrelated",
+                                        }
+                                    ],
+                                }
+                            ]
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_root = root / "state"
+            result = enable_qoder_hooks(
+                "/tmp/skill-runtime",
+                settings,
+                state_root=state_root,
+            )
+            self.assertTrue(result["changed"])
+            inspected = inspect_qoder_integration(
+                settings,
+                "/tmp/skill-runtime",
+                state_root=state_root,
+            )
+            self.assertTrue(inspected["installed"])
+            configured = json.loads(settings.read_text(encoding="utf-8"))
+            self.assertEqual(configured["general"]["enableAutoUpdate"], False)
+            managed = [
+                hook
+                for groups in configured["hooks"].values()
+                for group in groups
+                for hook in group.get("hooks", [])
+                if "--agent qoder" in hook.get("command", "")
+            ]
+            self.assertEqual(len(managed), len(MANAGED_QODER_EVENTS))
+            self.assertTrue(all("|| true" in hook["command"] for hook in managed))
+            removed = remove_qoder_hooks(settings, state_root=state_root)
+            self.assertTrue(removed["changed"])
+            remaining = json.loads(settings.read_text(encoding="utf-8"))
+            self.assertEqual(
+                remaining["hooks"]["PostToolUse"][0]["hooks"][0]["command"],
+                "/tmp/unrelated",
+            )
+
+    def test_qoderwork_hooks_are_distinct_additive_and_removable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = root / "settings.json"
+            settings.write_text(
+                json.dumps({"hooks": {"Stop": [{"hooks": [{"type": "command", "command": "/tmp/unrelated"}]}]}}),
+                encoding="utf-8",
+            )
+            state_root = root / "state"
+            result = enable_qoderwork_hooks(
+                "/tmp/skill-runtime", settings, state_root=state_root
+            )
+            self.assertTrue(result["changed"])
+            inspected = inspect_qoderwork_integration(
+                settings, "/tmp/skill-runtime", state_root=state_root
+            )
+            self.assertTrue(inspected["installed"])
+            configured = json.loads(settings.read_text(encoding="utf-8"))
+            managed = [
+                hook
+                for groups in configured["hooks"].values()
+                for group in groups
+                for hook in group.get("hooks", [])
+                if "--agent qoderwork" in hook.get("command", "")
+            ]
+            self.assertEqual(len(managed), len(MANAGED_QODERWORK_EVENTS))
+            self.assertFalse(any("--agent qoder " in hook["command"] for hook in managed))
+            removed = remove_qoderwork_hooks(settings, state_root=state_root)
+            self.assertTrue(removed["changed"])
+            remaining = json.loads(settings.read_text(encoding="utf-8"))
+            self.assertEqual(
+                remaining["hooks"]["Stop"][0]["hooks"][0]["command"],
+                "/tmp/unrelated",
+            )
+
+    def test_qoderwork_instruction_access_uses_qoderwork_adapter(self):
+        envelopes = build_qoderwork_hook_envelopes(
+            "PostToolUse",
+            {
+                "session_id": "qoderwork-session",
+                "tool_name": "Read",
+                "tool_use_id": "read-skill",
+                "tool_input": {"file_path": "/tmp/.qoderwork/skills/demo/SKILL.md"},
+            },
+        )
+        instruction = next(
+            item for item in envelopes if item["event_type"] == "instruction.loaded"
+        )
+        self.assertEqual(instruction["source"]["adapter"], "qoderwork")
+        self.assertEqual(instruction["skill"]["name"], "demo")
+
+    def test_qwenworkcn_hooks_use_distinct_adapter_and_config(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = root / "settings.json"
+            settings.write_text('{"hooks": {}}', encoding="utf-8")
+            state_root = root / "state"
+
+            enabled = enable_qwenworkcn_hooks(
+                "/tmp/skill-runtime", settings, state_root=state_root
+            )
+            inspected = inspect_qwenworkcn_integration(
+                settings, "/tmp/skill-runtime", state_root=state_root
+            )
+            envelopes = build_qwenworkcn_hook_envelopes(
+                "PostToolUse",
+                {
+                    "session_id": "qwen-office-session",
+                    "tool_name": "Read",
+                    "tool_use_id": "read-skill",
+                    "tool_input": {
+                        "file_path": "/tmp/.qwenworkcn/skills/demo/SKILL.md"
+                    },
+                },
+            )
+
+            self.assertTrue(enabled["changed"])
+            self.assertTrue(inspected["installed"])
+            self.assertEqual(
+                len(inspected["installed_events"]),
+                len(MANAGED_QWENWORKCN_EVENTS),
+            )
+            instruction = next(
+                item
+                for item in envelopes
+                if item["event_type"] == "instruction.loaded"
+            )
+            self.assertEqual(instruction["source"]["adapter"], "qwenworkcn")
+            self.assertTrue(
+                remove_qwenworkcn_hooks(settings, state_root=state_root)["changed"]
+            )
+
+    def test_qoderwork_enable_refreshes_stale_managed_commands(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = root / "settings.json"
+            stale = (
+                "if true; then /private/var/folders/stale/hook-native "
+                "--agent qoderwork --event Stop; else /tmp/skill-runtime hook "
+                "--agent qoderwork --event Stop --managed-by "
+                "skill-runtime-intelligence; fi"
+            )
+            settings.write_text(
+                json.dumps(
+                    {
+                        "hooks": {
+                            "Stop": [
+                                {"hooks": [{"type": "command", "command": stale}]}
+                            ]
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state_root = root / "state"
+
+            refreshed = enable_qoderwork_hooks(
+                "/opt/skill-runtime", settings, state_root=state_root
+            )
+
+            self.assertIn("Stop", refreshed["refreshed_events"])
+            content = settings.read_text(encoding="utf-8")
+            self.assertNotIn("/private/var/folders/stale", content)
+            self.assertIn("/opt/skill-runtime", content)
+
+    def test_opencode_plugin_is_owned_idempotent_and_exactly_removable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            plugin = root / "opencode" / "plugins" / "skill-runtime.js"
+            state_root = root / "state"
+            first = enable_opencode_plugin(
+                "/tmp/skill-runtime",
+                plugin,
+                state_root=state_root,
+            )
+            second = enable_opencode_plugin(
+                "/tmp/skill-runtime",
+                plugin,
+                state_root=state_root,
+            )
+            self.assertTrue(first["changed"])
+            self.assertFalse(second["changed"])
+            source = plugin.read_text(encoding="utf-8")
+            self.assertIn("managed-by: skill-runtime-intelligence", source)
+            self.assertIn('"chat.message": async', source)
+            self.assertIn('"tool.execute.before": "PreToolUse"', source)
+            self.assertIn('"tool.execute.after": async', source)
+            self.assertIn("fallbackOnce", source)
+            self.assertIn("spawnFallback", source)
+            self.assertIn("structuredSkillSelection", source)
+            self.assertNotIn('session.hook("request"', source)
+            node = shutil.which("node")
+            if node:
+                checked = subprocess.run(
+                    [node, "--check", str(plugin)],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    check=False,
+                )
+                self.assertEqual(checked.returncode, 0, checked.stderr)
+            inspected = inspect_opencode_integration(
+                plugin,
+                "/tmp/skill-runtime",
+                state_root=state_root,
+            )
+            self.assertTrue(inspected["installed"])
+            removed = remove_opencode_plugin(plugin, state_root=state_root)
+            self.assertTrue(removed["changed"])
+            self.assertFalse(plugin.exists())
+
+
+if __name__ == "__main__":
+    unittest.main()

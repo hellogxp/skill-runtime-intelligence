@@ -1,0 +1,49 @@
+{
+  "schema_version": "sri.experiment.timestamp-provenance-live-copy.v1",
+  "experiment": {
+    "name": "read-only-live-copy-timestamp-provenance-migration",
+    "evidence_grade": "Experimental",
+    "source_open_mode": "read_only",
+    "source_database_modified": false,
+    "row_level_records_included": false,
+    "limitations": [
+      "An isolated database copy does not establish live deployment safety.",
+      "Unknown legacy metadata is preserved rather than reconstructed.",
+      "Aggregate migration integrity does not establish clock comparability."
+    ]
+  },
+  "metrics": {
+    "event_count_before": 41258,
+    "event_count_after": 41258,
+    "session_count_before": 150,
+    "session_count_after": 150,
+    "provenance_columns_before": 0,
+    "provenance_columns_after": 5,
+    "legacy_unknown_or_null": {
+      "unknown_origin": 41258,
+      "null_ingested": 41258,
+      "unknown_domain": 41258,
+      "null_uncertainty": 41258,
+      "unknown_precision": 41258
+    },
+    "quick_check_ok": true
+  },
+  "gate": {
+    "name": "isolated additive migration preserved aggregate identity",
+    "passed": true
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "created_at": "2026-07-30T06:09:30.815981+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "e3f47b3f3fe261f8e12b27815436c4b945679de7",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

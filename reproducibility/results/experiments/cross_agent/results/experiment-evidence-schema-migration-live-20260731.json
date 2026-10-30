@@ -1,0 +1,54 @@
+{
+  "schema_version": "sri.experiment.evidence-schema-migration.v1",
+  "experiment": {
+    "name": "live-copy-experimental-task-outcome-migration",
+    "evidence_grade": "Experimental",
+    "migration_version": "experimental-evidence-v1",
+    "task_sha256": "94bca5b0a0309cb6596a2ea70c9dce702807f435b4cd1dd53d109eba59faea45",
+    "skill_sha256": "0df4598647f79d3553786cadbaecfb377cbddb079760881e975a8e9e458018ec",
+    "source_database_opened_via_consistent_backup": true,
+    "source_database_mutated_by_benchmark": false,
+    "limitations": [
+      "All mutations occur on a temporary consistent copy.",
+      "The live imported outcomes are successful fixture outcomes only.",
+      "Failure-status acceptance is schema-covered but not a real failed run.",
+      "User consent, concurrent production writers, UI, and release migration are untested."
+    ]
+  },
+  "metrics": {
+    "backup_attempts": 1,
+    "verified_rows": 12,
+    "failed_migration_rolled_back": true,
+    "experimental_tables_absent_after_failed_migration": true,
+    "task_first_inserted": true,
+    "task_second_idempotent": true,
+    "outcome_first_inserts": 12,
+    "outcome_second_idempotent": 12,
+    "imported_by_adapter": {
+      "codex": 4,
+      "opencode": 4,
+      "qoder": 4
+    },
+    "core_counts_preserved_after_migration": true,
+    "invalid_verifier_rejected": true,
+    "task_delete_cascades_outcomes": true,
+    "task_delete_preserves_sessions": true,
+    "core_counts_preserved_after_downgrade": true,
+    "experimental_tables_absent_after_downgrade": true,
+    "integrity_checks_ok": true
+  },
+  "gate": {
+    "name": "Experimental evidence migration is additive, idempotent, recoverable, and integrity-preserving",
+    "passed": true
+  },
+  "created_at": "2026-07-31T13:56:41.709676+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "d8df7047db21d26568e805b8d2369ebf3a1306ca",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

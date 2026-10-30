@@ -1,0 +1,127 @@
+{
+  "schema_version": "sri.experiment.live-agent.cross-agent-cli.v1",
+  "experiment": {
+    "name": "cross-agent-same-skill-black-box-cli-pilot",
+    "evidence_grade": "Experimental",
+    "design": "installed Agent systems, same task and fixture, isolated workspaces, hidden deterministic verifier",
+    "agent_versions": {
+      "qoder": "0.1.26"
+    },
+    "models": {
+      "qoder": "performance"
+    },
+    "task_sha256": "94bca5b0a0309cb6596a2ea70c9dce702807f435b4cd1dd53d109eba59faea45",
+    "skill_sha256": "0df4598647f79d3553786cadbaecfb377cbddb079760881e975a8e9e458018ec",
+    "limitations": [
+      "This compares installed Agent systems, not isolated model or scaffold effects.",
+      "Four deterministic trials per Agent are a mechanism pilot, not a population estimate.",
+      "Different Agent products use different configured model families and runtime context.",
+      "Collector deltas establish observed ingestion counts, not exact task-level pairing."
+    ]
+  },
+  "metrics": {
+    "planned_calls": 1,
+    "completed_calls": 1,
+    "verified_outcomes": 1,
+    "workload_mutations": 0,
+    "runtime_metadata_mutations": 0,
+    "per_agent": {
+      "qoder": {
+        "planned": 1,
+        "completed": 1,
+        "verified_outcomes": 1,
+        "workload_mutations": 0,
+        "runtime_metadata_mutations": 0,
+        "process_failures": 0,
+        "precondition_failures": 0,
+        "invalid_responses": 0,
+        "wall_p50_ms": 152767.306291993,
+        "wall_p95_ms": 152767.306291993
+      }
+    },
+    "collector_before": {
+      "codex": {
+        "sessions": 186,
+        "skill_runs": 409,
+        "events": 59408
+      },
+      "opencode": {
+        "sessions": 9,
+        "skill_runs": 6,
+        "events": 47
+      },
+      "qoder": {
+        "sessions": 14,
+        "skill_runs": 1,
+        "events": 351
+      }
+    },
+    "collector_after": {
+      "codex": {
+        "sessions": 186,
+        "skill_runs": 409,
+        "events": 59428
+      },
+      "opencode": {
+        "sessions": 9,
+        "skill_runs": 6,
+        "events": 47
+      },
+      "qoder": {
+        "sessions": 15,
+        "skill_runs": 1,
+        "events": 352
+      }
+    },
+    "collector_deltas": {
+      "codex": {
+        "sessions": 0,
+        "skill_runs": 0,
+        "events": 20
+      },
+      "opencode": {
+        "sessions": 0,
+        "skill_runs": 0,
+        "events": 0
+      },
+      "qoder": {
+        "sessions": 1,
+        "skill_runs": 0,
+        "events": 1
+      }
+    }
+  },
+  "trials": [
+    {
+      "agent": "qoder",
+      "trial": 1,
+      "status": "completed",
+      "error": "",
+      "exit_code": 0,
+      "wall_ms": 152767.306291993,
+      "outcome_verified": true,
+      "workload_unchanged": true,
+      "workspace_change_count": 0,
+      "workspace_change_roots": [],
+      "workspace_change_sample": [],
+      "session_id_sha256": "fc9a9ec1c469fff1edc22697a2630d9c6a5c9cc00ed8da885d55a5fa6ce63ab2",
+      "response_sha256": "485f1c02aebdaa5116480fd5151bccde816d8df3ac211402f4a76be4e6c1830c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "usage": {}
+    }
+  ],
+  "gate": {
+    "name": "qoder deterministic outcome and workload-integrity",
+    "passed": true
+  },
+  "created_at": "2026-07-31T12:45:08.869127+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "d8df7047db21d26568e805b8d2369ebf3a1306ca",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

@@ -1,0 +1,243 @@
+{
+  "distinct_predictions_within_family": {
+    "artifact_corruption": {
+      "panorama": 1,
+      "raw_semantic": 1
+    },
+    "clean": {
+      "panorama": 1,
+      "raw_semantic": 2
+    },
+    "execution_failure": {
+      "panorama": 2,
+      "raw_semantic": 1
+    },
+    "instructions_failure": {
+      "panorama": 1,
+      "raw_semantic": 2
+    },
+    "outcome_unverified": {
+      "panorama": 1,
+      "raw_semantic": 1
+    },
+    "resource_missing": {
+      "panorama": 1,
+      "raw_semantic": 2
+    },
+    "verifier_conflict": {
+      "panorama": 1,
+      "raw_semantic": 1
+    }
+  },
+  "fault_families": {
+    "artifact_corruption": {
+      "boundary_exact": {
+        "left": 18,
+        "n": 18,
+        "right": 18
+      },
+      "citation_entailment_valid": {
+        "left": 0,
+        "n": 18,
+        "right": 18
+      },
+      "exact": {
+        "left": 0,
+        "n": 18,
+        "right": 18
+      },
+      "status_exact": {
+        "left": 0,
+        "n": 18,
+        "right": 18
+      }
+    },
+    "clean": {
+      "boundary_exact": {
+        "left": 0,
+        "n": 18,
+        "right": 0
+      },
+      "citation_entailment_valid": {
+        "left": 0,
+        "n": 18,
+        "right": 0
+      },
+      "exact": {
+        "left": 0,
+        "n": 18,
+        "right": 0
+      },
+      "status_exact": {
+        "left": 0,
+        "n": 18,
+        "right": 18
+      }
+    },
+    "execution_failure": {
+      "boundary_exact": {
+        "left": 18,
+        "n": 18,
+        "right": 18
+      },
+      "citation_entailment_valid": {
+        "left": 0,
+        "n": 18,
+        "right": 10
+      },
+      "exact": {
+        "left": 0,
+        "n": 18,
+        "right": 10
+      },
+      "status_exact": {
+        "left": 0,
+        "n": 18,
+        "right": 10
+      }
+    },
+    "instructions_failure": {
+      "boundary_exact": {
+        "left": 18,
+        "n": 18,
+        "right": 18
+      },
+      "citation_entailment_valid": {
+        "left": 9,
+        "n": 18,
+        "right": 0
+      },
+      "exact": {
+        "left": 9,
+        "n": 18,
+        "right": 0
+      },
+      "status_exact": {
+        "left": 9,
+        "n": 18,
+        "right": 0
+      }
+    },
+    "outcome_unverified": {
+      "boundary_exact": {
+        "left": 18,
+        "n": 18,
+        "right": 18
+      },
+      "citation_entailment_valid": {
+        "left": 13,
+        "n": 18,
+        "right": 0
+      },
+      "exact": {
+        "left": 18,
+        "n": 18,
+        "right": 18
+      },
+      "status_exact": {
+        "left": 18,
+        "n": 18,
+        "right": 18
+      }
+    },
+    "resource_missing": {
+      "boundary_exact": {
+        "left": 18,
+        "n": 18,
+        "right": 18
+      },
+      "citation_entailment_valid": {
+        "left": 4,
+        "n": 18,
+        "right": 18
+      },
+      "exact": {
+        "left": 4,
+        "n": 18,
+        "right": 18
+      },
+      "status_exact": {
+        "left": 4,
+        "n": 18,
+        "right": 18
+      }
+    },
+    "verifier_conflict": {
+      "boundary_exact": {
+        "left": 18,
+        "n": 18,
+        "right": 18
+      },
+      "citation_entailment_valid": {
+        "left": 0,
+        "n": 18,
+        "right": 0
+      },
+      "exact": {
+        "left": 18,
+        "n": 18,
+        "right": 18
+      },
+      "status_exact": {
+        "left": 18,
+        "n": 18,
+        "right": 18
+      }
+    }
+  },
+  "fault_family_templates": 7,
+  "inference_boundary": "Case counts describe the frozen matrix. Rows repeat seven fault-family templates and are not independent samples; no population-level p-value is reported.",
+  "left_view": "raw_semantic",
+  "metrics": {
+    "boundary_exact": {
+      "left_case_count": 108,
+      "left_only_cases": 0,
+      "right_case_count": 108,
+      "right_only_cases": 0,
+      "template_directions": {
+        "equal": 7,
+        "left_higher": 0,
+        "right_higher": 0
+      },
+      "tied_cases": 126
+    },
+    "citation_entailment_valid": {
+      "left_case_count": 26,
+      "left_only_cases": 22,
+      "right_case_count": 46,
+      "right_only_cases": 42,
+      "template_directions": {
+        "equal": 2,
+        "left_higher": 2,
+        "right_higher": 3
+      },
+      "tied_cases": 62
+    },
+    "exact": {
+      "left_case_count": 49,
+      "left_only_cases": 9,
+      "right_case_count": 82,
+      "right_only_cases": 42,
+      "template_directions": {
+        "equal": 3,
+        "left_higher": 1,
+        "right_higher": 3
+      },
+      "tied_cases": 75
+    },
+    "status_exact": {
+      "left_case_count": 49,
+      "left_only_cases": 9,
+      "right_case_count": 100,
+      "right_only_cases": 60,
+      "template_directions": {
+        "equal": 2,
+        "left_higher": 1,
+        "right_higher": 4
+      },
+      "tied_cases": 57
+    }
+  },
+  "paired_cases": 126,
+  "right_view": "panorama"
+}

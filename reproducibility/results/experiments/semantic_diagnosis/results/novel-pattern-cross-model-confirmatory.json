@@ -1,0 +1,172 @@
+{
+  "schema_version": "sri.experiment.novel-pattern-cross-model-summary.v1",
+  "experiment": {
+    "name": "cross-model-rule-external-pattern-replication",
+    "evidence_grade": "Derived",
+    "first_sha256": "5bfd04f8e9d707e05a8e4818fd4c6e3deae8da9f89295675bcf755f2591a8103",
+    "second_sha256": "41b26388d2985ea6ba4676bc553732d8edca2c593ff19ddb8624a8e5526002dd",
+    "limitations": [
+      "Agreement across two models is replication evidence, not proof of a production defect.",
+      "The controlled labels were preregistered by the experiment author, not independently annotated."
+    ]
+  },
+  "metrics": {
+    "case_count": 12,
+    "both_completed": 12,
+    "prediction_agreement_cases": 9,
+    "both_support_valid_cases": 9,
+    "disagreement_cases": 3
+  },
+  "source_metrics": [
+    {
+      "planned_cases": 12,
+      "completed_cases": 12,
+      "detection_correct": 10,
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "citation_id_valid": 12,
+      "support_relation_valid": 10,
+      "causal_safe": 12,
+      "latency_p50_ms": 881.99773101951,
+      "rule_baseline_detected": 0
+    },
+    {
+      "planned_cases": 12,
+      "completed_cases": 12,
+      "detection_correct": 11,
+      "precision": 0.8571428571428571,
+      "recall": 1.0,
+      "f1": 0.923076923076923,
+      "citation_id_valid": 12,
+      "support_relation_valid": 11,
+      "causal_safe": 12,
+      "latency_p50_ms": 8812.302645499585,
+      "rule_baseline_detected": 0
+    }
+  ],
+  "rows": [
+    {
+      "case_id": "novel-01-anomaly",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "first_prediction": true,
+      "second_prediction": true,
+      "expected": true,
+      "both_support_valid": true
+    },
+    {
+      "case_id": "novel-01-clean",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "first_prediction": false,
+      "second_prediction": false,
+      "expected": false,
+      "both_support_valid": true
+    },
+    {
+      "case_id": "novel-02-anomaly",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "first_prediction": true,
+      "second_prediction": true,
+      "expected": true,
+      "both_support_valid": true
+    },
+    {
+      "case_id": "novel-02-clean",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "first_prediction": false,
+      "second_prediction": false,
+      "expected": false,
+      "both_support_valid": true
+    },
+    {
+      "case_id": "novel-03-anomaly",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "first_prediction": false,
+      "second_prediction": true,
+      "expected": true,
+      "both_support_valid": false
+    },
+    {
+      "case_id": "novel-03-clean",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "first_prediction": false,
+      "second_prediction": true,
+      "expected": false,
+      "both_support_valid": false
+    },
+    {
+      "case_id": "novel-04-anomaly",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "first_prediction": true,
+      "second_prediction": true,
+      "expected": true,
+      "both_support_valid": true
+    },
+    {
+      "case_id": "novel-04-clean",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "first_prediction": false,
+      "second_prediction": false,
+      "expected": false,
+      "both_support_valid": true
+    },
+    {
+      "case_id": "novel-05-anomaly",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "first_prediction": true,
+      "second_prediction": true,
+      "expected": true,
+      "both_support_valid": true
+    },
+    {
+      "case_id": "novel-05-clean",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "first_prediction": false,
+      "second_prediction": false,
+      "expected": false,
+      "both_support_valid": true
+    },
+    {
+      "case_id": "novel-06-anomaly",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "first_prediction": false,
+      "second_prediction": true,
+      "expected": true,
+      "both_support_valid": false
+    },
+    {
+      "case_id": "novel-06-clean",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "first_prediction": false,
+      "second_prediction": false,
+      "expected": false,
+      "both_support_valid": true
+    }
+  ],
+  "gate": {
+    "name": "two complete model reports with disagreements preserved",
+    "passed": true
+  },
+  "created_at": "2026-08-01T02:42:52.613645+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "250fb9c5ab070e0c8a19d59f0e630f8fdefe2531",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

@@ -1,0 +1,433 @@
+{
+  "schema_version": "sri.experiment.hook-transport-aggregate.v1",
+  "experiment": {
+    "name": "hook-transport-cross-run-aggregate",
+    "evidence_grade": "Derived",
+    "source_evidence_grade": "Experimental",
+    "comparable_schemas": [
+      "sri.experiment.hook-transport.v4",
+      "sri.experiment.hook-transport.v5",
+      "sri.experiment.hook-transport.v6"
+    ],
+    "limitations": [
+      "Runs share one host and are not independent cross-host samples.",
+      "Per-run p99 uses only 40 trials and is descriptive.",
+      "Pooled trial percentiles do not replace the per-run release gate.",
+      "Too few runs contain load covariates for correlation analysis."
+    ]
+  },
+  "metrics": {
+    "run_count": 7,
+    "trials_per_transport": 280,
+    "expected_events": 560,
+    "accepted_events": 560,
+    "integrity_passes": 7,
+    "performance_gate_passes": 6,
+    "performance_gate_rate": 0.8571428571428571,
+    "performance_gate_rate_wilson_95": {
+      "low": 0.48686549668097007,
+      "high": 0.9743210440510253
+    },
+    "runs_with_load_covariates": 2,
+    "pooled": {
+      "native_direct": {
+        "actual": {
+          "count": 280,
+          "p50_ms": 21.500354,
+          "p95_ms": 44.72029375000001,
+          "p99_ms": 563.3023113899997,
+          "max_ms": 645.760916
+        },
+        "incremental": {
+          "count": 280,
+          "p50_ms": 0.6433545000000002,
+          "p95_ms": 8.258583600000025,
+          "p99_ms": 531.8320105699995,
+          "max_ms": 574.03925
+        }
+      },
+      "native_via_shell": {
+        "actual": {
+          "count": 280,
+          "p50_ms": 46.6427495,
+          "p95_ms": 79.11036460000001,
+          "p99_ms": 133.00334374999971,
+          "max_ms": 204.796417
+        },
+        "incremental": {
+          "count": 280,
+          "p50_ms": 24.8154585,
+          "p95_ms": 52.11401010000001,
+          "p99_ms": 112.75697374999979,
+          "max_ms": 175.598917
+        }
+      }
+    },
+    "pooled_steady_after_first_five": {
+      "native_direct": {
+        "definition": "pooled trials after the first five in every run",
+        "actual": {
+          "count": 245,
+          "p50_ms": 21.568083,
+          "p95_ms": 34.023917,
+          "p99_ms": 68.69585204,
+          "max_ms": 79.326291
+        },
+        "incremental": {
+          "count": 245,
+          "p50_ms": 0.616458,
+          "p95_ms": 6.620382999999977,
+          "p99_ms": 44.780513520000014,
+          "max_ms": 56.347791
+        }
+      },
+      "native_via_shell": {
+        "definition": "pooled trials after the first five in every run",
+        "actual": {
+          "count": 245,
+          "p50_ms": 46.918375,
+          "p95_ms": 78.9311082,
+          "p99_ms": 137.93287500000002,
+          "max_ms": 204.796417
+        },
+        "incremental": {
+          "count": 245,
+          "p50_ms": 25.021124999999998,
+          "p95_ms": 51.01814139999991,
+          "p99_ms": 116.58505500000003,
+          "max_ms": 175.598917
+        }
+      }
+    },
+    "first_trial_across_runs": {
+      "native_direct": {
+        "definition": "first trial from every run",
+        "actual": {
+          "count": 7,
+          "p50_ms": 560.597625,
+          "p95_ms": 632.4633787999999,
+          "p99_ms": 643.1014085599999,
+          "max_ms": 645.760916
+        },
+        "incremental": {
+          "count": 7,
+          "p50_ms": 527.213708,
+          "p95_ms": 568.8007124,
+          "p99_ms": 572.99154248,
+          "max_ms": 574.03925
+        }
+      },
+      "native_via_shell": {
+        "definition": "first trial from every run",
+        "actual": {
+          "count": 7,
+          "p50_ms": 47.445042,
+          "p95_ms": 68.26762939999999,
+          "p99_ms": 71.18165948,
+          "max_ms": 71.910167
+        },
+        "incremental": {
+          "count": 7,
+          "p50_ms": 24.566917,
+          "p95_ms": 26.2775502,
+          "p99_ms": 26.34221004,
+          "max_ms": 26.358375000000002
+        }
+      }
+    },
+    "trial_threshold_exceedances": {
+      "native_direct": {
+        "actual_limit_ms": 100,
+        "actual_count": 7,
+        "actual_rate": 0.025,
+        "incremental_limit_ms": null,
+        "incremental_count": null,
+        "incremental_rate": null
+      },
+      "native_via_shell": {
+        "actual_limit_ms": 100,
+        "actual_count": 8,
+        "actual_rate": 0.02857142857142857,
+        "incremental_limit_ms": 75,
+        "incremental_count": 8,
+        "incremental_rate": 0.02857142857142857
+      }
+    },
+    "run_level": {
+      "native_direct": {
+        "actual_p50": {
+          "min_ms": 2.642354,
+          "max_ms": 27.036771,
+          "values_ms": [
+            21.2877915,
+            20.168229,
+            27.036771,
+            21.575875,
+            23.499083,
+            21.998021,
+            2.642354
+          ]
+        },
+        "actual_p95": {
+          "min_ms": 3.2933714999999983,
+          "max_ms": 66.93480829999996,
+          "values_ms": [
+            32.93797229999993,
+            28.877022949999876,
+            53.254572599999925,
+            34.28971279999997,
+            34.660546149999966,
+            66.93480829999996,
+            3.2933714999999983
+          ]
+        },
+        "actual_p99": {
+          "min_ms": 277.5389321299998,
+          "max_ms": 410.90912362999967,
+          "values_ms": [
+            329.08322637999976,
+            277.5389321299998,
+            316.8289568699998,
+            410.90912362999967,
+            384.69776061999966,
+            380.7582747299997,
+            343.44746150999964
+          ]
+        },
+        "incremental_p95": {
+          "min_ms": 0.8581559,
+          "max_ms": 41.30022704999995,
+          "values_ms": [
+            11.08555114999995,
+            7.557566049999878,
+            9.930369699999872,
+            6.929522299999994,
+            5.0145923499999965,
+            41.30022704999995,
+            0.8581559
+          ]
+        },
+        "incremental_p99": {
+          "min_ms": 256.1748182499998,
+          "max_ms": 356.9910697399997,
+          "values_ms": [
+            305.5636782499998,
+            256.1748182499998,
+            288.7601006099998,
+            324.7806820099997,
+            352.36422538999966,
+            356.9910697399997,
+            339.8743316199997
+          ]
+        }
+      },
+      "native_via_shell": {
+        "actual_p50": {
+          "min_ms": 5.8268125,
+          "max_ms": 56.165479,
+          "values_ms": [
+            45.091562499999995,
+            43.2329165,
+            56.165479,
+            45.700813,
+            50.1618335,
+            49.145312,
+            5.8268125
+          ]
+        },
+        "actual_p95": {
+          "min_ms": 6.890549649999997,
+          "max_ms": 110.4956860499999,
+          "values_ms": [
+            79.45653544999998,
+            47.7476417,
+            72.1141045,
+            85.83223334999998,
+            110.4956860499999,
+            95.09752674999993,
+            6.890549649999997
+          ]
+        },
+        "actual_p99": {
+          "min_ms": 10.588769119999998,
+          "max_ms": 181.13651436999996,
+          "values_ms": [
+            113.52652525999997,
+            50.2036215,
+            93.30038637999998,
+            110.79171137999998,
+            181.13651436999996,
+            145.54647986999998,
+            10.588769119999998
+          ]
+        },
+        "incremental_p95": {
+          "min_ms": 4.663010999999999,
+          "max_ms": 84.30664999999989,
+          "values_ms": [
+            53.358556299999975,
+            27.584013149999997,
+            40.21309374999997,
+            55.75471699999995,
+            84.30664999999989,
+            71.58172229999995,
+            4.663010999999999
+          ]
+        },
+        "incremental_p99": {
+          "min_ms": 5.69337774,
+          "max_ms": 154.46036436999998,
+          "values_ms": [
+            92.31922663999997,
+            31.17224262,
+            65.89014124999999,
+            88.12905761999998,
+            154.46036436999998,
+            117.00355262999997,
+            5.69337774
+          ]
+        }
+      }
+    }
+  },
+  "sources": [
+    {
+      "file": "hook-transport-20260729T081334Z.json",
+      "sha256": "ebd897b5046deb57544677c35df45b5687294d3dc28f38a9104b6128d2062df4",
+      "schema_version": "sri.experiment.hook-transport.v4",
+      "performance_gate_passed": true,
+      "integrity_passed": true,
+      "expected_events": 80,
+      "accepted_events": 80,
+      "host_load": {}
+    },
+    {
+      "file": "hook-transport-20260729T081448Z.json",
+      "sha256": "be7b3cdf3e4f53e224bb40a8321de479bb8bee1cb9f7ca56d2248a68eba70911",
+      "schema_version": "sri.experiment.hook-transport.v4",
+      "performance_gate_passed": true,
+      "integrity_passed": true,
+      "expected_events": 80,
+      "accepted_events": 80,
+      "host_load": {}
+    },
+    {
+      "file": "hook-transport-20260729T084434Z.json",
+      "sha256": "d9e2710b5251485b7d6f97c568451a96b969f87d939acf3b47554f24b258f6ff",
+      "schema_version": "sri.experiment.hook-transport.v4",
+      "performance_gate_passed": true,
+      "integrity_passed": true,
+      "expected_events": 80,
+      "accepted_events": 80,
+      "host_load": {}
+    },
+    {
+      "file": "hook-transport-20260729T091326Z.json",
+      "sha256": "cf85c60046c2dc3aa2f9d13097910bb94b85c48623a81050868cc74a5e05e700",
+      "schema_version": "sri.experiment.hook-transport.v4",
+      "performance_gate_passed": true,
+      "integrity_passed": true,
+      "expected_events": 80,
+      "accepted_events": 80,
+      "host_load": {}
+    },
+    {
+      "file": "hook-transport-20260729T094414Z.json",
+      "sha256": "2aba2791603102613e71fc05be3cdeed659df2c056c8f07ca4c279a17de00fa2",
+      "schema_version": "sri.experiment.hook-transport.v4",
+      "performance_gate_passed": false,
+      "integrity_passed": true,
+      "expected_events": 80,
+      "accepted_events": 80,
+      "host_load": {}
+    },
+    {
+      "file": "hook-transport-20260729T094518Z.json",
+      "sha256": "e95ad57e7861d06e252cd53ad3e4a8dd5ac0a1f3544cfccdf06f0647d6ee42a0",
+      "schema_version": "sri.experiment.hook-transport.v5",
+      "performance_gate_passed": true,
+      "integrity_passed": true,
+      "expected_events": 80,
+      "accepted_events": 80,
+      "host_load": {
+        "logical_cpu_count": 12,
+        "ambient_at_start": {
+          "one_minute": 10.10400390625,
+          "five_minutes": 12.6494140625,
+          "fifteen_minutes": 13.14111328125
+        },
+        "ambient_at_end": {
+          "one_minute": 9.77490234375,
+          "five_minutes": 12.53857421875,
+          "fifteen_minutes": 13.09912109375
+        }
+      }
+    },
+    {
+      "file": "hook-transport-20260729T101125Z.json",
+      "sha256": "d08da188053cebf5391ae32a030f9ec994757d10969c856ff8c2ea12b0ee1b96",
+      "schema_version": "sri.experiment.hook-transport.v6",
+      "performance_gate_passed": true,
+      "integrity_passed": true,
+      "expected_events": 80,
+      "accepted_events": 80,
+      "host_load": {
+        "logical_cpu_count": 12,
+        "ambient_at_start": {
+          "one_minute": 7.18603515625,
+          "five_minutes": 7.30126953125,
+          "fifteen_minutes": 8.41650390625
+        },
+        "ambient_at_end": {
+          "one_minute": 7.18603515625,
+          "five_minutes": 7.30126953125,
+          "fifteen_minutes": 8.41650390625
+        }
+      }
+    }
+  ],
+  "ignored_sources": [
+    {
+      "file": "hook-transport-20260729T072128Z.json",
+      "schema_version": "sri.experiment.hook-transport.v1"
+    },
+    {
+      "file": "hook-transport-20260729T072410Z.json",
+      "schema_version": "sri.experiment.hook-transport.v1"
+    },
+    {
+      "file": "hook-transport-20260729T072526Z.json",
+      "schema_version": "sri.experiment.hook-transport.v1"
+    },
+    {
+      "file": "hook-transport-20260729T072636Z.json",
+      "schema_version": "sri.experiment.hook-transport.v1"
+    },
+    {
+      "file": "hook-transport-20260729T081103Z.json",
+      "schema_version": "sri.experiment.hook-transport.v2"
+    },
+    {
+      "file": "hook-transport-20260729T081253Z.json",
+      "schema_version": "sri.experiment.hook-transport.v3"
+    },
+    {
+      "file": "hook-transport-aggregate-20260729T101130Z.json",
+      "schema_version": "sri.experiment.hook-transport-aggregate.v1"
+    }
+  ],
+  "gate": {
+    "name": "all comparable runs preserved lossless silent delivery",
+    "passed": true
+  },
+  "created_at": "2026-07-29T10:12:12.000219+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "07a7cf05b9f4233e37b4f3392ecd69be36fe8367",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

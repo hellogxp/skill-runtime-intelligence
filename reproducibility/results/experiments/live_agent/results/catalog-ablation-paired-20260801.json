@@ -1,0 +1,288 @@
+{
+  "schema_version": "sri.experiment.catalog-ablation.paired.v1",
+  "experiment": {
+    "name": "randomized-paired-project-skill-catalog-cardinality",
+    "evidence_grade": "Experimental",
+    "agent": "codex",
+    "model": "gpt-5.6-sol",
+    "seed": 20260801,
+    "repetitions": 4,
+    "catalogs": [
+      0,
+      8,
+      32
+    ],
+    "limitations": [
+      "Blocks ran sequentially on one machine, so time drift remains a covariate.",
+      "Synthetic distractors are semantically disjoint and do not estimate overlapping-Skill collisions.",
+      "The bootstrap interval describes these blocks and is not a deployment population interval.",
+      "Input tokens are Agent-reported totals and include global runtime context."
+    ]
+  },
+  "condition_summary": {
+    "0": {
+      "trial_count": 4,
+      "verified_count": 4,
+      "input_tokens_median": 46510.0,
+      "input_tokens_min": 46436,
+      "input_tokens_max": 47060,
+      "wall_ms_median": 15316.132833504525,
+      "wall_ms_min": 13617.471916004433,
+      "wall_ms_max": 16024.900958000217
+    },
+    "8": {
+      "trial_count": 4,
+      "verified_count": 4,
+      "input_tokens_median": 49191.5,
+      "input_tokens_min": 48799,
+      "input_tokens_max": 49572,
+      "wall_ms_median": 15777.17785450659,
+      "wall_ms_min": 15146.366457993281,
+      "wall_ms_max": 19263.017582998145
+    },
+    "32": {
+      "trial_count": 4,
+      "verified_count": 4,
+      "input_tokens_median": 51340.5,
+      "input_tokens_min": 51332,
+      "input_tokens_max": 51361,
+      "wall_ms_median": 20521.014208497945,
+      "wall_ms_min": 16560.924833000172,
+      "wall_ms_max": 23550.718375001452
+    }
+  },
+  "paired_endpoint": {
+    "low_distractors": 0,
+    "high_distractors": 32,
+    "input_token_differences": [
+      4301,
+      4837,
+      4910,
+      4810
+    ],
+    "input_token_difference_mean": 4714.5,
+    "input_token_difference_bootstrap_95pct": [
+      4435.0,
+      4885.0
+    ],
+    "wall_ms_differences": [
+      4039.0495009924052,
+      7525.817417001235,
+      7601.601999995182,
+      1712.5641659949906
+    ],
+    "wall_ms_difference_mean": 5219.758270995953,
+    "wall_ms_difference_bootstrap_95pct": [
+      2875.806833493698,
+      7563.709708498209
+    ]
+  },
+  "rows": [
+    {
+      "distractor_skill_count": 0,
+      "catalog_skill_count": 1,
+      "exit_code": 0,
+      "wall_ms": 13617.471916004433,
+      "input_tokens": 47060,
+      "cached_input_tokens": 37120,
+      "output_tokens": 270,
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "target_skill_loaded": true,
+      "target_script_executed": true,
+      "other_skill_loaded": false,
+      "block": 0,
+      "sequence": 0
+    },
+    {
+      "distractor_skill_count": 8,
+      "catalog_skill_count": 9,
+      "exit_code": 0,
+      "wall_ms": 19263.017582998145,
+      "input_tokens": 49489,
+      "cached_input_tokens": 43264,
+      "output_tokens": 289,
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "target_skill_loaded": true,
+      "target_script_executed": true,
+      "other_skill_loaded": false,
+      "block": 0,
+      "sequence": 1
+    },
+    {
+      "distractor_skill_count": 32,
+      "catalog_skill_count": 33,
+      "exit_code": 0,
+      "wall_ms": 17656.52141699684,
+      "input_tokens": 51361,
+      "cached_input_tokens": 38144,
+      "output_tokens": 340,
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "target_skill_loaded": true,
+      "target_script_executed": true,
+      "other_skill_loaded": false,
+      "block": 0,
+      "sequence": 2
+    },
+    {
+      "distractor_skill_count": 8,
+      "catalog_skill_count": 9,
+      "exit_code": 0,
+      "wall_ms": 15146.366457993281,
+      "input_tokens": 48799,
+      "cached_input_tokens": 42240,
+      "output_tokens": 291,
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "target_skill_loaded": true,
+      "target_script_executed": true,
+      "other_skill_loaded": false,
+      "block": 1,
+      "sequence": 0
+    },
+    {
+      "distractor_skill_count": 0,
+      "catalog_skill_count": 1,
+      "exit_code": 0,
+      "wall_ms": 16024.900958000217,
+      "input_tokens": 46498,
+      "cached_input_tokens": 37120,
+      "output_tokens": 309,
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "target_skill_loaded": true,
+      "target_script_executed": true,
+      "other_skill_loaded": false,
+      "block": 1,
+      "sequence": 1
+    },
+    {
+      "distractor_skill_count": 32,
+      "catalog_skill_count": 33,
+      "exit_code": 0,
+      "wall_ms": 23550.718375001452,
+      "input_tokens": 51335,
+      "cached_input_tokens": 43264,
+      "output_tokens": 327,
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "target_skill_loaded": true,
+      "target_script_executed": true,
+      "other_skill_loaded": false,
+      "block": 1,
+      "sequence": 2
+    },
+    {
+      "distractor_skill_count": 8,
+      "catalog_skill_count": 9,
+      "exit_code": 0,
+      "wall_ms": 16324.684042003355,
+      "input_tokens": 48894,
+      "cached_input_tokens": 42240,
+      "output_tokens": 305,
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "target_skill_loaded": true,
+      "target_script_executed": true,
+      "other_skill_loaded": false,
+      "block": 2,
+      "sequence": 0
+    },
+    {
+      "distractor_skill_count": 32,
+      "catalog_skill_count": 33,
+      "exit_code": 0,
+      "wall_ms": 23385.506999999052,
+      "input_tokens": 51346,
+      "cached_input_tokens": 43264,
+      "output_tokens": 325,
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "target_skill_loaded": true,
+      "target_script_executed": true,
+      "other_skill_loaded": false,
+      "block": 2,
+      "sequence": 1
+    },
+    {
+      "distractor_skill_count": 0,
+      "catalog_skill_count": 1,
+      "exit_code": 0,
+      "wall_ms": 15783.90500000387,
+      "input_tokens": 46436,
+      "cached_input_tokens": 37120,
+      "output_tokens": 270,
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "target_skill_loaded": true,
+      "target_script_executed": true,
+      "other_skill_loaded": false,
+      "block": 2,
+      "sequence": 2
+    },
+    {
+      "distractor_skill_count": 32,
+      "catalog_skill_count": 33,
+      "exit_code": 0,
+      "wall_ms": 16560.924833000172,
+      "input_tokens": 51332,
+      "cached_input_tokens": 43264,
+      "output_tokens": 322,
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "target_skill_loaded": true,
+      "target_script_executed": true,
+      "other_skill_loaded": false,
+      "block": 3,
+      "sequence": 0
+    },
+    {
+      "distractor_skill_count": 0,
+      "catalog_skill_count": 1,
+      "exit_code": 0,
+      "wall_ms": 14848.360667005181,
+      "input_tokens": 46522,
+      "cached_input_tokens": 37120,
+      "output_tokens": 322,
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "target_skill_loaded": true,
+      "target_script_executed": true,
+      "other_skill_loaded": false,
+      "block": 3,
+      "sequence": 1
+    },
+    {
+      "distractor_skill_count": 8,
+      "catalog_skill_count": 9,
+      "exit_code": 0,
+      "wall_ms": 15229.671667009825,
+      "input_tokens": 49572,
+      "cached_input_tokens": 33024,
+      "output_tokens": 362,
+      "outcome_verified": true,
+      "workspace_unchanged": true,
+      "target_skill_loaded": true,
+      "target_script_executed": true,
+      "other_skill_loaded": false,
+      "block": 3,
+      "sequence": 2
+    }
+  ],
+  "gate": {
+    "name": "paired target-selection, outcome, and integrity invariants",
+    "passed": true
+  },
+  "created_at": "2026-08-01T01:51:00.464725+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "250fb9c5ab070e0c8a19d59f0e630f8fdefe2531",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

@@ -1,0 +1,968 @@
+{
+  "schema_version": "sri.experiment.semantic-diagnosis.v4",
+  "experiment": {
+    "name": "leave-one-out-diagnosis-relational-ablation",
+    "dataset_path": "${REPO_ROOT}/experiments/runtime_diagnostics/cases.jsonl",
+    "dataset_sha256": "a7728ebae830fe9fa58b04a5865fa9ea344d1149ab2ea29075e366af194522e5",
+    "limitations": [
+      "This is a lexical retrieval lower bound, not an LLM diagnosis result.",
+      "Lifecycle-aware retrieval is a structured-feature ablation, not a semantic model.",
+      "Failed-stage features are close to deterministic labels and can overstate retrieval generalization.",
+      "Relational anchors are close to production rule predicates; this ablation measures representation and template coverage, not an independent intelligent diagnostician.",
+      "The relational template baseline cannot emit a finding code absent from its leave-one-out training cases.",
+      "The small synthetic corpus cannot estimate deployment generalization.",
+      "Retrieved predictions are Inferred and never mutate deterministic findings."
+    ]
+  },
+  "deterministic_rules": {
+    "case_count": 14,
+    "exact_matches": 14,
+    "exact_match_rate": 1.0,
+    "true_positive": 14,
+    "false_positive": 0,
+    "false_negative": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "lexical_retrieval": {
+    "case_count": 14,
+    "exact_matches": 3,
+    "exact_match_rate": 0.21428571428571427,
+    "true_positive": 6,
+    "false_positive": 9,
+    "false_negative": 8,
+    "precision": 0.4,
+    "recall": 0.42857142857142855,
+    "f1": 0.4137931034482759
+  },
+  "lifecycle_retrieval": {
+    "case_count": 14,
+    "exact_matches": 1,
+    "exact_match_rate": 0.07142857142857142,
+    "true_positive": 1,
+    "false_positive": 10,
+    "false_negative": 13,
+    "precision": 0.09090909090909091,
+    "recall": 0.07142857142857142,
+    "f1": 0.08
+  },
+  "relational_template_retrieval": {
+    "case_count": 14,
+    "exact_matches": 13,
+    "exact_match_rate": 0.9285714285714286,
+    "true_positive": 13,
+    "false_positive": 0,
+    "false_negative": 1,
+    "precision": 1.0,
+    "recall": 0.9285714285714286,
+    "f1": 0.962962962962963
+  },
+  "rows": [
+    {
+      "case_id": "healthy_verified",
+      "nearest_case_id": "activation_gap",
+      "similarity": 0.47368421052631576,
+      "prediction_grade": "inferred",
+      "expected": [],
+      "deterministic": [],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "instructions_gap",
+      "lifecycle_similarity": 0.9821428571428571,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false,
+      "relational_template_prediction_grade": "inferred",
+      "relational_template_retrieval": [],
+      "relational_template_retrieval_exact": true,
+      "relational_template_audit": []
+    },
+    {
+      "case_id": "activation_gap",
+      "nearest_case_id": "instructions_gap",
+      "similarity": 0.5135135135135135,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "deterministic": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "healthy_verified",
+      "lifecycle_similarity": 0.9821428571428571,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [],
+      "lifecycle_retrieval_exact": false,
+      "relational_template_prediction_grade": "inferred",
+      "relational_template_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "relational_template_retrieval_exact": true,
+      "relational_template_audit": [
+        {
+          "relation": "first_supported_gap_before_later_activity",
+          "stage": "activation",
+          "evidence_grade": "derived",
+          "selected_code": "lifecycle_evidence_gap",
+          "positive_support": {
+            "lifecycle_evidence_gap": 4
+          },
+          "null_support": 0,
+          "source_case_ids": [
+            "instructions_gap",
+            "incomplete_with_report",
+            "request_gap_first",
+            "failure_and_incomplete"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "instructions_gap",
+      "nearest_case_id": "activation_gap",
+      "similarity": 0.5135135135135135,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "deterministic": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "healthy_verified",
+      "lifecycle_similarity": 0.9821428571428571,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [],
+      "lifecycle_retrieval_exact": false,
+      "relational_template_prediction_grade": "inferred",
+      "relational_template_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "relational_template_retrieval_exact": true,
+      "relational_template_audit": [
+        {
+          "relation": "first_supported_gap_before_later_activity",
+          "stage": "instructions",
+          "evidence_grade": "derived",
+          "selected_code": "lifecycle_evidence_gap",
+          "positive_support": {
+            "lifecycle_evidence_gap": 4
+          },
+          "null_support": 0,
+          "source_case_ids": [
+            "activation_gap",
+            "incomplete_with_report",
+            "request_gap_first",
+            "failure_and_incomplete"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "execution_failure",
+      "nearest_case_id": "resource_failure",
+      "similarity": 0.34615384615384615,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "deterministic": [
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "derived_failure_grade",
+      "lifecycle_similarity": 0.763888888888889,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "runtime_failure",
+          "execution",
+          "derived"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false,
+      "relational_template_prediction_grade": "inferred",
+      "relational_template_retrieval": [
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "relational_template_retrieval_exact": true,
+      "relational_template_audit": [
+        {
+          "relation": "first_failed_stage",
+          "stage": "execution",
+          "evidence_grade": "observed",
+          "selected_code": "runtime_failure",
+          "positive_support": {
+            "runtime_failure": 4
+          },
+          "null_support": 0,
+          "source_case_ids": [
+            "resource_failure",
+            "derived_failure_grade",
+            "earliest_of_multiple_failures",
+            "failure_and_incomplete"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "incomplete_run",
+      "nearest_case_id": "unsupported_is_not_gap",
+      "similarity": 0.21621621621621623,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "deterministic": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "lexical_retrieval": [],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "missing_tail_without_later_evidence",
+      "lifecycle_similarity": 0.9166666666666666,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [],
+      "lifecycle_retrieval_exact": false,
+      "relational_template_prediction_grade": "inferred",
+      "relational_template_retrieval": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "relational_template_retrieval_exact": true,
+      "relational_template_audit": [
+        {
+          "relation": "incomplete_or_partial",
+          "stage": "outcome",
+          "evidence_grade": "observed",
+          "selected_code": "run_incomplete",
+          "positive_support": {
+            "run_incomplete": 2
+          },
+          "null_support": 0,
+          "source_case_ids": [
+            "incomplete_with_report",
+            "failure_and_incomplete"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "reported_outcome_only",
+      "nearest_case_id": "activation_gap",
+      "similarity": 0.35714285714285715,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "outcome_unverified",
+          "outcome",
+          "derived"
+        ]
+      ],
+      "deterministic": [
+        [
+          "outcome_unverified",
+          "outcome",
+          "derived"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "incomplete_with_report",
+      "lifecycle_similarity": 0.8630952380952381,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false,
+      "relational_template_prediction_grade": "inferred",
+      "relational_template_retrieval": [],
+      "relational_template_retrieval_exact": false,
+      "relational_template_audit": [
+        {
+          "relation": "reported_outcome_without_verifier",
+          "stage": "outcome",
+          "evidence_grade": "derived",
+          "selected_code": null,
+          "positive_support": {},
+          "null_support": 0,
+          "source_case_ids": []
+        }
+      ]
+    },
+    {
+      "case_id": "unsupported_is_not_gap",
+      "nearest_case_id": "healthy_verified",
+      "similarity": 0.4,
+      "prediction_grade": "inferred",
+      "expected": [],
+      "deterministic": [],
+      "lexical_retrieval": [],
+      "deterministic_exact": true,
+      "retrieval_exact": true,
+      "lifecycle_nearest_case_id": "request_gap_first",
+      "lifecycle_similarity": 0.9500000000000001,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false,
+      "relational_template_prediction_grade": "inferred",
+      "relational_template_retrieval": [],
+      "relational_template_retrieval_exact": true,
+      "relational_template_audit": []
+    },
+    {
+      "case_id": "resource_failure",
+      "nearest_case_id": "earliest_of_multiple_failures",
+      "similarity": 0.38,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "deterministic": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": true,
+      "lifecycle_nearest_case_id": "earliest_of_multiple_failures",
+      "lifecycle_similarity": 0.548611111111111,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "lifecycle_retrieval_exact": true,
+      "relational_template_prediction_grade": "inferred",
+      "relational_template_retrieval": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "relational_template_retrieval_exact": true,
+      "relational_template_audit": [
+        {
+          "relation": "first_failed_stage",
+          "stage": "resources",
+          "evidence_grade": "observed",
+          "selected_code": "runtime_failure",
+          "positive_support": {
+            "runtime_failure": 4
+          },
+          "null_support": 0,
+          "source_case_ids": [
+            "execution_failure",
+            "derived_failure_grade",
+            "earliest_of_multiple_failures",
+            "failure_and_incomplete"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "derived_failure_grade",
+      "nearest_case_id": "earliest_of_multiple_failures",
+      "similarity": 0.34782608695652173,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "runtime_failure",
+          "execution",
+          "derived"
+        ]
+      ],
+      "deterministic": [
+        [
+          "runtime_failure",
+          "execution",
+          "derived"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "execution_failure",
+      "lifecycle_similarity": 0.763888888888889,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false,
+      "relational_template_prediction_grade": "inferred",
+      "relational_template_retrieval": [
+        [
+          "runtime_failure",
+          "execution",
+          "derived"
+        ]
+      ],
+      "relational_template_retrieval_exact": true,
+      "relational_template_audit": [
+        {
+          "relation": "first_failed_stage",
+          "stage": "execution",
+          "evidence_grade": "derived",
+          "selected_code": "runtime_failure",
+          "positive_support": {
+            "runtime_failure": 4
+          },
+          "null_support": 0,
+          "source_case_ids": [
+            "execution_failure",
+            "resource_failure",
+            "earliest_of_multiple_failures",
+            "failure_and_incomplete"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "incomplete_with_report",
+      "nearest_case_id": "failure_and_incomplete",
+      "similarity": 0.29411764705882354,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "deterministic": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ],
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "reported_outcome_only",
+      "lifecycle_similarity": 0.8630952380952381,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "outcome_unverified",
+          "outcome",
+          "derived"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false,
+      "relational_template_prediction_grade": "inferred",
+      "relational_template_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "relational_template_retrieval_exact": true,
+      "relational_template_audit": [
+        {
+          "relation": "first_supported_gap_before_later_activity",
+          "stage": "resources",
+          "evidence_grade": "derived",
+          "selected_code": "lifecycle_evidence_gap",
+          "positive_support": {
+            "lifecycle_evidence_gap": 4
+          },
+          "null_support": 0,
+          "source_case_ids": [
+            "activation_gap",
+            "instructions_gap",
+            "request_gap_first",
+            "failure_and_incomplete"
+          ]
+        },
+        {
+          "relation": "incomplete_or_partial",
+          "stage": "outcome",
+          "evidence_grade": "observed",
+          "selected_code": "run_incomplete",
+          "positive_support": {
+            "run_incomplete": 2
+          },
+          "null_support": 0,
+          "source_case_ids": [
+            "incomplete_run",
+            "failure_and_incomplete"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "earliest_of_multiple_failures",
+      "nearest_case_id": "resource_failure",
+      "similarity": 0.38,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "deterministic": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": true,
+      "lifecycle_nearest_case_id": "execution_failure",
+      "lifecycle_similarity": 0.6319444444444444,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false,
+      "relational_template_prediction_grade": "inferred",
+      "relational_template_retrieval": [
+        [
+          "runtime_failure",
+          "resources",
+          "observed"
+        ]
+      ],
+      "relational_template_retrieval_exact": true,
+      "relational_template_audit": [
+        {
+          "relation": "first_failed_stage",
+          "stage": "resources",
+          "evidence_grade": "observed",
+          "selected_code": "runtime_failure",
+          "positive_support": {
+            "runtime_failure": 4
+          },
+          "null_support": 0,
+          "source_case_ids": [
+            "execution_failure",
+            "resource_failure",
+            "derived_failure_grade",
+            "failure_and_incomplete"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "missing_tail_without_later_evidence",
+      "nearest_case_id": "activation_gap",
+      "similarity": 0.3142857142857143,
+      "prediction_grade": "inferred",
+      "expected": [],
+      "deterministic": [],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "incomplete_run",
+      "lifecycle_similarity": 0.9166666666666666,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false,
+      "relational_template_prediction_grade": "inferred",
+      "relational_template_retrieval": [],
+      "relational_template_retrieval_exact": true,
+      "relational_template_audit": []
+    },
+    {
+      "case_id": "request_gap_first",
+      "nearest_case_id": "instructions_gap",
+      "similarity": 0.36585365853658536,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ]
+      ],
+      "deterministic": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "unsupported_is_not_gap",
+      "lifecycle_similarity": 0.9500000000000001,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [],
+      "lifecycle_retrieval_exact": false,
+      "relational_template_prediction_grade": "inferred",
+      "relational_template_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ]
+      ],
+      "relational_template_retrieval_exact": true,
+      "relational_template_audit": [
+        {
+          "relation": "first_supported_gap_before_later_activity",
+          "stage": "request",
+          "evidence_grade": "derived",
+          "selected_code": "lifecycle_evidence_gap",
+          "positive_support": {
+            "lifecycle_evidence_gap": 4
+          },
+          "null_support": 0,
+          "source_case_ids": [
+            "activation_gap",
+            "instructions_gap",
+            "incomplete_with_report",
+            "failure_and_incomplete"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "failure_and_incomplete",
+      "nearest_case_id": "incomplete_with_report",
+      "similarity": 0.29411764705882354,
+      "prediction_grade": "inferred",
+      "expected": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ],
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "deterministic": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ],
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "lexical_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "deterministic_exact": true,
+      "retrieval_exact": false,
+      "lifecycle_nearest_case_id": "derived_failure_grade",
+      "lifecycle_similarity": 0.6354166666666666,
+      "lifecycle_prediction_grade": "inferred",
+      "lifecycle_retrieval": [
+        [
+          "runtime_failure",
+          "execution",
+          "derived"
+        ]
+      ],
+      "lifecycle_retrieval_exact": false,
+      "relational_template_prediction_grade": "inferred",
+      "relational_template_retrieval": [
+        [
+          "lifecycle_evidence_gap",
+          "resources",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ],
+        [
+          "runtime_failure",
+          "execution",
+          "observed"
+        ]
+      ],
+      "relational_template_retrieval_exact": true,
+      "relational_template_audit": [
+        {
+          "relation": "first_failed_stage",
+          "stage": "execution",
+          "evidence_grade": "observed",
+          "selected_code": "runtime_failure",
+          "positive_support": {
+            "runtime_failure": 4
+          },
+          "null_support": 0,
+          "source_case_ids": [
+            "execution_failure",
+            "resource_failure",
+            "derived_failure_grade",
+            "earliest_of_multiple_failures"
+          ]
+        },
+        {
+          "relation": "first_supported_gap_before_later_activity",
+          "stage": "resources",
+          "evidence_grade": "derived",
+          "selected_code": "lifecycle_evidence_gap",
+          "positive_support": {
+            "lifecycle_evidence_gap": 4
+          },
+          "null_support": 0,
+          "source_case_ids": [
+            "activation_gap",
+            "instructions_gap",
+            "incomplete_with_report",
+            "request_gap_first"
+          ]
+        },
+        {
+          "relation": "incomplete_or_partial",
+          "stage": "outcome",
+          "evidence_grade": "observed",
+          "selected_code": "run_incomplete",
+          "positive_support": {
+            "run_incomplete": 2
+          },
+          "null_support": 0,
+          "source_case_ids": [
+            "incomplete_run",
+            "incomplete_with_report"
+          ]
+        }
+      ]
+    }
+  ],
+  "gate": {
+    "name": "inference-layer separation",
+    "passed": true
+  },
+  "created_at": "2026-07-29T11:12:18.522175+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "1b4f4fe2ed4fbe153c3f5d2828cde7589afc8902",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

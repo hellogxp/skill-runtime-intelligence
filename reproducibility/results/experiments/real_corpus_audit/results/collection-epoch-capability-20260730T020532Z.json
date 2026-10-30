@@ -1,0 +1,83 @@
+{
+  "schema_version": "sri.experiment.collection-epoch-capability.v1",
+  "experiment": {
+    "name": "privacy-safe-collection-epoch-capability-audit",
+    "evidence_grade": "Derived",
+    "source_database_basename": "panorama.db",
+    "consistent_snapshot": true,
+    "snapshot_backup_attempts": 1,
+    "source_query_only_enforced": true,
+    "row_level_records_included": false,
+    "raw_content_included": false,
+    "limitations": [
+      "Schema availability does not prove checkpoint correctness.",
+      "A global revision cannot delimit a multi-session watch batch.",
+      "This audit does not estimate late-arrival frequency."
+    ]
+  },
+  "snapshot_manifest": {
+    "snapshot_sha256": "df972844bde24d6ba33a61558a60236667af088464b09c806bf2921e75a292e4",
+    "integrity_check": "ok"
+  },
+  "metrics": {
+    "schema_table_count": 9,
+    "runtime_state_key_count": 2,
+    "runtime_state_key_category_counts": {
+      "collection_epoch": 1,
+      "global_revision": 1
+    },
+    "current_global_revision": 7222,
+    "session_last_event_at_available": true,
+    "capabilities": [
+      {
+        "name": "global_monotonic_revision",
+        "available": true
+      },
+      {
+        "name": "revision_update_timestamp",
+        "available": true
+      },
+      {
+        "name": "completed_import_digest",
+        "available": true
+      },
+      {
+        "name": "collection_epoch_identifier",
+        "available": true
+      },
+      {
+        "name": "epoch_running_completed_state",
+        "available": true
+      },
+      {
+        "name": "source_high_watermark",
+        "available": true
+      },
+      {
+        "name": "late_arrival_counter",
+        "available": true
+      }
+    ],
+    "available_capability_count": 7,
+    "capability_count": 7,
+    "freeze_checkpoint_available": true
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "gate": {
+    "name": "collection checkpoint capabilities audited",
+    "passed": true
+  },
+  "created_at": "2026-07-30T02:05:32.594940+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "c6ddc8387b15e0333bbf350ef3aeb468049d4a66",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

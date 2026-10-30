@@ -1,0 +1,309 @@
+{
+  "schema_version": "sri.experiment.novel-pattern-study.v1",
+  "experiment": {
+    "name": "rule-external-paired-anomaly-discovery",
+    "evidence_grade": "Experimental",
+    "backend": "openai",
+    "model": "qwen3.6-35b-a3b-dsw",
+    "runtime_version": "openai-compatible",
+    "holdout_sha256": "2b335ddab502efba97080e105ad4b2db293decc7ed476408eab41a18f008de72",
+    "limitations": [
+      "Controlled synthetic invariants are hypothesis tests, not real incident prevalence.",
+      "The rule baseline is intentionally zero because these families are outside the production rule set.",
+      "Support validation checks preregistered evidence pairs, not natural-language semantic quality."
+    ]
+  },
+  "metrics": {
+    "planned_cases": 12,
+    "completed_cases": 12,
+    "detection_correct": 10,
+    "precision": 1.0,
+    "recall": 0.6666666666666666,
+    "f1": 0.8,
+    "citation_id_valid": 12,
+    "support_relation_valid": 10,
+    "causal_safe": 12,
+    "latency_p50_ms": 881.99773101951,
+    "rule_baseline_detected": 0
+  },
+  "rows": [
+    {
+      "case_id": "novel-01-anomaly",
+      "family": "temporal_order",
+      "status": "completed",
+      "expected_anomaly": true,
+      "predicted_anomaly": true,
+      "detection_correct": true,
+      "citations": [
+        "E1",
+        "E2"
+      ],
+      "citation_id_valid": true,
+      "support_relation_valid": true,
+      "anomaly_label": "temporal_sequence_inversion",
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1325.2463800017722,
+      "usage": {
+        "prompt_tokens": 313,
+        "total_tokens": 387,
+        "completion_tokens": 74,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "novel-01-clean",
+      "family": "temporal_order",
+      "status": "completed",
+      "expected_anomaly": false,
+      "predicted_anomaly": false,
+      "detection_correct": true,
+      "citations": [],
+      "citation_id_valid": true,
+      "support_relation_valid": true,
+      "anomaly_label": "",
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1088.289804989472,
+      "usage": {
+        "prompt_tokens": 313,
+        "total_tokens": 366,
+        "completion_tokens": 53,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "novel-02-anomaly",
+      "family": "parent_cycle",
+      "status": "completed",
+      "expected_anomaly": true,
+      "predicted_anomaly": true,
+      "detection_correct": true,
+      "citations": [
+        "E1",
+        "E2"
+      ],
+      "citation_id_valid": true,
+      "support_relation_valid": true,
+      "anomaly_label": "circular_parental_dependency",
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1324.1128539666533,
+      "usage": {
+        "prompt_tokens": 303,
+        "total_tokens": 377,
+        "completion_tokens": 74,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "novel-02-clean",
+      "family": "parent_cycle",
+      "status": "completed",
+      "expected_anomaly": false,
+      "predicted_anomaly": false,
+      "detection_correct": true,
+      "citations": [],
+      "citation_id_valid": true,
+      "support_relation_valid": true,
+      "anomaly_label": "",
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1086.4973649731837,
+      "usage": {
+        "prompt_tokens": 301,
+        "total_tokens": 354,
+        "completion_tokens": 53,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "novel-03-anomaly",
+      "family": "evidence_grade_escalation",
+      "status": "completed",
+      "expected_anomaly": true,
+      "predicted_anomaly": false,
+      "detection_correct": false,
+      "citations": [],
+      "citation_id_valid": true,
+      "support_relation_valid": false,
+      "anomaly_label": "",
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1085.688398045022,
+      "usage": {
+        "prompt_tokens": 310,
+        "total_tokens": 363,
+        "completion_tokens": 53,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "novel-03-clean",
+      "family": "evidence_grade_escalation",
+      "status": "completed",
+      "expected_anomaly": false,
+      "predicted_anomaly": false,
+      "detection_correct": true,
+      "citations": [],
+      "citation_id_valid": true,
+      "support_relation_valid": true,
+      "anomaly_label": "",
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 1085.3455520118587,
+      "usage": {
+        "prompt_tokens": 309,
+        "total_tokens": 362,
+        "completion_tokens": 53,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "novel-04-anomaly",
+      "family": "verifier_conflict",
+      "status": "completed",
+      "expected_anomaly": true,
+      "predicted_anomaly": true,
+      "detection_correct": true,
+      "citations": [
+        "E1",
+        "E2"
+      ],
+      "citation_id_valid": true,
+      "support_relation_valid": true,
+      "anomaly_label": "contradictory_outcome_verification",
+      "causal_safe": true,
+      "confidence_0_100": 95,
+      "elapsed_ms": 678.6499100271612,
+      "usage": {
+        "prompt_tokens": 306,
+        "total_tokens": 380,
+        "completion_tokens": 74,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "novel-04-clean",
+      "family": "verifier_conflict",
+      "status": "completed",
+      "expected_anomaly": false,
+      "predicted_anomaly": false,
+      "detection_correct": true,
+      "citations": [],
+      "citation_id_valid": true,
+      "support_relation_valid": true,
+      "anomaly_label": "",
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 548.2234259834513,
+      "usage": {
+        "prompt_tokens": 306,
+        "total_tokens": 359,
+        "completion_tokens": 53,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "novel-05-anomaly",
+      "family": "capability_drift",
+      "status": "completed",
+      "expected_anomaly": true,
+      "predicted_anomaly": true,
+      "detection_correct": true,
+      "citations": [
+        "E1",
+        "E2"
+      ],
+      "citation_id_valid": true,
+      "support_relation_valid": true,
+      "anomaly_label": "contradictory_outcome_status",
+      "causal_safe": true,
+      "confidence_0_100": 95,
+      "elapsed_ms": 678.2950540073216,
+      "usage": {
+        "prompt_tokens": 313,
+        "total_tokens": 387,
+        "completion_tokens": 74,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "novel-05-clean",
+      "family": "capability_drift",
+      "status": "completed",
+      "expected_anomaly": false,
+      "predicted_anomaly": false,
+      "detection_correct": true,
+      "citations": [],
+      "citation_id_valid": true,
+      "support_relation_valid": true,
+      "anomaly_label": "",
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 547.8377569816075,
+      "usage": {
+        "prompt_tokens": 313,
+        "total_tokens": 366,
+        "completion_tokens": 53,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "novel-06-anomaly",
+      "family": "orphan_reference",
+      "status": "completed",
+      "expected_anomaly": true,
+      "predicted_anomaly": false,
+      "detection_correct": false,
+      "citations": [],
+      "citation_id_valid": true,
+      "support_relation_valid": false,
+      "anomaly_label": "",
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 441.9754379778169,
+      "usage": {
+        "prompt_tokens": 305,
+        "total_tokens": 358,
+        "completion_tokens": 53,
+        "prompt_tokens_details": null
+      }
+    },
+    {
+      "case_id": "novel-06-clean",
+      "family": "orphan_reference",
+      "status": "completed",
+      "expected_anomaly": false,
+      "predicted_anomaly": false,
+      "detection_correct": true,
+      "citations": [],
+      "citation_id_valid": true,
+      "support_relation_valid": true,
+      "anomaly_label": "",
+      "causal_safe": true,
+      "confidence_0_100": 100,
+      "elapsed_ms": 446.8281220179051,
+      "usage": {
+        "prompt_tokens": 305,
+        "total_tokens": 358,
+        "completion_tokens": 53,
+        "prompt_tokens_details": null
+      }
+    }
+  ],
+  "gate": {
+    "name": "complete, ID-valid, causal-safe hypothesis generation",
+    "passed": true
+  },
+  "created_at": "2026-08-01T02:37:45.948646+00:00",
+  "environment": {
+    "python": "3.12.13",
+    "platform": "Linux-5.10.134-18.0.11.lifsea8.x86_64-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "git_commit": "a1f2cfca6a4c7cc75e7a995ed54f48ca99c131f9",
+    "git_dirty": true,
+    "pai_dsw_instance_id": "sri-confirmatory",
+    "experiment_root": null
+  }
+}

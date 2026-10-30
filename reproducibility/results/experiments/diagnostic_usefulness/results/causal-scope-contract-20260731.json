@@ -1,0 +1,117 @@
+{
+  "schema_version": "sri.experiment.causal-scope-contract.v1",
+  "experiment": {
+    "name": "deterministic-causal-scope-contract",
+    "evidence_grade": "derived",
+    "dataset_path": "${REPO_ROOT}/experiments/runtime_diagnostics/cases.jsonl",
+    "dataset_sha256": "a7728ebae830fe9fa58b04a5865fa9ea344d1149ab2ea29075e366af194522e5",
+    "limitations": [
+      "The benchmark validates policy mechanics, not whether natural-language claims are classified correctly.",
+      "The corpus is synthetic and contains no experimental-effect Finding."
+    ]
+  },
+  "metrics": {
+    "case_count": 11,
+    "finding_count": 14,
+    "single_run_findings_with_none_scope": 14,
+    "single_run_effect_claims_allowed": 0,
+    "single_run_descriptive_claims_allowed": 14,
+    "policy_matrix_exact": 9,
+    "policy_matrix_total": 9,
+    "invalid_inputs_denied": 2,
+    "invalid_input_count": 2
+  },
+  "policy_checks": [
+    {
+      "allowed": true,
+      "causal_scope": "none",
+      "claim_kind": "descriptive",
+      "reason": "The requested claim is within the finding's causal scope.",
+      "expected_allowed": true
+    },
+    {
+      "allowed": false,
+      "causal_scope": "none",
+      "claim_kind": "source_attribution",
+      "reason": "none does not authorize source_attribution. Describe the observed boundary without claiming that the Skill caused the outcome.",
+      "expected_allowed": false
+    },
+    {
+      "allowed": false,
+      "causal_scope": "none",
+      "claim_kind": "skill_outcome_effect",
+      "reason": "none does not authorize skill_outcome_effect. Describe the observed boundary without claiming that the Skill caused the outcome.",
+      "expected_allowed": false
+    },
+    {
+      "allowed": true,
+      "causal_scope": "source_assertion_only",
+      "claim_kind": "descriptive",
+      "reason": "The requested claim is within the finding's causal scope.",
+      "expected_allowed": true
+    },
+    {
+      "allowed": true,
+      "causal_scope": "source_assertion_only",
+      "claim_kind": "source_attribution",
+      "reason": "The requested claim is within the finding's causal scope.",
+      "expected_allowed": true
+    },
+    {
+      "allowed": false,
+      "causal_scope": "source_assertion_only",
+      "claim_kind": "skill_outcome_effect",
+      "reason": "source_assertion_only does not authorize skill_outcome_effect. Describe the observed boundary without claiming that the Skill caused the outcome.",
+      "expected_allowed": false
+    },
+    {
+      "allowed": true,
+      "causal_scope": "experimental_estimate",
+      "claim_kind": "descriptive",
+      "reason": "The requested claim is within the finding's causal scope.",
+      "expected_allowed": true
+    },
+    {
+      "allowed": true,
+      "causal_scope": "experimental_estimate",
+      "claim_kind": "source_attribution",
+      "reason": "The requested claim is within the finding's causal scope.",
+      "expected_allowed": true
+    },
+    {
+      "allowed": true,
+      "causal_scope": "experimental_estimate",
+      "claim_kind": "skill_outcome_effect",
+      "reason": "The requested claim is within the finding's causal scope.",
+      "expected_allowed": true
+    }
+  ],
+  "invalid_checks": [
+    {
+      "allowed": false,
+      "causal_scope": "unknown",
+      "claim_kind": "skill_outcome_effect",
+      "reason": "Unknown causal scope; causal attribution is denied."
+    },
+    {
+      "allowed": false,
+      "causal_scope": "none",
+      "claim_kind": "unknown",
+      "reason": "Unknown claim kind; causal attribution is denied."
+    }
+  ],
+  "gate": {
+    "name": "causal-scope contract",
+    "passed": true
+  },
+  "created_at": "2026-07-31T03:51:23.246490+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

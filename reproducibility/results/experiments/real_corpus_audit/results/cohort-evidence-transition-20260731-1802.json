@@ -1,0 +1,85 @@
+{
+  "schema_version": "sri.experiment.cohort-evidence-transition.v1",
+  "experiment": {
+    "name": "privacy-safe-cohort-evidence-transition-pilot",
+    "evidence_grade": "Experimental",
+    "source_database_basename": "panorama.db",
+    "requested_interval_seconds": 2.0,
+    "observed_interval_seconds": 22.159507,
+    "cohort_rule": "all runs present in snapshot A",
+    "evidence_sufficiency_rule": "observed skill activation and either verified outcome or explicit failed event",
+    "source_query_only_enforced": true,
+    "row_level_records_included": false,
+    "raw_content_included": false,
+    "limitations": [
+      "This is one short observational interval on one local database.",
+      "No intervention was assigned and no causal effect is estimated.",
+      "Missing evidence may reflect adapter capability rather than run quality.",
+      "Private run keys are used only for local matching and are not emitted."
+    ]
+  },
+  "snapshot_manifest": {
+    "snapshot_sha256": [
+      "04b6f9b262b32d52456231349b34f0e81bb4044301f09f409fffb95d93947b15",
+      "ec4936e32871748db149bb6a39bf750b314449bd3357c6c659fd10747e2e4988"
+    ],
+    "snapshot_bytes": [
+      149807104,
+      149815296
+    ],
+    "backup_attempts": [
+      1,
+      1
+    ],
+    "integrity_checks": [
+      "ok",
+      "ok"
+    ]
+  },
+  "evaluation": {
+    "cohort_run_count": 408,
+    "retained_run_count": 408,
+    "missing_run_count": 0,
+    "new_run_count": 0,
+    "before_state_counts": {
+      "nonterminal__insufficient": 58,
+      "terminal__insufficient": 350
+    },
+    "after_state_counts_for_cohort": {
+      "nonterminal__insufficient": 58,
+      "terminal__insufficient": 350
+    },
+    "transition_counts": [
+      {
+        "from_state": "nonterminal__insufficient",
+        "to_state": "nonterminal__insufficient",
+        "run_count": 58
+      },
+      {
+        "from_state": "terminal__insufficient",
+        "to_state": "terminal__insufficient",
+        "run_count": 350
+      }
+    ],
+    "changed_state_count": 0,
+    "changed_state_fraction": 0.0
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "gate": {
+    "name": "cohort evidence-transition pilot completed",
+    "passed": true
+  },
+  "created_at": "2026-07-31T09:59:38.659378+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

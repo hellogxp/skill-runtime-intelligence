@@ -1,0 +1,781 @@
+{
+  "schema_version": "sri.experiment.model-agent-usefulness-result.v1",
+  "experiment": {
+    "name": "counterbalanced-model-agent-diagnostic-usefulness",
+    "evidence_grade": "experimental",
+    "dataset_path": "${REPO_ROOT}/experiments/runtime_diagnostics/cases.jsonl",
+    "dataset_sha256": "a7728ebae830fe9fa58b04a5865fa9ea344d1149ab2ea29075e366af194522e5",
+    "seed": 20260731,
+    "model": "opencode/mimo-v2.5-free",
+    "model_cli": "opencode",
+    "model_cli_version": "1.18.5",
+    "session_policy": "fresh pure session per trial",
+    "limitations": [
+      "These are model-agent responses, not human participants.",
+      "Repeated sessions from one model are stochastic samples, not independent model families.",
+      "The synthetic cases were built from the deterministic diagnostic corpus.",
+      "Latency is specific to this model/provider/CLI environment.",
+      "A condition difference from this pilot is exploratory and is not a general causal product claim."
+    ]
+  },
+  "metrics": {
+    "planned_trials": 22,
+    "completed_trials": 22,
+    "response_completion_rate": 1.0,
+    "unique_session_count": 22,
+    "overall_accuracy": 0.7727272727272727,
+    "overall_unsupported_causal_claim_rate": 0.09090909090909091,
+    "by_condition": {
+      "raw": {
+        "planned": 11,
+        "completed": 11,
+        "correct": 6,
+        "complete_case_accuracy": 0.5454545454545454,
+        "intention_to_treat_accuracy": 0.5454545454545454,
+        "unsupported_causal_claim_rate": 0.18181818181818182,
+        "mean_confidence_0_100": 67.27272727272727,
+        "brier_score": 0.2468181818181818,
+        "latency_p50_ms": 21342.668415993103
+      },
+      "panorama": {
+        "planned": 11,
+        "completed": 11,
+        "correct": 11,
+        "complete_case_accuracy": 1.0,
+        "intention_to_treat_accuracy": 1.0,
+        "unsupported_causal_claim_rate": 0.0,
+        "mean_confidence_0_100": 75.0,
+        "brier_score": 0.09931818181818182,
+        "latency_p50_ms": 27120.540250005433
+      }
+    },
+    "panorama_minus_raw_complete_case_accuracy": 0.4545454545454546,
+    "panorama_minus_raw_intention_to_treat_accuracy": 0.4545454545454546,
+    "matched_case_count": 11,
+    "matched_case_direction": {
+      "panorama_wins": 5,
+      "raw_wins": 0,
+      "ties": 6
+    }
+  },
+  "trials": [
+    {
+      "model_sample_slot": 1,
+      "order_index": 0,
+      "case_id": "request_gap_first",
+      "condition": "panorama",
+      "gold_stage": "request",
+      "prompt_sha256": "c5b78cb8298b783c29b243344ee7370c493d3bae48b0f2d9ad7d7dc34188affd",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 20354.95183299645,
+      "session_id_sha256": "6cc19af1a7312c630e47a90b3339fe9dbfe63c50fe9fcbe99d286e0624401b84",
+      "usage": {
+        "total": 18119,
+        "input": 15526,
+        "output": 58,
+        "reasoning": 743,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "request",
+      "correct": true,
+      "confidence_0_100": 40.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Findings[0]: No request event was observed even though later lifecycle activity exists (request stage)"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 1,
+      "case_id": "derived_failure_grade",
+      "condition": "raw",
+      "gold_stage": "execution",
+      "prompt_sha256": "5df809aa7e803b86774e46aee04cca9db41853df224363068fe78bc9cd319a11",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 15719.249124987982,
+      "session_id_sha256": "7caa0035ba2451b4309dc194371be1bc7c61f7d23dc63846660021ac8312f66b",
+      "usage": {
+        "total": 17866,
+        "input": 16199,
+        "output": 48,
+        "reasoning": 595,
+        "cache": {
+          "write": 0,
+          "read": 1024
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "execution",
+      "correct": true,
+      "confidence_0_100": 85.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "event tool.failed stage=execution status=failed Failure derived from exported span status."
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 2,
+      "case_id": "resource_failure",
+      "condition": "panorama",
+      "gold_stage": "resources",
+      "prompt_sha256": "6b54d45d63014be0b3b0e6586b927415ed7ffd4af953843496199684421d79d0",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 18620.2690420032,
+      "session_id_sha256": "a42894884d65e537cb4475504329f2dbe994e2f79a2914e1dca62dc63c17488c",
+      "usage": {
+        "total": 17859,
+        "input": 15488,
+        "output": 83,
+        "reasoning": 496,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": true,
+      "confidence_0_100": 75.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Findings show observed failure at resources stage with basis 'Required reference file was not found' - earliest failed lifecycle stage confirmed, but no direct evidence linking this failure to final outcome"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 3,
+      "case_id": "execution_failure",
+      "condition": "raw",
+      "gold_stage": "execution",
+      "prompt_sha256": "69e4ed7439fe79889e108bdba809833871fc4f7fa97b6fa924b66a23422cfd6b",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 17604.968125000596,
+      "session_id_sha256": "c171f1a72facc803e4a6a177288613b40c7d732f04fa90faaf94d39c2e652e9f",
+      "usage": {
+        "total": 17814,
+        "input": 16225,
+        "output": 57,
+        "reasoning": 508,
+        "cache": {
+          "write": 0,
+          "read": 1024
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "execution",
+      "correct": true,
+      "confidence_0_100": 75.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "event tool.completed stage=execution status=failed Renderer exited with status 1"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 4,
+      "case_id": "instructions_gap",
+      "condition": "panorama",
+      "gold_stage": "instructions",
+      "prompt_sha256": "c023b0b9951ce56a129f0b92fd0b0e46387cfba2b030b33a6abbeaef49f90ab0",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 22772.276875009993,
+      "session_id_sha256": "f75997019b807a21854d783c77e1ccc036186ba56512aa0be76b458e6c9e98a9",
+      "usage": {
+        "total": 18479,
+        "input": 16314,
+        "output": 68,
+        "reasoning": 1073,
+        "cache": {
+          "write": 0,
+          "read": 1024
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "instructions",
+      "correct": true,
+      "confidence_0_100": 70.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Evidence shows missing instructions lifecycle event before resources, execution, artifacts, outcome; absence is not proof of non-occurrence."
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 5,
+      "case_id": "incomplete_with_report",
+      "condition": "panorama",
+      "gold_stage": "resources",
+      "prompt_sha256": "7d5d2d2a0ee51647f6b37f13481b498ff5a58f8b2f86bdb64670d467779acd7b",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 23118.41666600958,
+      "session_id_sha256": "8bb652e8738149b8ffe383216a1ef14d5e7d4dfc55a02226433b62e4a090180b",
+      "usage": {
+        "total": 18391,
+        "input": 16429,
+        "output": 72,
+        "reasoning": 866,
+        "cache": {
+          "write": 0,
+          "read": 1024
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": true,
+      "confidence_0_100": 70.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Finding from resources stage: 'No resources event was observed even though later lifecycle activity exists' (severity: warning, evidence_grade: derived)."
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 6,
+      "case_id": "failure_and_incomplete",
+      "condition": "raw",
+      "gold_stage": "resources",
+      "prompt_sha256": "70323fa1eae97311d37d440bc1f985efafe1e57efca67b4c3afd794ea869791e",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 17356.93516599713,
+      "session_id_sha256": "2049c351127f6e20043705e92f06946551bb84de86be933b616138a69c010c2c",
+      "usage": {
+        "total": 17946,
+        "input": 16195,
+        "output": 41,
+        "reasoning": 686,
+        "cache": {
+          "write": 0,
+          "read": 1024
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "execution",
+      "correct": false,
+      "confidence_0_100": 60.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "event tool.failed stage=execution status=failed"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 7,
+      "case_id": "earliest_of_multiple_failures",
+      "condition": "raw",
+      "gold_stage": "resources",
+      "prompt_sha256": "bdb6f4b02dabbdb0a4f767c733d5af865d6654be999492358c51ea1b1a5438e2",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 42684.08266699407,
+      "session_id_sha256": "1079956f93927c1c80e4acfd3121d9ae89365010f397d3d1be7cee25e85faaff",
+      "usage": {
+        "total": 19401,
+        "input": 15444,
+        "output": 57,
+        "reasoning": 2108,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": true,
+      "confidence_0_100": 85.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "event resource.load_failed stage=resources status=failed Reference load failed."
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 8,
+      "case_id": "incomplete_run",
+      "condition": "panorama",
+      "gold_stage": "outcome",
+      "prompt_sha256": "cf04433e3971fca43592e3041483999c0e7d9117d23d1927750c5b518a1434e9",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 36786.28362499876,
+      "session_id_sha256": "9755807a4c84b58e5e62fa265e7e74a80396deeb271f2deb005bb88327910f56",
+      "usage": {
+        "total": 18832,
+        "input": 15542,
+        "output": 53,
+        "reasoning": 1445,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "outcome",
+      "correct": true,
+      "confidence_0_100": 70.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "SkillRun status: incomplete, Session completeness: partial, missing outcome completion event"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 9,
+      "case_id": "reported_outcome_only",
+      "condition": "raw",
+      "gold_stage": "outcome",
+      "prompt_sha256": "0475e773073673c4c4349ae5c6bf407d90b092d9a9bf08e8d6e177e673ea8812",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 53526.63666701119,
+      "session_id_sha256": "483350aa2ef2d434edaa14b4dd26eda004529fa3960df863af878eedee11f691",
+      "usage": {
+        "total": 19790,
+        "input": 15439,
+        "output": 74,
+        "reasoning": 2485,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "request",
+      "correct": false,
+      "confidence_0_100": 85.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Lines: run status=completed; source completeness=complete; event outcome.reported stage=outcome status=succeeded Agent reported that the requested artifact was produced."
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 10,
+      "case_id": "activation_gap",
+      "condition": "raw",
+      "gold_stage": "activation",
+      "prompt_sha256": "56b065ad827e6b96c3f7c2f85212c9025fa79c714661678fa565373162dc8917",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 40727.949167005136,
+      "session_id_sha256": "e7b965364165af84fff5240cc9f0120a6bc4913b281bf0a9fa97b2572f456b95",
+      "usage": {
+        "total": 19064,
+        "input": 15417,
+        "output": 71,
+        "reasoning": 1784,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "request",
+      "correct": false,
+      "confidence_0_100": 40.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "lines: run status=completed, source completeness=complete, event outcome.verified stage=outcome status=succeeded Deterministic test suite passed."
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 0,
+      "case_id": "execution_failure",
+      "condition": "panorama",
+      "gold_stage": "execution",
+      "prompt_sha256": "e0272bc7b8f1e09a2d336dd3708fc070c8c401be8c12c2746e64bda2f51384bc",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 28944.180499995127,
+      "session_id_sha256": "ff39452ffba16dca488688473476034850417d36a5f721843276eb087c2ebb1a",
+      "usage": {
+        "total": 18970,
+        "input": 16281,
+        "output": 60,
+        "reasoning": 1605,
+        "cache": {
+          "write": 0,
+          "read": 1024
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "execution",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "The runtime source contains an explicit failure at the earliest observable failed lifecycle stage: execution."
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 1,
+      "case_id": "instructions_gap",
+      "condition": "raw",
+      "gold_stage": "instructions",
+      "prompt_sha256": "d317f14c62977f26f60882d12159eaac782710797b7f9ca2bb189f240800af0e",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 21696.73354200495,
+      "session_id_sha256": "28be986db8a60c4a9d94a15de73370caea32d33d11ae742bd53ec94e2f94733a",
+      "usage": {
+        "total": 17755,
+        "input": 15440,
+        "output": 68,
+        "reasoning": 455,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "instructions",
+      "correct": true,
+      "confidence_0_100": 85.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Lines show run status=completed and outcome verified stage=outcome status=succeeded, but no instruction-load evidence present before execution stage."
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 2,
+      "case_id": "reported_outcome_only",
+      "condition": "panorama",
+      "gold_stage": "outcome",
+      "prompt_sha256": "c7f3a3b4fc71e0eb48b06af272a2fc3c6f4927538dea882f2a2ba9dac1697d09",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 27885.81087499915,
+      "session_id_sha256": "69629bef1c5babbd57ce278e2d786304bbfe6ccb542deec0ed17293559cd763a",
+      "usage": {
+        "total": 18736,
+        "input": 16260,
+        "output": 60,
+        "reasoning": 1392,
+        "cache": {
+          "write": 0,
+          "read": 1024
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "outcome",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Finding at stage 'outcome': 'The outcome is reported but not independently verified'."
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 3,
+      "case_id": "activation_gap",
+      "condition": "panorama",
+      "gold_stage": "activation",
+      "prompt_sha256": "20f67e051b370291832c2daf227806056c74b4c73ff532fb12ca26b9866008a1",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 24682.475084002363,
+      "session_id_sha256": "42463cbb8079eaf48a5128c28555faf0f3bc517e9a668d1fbaf650cd240fcaca",
+      "usage": {
+        "total": 18562,
+        "input": 15526,
+        "output": 51,
+        "reasoning": 1193,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "activation",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Activation evidence is missing before later activity"
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 4,
+      "case_id": "derived_failure_grade",
+      "condition": "panorama",
+      "gold_stage": "execution",
+      "prompt_sha256": "a73f7e4589645d32cbedb36a10e874bcc081b8578431100dee1a77a040dc2ca9",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 35788.10995801177,
+      "session_id_sha256": "45919651391c6e4ec0d006804fdb4f6eb82c655366ad3671720f5bf953f76a28",
+      "usage": {
+        "total": 18975,
+        "input": 16254,
+        "output": 60,
+        "reasoning": 1637,
+        "cache": {
+          "write": 0,
+          "read": 1024
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "execution",
+      "correct": true,
+      "confidence_0_100": 40.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "The runtime source contains an explicit failure at the earliest observable failed lifecycle stage: execution."
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 5,
+      "case_id": "resource_failure",
+      "condition": "raw",
+      "gold_stage": "resources",
+      "prompt_sha256": "6136ad09ed1d875c410ca356c9dc9925e70ff8249814dcc9ad324c9fe256beb0",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 21342.668415993103,
+      "session_id_sha256": "492c6e4533e00e2c6618eb26ddc661bf18f25e78400b1d66c98aaf61ec765a9f",
+      "usage": {
+        "total": 18038,
+        "input": 16225,
+        "output": 55,
+        "reasoning": 734,
+        "cache": {
+          "write": 0,
+          "read": 1024
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": true,
+      "confidence_0_100": 80.0,
+      "causal_proven": true,
+      "unsupported_causal_claim": true,
+      "evidence_reference": "event resource.missing stage=resources status=failed Required reference file was not found."
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 6,
+      "case_id": "incomplete_run",
+      "condition": "raw",
+      "gold_stage": "outcome",
+      "prompt_sha256": "53d45a046bd3f8a4fb619598e56e5f5a5c4c5eb15e4fdfb630970b93f1fff9b1",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 21064.22562499938,
+      "session_id_sha256": "63f15468c3e6887910054db780a8551ae7405c4a85966b152559508298a0cc31",
+      "usage": {
+        "total": 17821,
+        "input": 16188,
+        "output": 52,
+        "reasoning": 557,
+        "cache": {
+          "write": 0,
+          "read": 1024
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": false,
+      "confidence_0_100": 85.0,
+      "causal_proven": true,
+      "unsupported_causal_claim": true,
+      "evidence_reference": "source completeness=partial"
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 7,
+      "case_id": "request_gap_first",
+      "condition": "raw",
+      "gold_stage": "request",
+      "prompt_sha256": "6673d527eedb512ee62f57ed2df36472e4f061c6f9d9cbf5fed016c3e866aecb",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 18630.61079099134,
+      "session_id_sha256": "7543735779056da20cac3620cae8990a65d85412672088b2d63d82ed1b0f823e",
+      "usage": {
+        "total": 17760,
+        "input": 16187,
+        "output": 79,
+        "reasoning": 470,
+        "cache": {
+          "write": 0,
+          "read": 1024
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "request",
+      "correct": true,
+      "confidence_0_100": 30.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Evidence shows outcome completed but lacks evidence of earlier stages (request, discovery, activation, instructions, resources, execution, artifacts). The earliest missing stage is request."
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 8,
+      "case_id": "failure_and_incomplete",
+      "condition": "panorama",
+      "gold_stage": "resources",
+      "prompt_sha256": "fccc7f666161e4e0058f12dc301905596ded502d637c253ee6fed8be782573a4",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 36713.221333004185,
+      "session_id_sha256": "a4329ce5e09bab9a68a5f5e3b5e6c56da79c0cb7bb5c4783006d9257171cb328",
+      "usage": {
+        "total": 19057,
+        "input": 15780,
+        "output": 69,
+        "reasoning": 1416,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": true,
+      "confidence_0_100": 100.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Findings show resources stage lacks expected evidence before execution, and evidence explicitly states this is not proof of action or causality."
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 9,
+      "case_id": "earliest_of_multiple_failures",
+      "condition": "panorama",
+      "gold_stage": "resources",
+      "prompt_sha256": "881d2f48643d0ddacb811c5720f656b9628af577de398b6ff8c09e2046ff89fb",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 27120.540250005433,
+      "session_id_sha256": "732798e53ef87978f21a7e69cfd8cbbf153b972b98e9843f8d8065bba223b044",
+      "usage": {
+        "total": 18731,
+        "input": 15485,
+        "output": 58,
+        "reasoning": 1396,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Summary indicates explicit failure at resources stage as the earliest observable failed lifecycle stage."
+    },
+    {
+      "model_sample_slot": 2,
+      "order_index": 10,
+      "case_id": "incomplete_with_report",
+      "condition": "raw",
+      "gold_stage": "resources",
+      "prompt_sha256": "7c48f7816a9f0634ee659765192e38a04e611e5735900a2caa2bacbea023083d",
+      "model_provider": "opencode",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 28581.133291998412,
+      "session_id_sha256": "5f3c44cd40b448f476716a1a1e7c0bfa23b991f00bdd2223ee4afb23effe2721",
+      "usage": {
+        "total": 18473,
+        "input": 15454,
+        "output": 54,
+        "reasoning": 1173,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "request",
+      "correct": false,
+      "confidence_0_100": 30.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "lines: run status=interrupted, source completeness=partial, event outcome.reported stage=outcome status=reported"
+    }
+  ],
+  "gate": {
+    "name": "model-agent pilot integrity",
+    "passed": false
+  },
+  "created_at": "2026-07-31T03:02:23.659760+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "schema_version": "sri.experiment.claim-output-mode-study.v1",
+  "experiment": {
+    "name": "structured-only-claim-study",
+    "evidence_grade": "experimental",
+    "dataset_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/random-shadow-fragility-holdout-v2-20260731.jsonl",
+    "dataset_sha256": "29125e98806291ab88e70b45771f893a0b6bbe6642cb133c0ff491534e4a90f9",
+    "model": "opencode/mimo-v2.5-free",
+    "model_cli": "opencode",
+    "model_cli_version": "1.18.5",
+    "seed": 2026073115,
+    "session_policy": "fresh pure session per trial; stdin prompt; isolated temporary XDG state",
+    "modes": [
+      "structured"
+    ],
+    "limitations": [
+      "The corpus is small and hand-authored.",
+      "One response per model and case does not estimate repeated-run variance.",
+      "The recorded model ID does not independently verify model-family identity."
+    ]
+  },
+  "metrics": {
+    "structured": {
+      "planned": 3,
+      "completed": 3,
+      "response_completion_rate": 1.0,
+      "claim_kind_correct": 3,
+      "guard_decision_correct": 3,
+      "false_allows": 0,
+      "false_denies": 0,
+      "input_tokens": 24721,
+      "total_tokens": 29927
+    }
+  },
+  "trials": [
+    {
+      "case_id": "fragility2_source_effect_regardless",
+      "mode": "structured",
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "skill_outcome_effect",
+      "expected_allowed": false,
+      "prompt_sha256": "6d6c6e304a05f3a3aa9b61fb59243bf41845e8fe985d5786e149877c9dd5ad90",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 14818.189541008906,
+      "session_id_sha256": "f27837ce5c7408ce6bd217cc9112ab9f9475a4096a8cf9d3b05fd1c08272c04c",
+      "usage": {
+        "total": 10168,
+        "input": 7996,
+        "output": 18,
+        "reasoning": 362,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        },
+        "reported_cost": 0
+      },
+      "response_sha256": "9e0defab6c66b1f31c3b5c536a3ad9ded6402437b2e1c536284c089fb6b52c7a",
+      "status": "completed",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "claim_kind_correct": true,
+      "predicted_allowed": false,
+      "guard_decision_correct": true,
+      "false_allow": false,
+      "false_deny": false,
+      "classifier_basis": "schema-constrained model enum",
+      "model_allowed": false,
+      "model_allowed_agrees_guard": true,
+      "free_text_response": null
+    },
+    {
+      "case_id": "fragility2_source_fr",
+      "mode": "structured",
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "source_attribution",
+      "expected_allowed": true,
+      "prompt_sha256": "cf49416f692aea5b80c06cb17ea6f35b0d86d686380ef7e44c4b2206cfce0a99",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 10311.453290996724,
+      "session_id_sha256": "250e1fc606821d17a278fd21a6a4fb518e9ed554f56a446b30464da7b81167bb",
+      "usage": {
+        "total": 9852,
+        "input": 7983,
+        "output": 17,
+        "reasoning": 60,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        },
+        "reported_cost": 0
+      },
+      "response_sha256": "28b2722312efffa09450ac1ba411b4169fb6f23162430d5290b165d07b81e9ea",
+      "status": "completed",
+      "predicted_claim_kind": "source_attribution",
+      "claim_kind_correct": true,
+      "predicted_allowed": true,
+      "guard_decision_correct": true,
+      "false_allow": false,
+      "false_deny": false,
+      "classifier_basis": "schema-constrained model enum",
+      "model_allowed": true,
+      "model_allowed_agrees_guard": true,
+      "free_text_response": null
+    },
+    {
+      "case_id": "fragility2_source_metadata",
+      "mode": "structured",
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "source_attribution",
+      "expected_allowed": true,
+      "prompt_sha256": "fe048e0e6c2fda7117f07c0f34b2a504128fa5299e9b80a172f2369aea757970",
+      "model_id": "opencode/mimo-v2.5-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 17556.670499994652,
+      "session_id_sha256": "35ddbf6b89ab01acd8be965eedcf97561ae074f2626c8c9561189cf84229b929",
+      "usage": {
+        "total": 9907,
+        "input": 8742,
+        "output": 17,
+        "reasoning": 124,
+        "cache": {
+          "write": 0,
+          "read": 1024
+        },
+        "reported_cost": 0
+      },
+      "response_sha256": "28b2722312efffa09450ac1ba411b4169fb6f23162430d5290b165d07b81e9ea",
+      "status": "completed",
+      "predicted_claim_kind": "source_attribution",
+      "claim_kind_correct": true,
+      "predicted_allowed": true,
+      "guard_decision_correct": true,
+      "false_allow": false,
+      "false_deny": false,
+      "classifier_basis": "schema-constrained model enum",
+      "model_allowed": true,
+      "model_allowed_agrees_guard": true,
+      "free_text_response": null
+    }
+  ],
+  "gates": {
+    "response_completion": true,
+    "no_false_allow": true
+  },
+  "created_at": "2026-07-31T08:37:19.235629+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

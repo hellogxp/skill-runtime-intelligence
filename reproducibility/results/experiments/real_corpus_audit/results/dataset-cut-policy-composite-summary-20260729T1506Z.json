@@ -1,0 +1,142 @@
+{
+  "schema_version": "sri.experiment.dataset-cut-policy-summary.v1",
+  "experiment": {
+    "name": "privacy-safe-dataset-cut-policy-pilot-summary",
+    "evidence_grade": "Experimental",
+    "row_level_records_included": false,
+    "limitations": [
+      "Three trials from one local database are exploratory.",
+      "Pooled run observations are not independent participants.",
+      "No policy was randomized and no causal effect is estimated.",
+      "Short-window stability does not prove source completeness."
+    ]
+  },
+  "aggregate": {
+    "trial_count": 3,
+    "policy_count": 6,
+    "policies": {
+      "all_observed": {
+        "trial_count": 3,
+        "pooled_selected_run_count": 246,
+        "pooled_stable_next_interval_count": 246,
+        "pooled_changed_next_interval_count": 0,
+        "pooled_missing_next_interval_count": 0,
+        "pooled_stable_next_interval_fraction": 1.0,
+        "selection_fraction_across_trials": {
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "stable_fraction_across_trials": {
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        }
+      },
+      "event_watermark": {
+        "trial_count": 3,
+        "pooled_selected_run_count": 243,
+        "pooled_stable_next_interval_count": 243,
+        "pooled_changed_next_interval_count": 0,
+        "pooled_missing_next_interval_count": 0,
+        "pooled_stable_next_interval_fraction": 1.0,
+        "selection_fraction_across_trials": {
+          "mean": 0.9878048780487805,
+          "minimum": 0.9878048780487805,
+          "maximum": 0.9878048780487805
+        },
+        "stable_fraction_across_trials": {
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        }
+      },
+      "observed_quiescence": {
+        "trial_count": 3,
+        "pooled_selected_run_count": 231,
+        "pooled_stable_next_interval_count": 231,
+        "pooled_changed_next_interval_count": 0,
+        "pooled_missing_next_interval_count": 0,
+        "pooled_stable_next_interval_fraction": 1.0,
+        "selection_fraction_across_trials": {
+          "mean": 0.9390243902439024,
+          "minimum": 0.8170731707317073,
+          "maximum": 1.0
+        },
+        "stable_fraction_across_trials": {
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        }
+      },
+      "terminal_and_watermark": {
+        "trial_count": 3,
+        "pooled_selected_run_count": 231,
+        "pooled_stable_next_interval_count": 231,
+        "pooled_changed_next_interval_count": 0,
+        "pooled_missing_next_interval_count": 0,
+        "pooled_stable_next_interval_fraction": 1.0,
+        "selection_fraction_across_trials": {
+          "mean": 0.9390243902439024,
+          "minimum": 0.9390243902439024,
+          "maximum": 0.9390243902439024
+        },
+        "stable_fraction_across_trials": {
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        }
+      },
+      "terminal_status": {
+        "trial_count": 3,
+        "pooled_selected_run_count": 231,
+        "pooled_stable_next_interval_count": 231,
+        "pooled_changed_next_interval_count": 0,
+        "pooled_missing_next_interval_count": 0,
+        "pooled_stable_next_interval_fraction": 1.0,
+        "selection_fraction_across_trials": {
+          "mean": 0.9390243902439024,
+          "minimum": 0.9390243902439024,
+          "maximum": 0.9390243902439024
+        },
+        "stable_fraction_across_trials": {
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        }
+      },
+      "terminal_watermark_and_quiescence": {
+        "trial_count": 3,
+        "pooled_selected_run_count": 219,
+        "pooled_stable_next_interval_count": 219,
+        "pooled_changed_next_interval_count": 0,
+        "pooled_missing_next_interval_count": 0,
+        "pooled_stable_next_interval_fraction": 1.0,
+        "selection_fraction_across_trials": {
+          "mean": 0.8902439024390244,
+          "minimum": 0.7926829268292683,
+          "maximum": 0.9390243902439024
+        },
+        "stable_fraction_across_trials": {
+          "mean": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        }
+      }
+    }
+  },
+  "gate": {
+    "name": "privacy-safe cut-policy reports aggregated",
+    "passed": true
+  },
+  "created_at": "2026-07-29T15:16:33.067155+00:00",
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "65f1b4fcec409e006ced39d53f497ad858d888a9",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

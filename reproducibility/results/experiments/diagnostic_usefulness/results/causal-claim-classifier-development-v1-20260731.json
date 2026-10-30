@@ -1,0 +1,458 @@
+{
+  "schema_version": "sri.experiment.causal-claim-classifier.v1",
+  "experiment": {
+    "name": "adversarial-causal-claim-classifier-contract",
+    "evidence_grade": "derived",
+    "corpus_role": "development-contract",
+    "classifier_policy": "pattern-v1",
+    "dataset_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/causal_claim_cases.jsonl",
+    "dataset_sha256": "e2ea0c63b1b4293579ad93426528b1ea2e1f8a957764ce933f148530c4e67911",
+    "limitations": [
+      "The development corpus and classifier were developed together; exact match is a contract check, not a generalization estimate.",
+      "The corpus is English-only and contains short isolated sentences.",
+      "Pattern matching does not resolve discourse, sarcasm, nested quotation, or multilingual claims.",
+      "The classifier may only restrict a claim; it must never expand a Finding causal scope."
+    ]
+  },
+  "metrics": {
+    "case_count": 30,
+    "exact_matches": 30,
+    "exact_match_rate": 1.0,
+    "guard_decision_exact": 30,
+    "false_allows": 0,
+    "false_denies": 0,
+    "class_counts": {
+      "descriptive": 11,
+      "skill_outcome_effect": 13,
+      "source_attribution": 6
+    },
+    "per_class": {
+      "descriptive": {
+        "true_positive": 11,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "source_attribution": {
+        "true_positive": 6,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "skill_outcome_effect": {
+        "true_positive": 13,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "descriptive_observed_failure",
+      "tags": [
+        "descriptive",
+        "failure"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "no causal or source-attribution pattern",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "descriptive_no_evidence",
+      "tags": [
+        "negation",
+        "evidence-boundary"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "evidence-boundary language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "descriptive_does_not_prove",
+      "tags": [
+        "negation",
+        "causal-terms"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "evidence-boundary language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "descriptive_cannot_establish",
+      "tags": [
+        "negation",
+        "causal-terms"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "evidence-boundary language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "descriptive_temporal",
+      "tags": [
+        "temporal",
+        "non-causal"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "no causal or source-attribution pattern",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "descriptive_correlation",
+      "tags": [
+        "correlation",
+        "negation"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "evidence-boundary language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "descriptive_question",
+      "tags": [
+        "question",
+        "causal-terms"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "evidence-boundary language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "descriptive_conditional",
+      "tags": [
+        "conditional",
+        "causal-terms"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "question or conditional language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "descriptive_unknown",
+      "tags": [
+        "uncertainty",
+        "causal-terms"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "evidence-boundary language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "descriptive_experiment_needed",
+      "tags": [
+        "experimental-boundary"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "evidence-boundary language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "source_agent_reported",
+      "tags": [
+        "source-assertion"
+      ],
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "source_attribution",
+      "predicted_claim_kind": "source_attribution",
+      "classifier_basis": "explicit source-attribution language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "source_asserted_responsibility",
+      "tags": [
+        "source-assertion"
+      ],
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "source_attribution",
+      "predicted_claim_kind": "source_attribution",
+      "classifier_basis": "explicit source-attribution language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "source_log_quote",
+      "tags": [
+        "quotation",
+        "source-assertion"
+      ],
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "source_attribution",
+      "predicted_claim_kind": "source_attribution",
+      "classifier_basis": "explicit source-attribution language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "source_model_claimed",
+      "tags": [
+        "source-assertion",
+        "causal-terms"
+      ],
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "source_attribution",
+      "predicted_claim_kind": "source_attribution",
+      "classifier_basis": "explicit source-attribution language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "source_scope_missing",
+      "tags": [
+        "source-assertion",
+        "scope-denial"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "source_attribution",
+      "predicted_claim_kind": "source_attribution",
+      "classifier_basis": "explicit source-attribution language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "source_under_experiment",
+      "tags": [
+        "source-assertion",
+        "experimental-scope"
+      ],
+      "causal_scope": "experimental_estimate",
+      "expected_claim_kind": "source_attribution",
+      "predicted_claim_kind": "source_attribution",
+      "classifier_basis": "explicit source-attribution language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "effect_direct",
+      "tags": [
+        "direct-effect"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "effect_likely",
+      "tags": [
+        "hedging",
+        "direct-effect"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "effect_may_have_led",
+      "tags": [
+        "hedging",
+        "direct-effect"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "effect_due_to",
+      "tags": [
+        "direct-effect"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "effect_negative_causal",
+      "tags": [
+        "negative-effect",
+        "causal-terms"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "effect_no_effect",
+      "tags": [
+        "negative-effect"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "effect_improved_experimental",
+      "tags": [
+        "experimental-effect"
+      ],
+      "causal_scope": "experimental_estimate",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "causal-effect language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "effect_increased_experimental",
+      "tags": [
+        "experimental-effect",
+        "estimate"
+      ],
+      "causal_scope": "experimental_estimate",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "causal-effect language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "effect_prevented_experimental",
+      "tags": [
+        "experimental-effect",
+        "estimate"
+      ],
+      "causal_scope": "experimental_estimate",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "causal-effect language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "effect_exceeds_source_scope",
+      "tags": [
+        "direct-effect",
+        "scope-denial"
+      ],
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "effect_responsible",
+      "tags": [
+        "direct-effect"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "effect_made_fail",
+      "tags": [
+        "direct-effect"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "descriptive_experimental_scope",
+      "tags": [
+        "descriptive",
+        "experimental-scope"
+      ],
+      "causal_scope": "experimental_estimate",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "no causal or source-attribution pattern",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "effect_estimate_wording",
+      "tags": [
+        "experimental-effect",
+        "estimate"
+      ],
+      "causal_scope": "experimental_estimate",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "causal-effect language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    }
+  ],
+  "gates": {
+    "classification_contract_exact": true,
+    "guard_safety_no_false_allow": true,
+    "guard_usability_no_false_deny": true
+  },
+  "gate": {
+    "name": "causal-claim classifier contract",
+    "passed": true
+  },
+  "created_at": "2026-07-31T04:51:37.561477+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}
