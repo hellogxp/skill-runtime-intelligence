@@ -1,0 +1,50 @@
+{
+  "schema_version": "sri.experiment.evidence-import-linkage.v1",
+  "experiment": {
+    "name": "live-verifier-to-session-isolated-import",
+    "evidence_grade": "Experimental",
+    "source_report_count": 3,
+    "task_sha256": "94bca5b0a0309cb6596a2ea70c9dce702807f435b4cd1dd53d109eba59faea45",
+    "skill_sha256": "0df4598647f79d3553786cadbaecfb377cbddb079760881e975a8e9e458018ec",
+    "verifier_sha256": "d4560d70c2188b03ff4f5ff87d7235fdcf32e9cf2cc72809e1be345a7167fe07",
+    "production_database_mutated": false,
+    "raw_prompt_exported": false,
+    "source_session_id_exported": false,
+    "limitations": [
+      "The import target is an isolated temporary database.",
+      "Digest linkage proves source identity, not semantic task equivalence.",
+      "All outcomes are successful deterministic fixture results.",
+      "Production schema, migration, UI, and user consent are untested."
+    ]
+  },
+  "metrics": {
+    "verified_report_rows": 12,
+    "unique_source_session_digests": 12,
+    "exact_session_links": 12,
+    "adapter_consistent_links": 12,
+    "first_import_inserts": 12,
+    "second_import_idempotent": 12,
+    "stored_outcomes": 12,
+    "stored_by_adapter": {
+      "codex": 4,
+      "opencode": 4,
+      "qoder": 4
+    },
+    "negative_cases_rejected": 3,
+    "negative_case_count": 3
+  },
+  "gate": {
+    "name": "live outcomes link exactly and import safely in isolation",
+    "passed": true
+  },
+  "created_at": "2026-07-31T13:24:16.326765+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "d8df7047db21d26568e805b8d2369ebf3a1306ca",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

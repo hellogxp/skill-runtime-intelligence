@@ -1,0 +1,37 @@
+{
+  "schema_version": "sri.experiment.migration-readonly-recovery.v1",
+  "experiment": {
+    "name": "timestamp-migration-readonly-recovery",
+    "evidence_grade": "Experimental",
+    "trials": 3,
+    "live_database_used": false,
+    "row_level_records_included": false,
+    "limitations": [
+      "POSIX permissions do not model every read-only filesystem.",
+      "The experiment does not inject mid-write I/O failure.",
+      "One local SQLite/Python environment is not cross-platform evidence."
+    ]
+  },
+  "metrics": {
+    "evaluations": 3,
+    "initial_readonly_failures": 3,
+    "failed_attempts_schema_unchanged": 3,
+    "clean_recovery_successes": 3,
+    "passed": 3,
+    "failed": 0
+  },
+  "gate": {
+    "name": "read-only failure is non-destructive and recoverable",
+    "passed": true
+  },
+  "created_at": "2026-07-30T07:33:17.311837+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "e3f47b3f3fe261f8e12b27815436c4b945679de7",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

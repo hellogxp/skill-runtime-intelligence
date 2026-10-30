@@ -1,0 +1,147 @@
+{
+  "schema_version": "sri.experiment.real-corpus-readiness.v1",
+  "experiment": {
+    "name": "privacy-safe-real-run-corpus-readiness-audit",
+    "evidence_grade": "Derived",
+    "source_database_basename": "panorama.db",
+    "consistent_snapshot": true,
+    "source_opened_read_only": true,
+    "row_level_records_included": false,
+    "raw_content_included": false,
+    "limitations": [
+      "Production findings are Derived candidates, not human gold labels.",
+      "The database contains one local user's runs and is not a deployment sample.",
+      "Readiness thresholds are exploratory and were not preregistered.",
+      "Aggregate counts do not establish diagnosis usefulness or causal Skill effects."
+    ]
+  },
+  "metrics": {
+    "run_count": 97,
+    "session_count": 16,
+    "skill_definition_count": 11,
+    "adapter_count": 1,
+    "status_counts": {
+      "completed": 74,
+      "incomplete": 10,
+      "interrupted": 13
+    },
+    "adapter_counts": {
+      "codex": 97
+    },
+    "run_evidence_grade_counts": {
+      "derived": 97
+    },
+    "activation_mode_counts": {
+      "unknown": 97
+    },
+    "session_completeness_counts": {
+      "complete": 59,
+      "incomplete": 38
+    },
+    "distinct_stage_profile_count": 7,
+    "distinct_finding_signature_count": 3,
+    "distinct_finding_combination_count": 2,
+    "finding_signatures": [
+      {
+        "code": "lifecycle_evidence_gap",
+        "stage": "activation",
+        "evidence_grade": "derived",
+        "run_count": 97
+      },
+      {
+        "code": "outcome_unverified",
+        "stage": "outcome",
+        "evidence_grade": "derived",
+        "run_count": 51
+      },
+      {
+        "code": "run_incomplete",
+        "stage": "outcome",
+        "evidence_grade": "observed",
+        "run_count": 46
+      }
+    ],
+    "owned_event_type_counts": {
+      "file.created": 54,
+      "file.deleted": 3,
+      "file.modified": 318,
+      "instruction.loaded": 109,
+      "outcome.reported": 294,
+      "resource.executed": 74,
+      "session.compacted": 18,
+      "tool.completed": 2095,
+      "tool.started": 2095,
+      "turn.completed": 57,
+      "turn.failed": 13
+    },
+    "owned_event_stage_counts": {
+      "artifacts": 375,
+      "execution": 4208,
+      "instructions": 109,
+      "outcome": 364,
+      "resources": 74
+    },
+    "owned_event_evidence_grade_counts": {
+      "derived": 9,
+      "observed": 5121
+    },
+    "runs_with_observed_activation_event": 0,
+    "runs_with_verified_outcome_event": 0,
+    "runs_with_explicit_failed_event": 0,
+    "runtime_failure_candidate_count": 0,
+    "human_reviewed_label_count": 0
+  },
+  "readiness": {
+    "exploratory_criteria": [
+      {
+        "name": "at_least_20_runs",
+        "passed": true
+      },
+      {
+        "name": "at_least_two_adapters",
+        "passed": false
+      },
+      {
+        "name": "at_least_four_finding_signatures",
+        "passed": false
+      },
+      {
+        "name": "at_least_two_runtime_failure_candidates",
+        "passed": false
+      },
+      {
+        "name": "at_least_two_observed_activation_runs",
+        "passed": false
+      },
+      {
+        "name": "at_least_two_verified_outcome_runs",
+        "passed": false
+      },
+      {
+        "name": "at_least_20_human_reviewed_labels",
+        "passed": false
+      }
+    ],
+    "passed_count": 1,
+    "criterion_count": 7,
+    "corpus_ready_for_confirmatory_evaluation": false
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "gate": {
+    "name": "privacy-safe aggregate audit completed",
+    "passed": true
+  },
+  "created_at": "2026-07-29T13:08:21.562074+00:00",
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "6397467557509d0333706496bf0cfd672321ac7b",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

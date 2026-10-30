@@ -1,0 +1,199 @@
+{
+  "fault_families": {
+    "artifact_corruption": {
+      "boundary_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      },
+      "citation_entailment_valid": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 0
+      },
+      "exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 0
+      },
+      "status_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 0
+      }
+    },
+    "clean": {
+      "boundary_exact": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 0
+      },
+      "citation_entailment_valid": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 0
+      },
+      "exact": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 0
+      },
+      "status_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 0
+      }
+    },
+    "execution_failure": {
+      "boundary_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      },
+      "citation_entailment_valid": {
+        "n": 18,
+        "panorama": 10,
+        "raw": 0
+      },
+      "exact": {
+        "n": 18,
+        "panorama": 10,
+        "raw": 0
+      },
+      "status_exact": {
+        "n": 18,
+        "panorama": 10,
+        "raw": 0
+      }
+    },
+    "instructions_failure": {
+      "boundary_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      },
+      "citation_entailment_valid": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 9
+      },
+      "exact": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 9
+      },
+      "status_exact": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 9
+      }
+    },
+    "outcome_unverified": {
+      "boundary_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      },
+      "citation_entailment_valid": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 13
+      },
+      "exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      },
+      "status_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      }
+    },
+    "resource_missing": {
+      "boundary_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      },
+      "citation_entailment_valid": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 4
+      },
+      "exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 4
+      },
+      "status_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 4
+      }
+    },
+    "verifier_conflict": {
+      "boundary_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      },
+      "citation_entailment_valid": {
+        "n": 18,
+        "panorama": 0,
+        "raw": 0
+      },
+      "exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      },
+      "status_exact": {
+        "n": 18,
+        "panorama": 18,
+        "raw": 18
+      }
+    }
+  },
+  "left_view": "raw_semantic",
+  "metrics": {
+    "boundary_exact": {
+      "case_level_exact_mcnemar_p": 1.0,
+      "delta_percentage_points": 0.0,
+      "panorama": 108,
+      "panorama_only": 0,
+      "raw": 108,
+      "raw_only": 0,
+      "ties": 126
+    },
+    "citation_entailment_valid": {
+      "case_level_exact_mcnemar_p": 0.01685819004428113,
+      "delta_percentage_points": 15.873015873015873,
+      "panorama": 46,
+      "panorama_only": 42,
+      "raw": 26,
+      "raw_only": 22,
+      "ties": 62
+    },
+    "exact": {
+      "case_level_exact_mcnemar_p": 3.3888279489246997e-06,
+      "delta_percentage_points": 26.19047619047619,
+      "panorama": 82,
+      "panorama_only": 42,
+      "raw": 49,
+      "raw_only": 9,
+      "ties": 75
+    },
+    "status_exact": {
+      "case_level_exact_mcnemar_p": 2.2444496451277593e-10,
+      "delta_percentage_points": 40.476190476190474,
+      "panorama": 100,
+      "panorama_only": 60,
+      "raw": 49,
+      "raw_only": 9,
+      "ties": 57
+    }
+  },
+  "paired_cases": 126,
+  "right_view": "panorama"
+}

@@ -1,0 +1,161 @@
+{
+  "schema_version": "sri.experiment.prospective-fragility-summary.v1",
+  "experiment": {
+    "name": "prospective-fragility-replication-summary",
+    "evidence_grade": "experimental",
+    "promotion_minimums": {
+      "holdouts": 3,
+      "cases": 48,
+      "baseline_false_allows": 5,
+      "random_shadow_cases": 12
+    },
+    "limitations": [
+      "Minimums are product discussion gates, not statistical power guarantees.",
+      "All corpora are hand-authored and use one producer/verifier model-ID pair.",
+      "Sparse errors preclude stable rate or subgroup estimates."
+    ]
+  },
+  "metrics": {
+    "holdout_count": 2,
+    "case_count": 32,
+    "selected_count": 10,
+    "random_shadow_count": 6,
+    "baseline_false_allows": 2,
+    "baseline_false_denies": 0,
+    "captured_false_allows": 2,
+    "missed_false_allows": 0,
+    "routed_false_allows": 0,
+    "routed_false_denies": 0,
+    "shadow_semantic_disagreements": 1,
+    "shadow_guard_errors": 1,
+    "selected_input_tokens": 85143,
+    "shadow_input_tokens": 48639
+  },
+  "by_scope": {
+    "experimental_estimate": {
+      "case_count": 6,
+      "selected_count": 0,
+      "baseline_false_allows": 0,
+      "routed_false_allows": 0,
+      "routed_false_denies": 0,
+      "random_shadow_count": 1,
+      "shadow_guard_errors": 0
+    },
+    "none": {
+      "case_count": 16,
+      "selected_count": 10,
+      "baseline_false_allows": 2,
+      "routed_false_allows": 0,
+      "routed_false_denies": 0,
+      "random_shadow_count": 2,
+      "shadow_guard_errors": 1
+    },
+    "source_assertion_only": {
+      "case_count": 10,
+      "selected_count": 0,
+      "baseline_false_allows": 0,
+      "routed_false_allows": 0,
+      "routed_false_denies": 0,
+      "random_shadow_count": 3,
+      "shadow_guard_errors": 0
+    }
+  },
+  "by_expected_claim_kind": {
+    "descriptive": {
+      "case_count": 10,
+      "selected_count": 8,
+      "baseline_false_allows": 0,
+      "routed_false_allows": 0,
+      "routed_false_denies": 0,
+      "random_shadow_count": 1,
+      "shadow_guard_errors": 0
+    },
+    "skill_outcome_effect": {
+      "case_count": 16,
+      "selected_count": 2,
+      "baseline_false_allows": 2,
+      "routed_false_allows": 0,
+      "routed_false_denies": 0,
+      "random_shadow_count": 3,
+      "shadow_guard_errors": 1
+    },
+    "source_attribution": {
+      "case_count": 6,
+      "selected_count": 0,
+      "baseline_false_allows": 0,
+      "routed_false_allows": 0,
+      "routed_false_denies": 0,
+      "random_shadow_count": 2,
+      "shadow_guard_errors": 0
+    }
+  },
+  "studies": [
+    {
+      "report_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/prospective-fragility-study-20260731.json",
+      "report_sha256": "fba708d94aa26782dedfa27e789770d860084ab654161277a29b9b00b0f275cd",
+      "dataset_sha256": "006d8a5011e46f526434f0bcb5ff84d24a6abc942f414a46688201753d4fca0c",
+      "metrics": {
+        "case_count": 16,
+        "selected_count": 5,
+        "selection_rate": 0.3125,
+        "random_shadow_count": 3,
+        "total_verifier_calls": 8,
+        "baseline_false_allows": 1,
+        "baseline_false_denies": 0,
+        "routed_false_allows": 0,
+        "routed_false_denies": 0,
+        "captured_false_allows": 1,
+        "missed_false_allows": 0,
+        "unselected_baseline_false_allows": 0,
+        "shadow_semantic_disagreements": 1,
+        "shadow_guard_errors": 1,
+        "selected_input_tokens": 42968,
+        "selected_total_tokens": 53427,
+        "shadow_input_tokens": 23918,
+        "shadow_total_tokens": 30735
+      }
+    },
+    {
+      "report_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/prospective-fragility-study-v2-20260731.json",
+      "report_sha256": "c8028cd28717b3807bdbd07b9cb4e4313730606fcf45bc6d24ebb1fdb93da610",
+      "dataset_sha256": "24f7f9b99ed99f48492c02818fbde4dd4d3d0d1244788caaa36f898afd366251",
+      "metrics": {
+        "case_count": 16,
+        "selected_count": 5,
+        "selection_rate": 0.3125,
+        "random_shadow_count": 3,
+        "total_verifier_calls": 8,
+        "baseline_false_allows": 1,
+        "baseline_false_denies": 0,
+        "routed_false_allows": 0,
+        "routed_false_denies": 0,
+        "captured_false_allows": 1,
+        "missed_false_allows": 0,
+        "unselected_baseline_false_allows": 0,
+        "shadow_semantic_disagreements": 0,
+        "shadow_guard_errors": 0,
+        "selected_input_tokens": 42175,
+        "selected_total_tokens": 52271,
+        "shadow_input_tokens": 24721,
+        "shadow_total_tokens": 29927
+      }
+    }
+  ],
+  "readiness": {
+    "minimum_holdouts": false,
+    "minimum_cases": false,
+    "minimum_baseline_false_allows": false,
+    "minimum_shadow_cases": false
+  },
+  "promotion_ready": false,
+  "created_at": "2026-07-31T08:38:28.928571+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

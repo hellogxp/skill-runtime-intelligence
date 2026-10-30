@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>Skill Runtime Intelligence</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css?v=20260901-dag-spine1">
+    <link rel="stylesheet" href="runtime-detail-v2.css?v=20260830-terms1">
+  </head>
+  <body class="runtime-detail-v2">
+    <div class="ambient ambient-a"></div>
+    <div class="ambient ambient-b"></div>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <i></i><i></i><i></i>
+        </span>
+        <span class="brand-copy">
+          <strong><b>SRI</b><i>·</i> Skill Runtime Intelligence</strong>
+          <small>Agent Skill runtime panorama and diagnosis platform</small>
+        </span>
+      </div>
+      <nav class="primary-nav" aria-label="Product navigation">
+        <button class="nav-item active" type="button" data-view="runs">Runs</button>
+        <button class="nav-item" type="button" data-view="skills">Skills</button>
+        <button class="nav-item" type="button" data-view="settings">Settings</button>
+      </nav>
+      <div class="top-actions">
+        <label class="locale-control" aria-label="Interface language">
+          <span>Language</span>
+          <select id="locale-select">
+            <option value="en">English</option>
+            <option value="zh-CN">简体中文</option>
+            <option value="zh-TW">繁體中文</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+            <option value="es">Español</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+            <option value="ru">Русский</option>
+            <option value="pt-BR">Português (Brasil)</option>
+            <option value="tr">Türkçe</option>
+            <option value="pl">Polski</option>
+            <option value="cs">Čeština</option>
+            <option value="hu">Magyar</option>
+          </select>
+        </label>
+        <div id="source-summary" class="source-summary">Reading adapters…</div>
+        <span id="connection-state" class="connection"><i></i><span>Local · connecting</span></span>
+        <button id="refresh" class="icon-button" type="button" aria-label="Refresh index view" title="Refresh">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="runs-view" class="workspace">
+      <aside class="run-pane">
+        <div class="pane-head">
+          <p class="eyebrow">RUNTIME INDEX</p>
+          <div class="pane-title">
+            <h1>SkillRuns</h1>
+            <span id="run-count" class="count">—</span>
+          </div>
+          <p class="pane-copy">Skill execution is primary. Agent sessions remain context.</p>
+          <div id="run-result-summary" class="run-result-summary" aria-label="Run result types"></div>
+          <label class="search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+            <input id="run-filter" type="search" placeholder="Filter Skill, project, adapter">
+          </label>
+          <div class="filters" role="group" aria-label="Run status filter">
+            <button class="filter active" type="button" data-filter="all">All</button>
+            <button class="filter" type="button" data-filter="completed">Completed</button>
+            <button class="filter" type="button" data-filter="incomplete">Incomplete</button>
+            <button class="filter" type="button" data-filter="interrupted">interrupted</button>
+            <button class="filter" type="button" data-filter="explicit_failure">Explicit failures</button>
+          </div>
+          <details class="advanced-filter-panel">
+            <summary>More filters</summary>
+            <div class="advanced-filters">
+              <label>Agent<select id="run-agent-filter"><option value="">All Agents</option></select></label>
+              <label>Project<select id="run-project-filter"><option value="">All projects</option></select></label>
+              <label>Skill<select id="run-skill-filter"><option value="">All Skills</option></select></label>
+              <label>Evidence<select id="run-grade-filter"><option value="">All grades</option></select></label>
+              <label>Date<input id="run-date-filter" type="date"></label>
+              <label class="error-filter"><input id="run-error-filter" type="checkbox">Has errors</label>
+            </div>
+          </details>
+        </div>
+        <div id="runs" class="run-list" aria-live="polite"></div>
+        <nav class="run-pagination" aria-label="SkillRun pages">
+          <button id="runs-previous" type="button" disabled>Previous</button>
+          <span id="runs-page-label">Page 1 · up to 25 runs</span>
+          <button id="runs-next" type="button" disabled>Next</button>
+        </nav>
+      </aside>
+
+      <section id="empty-detail" class="empty-detail runtime-overview">
+        <header class="overview-head">
+          <div>
+            <p class="eyebrow">RUNTIME OVERVIEW</p>
+            <h2>Skill runtime overview</h2>
+            <p>See which runs require review and why, then inspect what information was collected at each stage.</p>
+          </div>
+          <div class="evidence-legend compact">
+            <span><i class="shape observed"></i>Observed</span>
+            <span><i class="shape derived"></i>Derived</span>
+            <span><i class="shape inferred"></i>Inferred</span>
+            <span><i class="shape experimental"></i>Experimental</span>
+          </div>
+        </header>
+        <div id="overview-metrics" class="overview-metrics"></div>
+        <div class="overview-grid overview-visual-grid">
+          <section class="panel overview-results">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">RUN RESULT COMPOSITION</p>
+                <h3>What happened across matching runs</h3>
+              </div>
+              <span class="grade-pill derived">Derived</span>
+            </div>
+            <p class="panel-intro">Mutually exclusive terminal result types across all SkillRuns matching the active filters.</p>
+            <div id="result-composition" class="result-composition"></div>
+          </section>
+          <section class="panel overview-boundaries">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">COLLECTED STAGE INFORMATION</p>
+                <div class="stage-heading-line">
+                  <h3>Information collected at each stage</h3>
+                  <button id="stage-guide-trigger" class="stage-guide-trigger" type="button" aria-label="Evidence guide">i</button>
+                </div>
+              </div>
+              <span class="grade-pill derived">Derived</span>
+            </div>
+            <p class="panel-intro">Bar height shows the share of matching, observable runs with information at that stage, not success.</p>
+            <div id="boundary-distribution" class="boundary-distribution"></div>
+            <p class="overview-discipline">A stage may be optional or outside adapter coverage. No information does not mean failure.</p>
+          </section>
+        </div>
+        <section class="panel attention-panel overview-attention-wide">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">RUNS REQUIRING REVIEW</p>
+              <h3>Review these runs first</h3>
+            </div>
+            <span id="attention-count" class="count">—</span>
+          </div>
+          <p class="panel-intro">Only explicit failures, incomplete runs, and interrupted runs appear here.</p>
+          <div id="attention-queue" class="attention-queue"></div>
+        </section>
+      </section>
+
+      <section id="run-detail" class="run-detail hidden">
+        <div class="detail-scroll">
+          <header class="detail-head">
+            <button id="back-to-runs" class="back-button" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h11"/></svg>
+              SkillRuns
+            </button>
+            <div>
+              <p id="detail-context" class="eyebrow"></p>
+              <div class="title-row">
+                <h2 id="detail-title"></h2>
+                <span id="detail-status"></span>
+                <button
+                  id="compare-toggle"
+                  class="compare-toggle"
+                  type="button"
+                  aria-controls="compare-panel"
+                  aria-expanded="false"
+                >Compare</button>
+                <button id="delete-run" class="delete-run" type="button">Delete index</button>
+              </div>
+              <p id="detail-description" class="detail-description"></p>
+            </div>
+          </header>
+
+          <section id="runtime-conclusion" class="candidate-summary" aria-live="polite"></section>
+
+          <section class="panel panorama-panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">LIFECYCLE GRAPH</p>
+                <h3>Skill Runtime Panorama</h3>
+              </div>
+              <div class="evidence-legend compact">
+                <span><i class="shape observed"></i>Observed</span>
+                <span><i class="shape derived"></i>Derived</span>
+                <span><i class="shape inferred"></i>Inferred</span>
+                <span class="edge-key solid">Source fact</span>
+                <span class="edge-key dashed">Lifecycle</span>
+                <details class="evidence-guide">
+                  <summary>Evidence guide</summary>
+                  <div class="evidence-guide-popover">
+                    <article><i class="shape observed"></i><div><strong>Observed</strong><p>Direct record from the source, with a time and source locator.</p></div></article>
+                    <article><i class="shape derived"></i><div><strong>Derived</strong><p>Calculated from collected records by explicit deterministic rules; not a model guess.</p></div></article>
+                    <article><i class="shape inferred"></i><div><strong>Inferred</strong><p>A possible explanation supported by limited evidence; not a confirmed fact.</p></div></article>
+                    <article><i class="shape experimental"></i><div><strong>Experimental</strong><p>Produced by a detection method still under validation; use for investigation only.</p></div></article>
+                    <article><i class="shape not-observed"></i><div><strong>Not observed</strong><p>No matching record was collected in this run; this does not prove the stage did not happen.</p></div></article>
+                    <article><i class="shape unsupported"></i><div><strong>Unsupported</strong><p>The current Agent or Adapter does not provide the signal needed to judge this stage.</p></div></article>
+                  </div>
+                </details>
+              </div>
+            </div>
+            <p class="panel-intro panorama-intro">Follow the run sequence across observed, derived, and capability-limited information. Select a node to inspect its evidence.</p>
+            <div class="dag-shell">
+              <div class="dag-toolbar">
+                <span id="motion-status" class="motion-status">Live · semantic motion</span>
+                <div class="dag-toolbar-actions">
+                  <div class="motion-controls" role="group" aria-label="Graph motion mode">
+                    <button class="motion-mode active" type="button" data-motion="live">Live</button>
+                    <button class="motion-mode" type="button" data-motion="replay">Replay</button>
+                    <button class="motion-mode" type="button" data-motion="static">Static</button>
+                  </div>
+                  <button id="dag-reset" type="button">Fit start</button>
+                </div>
+              </div>
+              <div id="dag-scroll" class="dag-scroll">
+                <svg id="panorama" class="panorama" role="img"
+                     aria-label="Skill runtime evidence graph"></svg>
+              </div>
+            </div>
+          </section>
+
+          <section id="runtime-evidence-overview" class="candidate-evidence-grid" aria-label="SkillRun evidence overview"></section>
+
+          <section class="metrics" aria-label="SkillRun summary">
+            <article class="metric">
+              <span>Evidence coverage</span>
+              <strong id="metric-coverage">—</strong>
+              <div class="coverage-track"><i id="coverage-fill"></i></div>
+            </article>
+            <article class="metric">
+              <span>Activation mode</span>
+              <strong id="metric-activation">—</strong>
+              <small id="metric-activation-grade">—</small>
+            </article>
+            <article class="metric">
+              <span>Attributed events</span>
+              <strong id="metric-events">—</strong>
+              <small id="metric-relationships">—</small>
+            </article>
+            <article class="metric">
+              <span>First evidence gap</span>
+              <strong id="metric-gap">—</strong>
+              <small>absence is not failure</small>
+            </article>
+          </section>
+
+          <section
+            id="compare-panel"
+            class="panel compare-panel hidden"
+            aria-hidden="true"
+            tabindex="-1"
+          >
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">EVIDENCE-AWARE COMPARE</p>
+                <h3>Run and adapter differences</h3>
+              </div>
+              <div class="compare-controls">
+                <select id="compare-axis" aria-label="Comparison axis">
+                  <option value="same_skill">Same Skill behavior</option>
+                  <option value="skill_version">Skill version change</option>
+                </select>
+                <select id="compare-target" aria-label="Select a SkillRun to compare"></select>
+                <label class="alignment-confirm">
+                  <input id="compare-aligned" type="checkbox">
+                  Same evaluation task
+                </label>
+                <button id="compare-run" type="button">Compare runs</button>
+              </div>
+            </div>
+            <div id="comparison" class="comparison"></div>
+          </section>
+
+          <section class="panel assessment-panel" aria-labelledby="assessment-heading">
+            <div class="section-head assessment-head">
+              <div>
+                <p class="eyebrow">RUN DIAGNOSIS</p>
+                <h3 id="assessment-heading">This Skill run diagnosis</h3>
+              </div>
+              <span id="assessment-verdict" class="assessment-verdict">—</span>
+            </div>
+            <div class="diagnosis-summary">
+              <div class="diagnosis-summary-copy">
+                <span id="diagnosis-status-label" class="diagnosis-status-label">Assessing</span>
+                <strong id="assessment-title">Assessing available evidence…</strong>
+                <p id="assessment-summary"></p>
+              </div>
+              <div id="diagnosis-counts" class="diagnosis-counts"></div>
+            </div>
+            <section id="runtime-diagnosis-thread" class="candidate-diagnosis-thread" aria-label="Diagnosis basis"></section>
+            <section class="behavior-assessment" aria-labelledby="behavior-heading">
+              <div class="diagnosis-section-head behavior-head">
+                <div>
+                  <span>SKILL BEHAVIOR CHECK</span>
+                  <strong id="behavior-heading">Did the run follow checkable Skill instructions?</strong>
+                </div>
+                <span id="behavior-status" class="behavior-status">—</span>
+              </div>
+              <div id="behavior-counts" class="behavior-counts"></div>
+              <div id="behavior-list" class="behavior-list"></div>
+              <details id="behavior-more" class="behavior-more hidden">
+                <summary id="behavior-more-label">View all constraints</summary>
+                <div id="behavior-all" class="behavior-list"></div>
+              </details>
+              <p id="behavior-limitation" class="behavior-limitation"></p>
+            </section>
+            <div class="diagnosis-columns">
+              <section class="diagnosis-section diagnosis-attention">
+                <div class="diagnosis-section-head">
+                  <div>
+                    <span>NEEDS ATTENTION</span>
+                    <strong>Problems requiring action</strong>
+                  </div>
+                  <span id="diagnosis-attention-count" class="count">—</span>
+                </div>
+                <div id="diagnosis-attention" class="diagnosis-list"></div>
+              </section>
+              <section class="diagnosis-section diagnosis-limits">
+                <div class="diagnosis-section-head">
+                  <div>
+                    <span>OBSERVABILITY LIMITS</span>
+                    <strong>What this run cannot answer</strong>
+                  </div>
+                  <span id="diagnosis-limit-count" class="count">—</span>
+                </div>
+                <div id="diagnosis-limits" class="diagnosis-list"></div>
+              </section>
+            </div>
+            <section class="diagnosis-facts">
+              <div class="diagnosis-section-head">
+                <div>
+                  <span>CONFIRMED ACTIVITY</span>
+                  <strong>What the evidence directly supports</strong>
+                </div>
+              </div>
+              <div id="diagnosis-facts" class="diagnosis-fact-grid"></div>
+            </section>
+            <details class="diagnosis-reasoning">
+              <summary>
+                <span>
+                  <strong>Why did the system reach this judgment?</strong>
+                  <small id="diagnosis-method">Calculated by system rules</small>
+                </span>
+                <span>View basis</span>
+              </summary>
+              <div class="diagnosis-reasoning-body">
+                <p id="diagnosis-reasoning-summary"></p>
+                <ol id="diagnosis-reasoning-steps"></ol>
+                <div class="diagnosis-boundary">
+                  <strong>This judgment does not establish</strong>
+                  <ul id="diagnosis-does-not-establish"></ul>
+                </div>
+              </div>
+            </details>
+            <details class="assessment-details">
+              <summary>View lifecycle signal matrix</summary>
+              <div class="assessment-table" role="table" aria-label="Expected and observed run evidence">
+                <div class="assessment-row assessment-columns" role="row">
+                  <span role="columnheader">Check</span>
+                  <span role="columnheader">Expected evidence</span>
+                  <span role="columnheader">Actually observed</span>
+                  <span role="columnheader">Judgment</span>
+                </div>
+                <div id="assessment-checks"></div>
+              </div>
+            </details>
+            <p id="assessment-discipline" class="assessment-discipline"></p>
+          </section>
+
+          <section class="panel activity-panel" aria-labelledby="activity-heading">
+            <div class="section-head activity-head">
+              <div>
+                <p class="eyebrow">WHAT ACTUALLY HAPPENED</p>
+                <h3 id="activity-heading">Concrete objects, not just event counts</h3>
+              </div>
+              <span class="grade-pill derived">Derived summary</span>
+            </div>
+            <div id="activity-summary" class="activity-summary"></div>
+            <p id="activity-discipline" class="activity-discipline"></p>
+          </section>
+
+          <details class="panel run-glossary">
+            <summary>
+              <span>
+                <span class="eyebrow">READING GUIDE</span>
+                <strong>What do these terms mean?</strong>
+              </span>
+              <small>Evidence grade, activation, attribution, and gaps</small>
+            </summary>
+            <div class="glossary-grid">
+              <article>
+                <strong>Observed</strong>
+                <p>A direct source record says the event happened, with a time and source locator.</p>
+              </article>
+              <article>
+                <strong>Derived</strong>
+                <p>A deterministic rule links or summarizes observed records; it adds no hidden fact.</p>
+              </article>
+              <article>
+                <strong>Unsupported</strong>
+                <p>This adapter cannot expose the signal, so the product makes no occurrence judgment.</p>
+              </article>
+              <article>
+                <strong>Skill enablement (Activation)</strong>
+                <p>How this Skill became active for the request: explicitly invoked, automatically selected, always enabled, or unknown. It does not mean the first tool call.</p>
+              </article>
+              <article>
+                <strong>Attributed events</strong>
+                <p>Events linked to this SkillRun by source identity, exact Skill path, or active run scope. Attribution is association, not causality.</p>
+              </article>
+              <article>
+                <strong>First evidence gap</strong>
+                <p>The earliest observable stage with no matching signal before later evidence appears. Missing evidence is not proof the step did not happen.</p>
+              </article>
+            </div>
+          </details>
+
+          <section class="panel diagnostics-panel">
+            <div class="section-head diagnostics-head">
+              <div>
+                <p class="eyebrow">DIAGNOSTICS</p>
+                <h3>Evidence-graded findings</h3>
+              </div>
+              <span id="finding-count" class="count">—</span>
+            </div>
+            <div id="findings" class="findings"></div>
+          </section>
+
+          <section class="panel inferred-panel">
+            <div class="section-head inferred-head">
+              <div>
+                <p class="eyebrow">INFERRED ANALYSIS</p>
+                <h3>Evidence-bounded investigation candidates</h3>
+              </div>
+              <span class="grade-pill inferred">Inferred</span>
+            </div>
+            <p class="inferred-discipline">These suggestions never overwrite runtime facts and never claim root cause.</p>
+            <div id="inferred-analysis" class="inferred-analysis"></div>
+          </section>
+
+          <section class="panel narrative-panel">
+            <div class="narrative-mark">∴</div>
+            <div>
+              <p class="eyebrow">RUN FACT SUMMARY</p>
+              <p id="narrative" class="narrative"></p>
+            </div>
+          </section>
+
+          <div class="evidence-workbench">
+            <section class="panel timeline-panel">
+              <div class="section-head timeline-head">
+                <div>
+                  <p class="eyebrow">TRUSTED CHRONOLOGY</p>
+                  <h3>Runtime evidence</h3>
+                </div>
+                <div class="timeline-filters">
+                  <select id="event-filter" aria-label="Filter timeline by lifecycle stage">
+                    <option value="all">All stages</option>
+                    <option value="request">Request</option>
+                    <option value="discovery">Discovery</option>
+                    <option value="activation">Activation</option>
+                    <option value="instructions">Instructions</option>
+                    <option value="resources">Resources</option>
+                    <option value="execution">Execution</option>
+                    <option value="artifacts">Artifacts</option>
+                    <option value="outcome">Outcome</option>
+                  </select>
+                  <select id="event-type-filter" aria-label="Filter timeline by event type">
+                    <option value="">All event types</option>
+                  </select>
+                  <select id="event-skill-filter" aria-label="Filter timeline by Skill">
+                    <option value="">All Skills</option>
+                  </select>
+                  <select id="event-grade-filter" aria-label="Filter timeline by evidence grade">
+                    <option value="">All grades</option>
+                  </select>
+                </div>
+              </div>
+              <div id="timeline" class="timeline"></div>
+            </section>
+
+            <aside class="panel inspector-pane">
+              <div class="inspector-head">
+                <div>
+                  <p class="eyebrow">EVIDENCE INSPECTOR</p>
+                  <h3>Why this is attributed</h3>
+                </div>
+                <span id="inspector-grade"></span>
+              </div>
+              <div id="inspector" class="inspector empty-inspector">
+                <div class="inspector-orbit"></div>
+                <p>Select a lifecycle node or timeline event.</p>
+                <small>Source facts and attribution are shown separately.</small>
+              </div>
+              <div id="capabilities" class="capabilities"></div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <main id="skills-view" class="product-view hidden">
+      <header class="view-hero">
+        <div>
+          <p class="eyebrow">STATIC DEFINITION × RUNTIME EVIDENCE</p>
+          <h1>Skill Inventory</h1>
+          <p>What each Agent can discover, what is installed, and what has actually run.</p>
+        </div>
+        <span id="skill-count" class="hero-count">— Skills</span>
+      </header>
+      <section id="skill-metrics" class="overview-metrics"></section>
+      <div class="inventory-layout">
+        <section class="panel inventory-panel">
+          <div class="inventory-toolbar">
+            <label class="search inventory-search">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+              <input id="skill-filter" type="search" placeholder="Filter name, source, description">
+            </label>
+            <div class="evidence-legend compact">
+              <span><i class="shape observed"></i>Observed use</span>
+              <span><i class="shape inferred"></i>Not observed</span>
+            </div>
+          </div>
+          <div id="skill-list" class="skill-list"></div>
+        </section>
+        <aside class="panel skill-inspector-panel">
+          <div id="skill-inspector" class="skill-inspector empty-inspector">
+            <div class="inspector-orbit"></div>
+            <p>Select a Skill definition.</p>
+            <small>Static inventory and runtime evidence remain distinct.</small>
+          </div>
+        </aside>
+      </div>
+      <section class="panel conflicts-panel">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">POTENTIAL TRIGGER OVERLAP</p>
+            <h3>Conflict candidates</h3>
+          </div>
+          <span class="grade-pill inferred">Inferred</span>
+        </div>
+        <p class="panel-note">Description overlap is a review aid, not proof that an Agent considered or confused two Skills.</p>
+        <div id="conflicts" class="conflict-list"></div>
+      </section>
+    </main>
+
+    <main id="settings-view" class="product-view hidden">
+      <header class="view-hero">
+        <div>
+          <p class="eyebrow">COLLECTION, PRIVACY & INTEROPERABILITY</p>
+          <h1>Runtime Settings</h1>
+          <p>See exactly what is connected, read, stored, and exported.</p>
+        </div>
+        <span class="local-badge">Local control plane</span>
+      </header>
+      <section class="settings-grid">
+        <article class="panel settings-card">
+          <div class="settings-card-head">
+            <div><p class="eyebrow">AGENT ADAPTERS</p><h3>Collection health</h3></div>
+          </div>
+          <div id="integration-list" class="integration-list"></div>
+        </article>
+        <article class="panel settings-card">
+          <div class="settings-card-head">
+            <div><p class="eyebrow">LOCAL EVIDENCE STORE</p><h3>Data & privacy</h3></div>
+          </div>
+          <div id="data-settings" class="settings-body"></div>
+        </article>
+        <article class="panel settings-card settings-wide">
+          <div class="settings-card-head">
+            <div><p class="eyebrow">PROJECT BOUNDARIES</p><h3>Included and excluded paths</h3></div>
+            <button id="save-settings" type="button">Save settings</button>
+          </div>
+          <div class="path-settings">
+            <label>Included projects<textarea id="included-projects" spellcheck="false"></textarea></label>
+            <label>Never read or index<textarea id="excluded-paths" spellcheck="false"></textarea></label>
+            <label>Retention days (blank = unlimited)<input id="retention-days" type="number" min="1" max="3650" inputmode="numeric"></label>
+          </div>
+          <p id="settings-save-state" class="panel-note">Changes apply after restart. Retention removes only expired local index records, never Agent source files.</p>
+        </article>
+        <article class="panel settings-card settings-wide">
+          <div class="settings-card-head">
+            <div><p class="eyebrow">OBSERVABILITY EXPORT</p><h3>OTLP/HTTP destinations</h3></div>
+            <span class="grade-pill observed">Opt-in</span>
+          </div>
+          <div id="exporter-list" class="integration-list"></div>
+          <p class="panel-note">Exports contain normalized Skill evidence and categorical metadata, never raw prompts or tool payloads.</p>
+        </article>
+      </section>
+    </main>
+    <div id="evidence-grade-tooltip" class="evidence-grade-tooltip" role="tooltip" aria-hidden="true"></div>
+    <script src="i18n.js?v=20260830-runlabel1" defer></script>
+    <script src="app.js?v=20260901-dag-spine1" defer></script>
+  </body>
+</html>

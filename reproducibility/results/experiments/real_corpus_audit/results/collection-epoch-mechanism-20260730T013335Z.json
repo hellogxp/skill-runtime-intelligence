@@ -1,0 +1,52 @@
+{
+  "schema_version": "sri.experiment.collection-epoch-mechanism.v1",
+  "experiment": {
+    "name": "controlled-collection-epoch-mechanism",
+    "evidence_grade": "Experimental",
+    "isolated_temporary_database": true,
+    "synthetic_adapter": true,
+    "row_level_records_included": false,
+    "raw_content_included": false,
+    "limitations": [
+      "Trials validate local mechanism behavior, not live watcher deployment.",
+      "Deterministic repetitions are not independent workload samples.",
+      "Injected file changes do not estimate natural late-arrival frequency.",
+      "The result does not prove upstream source completeness."
+    ]
+  },
+  "metrics": {
+    "paired_trial_count": 8,
+    "injected_late_arrivals": 8,
+    "detected_late_arrivals": 8,
+    "missed_late_arrivals": 0,
+    "control_false_positives": 0,
+    "created_source_trials": 8,
+    "detected_created_sources": 8,
+    "running_state_observed": 16,
+    "completed_state_observed": 16,
+    "watermark_change_detected": 8,
+    "control_watermark_changes": 0,
+    "failure_trial_count": 4,
+    "failed_state_observed": 4,
+    "failure_propagated": 4,
+    "failed_source_count_exact": 4
+  },
+  "gate": {
+    "name": "collection epoch transitions and late-arrival accounting",
+    "passed": true
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "created_at": "2026-07-30T01:33:35.785396+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "c6ddc8387b15e0333bbf350ef3aeb468049d4a66",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

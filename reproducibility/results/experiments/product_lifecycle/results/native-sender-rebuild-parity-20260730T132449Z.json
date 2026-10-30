@@ -1,0 +1,305 @@
+{
+  "schema_version": "sri.experiment.native-sender-rebuild-parity.v1",
+  "experiment": {
+    "name": "verified-source-native-sender-rebuild-parity",
+    "evidence_grade": "Experimental",
+    "source_evidence_grade": "Observed",
+    "structure_evidence_grade": "Derived",
+    "functional_evidence_grade": "Experimental",
+    "repetitions_per_binary": 20,
+    "limitations": [
+      "The rebuilds use matching flags but not the original hosted runner images.",
+      "Protocol tests use a synthetic Unix-socket server, not a real Agent.",
+      "Linux build and runtime containers share the same macOS host.",
+      "Only arm64 execution is covered; x86_64 remains not_run.",
+      "Selected structure and protocol parity does not prove source equivalence or security."
+    ]
+  },
+  "source_identity": {
+    "tag_commit": "28f146c876a7d548cfaa5dd9ceee5c73ba9e163f",
+    "tag_commit_matches": true,
+    "source_sha256": "abb0091b3de08f87c3fad147381110672582f1956144463a3a6311f7a22fdea3",
+    "source_matches": true,
+    "workflow_sha256": "4be3f1566c506b2193e115a714f158771efcfd32c01bb17d816075b964ca2d26",
+    "workflow_matches": true,
+    "passed": true
+  },
+  "published_identity": {
+    "darwin": {
+      "name": "skill-runtime-hook-native-darwin-arm64",
+      "sha256": "db4267ab98cca9cda634ec6aff9865882205e6c0722412fccf5779b1d716497e",
+      "bytes": 50520,
+      "passed": true
+    },
+    "linux": {
+      "name": "skill-runtime-hook-native-linux-arm64",
+      "sha256": "26ecac96ba167264c65348d74a597bd7a52b33f5ebdae0741e10d48dee79265f",
+      "bytes": 71056,
+      "passed": true
+    }
+  },
+  "environment": {
+    "host_system": "Darwin",
+    "host_machine": "arm64",
+    "darwin_build": {
+      "command": [
+        "/usr/bin/cc",
+        "-O2",
+        "-std=c99",
+        "-arch",
+        "x86_64",
+        "-arch",
+        "arm64",
+        "${LOCAL_HOME}/.codex/sri-native-rebuild-hjgjzr_0/hook_sender.c",
+        "-o",
+        "${LOCAL_HOME}/.codex/sri-native-rebuild-hjgjzr_0/rebuilt-darwin-universal2"
+      ],
+      "compiler_version": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+      "stdout": "",
+      "stderr": ""
+    },
+    "linux_build": {
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "-v",
+        "${LOCAL_HOME}/.codex/sri-native-linux-build-8186yii7:/work",
+        "gcc@sha256:b99b86a28812b1e6453a231a947dc43d76fe192788a12f344a9b568bf9f5d24c",
+        "bash",
+        "-lc",
+        "cc -O2 -std=c99 /work/hook_sender.c -o /work/rebuilt-linux-arm64 && chmod 700 /work/rebuilt-linux-arm64 && cc --version | head -1"
+      ],
+      "compiler_version": "cc (GCC) 14.2.0",
+      "stdout": "cc (GCC) 14.2.0\n",
+      "stderr": ""
+    },
+    "linux_build_image": {
+      "requested_ref": "gcc@sha256:b99b86a28812b1e6453a231a947dc43d76fe192788a12f344a9b568bf9f5d24c",
+      "digest_pinned": true,
+      "image_id": "sha256:95eefe2d1903ea666a12a7679908eed4d887e55ab0284376a30c9355b5e681c8",
+      "architecture": "arm64",
+      "os": "linux",
+      "repo_digests": [
+        "gcc@sha256:b99b86a28812b1e6453a231a947dc43d76fe192788a12f344a9b568bf9f5d24c"
+      ]
+    },
+    "linux_runtime_image": {
+      "requested_ref": "python@sha256:20080e807bfc404f8450b185cf0fc95d553462673598549613735f70a5b4d5d0",
+      "digest_pinned": true,
+      "image_id": "sha256:dc8dae3d854db32995baf98f0230777729a1166080a9a50b41b2c0ba00c122a2",
+      "architecture": "arm64",
+      "os": "linux",
+      "repo_digests": [
+        "python@sha256:20080e807bfc404f8450b185cf0fc95d553462673598549613735f70a5b4d5d0"
+      ]
+    },
+    "network_policy": "none for Linux build and runtime"
+  },
+  "metrics": {
+    "source_identity_passed": true,
+    "published_identity_passed": 2,
+    "completed_pairs": 2,
+    "passed_pairs": 2,
+    "raw_digest_matches": 0,
+    "section_fingerprint_matches": 0,
+    "symbol_fingerprint_matches": 1,
+    "functional_executions": 4,
+    "functional_exact_deliveries": 80,
+    "build_image_digest_pinned": true,
+    "runtime_image_digest_pinned": true
+  },
+  "pairs": [
+    {
+      "os": "darwin",
+      "architecture": "arm64",
+      "published_sha256": "db4267ab98cca9cda634ec6aff9865882205e6c0722412fccf5779b1d716497e",
+      "rebuilt_sha256": "225358305713191c99b08b9d2267feac67665be8e5c1c2285a8e020cb7adb562",
+      "raw_digest_match": false,
+      "published_structures": [
+        {
+          "architecture": "arm64",
+          "object_format": "macho",
+          "section_count": 5,
+          "section_fingerprint": "1e5021ea913c2bb67cadc9efc26b904d543120d9ccf7be99f9681161dec5f3cc",
+          "symbol_count": 18,
+          "symbol_fingerprint": "b19558101446756f5add2b2e0e0017f345e03de54db4fd2b53ea62c39812cdbf",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": false,
+            "write_all": true
+          }
+        },
+        {
+          "architecture": "x86_64",
+          "object_format": "macho",
+          "section_count": 5,
+          "section_fingerprint": "08ece1da18ede9b48401dedf6855b525b5089e3437027d359102152a8e56c617",
+          "symbol_count": 18,
+          "symbol_fingerprint": "b19558101446756f5add2b2e0e0017f345e03de54db4fd2b53ea62c39812cdbf",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": false,
+            "write_all": true
+          }
+        }
+      ],
+      "rebuilt_structures": [
+        {
+          "architecture": "arm64",
+          "object_format": "macho",
+          "section_count": 5,
+          "section_fingerprint": "a605d8cb0b6064659de1d8ceafc51fdd5a1ca030176436b053ee4cb1c601ebe8",
+          "symbol_count": 18,
+          "symbol_fingerprint": "b19558101446756f5add2b2e0e0017f345e03de54db4fd2b53ea62c39812cdbf",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": false,
+            "write_all": true
+          }
+        },
+        {
+          "architecture": "x86_64",
+          "object_format": "macho",
+          "section_count": 5,
+          "section_fingerprint": "a267e41fb5b2142ec5c0adc1f5b55251c1b4de9e46f2e1190bc971fb0908e18b",
+          "symbol_count": 18,
+          "symbol_fingerprint": "b19558101446756f5add2b2e0e0017f345e03de54db4fd2b53ea62c39812cdbf",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": false,
+            "write_all": true
+          }
+        }
+      ],
+      "structure_contract_passed": true,
+      "section_fingerprint_parity": false,
+      "symbol_fingerprint_parity": true,
+      "published_protocol": {
+        "repetitions": 20,
+        "exact_deliveries": 20,
+        "silent_successes": 20,
+        "missing_socket_exit": 1,
+        "missing_socket_silent": true,
+        "invalid_arguments_exit": 2,
+        "invalid_arguments_silent": true,
+        "passed": true
+      },
+      "rebuilt_protocol": {
+        "repetitions": 20,
+        "exact_deliveries": 20,
+        "silent_successes": 20,
+        "missing_socket_exit": 1,
+        "missing_socket_silent": true,
+        "invalid_arguments_exit": 2,
+        "invalid_arguments_silent": true,
+        "passed": true
+      },
+      "published_prewarm": {
+        "wall_ms": 884.276958,
+        "exit_code": 1,
+        "stdout_bytes": 0,
+        "stderr_bytes": 0,
+        "passed": true
+      },
+      "rebuilt_prewarm": {
+        "wall_ms": 383.377583,
+        "exit_code": 1,
+        "stdout_bytes": 0,
+        "stderr_bytes": 0,
+        "passed": true
+      },
+      "protocol_parity": true,
+      "passed": true
+    },
+    {
+      "os": "linux",
+      "architecture": "arm64",
+      "published_sha256": "26ecac96ba167264c65348d74a597bd7a52b33f5ebdae0741e10d48dee79265f",
+      "rebuilt_sha256": "d7f58c3c081e3e76c96763dbf87ac5b04cabb34700beb1cda1fceb2aafc26994",
+      "raw_digest_match": false,
+      "published_structures": [
+        {
+          "architecture": "arm64",
+          "object_format": "elf",
+          "section_count": 28,
+          "section_fingerprint": "438401538f7703aa1413e8234a040183dd9289fb55e0db16883eafe14e269192",
+          "symbol_count": 52,
+          "symbol_fingerprint": "da0ba24095169ccc318307660d1ae5d10cc47f08e9d440f0b7e5593eeec6d385",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": true,
+            "write_all": true
+          }
+        }
+      ],
+      "rebuilt_structures": [
+        {
+          "architecture": "arm64",
+          "object_format": "elf",
+          "section_count": 29,
+          "section_fingerprint": "4bf94b817c916528ea2163be8f6dfae8cf25c9072ae1824e07c3f6d7d1f11877",
+          "symbol_count": 51,
+          "symbol_fingerprint": "19d33ca83d9b92805dabc29d456aa68086f7fdbf4f49de63c84bd4095560daed",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": true,
+            "write_all": true
+          }
+        }
+      ],
+      "structure_contract_passed": true,
+      "section_fingerprint_parity": false,
+      "symbol_fingerprint_parity": false,
+      "published_protocol": {
+        "repetitions": 20,
+        "exact_deliveries": 20,
+        "silent_successes": 20,
+        "missing_socket_exit": 1,
+        "missing_socket_silent": true,
+        "invalid_arguments_exit": 2,
+        "invalid_arguments_silent": true,
+        "passed": true
+      },
+      "rebuilt_protocol": {
+        "repetitions": 20,
+        "exact_deliveries": 20,
+        "silent_successes": 20,
+        "missing_socket_exit": 1,
+        "missing_socket_silent": true,
+        "invalid_arguments_exit": 2,
+        "invalid_arguments_silent": true,
+        "passed": true
+      },
+      "published_prewarm": null,
+      "rebuilt_prewarm": null,
+      "protocol_parity": true,
+      "passed": true
+    }
+  ],
+  "gate": {
+    "name": "verified source to published native observable contract",
+    "passed": true
+  },
+  "created_at": "2026-07-30T13:24:49.242380+00:00"
+}

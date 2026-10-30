@@ -1,0 +1,33 @@
+name: Feature request
+description: Propose an improvement to Skill-specific runtime diagnosis
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Diagnostic problem
+      description: What question about a Skill run can you not answer today?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Available evidence
+      description: Which Agent, hook, transcript, file, test, or artifact signal could support it?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired experience
+      description: Describe the smallest useful product behavior.
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope confirmation
+      options:
+        - label: This strengthens the Skill Run Panorama or diagnosis workflow.
+          required: true

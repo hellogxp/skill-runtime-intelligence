@@ -1,0 +1,906 @@
+{
+  "schema_version": "sri.experiment.double-model-adjudication.v1",
+  "experiment": {
+    "name": "independent-model-double-adjudication-with-disagreement-preservation",
+    "evidence_grade": "Derived",
+    "first_report_sha256": "af515b3e7c5435cc89c3fa57d21115c06cdd00b377f763407748de52c0bda31a",
+    "second_report_sha256": "0bd9515ac8eab4a3c05809abad3820aa388f267a42db3100168bce4fefc1a627",
+    "holdout_sha256": "68889e90d533262aeb76db12644e9945867755d053ba03be0244f6e17cf00ccb",
+    "limitations": [
+      "Two models cannot form a majority; disagreement is preserved rather than resolved.",
+      "Consensus requires independently citation-entailed finding signatures, not just matching labels.",
+      "Expected labels remain deterministic production candidates, not human gold labels."
+    ]
+  },
+  "metrics": {
+    "case_count": 19,
+    "both_completed": 19,
+    "prediction_agreement_cases": 3,
+    "entailed_agreement_cases": 9,
+    "cases_with_any_consensus_entailed_finding": 0,
+    "disagreement_cases": 16
+  },
+  "rows": [
+    {
+      "case_id": "real-holdout-001",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": true,
+      "first_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "request",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "request",
+          "observed"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-002",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "entailed_agreement": true,
+      "first_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [],
+      "consensus_entailed": [],
+      "disagreement_preserved": []
+    },
+    {
+      "case_id": "real-holdout-003",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": true,
+      "first_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "activation",
+          "observed"
+        ],
+        [
+          "runtime_failure",
+          "activation",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "run_incomplete",
+          "activation",
+          "observed"
+        ],
+        [
+          "runtime_failure",
+          "activation",
+          "observed"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-004",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "entailed_agreement": true,
+      "first_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [],
+      "consensus_entailed": [],
+      "disagreement_preserved": []
+    },
+    {
+      "case_id": "real-holdout-005",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": false,
+      "first_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "activation",
+          "derived"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "run_incomplete",
+          "activation",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-006",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": false,
+      "first_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "activation",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "derived"
+        ],
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-007",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": false,
+      "first_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "activation",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "run_incomplete",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-008",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": false,
+      "first_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "activation",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "run_incomplete",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-009",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": false,
+      "first_predicted": [
+        [
+          "run_incomplete",
+          "execution",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "execution",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-010",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": false,
+      "first_predicted": [
+        [
+          "run_incomplete",
+          "execution",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "execution",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-011",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": false,
+      "first_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "instructions",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "run_incomplete",
+          "instructions",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-012",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": false,
+      "first_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "instructions",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "run_incomplete",
+          "instructions",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-013",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": true,
+      "first_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "request",
+          "derived"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "execution",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "run_incomplete",
+          "execution",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "request",
+          "derived"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-014",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": true,
+      "first_predicted": [
+        [
+          "run_incomplete",
+          "activation",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "execution",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "execution",
+          "observed"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-015",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": false,
+      "first_predicted": [
+        [
+          "run_incomplete",
+          "activation",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "lifecycle_evidence_gap",
+          "request",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-016",
+      "both_completed": true,
+      "prediction_agreement": true,
+      "entailed_agreement": true,
+      "first_predicted": [
+        [
+          "run_incomplete",
+          "instructions",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "run_incomplete",
+          "instructions",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [],
+      "consensus_entailed": [],
+      "disagreement_preserved": []
+    },
+    {
+      "case_id": "real-holdout-017",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": true,
+      "first_predicted": [
+        [
+          "run_incomplete",
+          "instructions",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "activation",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "lifecycle_evidence_gap",
+          "instructions",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "activation",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "instructions",
+          "observed"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-018",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": true,
+      "first_predicted": [
+        [
+          "run_incomplete",
+          "instructions",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "run_incomplete",
+          "activation",
+          "derived"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "run_incomplete",
+          "activation",
+          "derived"
+        ],
+        [
+          "run_incomplete",
+          "instructions",
+          "observed"
+        ]
+      ]
+    },
+    {
+      "case_id": "real-holdout-019",
+      "both_completed": true,
+      "prediction_agreement": false,
+      "entailed_agreement": false,
+      "first_predicted": [
+        [
+          "run_incomplete",
+          "instructions",
+          "observed"
+        ]
+      ],
+      "second_predicted": [
+        [
+          "outcome_unverified",
+          "outcome",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "first_entailed": [],
+      "second_entailed": [
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ],
+      "consensus_entailed": [],
+      "disagreement_preserved": [
+        [
+          "outcome_unverified",
+          "outcome",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "instructions",
+          "observed"
+        ],
+        [
+          "run_incomplete",
+          "outcome",
+          "observed"
+        ]
+      ]
+    }
+  ],
+  "gate": {
+    "name": "both independent reports complete with explicit disagreement ledger",
+    "passed": true
+  },
+  "created_at": "2026-08-01T02:38:45.444003+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "250fb9c5ab070e0c8a19d59f0e630f8fdefe2531",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

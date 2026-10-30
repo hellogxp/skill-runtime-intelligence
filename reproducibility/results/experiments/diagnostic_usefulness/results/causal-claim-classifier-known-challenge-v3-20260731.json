@@ -1,0 +1,287 @@
+{
+  "schema_version": "sri.experiment.causal-claim-classifier.v1",
+  "experiment": {
+    "name": "adversarial-causal-claim-classifier-contract",
+    "evidence_grade": "derived",
+    "corpus_role": "post-freeze-challenge",
+    "classifier_policy": "fail-closed-v3",
+    "dataset_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/causal_claim_challenge_cases.jsonl",
+    "dataset_sha256": "ca863a3f2e6a18ce0fbdcca51a0708cc55fbcc5f6a9a25d48653c2a56b9f46ec",
+    "limitations": [
+      "The post-freeze challenge is hand-authored and small; it is a targeted robustness probe, not a population estimate.",
+      "The corpus contains short isolated sentences and may not represent deployment language.",
+      "Pattern matching does not resolve discourse, sarcasm, nested quotation, or multilingual claims.",
+      "The classifier may only restrict a claim; it must never expand a Finding causal scope."
+    ]
+  },
+  "metrics": {
+    "case_count": 16,
+    "exact_matches": 16,
+    "exact_match_rate": 1.0,
+    "guard_decision_exact": 16,
+    "false_allows": 0,
+    "false_denies": 0,
+    "class_counts": {
+      "descriptive": 4,
+      "skill_outcome_effect": 7,
+      "source_attribution": 5
+    },
+    "per_class": {
+      "descriptive": {
+        "true_positive": 4,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "source_attribution": {
+        "true_positive": 5,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "skill_outcome_effect": {
+        "true_positive": 7,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "challenge_descriptive_no_conclusion",
+      "tags": [
+        "challenge",
+        "evidence-boundary"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "v3 evidence-boundary language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "challenge_descriptive_many_causes",
+      "tags": [
+        "challenge",
+        "uncertainty"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "v3 evidence-boundary language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "challenge_descriptive_open_question",
+      "tags": [
+        "challenge",
+        "question"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "v3 evidence-boundary language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "challenge_descriptive_no_inference",
+      "tags": [
+        "challenge",
+        "negation"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "descriptive",
+      "predicted_claim_kind": "descriptive",
+      "classifier_basis": "v3 evidence-boundary language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "challenge_source_per_runtime",
+      "tags": [
+        "challenge",
+        "source-assertion"
+      ],
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "source_attribution",
+      "predicted_claim_kind": "source_attribution",
+      "classifier_basis": "v3 source-attribution language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "challenge_source_nested_quote",
+      "tags": [
+        "challenge",
+        "nested-quotation"
+      ],
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "source_attribution",
+      "predicted_claim_kind": "source_attribution",
+      "classifier_basis": "v3 source-attribution language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "challenge_source_evaluator_wrote",
+      "tags": [
+        "challenge",
+        "source-assertion"
+      ],
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "source_attribution",
+      "predicted_claim_kind": "source_attribution",
+      "classifier_basis": "v3 source-attribution language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "challenge_source_field_attributes",
+      "tags": [
+        "challenge",
+        "source-assertion"
+      ],
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "source_attribution",
+      "predicted_claim_kind": "source_attribution",
+      "classifier_basis": "v3 source-attribution language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "challenge_effect_brought_about",
+      "tags": [
+        "challenge",
+        "causal-synonym"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "v3 causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "challenge_effect_counterfactual",
+      "tags": [
+        "challenge",
+        "counterfactual"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "v3 causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "challenge_effect_is_why",
+      "tags": [
+        "challenge",
+        "causal-synonym"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "v3 causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "challenge_effect_contributed",
+      "tags": [
+        "challenge",
+        "causal-synonym"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "v3 causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "challenge_effect_neither",
+      "tags": [
+        "challenge",
+        "negative-effect"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "v3 causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "challenge_effect_zh",
+      "tags": [
+        "challenge",
+        "multilingual"
+      ],
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "v3 causal-effect language",
+      "expected_allowed": false,
+      "predicted_allowed": false
+    },
+    {
+      "case_id": "challenge_source_zh",
+      "tags": [
+        "challenge",
+        "multilingual",
+        "source-assertion"
+      ],
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "source_attribution",
+      "predicted_claim_kind": "source_attribution",
+      "classifier_basis": "v3 source-attribution language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    },
+    {
+      "case_id": "challenge_experimental_zh",
+      "tags": [
+        "challenge",
+        "multilingual",
+        "experimental-effect"
+      ],
+      "causal_scope": "experimental_estimate",
+      "expected_claim_kind": "skill_outcome_effect",
+      "predicted_claim_kind": "skill_outcome_effect",
+      "classifier_basis": "v3 causal-effect language",
+      "expected_allowed": true,
+      "predicted_allowed": true
+    }
+  ],
+  "gates": {
+    "classification_contract_exact": true,
+    "guard_safety_no_false_allow": true,
+    "guard_usability_no_false_deny": true
+  },
+  "gate": {
+    "name": "causal-claim classifier contract",
+    "passed": true
+  },
+  "created_at": "2026-07-31T05:26:14.990735+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

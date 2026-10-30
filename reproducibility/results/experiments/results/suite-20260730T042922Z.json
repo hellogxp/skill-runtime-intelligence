@@ -1,0 +1,116 @@
+{
+  "schema_version": "sri.experiment.suite.v1",
+  "experiment": {
+    "name": "local-reproducibility-gates",
+    "includes_live_agent_calls": false
+  },
+  "metrics": {
+    "experiment_count": 8,
+    "passed": 8,
+    "failed": 0
+  },
+  "experiments": [
+    {
+      "experiment_id": "E0",
+      "runner": "runtime_diagnostics/run_benchmark.py",
+      "exit_code": 0,
+      "passed": true,
+      "stdout_tail": [
+        "Report: ${REPO_ROOT}/experiments/runtime_diagnostics/results/runtime-diagnostics-20260730T042911Z.json",
+        "Gate: PASS"
+      ],
+      "stderr_line_count": 0
+    },
+    {
+      "experiment_id": "E1",
+      "runner": "adapter_reconstruction/run_benchmark.py",
+      "exit_code": 0,
+      "passed": true,
+      "stdout_tail": [
+        "Report: ${REPO_ROOT}/experiments/adapter_reconstruction/results/adapter-reconstruction-20260730T042912Z.json",
+        "Gate: PASS"
+      ],
+      "stderr_line_count": 0
+    },
+    {
+      "experiment_id": "E2",
+      "runner": "non_interference/run_benchmark.py",
+      "exit_code": 0,
+      "passed": true,
+      "stdout_tail": [
+        "}",
+        "Report: ${REPO_ROOT}/experiments/non_interference/results/non-interference-20260730T042915Z.json"
+      ],
+      "stderr_line_count": 0
+    },
+    {
+      "experiment_id": "E2-transport",
+      "runner": "hook_transport/run_benchmark.py",
+      "exit_code": 0,
+      "passed": true,
+      "stdout_tail": [
+        "}",
+        "Report: ${REPO_ROOT}/experiments/hook_transport/results/hook-transport-20260730T042921Z.json"
+      ],
+      "stderr_line_count": 0
+    },
+    {
+      "experiment_id": "E3",
+      "runner": "diagnostic_usefulness/prepare_study.py",
+      "exit_code": 0,
+      "passed": true,
+      "stdout_tail": [
+        "}",
+        "Report: ${REPO_ROOT}/experiments/diagnostic_usefulness/results/diagnostic-usefulness-study-20260730T042921Z.json"
+      ],
+      "stderr_line_count": 0
+    },
+    {
+      "experiment_id": "E4",
+      "runner": "cross_agent/run_benchmark.py",
+      "exit_code": 0,
+      "passed": true,
+      "stdout_tail": [
+        "Report: ${REPO_ROOT}/experiments/cross_agent/results/cross-agent-20260730T042921Z.json",
+        "Gate: PASS"
+      ],
+      "stderr_line_count": 0
+    },
+    {
+      "experiment_id": "E4-source-contract",
+      "runner": "cross_agent/source_instance_contract_benchmark.py",
+      "exit_code": 0,
+      "passed": true,
+      "stdout_tail": [
+        "}",
+        "Report: ${REPO_ROOT}/experiments/cross_agent/results/source-instance-contract-20260730T042922Z.json"
+      ],
+      "stderr_line_count": 0
+    },
+    {
+      "experiment_id": "E5",
+      "runner": "semantic_diagnosis/run_benchmark.py",
+      "exit_code": 0,
+      "passed": true,
+      "stdout_tail": [
+        "}",
+        "Report: ${REPO_ROOT}/experiments/semantic_diagnosis/results/semantic-diagnosis-20260730T042922Z.json"
+      ],
+      "stderr_line_count": 0
+    }
+  ],
+  "gate": {
+    "name": "all selected experiment gates",
+    "passed": true
+  },
+  "created_at": "2026-07-30T04:29:22.655916+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "10b4034867c8578af369c205937c9015de6d99a0",
+    "git_dirty": false,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

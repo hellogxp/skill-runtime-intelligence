@@ -1,0 +1,52 @@
+{
+  "schema_version": "sri.experiment.mixed-provenance-reconciliation.v1",
+  "experiment": {
+    "name": "mixed-transcript-official-hook-reconciliation",
+    "evidence_grade": "Experimental",
+    "production_adapters": true,
+    "isolated_temporary_database": true,
+    "synthetic_sources": true,
+    "row_level_records_included": false,
+    "raw_content_included": false,
+    "limitations": [
+      "Synthetic sources are not independent live Agent sessions.",
+      "Deterministic trials do not estimate field failure rates.",
+      "Absence of a cross-session edge does not specify the correct merge algorithm."
+    ]
+  },
+  "metrics": {
+    "trial_count": 8,
+    "hook_evidence_preserved": 8,
+    "correlation_group_preserved": 8,
+    "cross_source_relationship_available": 0
+  },
+  "gates": {
+    "official_hook_evidence_preservation": {
+      "passed": true
+    },
+    "correlation_group_preservation": {
+      "passed": true
+    },
+    "merged_cross_source_relationship_plane": {
+      "passed": false
+    }
+  },
+  "gate": {
+    "name": "mixed-provenance preservation and merge",
+    "passed": false
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "created_at": "2026-07-30T02:31:26.783421+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "c6ddc8387b15e0333bbf350ef3aeb468049d4a66",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

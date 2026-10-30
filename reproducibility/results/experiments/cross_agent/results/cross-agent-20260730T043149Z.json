@@ -1,0 +1,147 @@
+{
+  "schema_version": "sri.experiment.cross-agent-comparability.v1",
+  "experiment": {
+    "name": "equivalent-export-profile-fixtures",
+    "adapter_version": "0.1.0",
+    "profiles": [
+      "otel",
+      "phoenix",
+      "langsmith",
+      "langfuse",
+      "weave",
+      "datadog"
+    ],
+    "limitations": [
+      "Profiles represent export formats, not independent live Agent runs.",
+      "Equivalent fixtures test canonicalization and false equivalence, not model behavior."
+    ]
+  },
+  "metrics": {
+    "profile_count": 6,
+    "exact_matches": 6,
+    "exact_match_rate": 1.0,
+    "comparable_field_coverage": 1.0,
+    "dangling_parent_count": 0,
+    "false_equivalence_count": 0
+  },
+  "profiles": [
+    {
+      "profile": "otel",
+      "exact_match": true,
+      "comparable_fields": 9,
+      "field_count": 9,
+      "facts": {
+        "detected_profile": true,
+        "one_skill": true,
+        "one_run": true,
+        "explicit_activation": true,
+        "inherited_tool_start": true,
+        "derived_tool_end": true,
+        "complete_session": true,
+        "raw_span_count": true,
+        "no_dangling_parent": true
+      },
+      "dangling_parent_event_ids": []
+    },
+    {
+      "profile": "phoenix",
+      "exact_match": true,
+      "comparable_fields": 9,
+      "field_count": 9,
+      "facts": {
+        "detected_profile": true,
+        "one_skill": true,
+        "one_run": true,
+        "explicit_activation": true,
+        "inherited_tool_start": true,
+        "derived_tool_end": true,
+        "complete_session": true,
+        "raw_span_count": true,
+        "no_dangling_parent": true
+      },
+      "dangling_parent_event_ids": []
+    },
+    {
+      "profile": "langsmith",
+      "exact_match": true,
+      "comparable_fields": 9,
+      "field_count": 9,
+      "facts": {
+        "detected_profile": true,
+        "one_skill": true,
+        "one_run": true,
+        "explicit_activation": true,
+        "inherited_tool_start": true,
+        "derived_tool_end": true,
+        "complete_session": true,
+        "raw_span_count": true,
+        "no_dangling_parent": true
+      },
+      "dangling_parent_event_ids": []
+    },
+    {
+      "profile": "langfuse",
+      "exact_match": true,
+      "comparable_fields": 9,
+      "field_count": 9,
+      "facts": {
+        "detected_profile": true,
+        "one_skill": true,
+        "one_run": true,
+        "explicit_activation": true,
+        "inherited_tool_start": true,
+        "derived_tool_end": true,
+        "complete_session": true,
+        "raw_span_count": true,
+        "no_dangling_parent": true
+      },
+      "dangling_parent_event_ids": []
+    },
+    {
+      "profile": "weave",
+      "exact_match": true,
+      "comparable_fields": 9,
+      "field_count": 9,
+      "facts": {
+        "detected_profile": true,
+        "one_skill": true,
+        "one_run": true,
+        "explicit_activation": true,
+        "inherited_tool_start": true,
+        "derived_tool_end": true,
+        "complete_session": true,
+        "raw_span_count": true,
+        "no_dangling_parent": true
+      },
+      "dangling_parent_event_ids": []
+    },
+    {
+      "profile": "datadog",
+      "exact_match": true,
+      "comparable_fields": 9,
+      "field_count": 9,
+      "facts": {
+        "detected_profile": true,
+        "one_skill": true,
+        "one_run": true,
+        "explicit_activation": true,
+        "inherited_tool_start": true,
+        "derived_tool_end": true,
+        "complete_session": true,
+        "raw_span_count": true,
+        "no_dangling_parent": true
+      },
+      "dangling_parent_event_ids": []
+    }
+  ],
+  "created_at": "2026-07-30T04:31:49.891166+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "10b4034867c8578af369c205937c9015de6d99a0",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

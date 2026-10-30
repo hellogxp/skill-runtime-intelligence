@@ -1,0 +1,663 @@
+import os
+import tempfile
+import threading
+import unittest
+import sqlite3
+from datetime import datetime, timezone
+from pathlib import Path
+from unittest.mock import patch
+
+from skill_runtime_intelligence.discovery import parse_skill
+from skill_runtime_intelligence.indexer import index_local
+from skill_runtime_intelligence.storage import Storage
+
+
+class StorageTests(unittest.TestCase):
+    def test_local_index_uses_persistent_source_checkpoint(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            sessions = root / "sessions"
+            skills = root / "skills"
+            sessions.mkdir()
+            skills.mkdir()
+            source = sessions / "session.jsonl"
+            source.write_text("{}\n", encoding="utf-8")
+            database = root / "panorama.db"
+
+            first = index_local(database, sessions, [skills])
+            second = index_local(database, sessions, [skills])
+
+            self.assertEqual(first["imported"], 1)
+            self.assertEqual(second["imported"], 0)
+            self.assertEqual(second["skipped_unchanged"], 1)
+
+    def test_local_index_skips_old_unseen_sources_with_history_window(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            sessions = root / "sessions"
+            skills = root / "skills"
+            sessions.mkdir()
+            skills.mkdir()
+            source = sessions / "old.jsonl"
+            source.write_text("{}\n", encoding="utf-8")
+            old = 1_600_000_000
+            source.touch()
+            os.utime(source, (old, old))
+
+            result = index_local(
+                root / "panorama.db",
+                sessions,
+                [skills],
+                history_days=30,
+            )
+
+            self.assertEqual(result["imported"], 0)
+            self.assertEqual(result["skipped_history"], 1)
+
+    def test_schema_initialization_runs_once_per_database_path(self):
+        with tempfile.TemporaryDirectory() as directory:
+            database = Path(directory) / "panorama.db"
+            original = Storage._migrate_legacy_schema
+            calls = []
+
+            def counted(storage):
+                calls.append(storage.path)
+                return original(storage)
+
+            with patch.object(Storage, "_migrate_legacy_schema", counted):
+                first = Storage(database)
+                first.close()
+                second = Storage(database)
+                second.close()
+
+            self.assertEqual(calls, [database.resolve()])
+
+    def test_skill_run_pages_use_stable_bounded_cursors(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            skill_dir = root / "skills" / "demo"
+            skill_dir.mkdir(parents=True)
+            skill_file = skill_dir / "SKILL.md"
+            skill_file.write_text(
+                "---\nname: demo\ndescription: Demo runtime\n---\n",
+                encoding="utf-8",
+            )
+            skill = parse_skill(skill_file)
+            storage = Storage(root / "panorama.db")
+            session = {
+                "session_id": "session-page",
+                "adapter": "codex",
+                "adapter_version": "0.2.0",
+                "source_path": str(root / "session-page.jsonl"),
+                "source_format_version": "fixture",
+                "title": "Enterprise pagination fixture",
+                "cwd": str(root),
+                "model": "test-model",
+                "agent_version": "",
+                "started_at": "2026-08-24T00:00:00Z",
+                "ended_at": "2026-08-24T00:00:30Z",
+                "duration_ms": 30_000,
+                "status": "completed",
+                "completeness": "complete",
+                "event_count": 0,
+            }
+            runs = [
+                {
+                    "skill_run_id": f"skillrun-page-{index:02d}",
+                    "session_id": "session-page",
+                    "turn_id": f"turn-{index:02d}",
+                    "skill_id": skill.skill_id,
+                    "activation_mode": "explicit_tool",
+                    "evidence_grade": "observed",
+                    "status": "completed" if index % 2 else "failed",
+                    "started_at": f"2026-08-24T00:00:{index:02d}Z",
+                    "ended_at": f"2026-08-24T00:00:{index:02d}Z",
+                    "basis": "fixture",
+                }
+                for index in range(30)
+            ]
+            try:
+                storage.replace_skills([skill.to_dict()])
+                storage.replace_session(session, [], [], runs)
+                first = storage.list_skill_runs_page(limit=10)
+                second = storage.list_skill_runs_page(
+                    limit=10, cursor=first["page"]["next_cursor"]
+                )
+                third = storage.list_skill_runs_page(
+                    limit=10, cursor=second["page"]["next_cursor"]
+                )
+                identifiers = [
+                    item["skill_run_id"]
+                    for page in (first, second, third)
+                    for item in page["skill_runs"]
+                ]
+                self.assertEqual(len(identifiers), 30)
+                self.assertEqual(len(set(identifiers)), 30)
+                self.assertTrue(first["page"]["has_more"])
+                self.assertTrue(second["page"]["has_more"])
+                self.assertFalse(third["page"]["has_more"])
+                self.assertEqual(first["summary"]["total"], 30)
+                self.assertEqual(
+                    first["summary"]["result_counts"],
+                    {
+                        "completed": 15,
+                        "explicit_failure": 15,
+                        "incomplete": 0,
+                        "interrupted": 0,
+                    },
+                )
+                self.assertEqual(first["summary"]["stage_supported_totals"]["discovery"], 0)
+                self.assertEqual(
+                    identifiers,
+                    [f"skillrun-page-{index:02d}" for index in range(29, -1, -1)],
+                )
+                self.assertEqual(
+                    [item["result_type"] for item in first["skill_runs"][:4]],
+                    ["completed", "explicit_failure", "completed", "explicit_failure"],
+                )
+                self.assertEqual(len(first["summary"]["attention_runs"]), 8)
+                self.assertTrue(
+                    all(
+                        item["result_type"] == "explicit_failure"
+                        for item in first["summary"]["attention_runs"]
+                    )
+                )
+                failed = storage.list_skill_runs_page(limit=7, status="failed")
+                self.assertEqual(len(failed["skill_runs"]), 7)
+                self.assertTrue(all(item["status"] == "failed" for item in failed["skill_runs"]))
+                completed = storage.list_skill_runs_page(limit=7, status="completed")
+                self.assertEqual(completed["summary"]["total"], 15)
+                self.assertTrue(
+                    all(item["result_type"] == "completed" for item in completed["skill_runs"])
+                )
+            finally:
+                storage.close()
+
+    def test_timestamp_provenance_migration_preserves_unknown_legacy_state(self):
+        with tempfile.TemporaryDirectory() as directory:
+            database = Path(directory) / "panorama.db"
+            connection = sqlite3.connect(database)
+            connection.execute(
+                """
+                CREATE TABLE normalized_events (
+                    event_id TEXT PRIMARY KEY,
+                    session_id TEXT NOT NULL,
+                    turn_id TEXT,
+                    skill_id TEXT,
+                    parent_event_id TEXT,
+                    occurred_at TEXT,
+                    event_type TEXT NOT NULL,
+                    stage TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    evidence_grade TEXT NOT NULL,
+                    confidence REAL NOT NULL,
+                    basis TEXT NOT NULL,
+                    summary TEXT NOT NULL,
+                    source_locator TEXT NOT NULL,
+                    payload_json TEXT NOT NULL
+                )
+                """
+            )
+            connection.execute(
+                """
+                INSERT INTO normalized_events (
+                    event_id, session_id, occurred_at, event_type, stage, status,
+                    evidence_grade, confidence, basis, summary, source_locator,
+                    payload_json
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    "legacy-event",
+                    "legacy-session",
+                    "2026-07-28T00:00:00Z",
+                    "session.started",
+                    "request",
+                    "observed",
+                    "observed",
+                    1.0,
+                    "legacy fixture",
+                    "Legacy event",
+                    "legacy:1",
+                    "{}",
+                ),
+            )
+            connection.commit()
+            connection.close()
+
+            storage = Storage(database)
+            try:
+                row = storage.connection.execute(
+                    """
+                    SELECT timestamp_origin, ingested_at, clock_domain,
+                           clock_uncertainty_ms, timestamp_precision
+                    FROM normalized_events
+                    WHERE event_id = 'legacy-event'
+                    """
+                ).fetchone()
+                self.assertEqual(row["timestamp_origin"], "unknown")
+                self.assertIsNone(row["ingested_at"])
+                self.assertEqual(row["clock_domain"], "unknown")
+                self.assertIsNone(row["clock_uncertainty_ms"])
+                self.assertEqual(row["timestamp_precision"], "unknown")
+            finally:
+                storage.close()
+
+    def test_concurrent_fresh_database_initialization_is_serialized(self):
+        with tempfile.TemporaryDirectory() as directory:
+            database = Path(directory) / "panorama.db"
+            barrier = threading.Barrier(12)
+            failures = []
+            failures_lock = threading.Lock()
+
+            def initialize():
+                try:
+                    barrier.wait(timeout=2)
+                    storage = Storage(database)
+                    storage.close()
+                except Exception as exc:
+                    with failures_lock:
+                        failures.append(exc)
+
+            workers = [
+                threading.Thread(target=initialize, daemon=True)
+                for _ in range(12)
+            ]
+            for worker in workers:
+                worker.start()
+            for worker in workers:
+                worker.join(timeout=8)
+            self.assertFalse(failures)
+            self.assertTrue(all(not worker.is_alive() for worker in workers))
+            storage = Storage(database)
+            try:
+                self.assertEqual(storage.counts()["sessions"], 0)
+            finally:
+                storage.close()
+
+    def test_empty_index_is_queryable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            sessions = root / "sessions"
+            skills = root / "skills"
+            sessions.mkdir()
+            skills.mkdir()
+            database = root / "panorama.db"
+
+            result = index_local(database, sessions, [skills])
+            self.assertEqual(result["failed"], 0)
+
+            storage = Storage(database)
+            try:
+                self.assertEqual(storage.list_runs(), [])
+                self.assertEqual(storage.list_skills(), [])
+            finally:
+                storage.close()
+
+    def test_skill_run_is_primary_and_keeps_attribution_edges(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            skill_dir = root / "skills" / "demo"
+            skill_dir.mkdir(parents=True)
+            skill_file = skill_dir / "SKILL.md"
+            skill_file.write_text(
+                "---\nname: demo\ndescription: Demo runtime\n---\n",
+                encoding="utf-8",
+            )
+            database = root / "panorama.db"
+            storage = Storage(database)
+            skill = parse_skill(skill_file)
+            run_id = "skillrun-1"
+            session = {
+                "session_id": "session-1",
+                "adapter": "codex",
+                "adapter_version": "0.2.0",
+                "source_path": str(root / "session.jsonl"),
+                "source_format_version": "fixture",
+                "title": "Demo",
+                "cwd": str(root),
+                "model": "",
+                "agent_version": "",
+                "started_at": "2026-07-28T00:00:00Z",
+                "ended_at": "2026-07-28T00:00:02Z",
+                "duration_ms": 2000,
+                "status": "completed",
+                "completeness": "complete",
+                "event_count": 1,
+            }
+            event = {
+                "event_id": "event-1",
+                "session_id": "session-1",
+                "turn_id": "turn-1",
+                "skill_id": skill.skill_id,
+                "skill_run_id": run_id,
+                "parent_event_id": None,
+                "occurred_at": "2026-07-28T00:00:01Z",
+                "event_type": "instruction.loaded",
+                "stage": "instructions",
+                "status": "observed",
+                "evidence_grade": "observed",
+                "confidence": 1.0,
+                "basis": "fixture",
+                "summary": "Instructions loaded",
+                "source_locator": "fixture:1",
+                "payload": {},
+            }
+            derived_event = {
+                **event,
+                "event_id": "event-2",
+                "occurred_at": "2026-07-28T00:00:01Z",
+                "evidence_grade": "derived",
+                "basis": "Deterministic fixture relationship",
+                "summary": "Derived instruction relationship",
+                "source_locator": "fixture:2",
+            }
+            run = {
+                "skill_run_id": run_id,
+                "session_id": "session-1",
+                "turn_id": "turn-1",
+                "skill_id": skill.skill_id,
+                "activation_mode": "unknown",
+                "evidence_grade": "derived",
+                "status": "completed",
+                "started_at": "2026-07-28T00:00:01Z",
+                "ended_at": "2026-07-28T00:00:02Z",
+                "basis": "fixture",
+            }
+            try:
+                storage.replace_skills([skill.to_dict()])
+                storage.replace_session(session, [], [event, derived_event], [run])
+                original_stage_summary = storage._stage_summary
+                storage._stage_summary = lambda *_args, **_kwargs: self.fail(
+                    "list_skill_runs must batch stage summaries"
+                )
+                listed = storage.list_skill_runs()
+                storage._stage_summary = original_stage_summary
+                self.assertEqual([item["skill_run_id"] for item in listed], [run_id])
+                detail = storage.get_skill_run(run_id)
+                self.assertEqual(detail["events"][0]["event_id"], "event-1")
+                instructions = next(
+                    stage
+                    for stage in detail["stage_summary"]
+                    if stage["stage"] == "instructions"
+                )
+                self.assertEqual(instructions["event_count"], 2)
+                self.assertEqual(instructions["evidence_grade"], "derived")
+                self.assertEqual(
+                    detail["relationships"][0]["relationship_type"], "skill_scope"
+                )
+                self.assertEqual(
+                    [finding["code"] for finding in detail["findings"]],
+                    ["lifecycle_evidence_gap"],
+                )
+                self.assertEqual(detail["findings"][0]["stage"], "request")
+            finally:
+                storage.close()
+
+    def test_session_refresh_preserves_export_rowids_for_unchanged_events(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            database = root / "panorama.db"
+            storage = Storage(database)
+            session = {
+                "session_id": "growing-session",
+                "adapter": "codex",
+                "adapter_version": "0.2.0",
+                "source_path": str(root / "session.jsonl"),
+                "source_format_version": "fixture",
+                "title": "Growing transcript",
+                "cwd": str(root),
+                "model": "",
+                "agent_version": "",
+                "started_at": "2026-07-31T00:00:00Z",
+                "ended_at": None,
+                "duration_ms": None,
+                "status": "incomplete",
+                "completeness": "partial",
+                "event_count": 1,
+            }
+            first_event = {
+                "event_id": "event-stable",
+                "session_id": session["session_id"],
+                "turn_id": "turn-1",
+                "skill_id": None,
+                "skill_run_id": None,
+                "parent_event_id": None,
+                "occurred_at": "2026-07-31T00:00:01Z",
+                "event_type": "request.received",
+                "stage": "request",
+                "status": "observed",
+                "evidence_grade": "observed",
+                "confidence": 1.0,
+                "basis": "fixture",
+                "summary": "Initial request",
+                "source_locator": "fixture:1",
+                "payload": {},
+            }
+            second_event = {
+                **first_event,
+                "event_id": "event-new",
+                "occurred_at": "2026-07-31T00:00:02Z",
+                "summary": "New request",
+                "source_locator": "fixture:2",
+            }
+            try:
+                storage.replace_session(session, [], [first_event], [])
+                original = storage.connection.execute(
+                    "SELECT rowid FROM normalized_events WHERE event_id = ?",
+                    (first_event["event_id"],),
+                ).fetchone()["rowid"]
+
+                refreshed = dict(session)
+                refreshed["event_count"] = 2
+                storage.replace_session(
+                    refreshed, [], [first_event, second_event], []
+                )
+
+                rows = storage.connection.execute(
+                    """
+                    SELECT rowid, event_id
+                    FROM normalized_events
+                    WHERE session_id = ?
+                    ORDER BY rowid
+                    """,
+                    (session["session_id"],),
+                ).fetchall()
+                self.assertEqual(rows[0]["event_id"], first_event["event_id"])
+                self.assertEqual(rows[0]["rowid"], original)
+                self.assertEqual(rows[1]["event_id"], second_event["event_id"])
+                self.assertGreater(rows[1]["rowid"], original)
+            finally:
+                storage.close()
+
+    def test_inventory_records_resource_metadata_without_contents(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            skill_dir = root / "skills" / "demo"
+            (skill_dir / "scripts").mkdir(parents=True)
+            (skill_dir / "references").mkdir()
+            (skill_dir / "assets").mkdir()
+            (skill_dir / "scripts" / "run.py").write_text(
+                "secret-script-body", encoding="utf-8"
+            )
+            (skill_dir / "references" / "guide.md").write_text(
+                "reference-body", encoding="utf-8"
+            )
+            (skill_dir / "assets" / "template.bin").write_bytes(b"\x00\x01")
+            skill_file = skill_dir / "SKILL.md"
+            skill_file.write_text(
+                "---\n"
+                "name: demo\n"
+                "description: Demo runtime\n"
+                "version: 2.1.0\n"
+                "compatibility: codex, claude-code\n"
+                "---\n",
+                encoding="utf-8",
+            )
+            skill = parse_skill(skill_file)
+            storage = Storage(root / "panorama.db")
+            try:
+                storage.replace_skills([skill.to_dict()])
+                inventory = storage.list_skills()[0]
+                self.assertEqual(inventory["version"], "2.1.0")
+                self.assertEqual(inventory["resource_counts"]["script"], 1)
+                self.assertEqual(inventory["resource_counts"]["reference"], 1)
+                self.assertEqual(inventory["resource_counts"]["asset"], 1)
+                self.assertNotIn(
+                    "secret-script-body", str(inventory["resources"])
+                )
+            finally:
+                storage.close()
+
+    def test_delete_skill_run_removes_only_indexed_data(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "source.jsonl"
+            source.write_text("authoritative source", encoding="utf-8")
+            database = root / "panorama.db"
+            storage = Storage(database)
+            skill_dir = root / "skills" / "demo"
+            skill_dir.mkdir(parents=True)
+            skill_file = skill_dir / "SKILL.md"
+            skill_file.write_text(
+                "---\nname: demo\ndescription: demo\n---\n", encoding="utf-8"
+            )
+            skill = parse_skill(skill_file)
+            session = {
+                "session_id": "delete-session",
+                "adapter": "codex",
+                "adapter_version": "0.2.0",
+                "source_path": str(source),
+                "source_format_version": "fixture",
+                "title": "Delete fixture",
+                "cwd": str(root),
+                "model": "",
+                "agent_version": "",
+                "started_at": "2026-07-28T00:00:00Z",
+                "ended_at": None,
+                "duration_ms": None,
+                "status": "incomplete",
+                "completeness": "partial",
+                "event_count": 0,
+            }
+            run = {
+                "skill_run_id": "delete-run",
+                "session_id": "delete-session",
+                "turn_id": "turn-1",
+                "skill_id": skill.skill_id,
+                "activation_mode": "explicit_tool",
+                "evidence_grade": "observed",
+                "status": "incomplete",
+                "started_at": "2026-07-28T00:00:00Z",
+                "ended_at": None,
+                "basis": "fixture",
+            }
+            try:
+                storage.replace_skills([skill.to_dict()])
+                storage.replace_session(session, [], [], [run])
+                result = storage.delete_skill_run("delete-run")
+                self.assertTrue(result["session_deleted"])
+                self.assertFalse(result["source_transcript_deleted"])
+                self.assertEqual(storage.counts()["skill_runs"], 0)
+                self.assertEqual(source.read_text(encoding="utf-8"), "authoritative source")
+            finally:
+                storage.close()
+
+    def test_definition_comparison_reports_static_changes_only(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            definitions = []
+            for folder, version, resource in (
+                ("left", "1.0.0", "old.py"),
+                ("right", "2.0.0", "new.py"),
+            ):
+                skill_dir = root / folder / "demo"
+                (skill_dir / "scripts").mkdir(parents=True)
+                (skill_dir / "scripts" / resource).write_text(
+                    "print('metadata only')", encoding="utf-8"
+                )
+                skill_file = skill_dir / "SKILL.md"
+                skill_file.write_text(
+                    "---\n"
+                    "name: demo\n"
+                    f"description: Demo version {version}\n"
+                    f"version: {version}\n"
+                    "---\n",
+                    encoding="utf-8",
+                )
+                definitions.append(parse_skill(skill_file))
+            storage = Storage(root / "panorama.db")
+            try:
+                storage.replace_skills(
+                    [definition.to_dict() for definition in definitions]
+                )
+                result = storage.compare_skill_definitions(
+                    definitions[0].skill_id,
+                    definitions[1].skill_id,
+                )
+                self.assertTrue(result["same_name"])
+                self.assertFalse(result["same_digest"])
+                self.assertIn("version", result["changed_fields"])
+                self.assertEqual(
+                    result["resources_added"][0]["path"],
+                    "scripts/new.py",
+                )
+                self.assertEqual(result["evidence_grade"], "observed")
+                self.assertNotIn("metadata only", str(result))
+            finally:
+                storage.close()
+
+    def test_retention_removes_index_only_and_preserves_source(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "old-session.jsonl"
+            source.write_text("authoritative source", encoding="utf-8")
+            skill_dir = root / "skills" / "demo"
+            skill_dir.mkdir(parents=True)
+            skill_file = skill_dir / "SKILL.md"
+            skill_file.write_text(
+                "---\nname: demo\ndescription: demo\n---\n",
+                encoding="utf-8",
+            )
+            skill = parse_skill(skill_file)
+            storage = Storage(root / "panorama.db")
+            try:
+                storage.replace_skills([skill.to_dict()])
+                storage.replace_session(
+                    {
+                        "session_id": "old-session",
+                        "adapter": "codex",
+                        "adapter_version": "0.2.0",
+                        "source_path": str(source),
+                        "source_format_version": "fixture",
+                        "title": "Old",
+                        "cwd": str(root),
+                        "model": "",
+                        "agent_version": "",
+                        "started_at": "2026-01-01T00:00:00+00:00",
+                        "ended_at": "2026-01-01T00:01:00+00:00",
+                        "duration_ms": 60000,
+                        "status": "completed",
+                        "completeness": "complete",
+                        "event_count": 0,
+                    },
+                    [],
+                    [],
+                    [],
+                )
+                result = storage.purge_expired(
+                    30,
+                    now=datetime(2026, 7, 29, tzinfo=timezone.utc),
+                )
+                self.assertEqual(result["sessions_deleted"], 1)
+                self.assertFalse(result["source_transcripts_deleted"])
+                self.assertEqual(storage.counts()["sessions"], 0)
+                self.assertEqual(
+                    source.read_text(encoding="utf-8"),
+                    "authoritative source",
+                )
+            finally:
+                storage.close()
+
+
+if __name__ == "__main__":
+    unittest.main()

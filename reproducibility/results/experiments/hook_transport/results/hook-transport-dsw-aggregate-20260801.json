@@ -1,0 +1,400 @@
+{
+  "schema_version": "sri.experiment.hook-transport-aggregate.v1",
+  "experiment": {
+    "name": "hook-transport-cross-run-aggregate",
+    "evidence_grade": "Derived",
+    "source_evidence_grade": "Experimental",
+    "comparable_schemas": [
+      "sri.experiment.hook-transport.v4",
+      "sri.experiment.hook-transport.v5",
+      "sri.experiment.hook-transport.v6"
+    ],
+    "limitations": [
+      "Runs share one host and are not independent cross-host samples.",
+      "Per-run p99 uses only 40 trials and is descriptive.",
+      "Pooled trial percentiles do not replace the per-run release gate.",
+      "Too few runs contain load covariates for correlation analysis."
+    ]
+  },
+  "metrics": {
+    "run_count": 5,
+    "trials_per_transport": 200,
+    "expected_events": 400,
+    "accepted_events": 400,
+    "integrity_passes": 5,
+    "performance_gate_passes": 5,
+    "performance_gate_rate": 1.0,
+    "performance_gate_rate_wilson_95": {
+      "low": 0.5655085052479191,
+      "high": 1.0000000000000002
+    },
+    "runs_with_load_covariates": 5,
+    "pooled": {
+      "native_direct": {
+        "actual": {
+          "count": 200,
+          "p50_ms": 0.46152800000000005,
+          "p95_ms": 1.1631356999999993,
+          "p99_ms": 1.5738003299999992,
+          "max_ms": 1.648251
+        },
+        "incremental": {
+          "count": 200,
+          "p50_ms": 0.036742000000000025,
+          "p95_ms": 0.7063294999999989,
+          "p99_ms": 1.1403473699999993,
+          "max_ms": 1.242224
+        }
+      },
+      "native_via_shell": {
+        "actual": {
+          "count": 200,
+          "p50_ms": 0.9014420000000001,
+          "p95_ms": 1.73914675,
+          "p99_ms": 1.9858315399999986,
+          "max_ms": 2.139799
+        },
+        "incremental": {
+          "count": 200,
+          "p50_ms": 0.475642,
+          "p95_ms": 1.2751946,
+          "p99_ms": 1.5546105899999985,
+          "max_ms": 1.70415
+        }
+      }
+    },
+    "pooled_steady_after_first_five": {
+      "native_direct": {
+        "definition": "pooled trials after the first five in every run",
+        "actual": {
+          "count": 175,
+          "p50_ms": 0.454374,
+          "p95_ms": 1.2016961,
+          "p99_ms": 1.5923085799999992,
+          "max_ms": 1.648251
+        },
+        "incremental": {
+          "count": 175,
+          "p50_ms": 0.029086,
+          "p95_ms": 0.7580001,
+          "p99_ms": 1.1623316199999991,
+          "max_ms": 1.242224
+        }
+      },
+      "native_via_shell": {
+        "definition": "pooled trials after the first five in every run",
+        "actual": {
+          "count": 175,
+          "p50_ms": 0.897359,
+          "p95_ms": 1.7409955,
+          "p99_ms": 2.0215450399999986,
+          "max_ms": 2.139799
+        },
+        "incremental": {
+          "count": 175,
+          "p50_ms": 0.48426400000000003,
+          "p95_ms": 1.2759126,
+          "p99_ms": 1.5917003399999987,
+          "max_ms": 1.70415
+        }
+      }
+    },
+    "first_trial_across_runs": {
+      "native_direct": {
+        "definition": "first trial from every run",
+        "actual": {
+          "count": 5,
+          "p50_ms": 1.024365,
+          "p95_ms": 1.0484132,
+          "p99_ms": 1.04984264,
+          "max_ms": 1.0502
+        },
+        "incremental": {
+          "count": 5,
+          "p50_ms": 0.518128,
+          "p95_ms": 0.5437719999999999,
+          "p99_ms": 0.5457688,
+          "max_ms": 0.546268
+        }
+      },
+      "native_via_shell": {
+        "definition": "first trial from every run",
+        "actual": {
+          "count": 5,
+          "p50_ms": 0.958731,
+          "p95_ms": 1.0109418,
+          "p99_ms": 1.01712676,
+          "max_ms": 1.018673
+        },
+        "incremental": {
+          "count": 5,
+          "p50_ms": 0.446025,
+          "p95_ms": 0.45802639999999994,
+          "p99_ms": 0.45858607999999995,
+          "max_ms": 0.45872599999999997
+        }
+      }
+    },
+    "trial_threshold_exceedances": {
+      "native_direct": {
+        "actual_limit_ms": 100,
+        "actual_count": 0,
+        "actual_rate": 0.0,
+        "incremental_limit_ms": null,
+        "incremental_count": null,
+        "incremental_rate": null
+      },
+      "native_via_shell": {
+        "actual_limit_ms": 100,
+        "actual_count": 0,
+        "actual_rate": 0.0,
+        "incremental_limit_ms": 75,
+        "incremental_count": 0,
+        "incremental_rate": 0.0
+      }
+    },
+    "run_level": {
+      "native_direct": {
+        "actual_p50": {
+          "min_ms": 0.448909,
+          "max_ms": 0.4731145,
+          "values_ms": [
+            0.4731145,
+            0.4730885,
+            0.468631,
+            0.448909,
+            0.45696749999999997
+          ]
+        },
+        "actual_p95": {
+          "min_ms": 1.0688410999999987,
+          "max_ms": 1.2149225999999993,
+          "values_ms": [
+            1.0688410999999987,
+            1.15068025,
+            1.09350755,
+            1.1454592999999995,
+            1.2149225999999993
+          ]
+        },
+        "actual_p99": {
+          "min_ms": 1.30384732,
+          "max_ms": 1.5885845099999998,
+          "values_ms": [
+            1.5885845099999998,
+            1.30384732,
+            1.3442846599999998,
+            1.4552928699999998,
+            1.5401577299999998
+          ]
+        },
+        "incremental_p95": {
+          "min_ms": 0.6068897999999999,
+          "max_ms": 0.7664894999999996,
+          "values_ms": [
+            0.6723431999999987,
+            0.6865647499999998,
+            0.6068897999999999,
+            0.7043612499999997,
+            0.7664894999999996
+          ]
+        },
+        "incremental_p99": {
+          "min_ms": 0.8459073899999998,
+          "max_ms": 1.1646305999999997,
+          "values_ms": [
+            1.1646305999999997,
+            0.8677610599999999,
+            0.8459073899999998,
+            1.0054795999999997,
+            1.1110510099999997
+          ]
+        }
+      },
+      "native_via_shell": {
+        "actual_p50": {
+          "min_ms": 0.8864095000000001,
+          "max_ms": 0.9824105000000001,
+          "values_ms": [
+            0.9824105000000001,
+            0.8908590000000001,
+            0.914888,
+            0.8864095000000001,
+            0.8926970000000001
+          ]
+        },
+        "actual_p95": {
+          "min_ms": 1.5036574999999999,
+          "max_ms": 1.83010545,
+          "values_ms": [
+            1.8224675499999992,
+            1.5447888499999993,
+            1.7463622999999997,
+            1.5036574999999999,
+            1.83010545
+          ]
+        },
+        "actual_p99": {
+          "min_ms": 1.66306573,
+          "max_ms": 2.13490762,
+          "values_ms": [
+            2.13490762,
+            1.71253506,
+            1.9425617499999999,
+            1.66306573,
+            1.9315884199999998
+          ]
+        },
+        "incremental_p95": {
+          "min_ms": 1.0666635999999998,
+          "max_ms": 1.39819085,
+          "values_ms": [
+            1.361628249999999,
+            1.1724738499999998,
+            1.2401558499999994,
+            1.0666635999999998,
+            1.39819085
+          ]
+        },
+        "incremental_p99": {
+          "min_ms": 1.2216194799999998,
+          "max_ms": 1.70311104,
+          "values_ms": [
+            1.70311104,
+            1.24527801,
+            1.4959912899999996,
+            1.2216194799999998,
+            1.4976062099999998
+          ]
+        }
+      }
+    }
+  },
+  "sources": [
+    {
+      "file": "hook-transport-dsw-run1-20260801.json",
+      "sha256": "698326e85312fb06a60c4e6e3925ba09ffcc48651a9205522cbd90109f413e87",
+      "schema_version": "sri.experiment.hook-transport.v6",
+      "performance_gate_passed": true,
+      "integrity_passed": true,
+      "expected_events": 80,
+      "accepted_events": 80,
+      "host_load": {
+        "logical_cpu_count": 24,
+        "ambient_at_start": {
+          "one_minute": 0.0068359375,
+          "five_minutes": 0.07861328125,
+          "fifteen_minutes": 0.13671875
+        },
+        "ambient_at_end": {
+          "one_minute": 0.0068359375,
+          "five_minutes": 0.07861328125,
+          "fifteen_minutes": 0.13671875
+        }
+      }
+    },
+    {
+      "file": "hook-transport-dsw-run2-20260801.json",
+      "sha256": "79415d5d9ce8dd669ea2aa944a0d70ded92a399c2764fe1181640d5d73c71f14",
+      "schema_version": "sri.experiment.hook-transport.v6",
+      "performance_gate_passed": true,
+      "integrity_passed": true,
+      "expected_events": 80,
+      "accepted_events": 80,
+      "host_load": {
+        "logical_cpu_count": 24,
+        "ambient_at_start": {
+          "one_minute": 0.0068359375,
+          "five_minutes": 0.07861328125,
+          "fifteen_minutes": 0.13671875
+        },
+        "ambient_at_end": {
+          "one_minute": 0.0068359375,
+          "five_minutes": 0.07861328125,
+          "fifteen_minutes": 0.13671875
+        }
+      }
+    },
+    {
+      "file": "hook-transport-dsw-run3-20260801.json",
+      "sha256": "2adce3a1bd53b0f7507bd31633bb6554ae2066e765a22e0824e6604ebd46ef52",
+      "schema_version": "sri.experiment.hook-transport.v6",
+      "performance_gate_passed": true,
+      "integrity_passed": true,
+      "expected_events": 80,
+      "accepted_events": 80,
+      "host_load": {
+        "logical_cpu_count": 24,
+        "ambient_at_start": {
+          "one_minute": 0.0068359375,
+          "five_minutes": 0.07861328125,
+          "fifteen_minutes": 0.13671875
+        },
+        "ambient_at_end": {
+          "one_minute": 0.0068359375,
+          "five_minutes": 0.07861328125,
+          "fifteen_minutes": 0.13671875
+        }
+      }
+    },
+    {
+      "file": "hook-transport-dsw-run4-20260801.json",
+      "sha256": "95426dfee9c4f75681e35350311af734e0ab2e0bc325d29f08df2a089b7c70f5",
+      "schema_version": "sri.experiment.hook-transport.v6",
+      "performance_gate_passed": true,
+      "integrity_passed": true,
+      "expected_events": 80,
+      "accepted_events": 80,
+      "host_load": {
+        "logical_cpu_count": 24,
+        "ambient_at_start": {
+          "one_minute": 0.0068359375,
+          "five_minutes": 0.07861328125,
+          "fifteen_minutes": 0.13671875
+        },
+        "ambient_at_end": {
+          "one_minute": 0.0068359375,
+          "five_minutes": 0.07861328125,
+          "fifteen_minutes": 0.13671875
+        }
+      }
+    },
+    {
+      "file": "hook-transport-dsw-run5-20260801.json",
+      "sha256": "3dde3fb2b5de8d39e0456a329038cf01f944b38cfcc607972b71bb3743afc971",
+      "schema_version": "sri.experiment.hook-transport.v6",
+      "performance_gate_passed": true,
+      "integrity_passed": true,
+      "expected_events": 80,
+      "accepted_events": 80,
+      "host_load": {
+        "logical_cpu_count": 24,
+        "ambient_at_start": {
+          "one_minute": 0.0068359375,
+          "five_minutes": 0.07861328125,
+          "fifteen_minutes": 0.13671875
+        },
+        "ambient_at_end": {
+          "one_minute": 0.0068359375,
+          "five_minutes": 0.07861328125,
+          "fifteen_minutes": 0.13671875
+        }
+      }
+    }
+  ],
+  "ignored_sources": [],
+  "gate": {
+    "name": "all comparable runs preserved lossless silent delivery",
+    "passed": true
+  },
+  "created_at": "2026-07-31T20:09:23.713040+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "250fb9c5ab070e0c8a19d59f0e630f8fdefe2531",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

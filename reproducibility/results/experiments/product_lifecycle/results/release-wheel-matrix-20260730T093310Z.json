@@ -1,0 +1,151 @@
+{
+  "schema_version": "sri.experiment.release-wheel-matrix.v1",
+  "experiment": {
+    "name": "timestamp-migration-release-wheel-matrix",
+    "evidence_grade": "Experimental",
+    "manifest_evidence_grade": "Observed",
+    "manifest_queried_at": "2026-07-30T09:31:00Z",
+    "release_repository": "hellogxp/skill-runtime-intelligence",
+    "trials_per_artifact": 3,
+    "live_database_used": false,
+    "row_level_records_included": false,
+    "limitations": [
+      "Only wheel artifacts listed in one v0.1 release manifest are covered.",
+      "Each artifact creates a controlled database with one event shape.",
+      "The current working-tree migrator runs on one local platform.",
+      "Missing downloads are not_run rather than migration failures."
+    ]
+  },
+  "environment": {
+    "platform_system": "Darwin",
+    "platform_machine": "arm64",
+    "python_version": "3.11.7",
+    "sqlite_version": "3.41.2",
+    "logical_cpu_count": 12,
+    "load_average_1m": 11.35693359375,
+    "load_average_5m": 8.7763671875,
+    "load_average_15m": 9.55078125
+  },
+  "metrics": {
+    "manifest_artifacts": 7,
+    "completed_artifacts": 7,
+    "not_run_artifacts": 0,
+    "passed_artifacts": 7,
+    "failed_artifacts": 0,
+    "migration_evaluations": 21,
+    "migration_passed": 21,
+    "distinct_historical_schema_fingerprints": 1
+  },
+  "artifacts": [
+    {
+      "version": "0.1.0",
+      "tag": "v0.1.0",
+      "status": "completed",
+      "artifact_sha256": "23b707b3de8cd8561e07285e6904cf5b25ad68b0910a8d7c4e38e68826825d09",
+      "installed_version": "0.1.0",
+      "schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "migration_evaluations": 3,
+      "migration_passed": 3,
+      "identity_gate_passed": true,
+      "migration_gate_passed": true,
+      "passed": true
+    },
+    {
+      "version": "0.1.1",
+      "tag": "v0.1.1",
+      "status": "completed",
+      "artifact_sha256": "68802796404c41166a03fa56ec1b5e3437bdce01dd40728a69f1676af318e1cf",
+      "installed_version": "0.1.1",
+      "schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "migration_evaluations": 3,
+      "migration_passed": 3,
+      "identity_gate_passed": true,
+      "migration_gate_passed": true,
+      "passed": true
+    },
+    {
+      "version": "0.1.2",
+      "tag": "v0.1.2",
+      "status": "completed",
+      "artifact_sha256": "617f4b2adfb77c8ef6a951d2ffe9b40c57c5ad27674d49d7866dc09eff1db7bc",
+      "installed_version": "0.1.2",
+      "schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "migration_evaluations": 3,
+      "migration_passed": 3,
+      "identity_gate_passed": true,
+      "migration_gate_passed": true,
+      "passed": true
+    },
+    {
+      "version": "0.1.3",
+      "tag": "v0.1.3",
+      "status": "completed",
+      "artifact_sha256": "6e18e979303ad8bd55cd5092a3bba4f76826ab4c177bf22136ed659c17b0a4e8",
+      "installed_version": "0.1.3",
+      "schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "migration_evaluations": 3,
+      "migration_passed": 3,
+      "identity_gate_passed": true,
+      "migration_gate_passed": true,
+      "passed": true
+    },
+    {
+      "version": "0.1.4",
+      "tag": "v0.1.4",
+      "status": "completed",
+      "artifact_sha256": "67de8bc0d09af87a79d7811f6347a74f219c6d1844e1d4b9755ee43f24636b5e",
+      "installed_version": "0.1.4",
+      "schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "migration_evaluations": 3,
+      "migration_passed": 3,
+      "identity_gate_passed": true,
+      "migration_gate_passed": true,
+      "passed": true
+    },
+    {
+      "version": "0.1.5",
+      "tag": "v0.1.5",
+      "status": "completed",
+      "artifact_sha256": "fb7f11fe566d5e85bf5a506949b7f6e4ace71e8dcff0adc9db48aadc2d17e806",
+      "installed_version": "0.1.5",
+      "schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "migration_evaluations": 3,
+      "migration_passed": 3,
+      "identity_gate_passed": true,
+      "migration_gate_passed": true,
+      "passed": true
+    },
+    {
+      "version": "0.1.6",
+      "tag": "v0.1.6",
+      "status": "completed",
+      "artifact_sha256": "05503df8987d98e752c3094d1ae23c7bbc664e98a8750cd012c9056b0ec680cf",
+      "installed_version": "0.1.6",
+      "schema_fingerprints": [
+        "d9fa15bda1f599da556d9f0ef4705be8dafc821ecc5bb4aacb4dba64804f59f0"
+      ],
+      "migration_evaluations": 3,
+      "migration_passed": 3,
+      "identity_gate_passed": true,
+      "migration_gate_passed": true,
+      "passed": true
+    }
+  ],
+  "gate": {
+    "name": "all manifest release wheels available, verified, and migrated",
+    "passed": true
+  },
+  "created_at": "2026-07-30T09:33:10.004701+00:00"
+}

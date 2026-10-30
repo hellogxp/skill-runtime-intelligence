@@ -1,0 +1,163 @@
+{
+  "schema_version": "sri.experiment.claim-output-mode-study.v1",
+  "experiment": {
+    "name": "structured-only-claim-study",
+    "evidence_grade": "experimental",
+    "dataset_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/random-shadow-fragility-holdout-v3-20260731.jsonl",
+    "dataset_sha256": "00203c1b886438484fcfe297a218d457ff157a8f00508c4e3c2708d6e8efbab5",
+    "model": "opencode/mimo-v2-flash-free",
+    "model_cli": "opencode",
+    "model_cli_version": "1.18.5",
+    "seed": 2026073118,
+    "session_policy": "fresh pure session per trial; stdin prompt; isolated temporary XDG state",
+    "modes": [
+      "structured"
+    ],
+    "limitations": [
+      "The corpus is small and hand-authored.",
+      "One response per model and case does not estimate repeated-run variance.",
+      "The recorded model ID does not independently verify model-family identity."
+    ]
+  },
+  "metrics": {
+    "structured": {
+      "planned": 7,
+      "completed": 0,
+      "response_completion_rate": 0.0,
+      "claim_kind_correct": 0,
+      "guard_decision_correct": 0,
+      "false_allows": 0,
+      "false_denies": 0,
+      "input_tokens": 0,
+      "total_tokens": 0
+    }
+  },
+  "trials": [
+    {
+      "case_id": "fragility3_experimental_descriptive_ar",
+      "mode": "structured",
+      "causal_scope": "experimental_estimate",
+      "expected_claim_kind": "descriptive",
+      "expected_allowed": true,
+      "prompt_sha256": "8ff26dae9050cb1a2d2d6a40762122ed00574715be7a4b669e6e8efa3d43450a",
+      "model_id": "opencode/mimo-v2-flash-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 3635.533499997109,
+      "session_id_sha256": "aafc997089c673fd53e15394d955e47b9981d72cb3d7566a724fa184e93591ee",
+      "usage": {},
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "execution_error",
+      "error": "opencode_exit_1"
+    },
+    {
+      "case_id": "fragility3_experimental_effect_ko",
+      "mode": "structured",
+      "causal_scope": "experimental_estimate",
+      "expected_claim_kind": "skill_outcome_effect",
+      "expected_allowed": true,
+      "prompt_sha256": "71be97a5e84fc30f95728e459fe4f2518be82800870e539cf79a42d57d651b69",
+      "model_id": "opencode/mimo-v2-flash-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 5682.508708006935,
+      "session_id_sha256": "c69660b2b8e9ff4c9338ae0e2c2ed82299225f8523fb6ed53a3b77135eabf0d4",
+      "usage": {},
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "execution_error",
+      "error": "opencode_exit_1"
+    },
+    {
+      "case_id": "fragility3_none_effect_hi",
+      "mode": "structured",
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "expected_allowed": false,
+      "prompt_sha256": "966d4dfc34e5fa443863b35e6dcee46132aa811ada2d431f1d5ae717b3126009",
+      "model_id": "opencode/mimo-v2-flash-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 2747.848166996846,
+      "session_id_sha256": "c9502b26ea74804e01f43f15f16564acd0ee4ed9f96ee18d01dad0f9bfd6760e",
+      "usage": {},
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "execution_error",
+      "error": "opencode_exit_1"
+    },
+    {
+      "case_id": "fragility3_none_effect_ko",
+      "mode": "structured",
+      "causal_scope": "none",
+      "expected_claim_kind": "skill_outcome_effect",
+      "expected_allowed": false,
+      "prompt_sha256": "5cfa5238bb64845c2497d85f537b9e12437aff847d8b96f7e566ca8376d9501f",
+      "model_id": "opencode/mimo-v2-flash-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 5300.307083991356,
+      "session_id_sha256": "005ecd2b771e240269a52c9709c132b947f2dbb6519d7ff79de816a9ff3c250f",
+      "usage": {},
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "execution_error",
+      "error": "opencode_exit_1"
+    },
+    {
+      "case_id": "fragility3_source_effect_ar",
+      "mode": "structured",
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "skill_outcome_effect",
+      "expected_allowed": false,
+      "prompt_sha256": "aa05e2bc3bac8b37c6965ce2994d63a07058dd2aee4ee1f3b7cc3d83bbad8a6d",
+      "model_id": "opencode/mimo-v2-flash-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 7988.9724160020705,
+      "session_id_sha256": "2298fe304630da69c33fb8f187e240bdcc9fa8ca832ff4619217efea7a12279e",
+      "usage": {},
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "execution_error",
+      "error": "opencode_exit_1"
+    },
+    {
+      "case_id": "fragility3_source_effect_eliminated",
+      "mode": "structured",
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "skill_outcome_effect",
+      "expected_allowed": false,
+      "prompt_sha256": "3285478dff7679dca43f0ded4f0e35176ce1935c44651c5ec2484f272bbcdcbd",
+      "model_id": "opencode/mimo-v2-flash-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 7598.801000000094,
+      "session_id_sha256": "b7b5d05cb48bb7473a02ca3213620db6bfd01c596df9357f97ce6a31035a06cb",
+      "usage": {},
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "execution_error",
+      "error": "opencode_exit_1"
+    },
+    {
+      "case_id": "fragility3_source_effect_ko",
+      "mode": "structured",
+      "causal_scope": "source_assertion_only",
+      "expected_claim_kind": "skill_outcome_effect",
+      "expected_allowed": false,
+      "prompt_sha256": "8a9cf30fb3be919d44758ce49d9a7e90193029868ac95d119ba91c9bf78aafef",
+      "model_id": "opencode/mimo-v2-flash-free",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 5718.135375005659,
+      "session_id_sha256": "459416ef8d045921227da9c4fe910db072d40beab38dbed0d28d6070c4ee910a",
+      "usage": {},
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "execution_error",
+      "error": "opencode_exit_1"
+    }
+  ],
+  "gates": {
+    "response_completion": false,
+    "no_false_allow": true
+  },
+  "created_at": "2026-07-31T08:59:35.509022+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

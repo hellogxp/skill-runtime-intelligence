@@ -1,0 +1,65 @@
+{
+  "schema_version": "sri.experiment.source-identity-audit.v1",
+  "experiment": {
+    "name": "privacy-safe-source-identity-cardinality-audit",
+    "evidence_grade": "Derived",
+    "source_files_read_only": true,
+    "maximum_lines_read_per_source": 20,
+    "row_level_records_included": false,
+    "raw_content_included": false,
+    "identifiers_included": false,
+    "source_paths_included": false,
+    "limitations": [
+      "One local corpus does not estimate population prevalence.",
+      "Only the first 20 lines are searched for session metadata.",
+      "Shared upstream identity does not by itself prove divergence.",
+      "Cardinality does not measure SkillRun reconstruction quality."
+    ]
+  },
+  "metrics": {
+    "physical_source_files": 135,
+    "files_with_upstream_identity": 135,
+    "missing_identity_files": 0,
+    "upstream_identity_count": 55,
+    "duplicate_identity_groups": 18,
+    "duplicate_identity_files": 80,
+    "maximum_sources_per_identity": 21,
+    "identity_multiplicity_histogram": {
+      "1": 37,
+      "2": 4,
+      "3": 3,
+      "4": 3,
+      "5": 3,
+      "7": 2,
+      "8": 1,
+      "11": 1,
+      "21": 1
+    },
+    "physical_to_upstream_identity_ratio": 2.4545454545454546
+  },
+  "findings": {
+    "upstream_identity_is_not_one_to_one": true
+  },
+  "gates": {
+    "all_sources_expose_identity": true,
+    "aggregate_only_output": true
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "gate": {
+    "name": "privacy-safe source identity audit",
+    "passed": true
+  },
+  "created_at": "2026-07-30T03:36:24.957041+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "507017a72ae904278b66b4611817bf77fdc978c6",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

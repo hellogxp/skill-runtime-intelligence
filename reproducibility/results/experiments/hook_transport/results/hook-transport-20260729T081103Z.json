@@ -1,0 +1,866 @@
+{
+  "schema_version": "sri.experiment.hook-transport.v2",
+  "experiment": {
+    "name": "hook-transport",
+    "repetitions": 40,
+    "payloads_contain_secrets": false,
+    "design": "paired alternating-order process-startup baseline versus native AF_UNIX sender",
+    "engineering_slo": {
+      "direct_actual_p95_ms": 100,
+      "shell_actual_p95_ms": 100,
+      "shell_incremental_p95_ms": 75
+    },
+    "limitations": [
+      "The SLO is a local engineering gate, not a cross-platform claim.",
+      "Agent scheduling and model latency are outside this transport benchmark.",
+      "Earlier v1 runs were exploratory and are not pooled with v2."
+    ]
+  },
+  "metrics": {
+    "native_direct": {
+      "repetitions": 40,
+      "baseline_p50_ms": 23.904834,
+      "baseline_p95_ms": 72.75908539999996,
+      "actual_p50_ms": 23.403624999999998,
+      "actual_p95_ms": 109.55489794999991,
+      "actual_max_ms": 541.520209,
+      "incremental_p50_ms": 0.4074995000000001,
+      "incremental_p95_ms": 79.9477947,
+      "exit_failures": 0,
+      "non_silent_invocations": 0,
+      "trials": [
+        {
+          "repetition": 0,
+          "order": "baseline_first",
+          "baseline_wall_ms": 83.799708,
+          "actual_wall_ms": 541.520209,
+          "incremental_wall_ms": 457.720501,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 1,
+          "order": "actual_first",
+          "baseline_wall_ms": 94.496416,
+          "actual_wall_ms": 70.877667,
+          "incremental_wall_ms": -23.618748999999994,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 2,
+          "order": "baseline_first",
+          "baseline_wall_ms": 39.087292,
+          "actual_wall_ms": 63.635334,
+          "incremental_wall_ms": 24.548042000000002,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 3,
+          "order": "actual_first",
+          "baseline_wall_ms": 42.841375,
+          "actual_wall_ms": 42.025833,
+          "incremental_wall_ms": -0.8155420000000007,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 4,
+          "order": "baseline_first",
+          "baseline_wall_ms": 35.2625,
+          "actual_wall_ms": 30.584292,
+          "incremental_wall_ms": -4.6782080000000015,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 5,
+          "order": "actual_first",
+          "baseline_wall_ms": 49.937834,
+          "actual_wall_ms": 60.115917,
+          "incremental_wall_ms": 10.178083,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 6,
+          "order": "baseline_first",
+          "baseline_wall_ms": 59.198333,
+          "actual_wall_ms": 138.891334,
+          "incremental_wall_ms": 79.69300100000001,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 7,
+          "order": "actual_first",
+          "baseline_wall_ms": 45.974834,
+          "actual_wall_ms": 80.126708,
+          "incremental_wall_ms": 34.15187399999999,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 8,
+          "order": "baseline_first",
+          "baseline_wall_ms": 72.178,
+          "actual_wall_ms": 29.336917,
+          "incremental_wall_ms": -42.841083,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 9,
+          "order": "actual_first",
+          "baseline_wall_ms": 27.894125,
+          "actual_wall_ms": 28.851708,
+          "incremental_wall_ms": 0.9575829999999996,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 10,
+          "order": "baseline_first",
+          "baseline_wall_ms": 23.715209,
+          "actual_wall_ms": 24.440666,
+          "incremental_wall_ms": 0.7254569999999987,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 11,
+          "order": "actual_first",
+          "baseline_wall_ms": 29.178125,
+          "actual_wall_ms": 22.824625,
+          "incremental_wall_ms": -6.3535,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 12,
+          "order": "baseline_first",
+          "baseline_wall_ms": 23.222,
+          "actual_wall_ms": 108.010875,
+          "incremental_wall_ms": 84.78887499999999,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 13,
+          "order": "actual_first",
+          "baseline_wall_ms": 30.155167,
+          "actual_wall_ms": 63.002958,
+          "incremental_wall_ms": 32.847791,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 14,
+          "order": "baseline_first",
+          "baseline_wall_ms": 25.6365,
+          "actual_wall_ms": 26.483042,
+          "incremental_wall_ms": 0.8465419999999995,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 15,
+          "order": "actual_first",
+          "baseline_wall_ms": 22.869417,
+          "actual_wall_ms": 23.982625,
+          "incremental_wall_ms": 1.1132080000000002,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 16,
+          "order": "baseline_first",
+          "baseline_wall_ms": 20.579875,
+          "actual_wall_ms": 19.815666,
+          "incremental_wall_ms": -0.764209000000001,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 17,
+          "order": "actual_first",
+          "baseline_wall_ms": 20.662375,
+          "actual_wall_ms": 20.596084,
+          "incremental_wall_ms": -0.06629099999999966,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 18,
+          "order": "baseline_first",
+          "baseline_wall_ms": 22.239416,
+          "actual_wall_ms": 22.050375,
+          "incremental_wall_ms": -0.18904099999999957,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 19,
+          "order": "actual_first",
+          "baseline_wall_ms": 20.435875,
+          "actual_wall_ms": 18.918833,
+          "incremental_wall_ms": -1.517042,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 20,
+          "order": "baseline_first",
+          "baseline_wall_ms": 19.419417,
+          "actual_wall_ms": 19.53775,
+          "incremental_wall_ms": 0.1183329999999998,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 21,
+          "order": "actual_first",
+          "baseline_wall_ms": 17.827125,
+          "actual_wall_ms": 20.645875,
+          "incremental_wall_ms": 2.8187500000000014,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 22,
+          "order": "baseline_first",
+          "baseline_wall_ms": 20.29225,
+          "actual_wall_ms": 20.209416,
+          "incremental_wall_ms": -0.0828339999999983,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 23,
+          "order": "actual_first",
+          "baseline_wall_ms": 19.454792,
+          "actual_wall_ms": 18.683083,
+          "incremental_wall_ms": -0.7717090000000013,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 24,
+          "order": "baseline_first",
+          "baseline_wall_ms": 18.958417,
+          "actual_wall_ms": 19.655083,
+          "incremental_wall_ms": 0.6966660000000005,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 25,
+          "order": "actual_first",
+          "baseline_wall_ms": 20.129917,
+          "actual_wall_ms": 21.036542,
+          "incremental_wall_ms": 0.9066250000000018,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 26,
+          "order": "baseline_first",
+          "baseline_wall_ms": 32.505375,
+          "actual_wall_ms": 42.908375,
+          "incremental_wall_ms": 10.402999999999999,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 27,
+          "order": "actual_first",
+          "baseline_wall_ms": 20.859958,
+          "actual_wall_ms": 22.321958,
+          "incremental_wall_ms": 1.4619999999999997,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 28,
+          "order": "baseline_first",
+          "baseline_wall_ms": 24.490291,
+          "actual_wall_ms": 31.365833,
+          "incremental_wall_ms": 6.875541999999999,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 29,
+          "order": "actual_first",
+          "baseline_wall_ms": 27.195792,
+          "actual_wall_ms": 28.65175,
+          "incremental_wall_ms": 1.455957999999999,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 30,
+          "order": "baseline_first",
+          "baseline_wall_ms": 33.149042,
+          "actual_wall_ms": 20.29025,
+          "incremental_wall_ms": -12.858792000000001,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 31,
+          "order": "actual_first",
+          "baseline_wall_ms": 24.094459,
+          "actual_wall_ms": 21.610875,
+          "incremental_wall_ms": -2.4835840000000005,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 32,
+          "order": "baseline_first",
+          "baseline_wall_ms": 20.645333,
+          "actual_wall_ms": 19.455125,
+          "incremental_wall_ms": -1.190208000000002,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 33,
+          "order": "actual_first",
+          "baseline_wall_ms": 21.717083,
+          "actual_wall_ms": 21.671333,
+          "incremental_wall_ms": -0.04574999999999818,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 34,
+          "order": "baseline_first",
+          "baseline_wall_ms": 24.17725,
+          "actual_wall_ms": 22.40275,
+          "incremental_wall_ms": -1.7744999999999997,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 35,
+          "order": "actual_first",
+          "baseline_wall_ms": 33.646875,
+          "actual_wall_ms": 21.859583,
+          "incremental_wall_ms": -11.787292,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 36,
+          "order": "baseline_first",
+          "baseline_wall_ms": 23.621666,
+          "actual_wall_ms": 24.952667,
+          "incremental_wall_ms": 1.3310010000000005,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 37,
+          "order": "actual_first",
+          "baseline_wall_ms": 21.031417,
+          "actual_wall_ms": 25.204375,
+          "incremental_wall_ms": 4.172957999999998,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 38,
+          "order": "baseline_first",
+          "baseline_wall_ms": 22.408959,
+          "actual_wall_ms": 20.932209,
+          "incremental_wall_ms": -1.4767499999999991,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 39,
+          "order": "actual_first",
+          "baseline_wall_ms": 21.922625,
+          "actual_wall_ms": 20.590167,
+          "incremental_wall_ms": -1.332457999999999,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        }
+      ]
+    },
+    "native_via_shell": {
+      "repetitions": 40,
+      "baseline_p50_ms": 20.450625000000002,
+      "baseline_p95_ms": 24.681141649999997,
+      "actual_p50_ms": 44.6286455,
+      "actual_p95_ms": 52.367291349999995,
+      "actual_max_ms": 59.156792,
+      "incremental_p50_ms": 24.2631875,
+      "incremental_p95_ms": 30.490470499999997,
+      "exit_failures": 0,
+      "non_silent_invocations": 0,
+      "trials": [
+        {
+          "repetition": 0,
+          "order": "baseline_first",
+          "baseline_wall_ms": 19.333417,
+          "actual_wall_ms": 47.909792,
+          "incremental_wall_ms": 28.576375000000002,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 1,
+          "order": "actual_first",
+          "baseline_wall_ms": 21.967667,
+          "actual_wall_ms": 49.984417,
+          "incremental_wall_ms": 28.016750000000002,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 2,
+          "order": "baseline_first",
+          "baseline_wall_ms": 21.148708,
+          "actual_wall_ms": 45.541375,
+          "incremental_wall_ms": 24.392667000000003,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 3,
+          "order": "actual_first",
+          "baseline_wall_ms": 20.006334,
+          "actual_wall_ms": 43.039125,
+          "incremental_wall_ms": 23.032791,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 4,
+          "order": "baseline_first",
+          "baseline_wall_ms": 22.488083,
+          "actual_wall_ms": 44.731,
+          "incremental_wall_ms": 22.242917000000002,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 5,
+          "order": "actual_first",
+          "baseline_wall_ms": 18.229833,
+          "actual_wall_ms": 47.4205,
+          "incremental_wall_ms": 29.190666999999998,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 6,
+          "order": "baseline_first",
+          "baseline_wall_ms": 19.369708,
+          "actual_wall_ms": 43.842542,
+          "incremental_wall_ms": 24.472834000000002,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 7,
+          "order": "actual_first",
+          "baseline_wall_ms": 19.813041,
+          "actual_wall_ms": 47.907875,
+          "incremental_wall_ms": 28.094834,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 8,
+          "order": "baseline_first",
+          "baseline_wall_ms": 19.539333,
+          "actual_wall_ms": 42.550542,
+          "incremental_wall_ms": 23.011209,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 9,
+          "order": "actual_first",
+          "baseline_wall_ms": 18.165042,
+          "actual_wall_ms": 41.381792,
+          "incremental_wall_ms": 23.216749999999998,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 10,
+          "order": "baseline_first",
+          "baseline_wall_ms": 20.7465,
+          "actual_wall_ms": 43.326833,
+          "incremental_wall_ms": 22.580333,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 11,
+          "order": "actual_first",
+          "baseline_wall_ms": 18.605166,
+          "actual_wall_ms": 41.328416,
+          "incremental_wall_ms": 22.723249999999997,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 12,
+          "order": "baseline_first",
+          "baseline_wall_ms": 23.002875,
+          "actual_wall_ms": 49.192167,
+          "incremental_wall_ms": 26.189292,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 13,
+          "order": "actual_first",
+          "baseline_wall_ms": 19.19875,
+          "actual_wall_ms": 44.611833,
+          "incremental_wall_ms": 25.413082999999997,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 14,
+          "order": "baseline_first",
+          "baseline_wall_ms": 23.23525,
+          "actual_wall_ms": 42.781708,
+          "incremental_wall_ms": 19.546458,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 15,
+          "order": "actual_first",
+          "baseline_wall_ms": 20.709833,
+          "actual_wall_ms": 42.77475,
+          "incremental_wall_ms": 22.064916999999998,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 16,
+          "order": "baseline_first",
+          "baseline_wall_ms": 18.984875,
+          "actual_wall_ms": 42.548875,
+          "incremental_wall_ms": 23.564000000000004,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 17,
+          "order": "actual_first",
+          "baseline_wall_ms": 26.116958,
+          "actual_wall_ms": 45.52725,
+          "incremental_wall_ms": 19.410292000000002,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 18,
+          "order": "baseline_first",
+          "baseline_wall_ms": 24.6145,
+          "actual_wall_ms": 59.156792,
+          "incremental_wall_ms": 34.542292,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 19,
+          "order": "actual_first",
+          "baseline_wall_ms": 23.50875,
+          "actual_wall_ms": 49.403042,
+          "incremental_wall_ms": 25.894292,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 20,
+          "order": "baseline_first",
+          "baseline_wall_ms": 19.718833,
+          "actual_wall_ms": 46.799041,
+          "incremental_wall_ms": 27.080208000000002,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 21,
+          "order": "actual_first",
+          "baseline_wall_ms": 25.947333,
+          "actual_wall_ms": 50.432667,
+          "incremental_wall_ms": 24.485334,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 22,
+          "order": "baseline_first",
+          "baseline_wall_ms": 24.012417,
+          "actual_wall_ms": 54.454125,
+          "incremental_wall_ms": 30.441708,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 23,
+          "order": "actual_first",
+          "baseline_wall_ms": 19.532625,
+          "actual_wall_ms": 48.922625,
+          "incremental_wall_ms": 29.389999999999997,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 24,
+          "order": "baseline_first",
+          "baseline_wall_ms": 20.51175,
+          "actual_wall_ms": 44.645458,
+          "incremental_wall_ms": 24.133708,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 25,
+          "order": "actual_first",
+          "baseline_wall_ms": 20.8405,
+          "actual_wall_ms": 52.257458,
+          "incremental_wall_ms": 31.416958,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 26,
+          "order": "baseline_first",
+          "baseline_wall_ms": 23.780291,
+          "actual_wall_ms": 48.874625,
+          "incremental_wall_ms": 25.094334000000003,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 27,
+          "order": "actual_first",
+          "baseline_wall_ms": 21.764666,
+          "actual_wall_ms": 47.18775,
+          "incremental_wall_ms": 25.423084000000003,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 28,
+          "order": "baseline_first",
+          "baseline_wall_ms": 20.614708,
+          "actual_wall_ms": 47.84075,
+          "incremental_wall_ms": 27.226042,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 29,
+          "order": "actual_first",
+          "baseline_wall_ms": 19.324459,
+          "actual_wall_ms": 46.037042,
+          "incremental_wall_ms": 26.712583,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 30,
+          "order": "baseline_first",
+          "baseline_wall_ms": 20.405375,
+          "actual_wall_ms": 43.428708,
+          "incremental_wall_ms": 23.023333,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 31,
+          "order": "actual_first",
+          "baseline_wall_ms": 19.528042,
+          "actual_wall_ms": 42.534834,
+          "incremental_wall_ms": 23.006791999999997,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 32,
+          "order": "baseline_first",
+          "baseline_wall_ms": 20.495875,
+          "actual_wall_ms": 42.516583,
+          "incremental_wall_ms": 22.020707999999996,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 33,
+          "order": "actual_first",
+          "baseline_wall_ms": 19.588041,
+          "actual_wall_ms": 42.809459,
+          "incremental_wall_ms": 23.221417999999996,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 34,
+          "order": "baseline_first",
+          "baseline_wall_ms": 18.857292,
+          "actual_wall_ms": 42.791792,
+          "incremental_wall_ms": 23.9345,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 35,
+          "order": "actual_first",
+          "baseline_wall_ms": 19.178375,
+          "actual_wall_ms": 41.444458,
+          "incremental_wall_ms": 22.266083,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 36,
+          "order": "baseline_first",
+          "baseline_wall_ms": 19.427333,
+          "actual_wall_ms": 42.467708,
+          "incremental_wall_ms": 23.040375,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 37,
+          "order": "actual_first",
+          "baseline_wall_ms": 18.919083,
+          "actual_wall_ms": 44.025125,
+          "incremental_wall_ms": 25.106042000000002,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 38,
+          "order": "baseline_first",
+          "baseline_wall_ms": 20.53875,
+          "actual_wall_ms": 44.329375,
+          "incremental_wall_ms": 23.790625,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        },
+        {
+          "repetition": 39,
+          "order": "actual_first",
+          "baseline_wall_ms": 21.681166,
+          "actual_wall_ms": 42.748958,
+          "incremental_wall_ms": 21.067792,
+          "exit_code": 0,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0
+        }
+      ]
+    },
+    "nc_via_shell": null,
+    "expected_events": 80,
+    "accepted_events": 80
+  },
+  "gate": {
+    "name": "lossless silent delivery; direct/shell p95 below 100 ms; shell incremental p95 below 75 ms",
+    "passed": false
+  },
+  "created_at": "2026-07-29T08:11:03.564014+00:00",
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "07a7cf05b9f4233e37b4f3392ecd69be36fe8367",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

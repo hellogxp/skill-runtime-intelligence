@@ -1,0 +1,178 @@
+{
+  "schema_version": "sri.experiment.real-corpus-readiness.v3",
+  "experiment": {
+    "name": "privacy-safe-real-run-corpus-readiness-audit",
+    "evidence_grade": "Derived",
+    "source_database_basename": "panorama.db",
+    "consistent_snapshot": true,
+    "snapshot_backup_attempts": 1,
+    "source_query_only_enforced": true,
+    "source_opened_with_read_only_uri": false,
+    "source_content_writes_performed": false,
+    "sqlite_locking_sidecars_may_be_created": true,
+    "row_level_records_included": false,
+    "raw_content_included": false,
+    "limitations": [
+      "Production findings are Derived candidates, not human gold labels.",
+      "The database contains one local user's runs and is not a deployment sample.",
+      "Readiness thresholds are exploratory and were not preregistered.",
+      "Aggregate counts do not establish diagnosis usefulness or causal Skill effects.",
+      "SQLite query_only prevents content writes, but opening a live WAL database may create locking sidecar files."
+    ]
+  },
+  "metrics": {
+    "run_count": 77,
+    "session_count": 15,
+    "skill_definition_count": 9,
+    "adapter_count": 1,
+    "status_counts": {
+      "completed": 59,
+      "incomplete": 6,
+      "interrupted": 12
+    },
+    "adapter_counts": {
+      "codex": 77
+    },
+    "run_evidence_grade_counts": {
+      "derived": 77
+    },
+    "activation_mode_counts": {
+      "unknown": 77
+    },
+    "session_completeness_counts": {
+      "complete": 44,
+      "incomplete": 33
+    },
+    "distinct_stage_profile_count": 7,
+    "distinct_finding_signature_count": 3,
+    "distinct_finding_combination_count": 2,
+    "finding_occurrence_count": 154,
+    "dominant_finding_signature_run_coverage": 1.0,
+    "systematic_finding_signatures_at_80pct": [
+      {
+        "code": "lifecycle_evidence_gap",
+        "stage": "activation",
+        "evidence_grade": "derived",
+        "run_count": 77,
+        "run_coverage": 1.0
+      }
+    ],
+    "adapter_signature_grouping_potential": {
+      "run_level_finding_occurrences": 154,
+      "adapter_signature_groups": 3,
+      "occurrences_per_group": 51.333333333333336,
+      "candidate_reduction_fraction": 0.9805194805194806,
+      "interpretation": "Derived grouping opportunity only; no human notification benefit has been measured."
+    },
+    "finding_signatures": [
+      {
+        "code": "lifecycle_evidence_gap",
+        "stage": "activation",
+        "evidence_grade": "derived",
+        "run_count": 77
+      },
+      {
+        "code": "outcome_unverified",
+        "stage": "outcome",
+        "evidence_grade": "derived",
+        "run_count": 38
+      },
+      {
+        "code": "run_incomplete",
+        "stage": "outcome",
+        "evidence_grade": "observed",
+        "run_count": 39
+      }
+    ],
+    "owned_event_type_counts": {
+      "file.created": 44,
+      "file.modified": 259,
+      "instruction.loaded": 88,
+      "outcome.reported": 227,
+      "resource.executed": 77,
+      "session.compacted": 14,
+      "tool.completed": 1465,
+      "tool.started": 1465,
+      "turn.completed": 48,
+      "turn.failed": 12
+    },
+    "owned_event_stage_counts": {
+      "artifacts": 303,
+      "execution": 2944,
+      "instructions": 88,
+      "outcome": 287,
+      "resources": 77
+    },
+    "owned_event_evidence_grade_counts": {
+      "derived": 9,
+      "observed": 3690
+    },
+    "runs_with_observed_activation_event": 0,
+    "runs_with_verified_outcome_event": 0,
+    "runs_with_explicit_failed_event": 0,
+    "runtime_failure_candidate_count": 0,
+    "human_reviewed_label_count": 0
+  },
+  "readiness": {
+    "exploratory_criteria": [
+      {
+        "name": "at_least_20_runs",
+        "passed": true
+      },
+      {
+        "name": "at_least_two_adapters",
+        "passed": false
+      },
+      {
+        "name": "at_least_four_finding_signatures",
+        "passed": false
+      },
+      {
+        "name": "at_least_two_runtime_failure_candidates",
+        "passed": false
+      },
+      {
+        "name": "at_least_two_observed_activation_runs",
+        "passed": false
+      },
+      {
+        "name": "at_least_two_verified_outcome_runs",
+        "passed": false
+      },
+      {
+        "name": "at_least_20_human_reviewed_labels",
+        "passed": false
+      }
+    ],
+    "passed_count": 1,
+    "criterion_count": 7,
+    "corpus_ready_for_confirmatory_evaluation": false
+  },
+  "dataset_manifest": {
+    "snapshot_sha256": "af0acd6199124e28fc6ea397d6d0d2f5699a68c9849da87e27a69bb5ee2238a4",
+    "snapshot_bytes": 46956544,
+    "schema_sha256": "b851544dcb85c66d244e6e222543011fdaa837e6c5356e676c8b2f492d8884b4",
+    "privacy_safe_aggregate_sha256": "32fc2e7135b97a316499903380ed48e40a85e3fde8dcbe9717d3eb80a8ed25fa",
+    "integrity_check": "ok",
+    "row_level_content_in_report": false,
+    "interpretation": "Local linkable fingerprints for snapshot identity and aggregate comparison; they do not retain or reconstruct the source rows."
+  },
+  "privacy_audit": {
+    "forbidden_row_level_fields_absent": true,
+    "passed": true
+  },
+  "gate": {
+    "name": "privacy-safe aggregate audit completed",
+    "passed": true
+  },
+  "created_at": "2026-07-29T14:09:45.167964+00:00",
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "6397467557509d0333706496bf0cfd672321ac7b",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

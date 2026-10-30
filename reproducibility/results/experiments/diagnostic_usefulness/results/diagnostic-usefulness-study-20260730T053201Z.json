@@ -1,0 +1,1748 @@
+{
+  "schema_version": "sri.experiment.diagnostic-usefulness-study.v1",
+  "experiment": {
+    "name": "counterbalanced-within-subject-study-readiness",
+    "dataset_path": "${REPO_ROOT}/experiments/runtime_diagnostics/cases.jsonl",
+    "dataset_sha256": "a7728ebae830fe9fa58b04a5865fa9ea344d1149ab2ea29075e366af194522e5",
+    "seed": 20260729,
+    "status": "study-ready; no human utility claim",
+    "limitations": [
+      "No participant responses have been collected.",
+      "The readiness audit validates stimuli, balance, evidence, and display order only.",
+      "Time-to-diagnosis and correctness deltas require recruited participants."
+    ]
+  },
+  "metrics": {
+    "case_count": 11,
+    "participant_slots": 24,
+    "assignment_count": 264,
+    "condition_balance_passed": true,
+    "first_visible_boundary_accuracy": 1.0,
+    "findings_with_evidence_rate": 1.0,
+    "measurement_field_count": 9,
+    "human_responses_collected": 0
+  },
+  "measurement_schema": [
+    "participant_slot",
+    "case_id",
+    "condition",
+    "first_boundary_answer",
+    "correct",
+    "elapsed_ms",
+    "confidence_0_100",
+    "causal_claim",
+    "notes"
+  ],
+  "condition_counts": {
+    "activation_gap": {
+      "raw": 12,
+      "panorama": 12
+    },
+    "instructions_gap": {
+      "raw": 12,
+      "panorama": 12
+    },
+    "execution_failure": {
+      "raw": 12,
+      "panorama": 12
+    },
+    "incomplete_run": {
+      "raw": 12,
+      "panorama": 12
+    },
+    "reported_outcome_only": {
+      "raw": 12,
+      "panorama": 12
+    },
+    "resource_failure": {
+      "raw": 12,
+      "panorama": 12
+    },
+    "derived_failure_grade": {
+      "raw": 12,
+      "panorama": 12
+    },
+    "incomplete_with_report": {
+      "raw": 12,
+      "panorama": 12
+    },
+    "earliest_of_multiple_failures": {
+      "raw": 12,
+      "panorama": 12
+    },
+    "request_gap_first": {
+      "raw": 12,
+      "panorama": 12
+    },
+    "failure_and_incomplete": {
+      "raw": 12,
+      "panorama": 12
+    }
+  },
+  "assignments": [
+    {
+      "participant_slot": 1,
+      "case_order": [
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "raw"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "raw"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "raw"
+        }
+      ]
+    },
+    {
+      "participant_slot": 2,
+      "case_order": [
+        {
+          "case_id": "instructions_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "raw"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "raw"
+        }
+      ]
+    },
+    {
+      "participant_slot": 3,
+      "case_order": [
+        {
+          "case_id": "request_gap_first",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "raw"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "raw"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "raw"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "raw"
+        }
+      ]
+    },
+    {
+      "participant_slot": 4,
+      "case_order": [
+        {
+          "case_id": "execution_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "raw"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "raw"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "raw"
+        }
+      ]
+    },
+    {
+      "participant_slot": 5,
+      "case_order": [
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "raw"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "raw"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "raw"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "raw"
+        }
+      ]
+    },
+    {
+      "participant_slot": 6,
+      "case_order": [
+        {
+          "case_id": "execution_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "raw"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "raw"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "raw"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "panorama"
+        }
+      ]
+    },
+    {
+      "participant_slot": 7,
+      "case_order": [
+        {
+          "case_id": "incomplete_run",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "raw"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "raw"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "raw"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "raw"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "panorama"
+        }
+      ]
+    },
+    {
+      "participant_slot": 8,
+      "case_order": [
+        {
+          "case_id": "request_gap_first",
+          "condition": "raw"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "raw"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "raw"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "panorama"
+        }
+      ]
+    },
+    {
+      "participant_slot": 9,
+      "case_order": [
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "raw"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "raw"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "panorama"
+        }
+      ]
+    },
+    {
+      "participant_slot": 10,
+      "case_order": [
+        {
+          "case_id": "request_gap_first",
+          "condition": "raw"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "raw"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "raw"
+        }
+      ]
+    },
+    {
+      "participant_slot": 11,
+      "case_order": [
+        {
+          "case_id": "resource_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "raw"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "raw"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "raw"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "panorama"
+        }
+      ]
+    },
+    {
+      "participant_slot": 12,
+      "case_order": [
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "raw"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "raw"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "raw"
+        }
+      ]
+    },
+    {
+      "participant_slot": 13,
+      "case_order": [
+        {
+          "case_id": "resource_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "raw"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "raw"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "raw"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "panorama"
+        }
+      ]
+    },
+    {
+      "participant_slot": 14,
+      "case_order": [
+        {
+          "case_id": "request_gap_first",
+          "condition": "raw"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "raw"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "raw"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "panorama"
+        }
+      ]
+    },
+    {
+      "participant_slot": 15,
+      "case_order": [
+        {
+          "case_id": "execution_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "raw"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "raw"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "raw"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "raw"
+        }
+      ]
+    },
+    {
+      "participant_slot": 16,
+      "case_order": [
+        {
+          "case_id": "incomplete_run",
+          "condition": "raw"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "raw"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "panorama"
+        }
+      ]
+    },
+    {
+      "participant_slot": 17,
+      "case_order": [
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "raw"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "raw"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "raw"
+        }
+      ]
+    },
+    {
+      "participant_slot": 18,
+      "case_order": [
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "raw"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "raw"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "raw"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "panorama"
+        }
+      ]
+    },
+    {
+      "participant_slot": 19,
+      "case_order": [
+        {
+          "case_id": "instructions_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "raw"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "raw"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "raw"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "panorama"
+        }
+      ]
+    },
+    {
+      "participant_slot": 20,
+      "case_order": [
+        {
+          "case_id": "incomplete_run",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "raw"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "raw"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "panorama"
+        }
+      ]
+    },
+    {
+      "participant_slot": 21,
+      "case_order": [
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "raw"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "raw"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "raw"
+        }
+      ]
+    },
+    {
+      "participant_slot": 22,
+      "case_order": [
+        {
+          "case_id": "execution_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "raw"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "raw"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "raw"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "panorama"
+        }
+      ]
+    },
+    {
+      "participant_slot": 23,
+      "case_order": [
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "raw"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "raw"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "raw"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "raw"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "panorama"
+        }
+      ]
+    },
+    {
+      "participant_slot": 24,
+      "case_order": [
+        {
+          "case_id": "earliest_of_multiple_failures",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "incomplete_run",
+          "condition": "raw"
+        },
+        {
+          "case_id": "derived_failure_grade",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "resource_failure",
+          "condition": "raw"
+        },
+        {
+          "case_id": "execution_failure",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "instructions_gap",
+          "condition": "raw"
+        },
+        {
+          "case_id": "incomplete_with_report",
+          "condition": "raw"
+        },
+        {
+          "case_id": "request_gap_first",
+          "condition": "raw"
+        },
+        {
+          "case_id": "activation_gap",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "reported_outcome_only",
+          "condition": "panorama"
+        },
+        {
+          "case_id": "failure_and_incomplete",
+          "condition": "panorama"
+        }
+      ]
+    }
+  ],
+  "stimuli": [
+    {
+      "case_id": "activation_gap",
+      "description": "Missing activation evidence before later activity is a gap, not proof that activation did not happen.",
+      "raw_condition": {
+        "view": "redacted source-like event list",
+        "lines": [
+          "run status=completed",
+          "source completeness=complete",
+          "event outcome.verified stage=outcome status=succeeded Deterministic test suite passed."
+        ]
+      },
+      "panorama_condition": {
+        "view": "evidence-graded Skill Run Panorama",
+        "findings": [
+          {
+            "title": "Activation evidence is missing before later activity",
+            "summary": "No activation event was observed even though later lifecycle activity exists. This is an evidence gap, not proof that the activation step did not occur.",
+            "stage": "activation",
+            "severity": "warning",
+            "evidence_grade": "derived",
+            "basis": [
+              "Adapter capability for activation: partial",
+              "Later observed stages: instructions, resources, execution, artifacts, outcome"
+            ],
+            "missing_signals": [
+              "activation lifecycle event"
+            ],
+            "recommended_actions": [
+              "Inspect the adapter capability and source telemetry settings.",
+              "Prefer a native lifecycle event or fail-open hook when available."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "instructions_gap",
+      "description": "Missing instruction-load evidence before execution should identify instructions as the first observable boundary.",
+      "raw_condition": {
+        "view": "redacted source-like event list",
+        "lines": [
+          "run status=completed",
+          "source completeness=complete",
+          "event outcome.verified stage=outcome status=succeeded Deterministic test suite passed."
+        ]
+      },
+      "panorama_condition": {
+        "view": "evidence-graded Skill Run Panorama",
+        "findings": [
+          {
+            "title": "Instructions evidence is missing before later activity",
+            "summary": "No instructions event was observed even though later lifecycle activity exists. This is an evidence gap, not proof that the instructions step did not occur.",
+            "stage": "instructions",
+            "severity": "warning",
+            "evidence_grade": "derived",
+            "basis": [
+              "Adapter capability for instructions: partial",
+              "Later observed stages: resources, execution, artifacts, outcome"
+            ],
+            "missing_signals": [
+              "instructions lifecycle event"
+            ],
+            "recommended_actions": [
+              "Inspect the adapter capability and source telemetry settings.",
+              "Prefer a native lifecycle event or fail-open hook when available."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "execution_failure",
+      "description": "An explicit failed runtime event should remain an observed failure rather than an inferred Skill cause.",
+      "raw_condition": {
+        "view": "redacted source-like event list",
+        "lines": [
+          "run status=completed",
+          "source completeness=complete",
+          "event tool.completed stage=execution status=failed Renderer exited with status 1.",
+          "event outcome.verified stage=outcome status=succeeded Failure classification was verified."
+        ]
+      },
+      "panorama_condition": {
+        "view": "evidence-graded Skill Run Panorama",
+        "findings": [
+          {
+            "title": "Execution reported a failure",
+            "summary": "The runtime source contains an explicit failure at the earliest observable failed lifecycle stage: execution.",
+            "stage": "execution",
+            "severity": "error",
+            "evidence_grade": "observed",
+            "basis": [
+              "Renderer exited with status 1."
+            ],
+            "missing_signals": [],
+            "recommended_actions": [
+              "Inspect the failed event and its source locator.",
+              "Check parent events before changing the Skill instructions."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "incomplete_run",
+      "description": "A partial source should be diagnosed as incomplete without inventing a downstream failure.",
+      "raw_condition": {
+        "view": "redacted source-like event list",
+        "lines": [
+          "run status=incomplete",
+          "source completeness=partial"
+        ]
+      },
+      "panorama_condition": {
+        "view": "evidence-graded Skill Run Panorama",
+        "findings": [
+          {
+            "title": "The SkillRun did not reach a complete recorded outcome",
+            "summary": "The source ended, was interrupted, or is partial. Later lifecycle evidence may be missing, so this run should not be treated as a complete success or failure.",
+            "stage": "outcome",
+            "severity": "warning",
+            "evidence_grade": "observed",
+            "basis": [
+              "SkillRun status: incomplete",
+              "Session completeness: partial"
+            ],
+            "missing_signals": [
+              "outcome completion event"
+            ],
+            "recommended_actions": [
+              "Re-index the source after the agent session finishes.",
+              "Inspect whether the source transcript was truncated."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "reported_outcome_only",
+      "description": "A source-reported outcome without a deterministic evaluation is explicitly unverified.",
+      "raw_condition": {
+        "view": "redacted source-like event list",
+        "lines": [
+          "run status=completed",
+          "source completeness=complete",
+          "event outcome.reported stage=outcome status=succeeded Agent reported that the requested artifact was produced."
+        ]
+      },
+      "panorama_condition": {
+        "view": "evidence-graded Skill Run Panorama",
+        "findings": [
+          {
+            "title": "The outcome is reported but not independently verified",
+            "summary": "The run contains an agent or source-reported outcome, but no deterministic test or explicit evaluation verifies its quality.",
+            "stage": "outcome",
+            "severity": "info",
+            "evidence_grade": "derived",
+            "basis": [
+              "Agent reported that the requested artifact was produced."
+            ],
+            "missing_signals": [
+              "outcome.verified"
+            ],
+            "recommended_actions": [
+              "Attach a deterministic test or explicit evaluation when outcome quality matters."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "resource_failure",
+      "description": "An observed missing resource is the earliest failed boundary even when execution and outcome evidence follow.",
+      "raw_condition": {
+        "view": "redacted source-like event list",
+        "lines": [
+          "run status=completed",
+          "source completeness=complete",
+          "event resource.missing stage=resources status=failed Required reference file was not found.",
+          "event outcome.verified stage=outcome status=completed Failure classification verified."
+        ]
+      },
+      "panorama_condition": {
+        "view": "evidence-graded Skill Run Panorama",
+        "findings": [
+          {
+            "title": "Resources reported a failure",
+            "summary": "The runtime source contains an explicit failure at the earliest observable failed lifecycle stage: resources.",
+            "stage": "resources",
+            "severity": "error",
+            "evidence_grade": "observed",
+            "basis": [
+              "Required reference file was not found."
+            ],
+            "missing_signals": [],
+            "recommended_actions": [
+              "Inspect the failed event and its source locator.",
+              "Check parent events before changing the Skill instructions."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "derived_failure_grade",
+      "description": "A failure deterministically derived from a span status must retain the Derived grade.",
+      "raw_condition": {
+        "view": "redacted source-like event list",
+        "lines": [
+          "run status=completed",
+          "source completeness=complete",
+          "event tool.failed stage=execution status=failed Failure derived from exported span status.",
+          "event outcome.verified stage=outcome status=completed Classification verified."
+        ]
+      },
+      "panorama_condition": {
+        "view": "evidence-graded Skill Run Panorama",
+        "findings": [
+          {
+            "title": "Execution reported a failure",
+            "summary": "The runtime source contains an explicit failure at the earliest observable failed lifecycle stage: execution.",
+            "stage": "execution",
+            "severity": "error",
+            "evidence_grade": "derived",
+            "basis": [
+              "Failure derived from exported span status."
+            ],
+            "missing_signals": [],
+            "recommended_actions": [
+              "Inspect the failed event and its source locator.",
+              "Check parent events before changing the Skill instructions."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "incomplete_with_report",
+      "description": "A partial run can contain both an earlier evidence gap and an incompleteness warning, but a report must not be promoted to a verified outcome.",
+      "raw_condition": {
+        "view": "redacted source-like event list",
+        "lines": [
+          "run status=interrupted",
+          "source completeness=partial",
+          "event outcome.reported stage=outcome status=reported Agent emitted a partial status before interruption."
+        ]
+      },
+      "panorama_condition": {
+        "view": "evidence-graded Skill Run Panorama",
+        "findings": [
+          {
+            "title": "Resources evidence is missing before later activity",
+            "summary": "No resources event was observed even though later lifecycle activity exists. This is an evidence gap, not proof that the resources step did not occur.",
+            "stage": "resources",
+            "severity": "warning",
+            "evidence_grade": "derived",
+            "basis": [
+              "Adapter capability for resources: partial",
+              "Later observed stages: outcome"
+            ],
+            "missing_signals": [
+              "resources lifecycle event"
+            ],
+            "recommended_actions": [
+              "Inspect the adapter capability and source telemetry settings.",
+              "Prefer a native lifecycle event or fail-open hook when available."
+            ]
+          },
+          {
+            "title": "The SkillRun did not reach a complete recorded outcome",
+            "summary": "The source ended, was interrupted, or is partial. Later lifecycle evidence may be missing, so this run should not be treated as a complete success or failure.",
+            "stage": "outcome",
+            "severity": "warning",
+            "evidence_grade": "observed",
+            "basis": [
+              "SkillRun status: interrupted",
+              "Session completeness: partial"
+            ],
+            "missing_signals": [
+              "outcome completion event"
+            ],
+            "recommended_actions": [
+              "Re-index the source after the agent session finishes.",
+              "Inspect whether the source transcript was truncated."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "earliest_of_multiple_failures",
+      "description": "When multiple failures are observed, diagnosis should identify only the earliest lifecycle boundary.",
+      "raw_condition": {
+        "view": "redacted source-like event list",
+        "lines": [
+          "run status=completed",
+          "source completeness=complete",
+          "event resource.load_failed stage=resources status=failed Reference load failed.",
+          "event tool.failed stage=execution status=failed Downstream tool failed.",
+          "event outcome.verified stage=outcome status=completed Classification verified."
+        ]
+      },
+      "panorama_condition": {
+        "view": "evidence-graded Skill Run Panorama",
+        "findings": [
+          {
+            "title": "Resources reported a failure",
+            "summary": "The runtime source contains an explicit failure at the earliest observable failed lifecycle stage: resources.",
+            "stage": "resources",
+            "severity": "error",
+            "evidence_grade": "observed",
+            "basis": [
+              "Reference load failed."
+            ],
+            "missing_signals": [],
+            "recommended_actions": [
+              "Inspect the failed event and its source locator.",
+              "Check parent events before changing the Skill instructions."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "request_gap_first",
+      "description": "The earliest missing supported stage before later activity should be request, even if additional stages are also missing.",
+      "raw_condition": {
+        "view": "redacted source-like event list",
+        "lines": [
+          "run status=completed",
+          "source completeness=complete",
+          "event outcome.verified stage=outcome status=completed Verifier passed."
+        ]
+      },
+      "panorama_condition": {
+        "view": "evidence-graded Skill Run Panorama",
+        "findings": [
+          {
+            "title": "Request evidence is missing before later activity",
+            "summary": "No request event was observed even though later lifecycle activity exists. This is an evidence gap, not proof that the request step did not occur.",
+            "stage": "request",
+            "severity": "warning",
+            "evidence_grade": "derived",
+            "basis": [
+              "Adapter capability for request: partial",
+              "Later observed stages: activation, execution, outcome"
+            ],
+            "missing_signals": [
+              "request lifecycle event"
+            ],
+            "recommended_actions": [
+              "Inspect the adapter capability and source telemetry settings.",
+              "Prefer a native lifecycle event or fail-open hook when available."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "failure_and_incomplete",
+      "description": "An interrupted run with an explicit failure should preserve the earlier evidence gap, observed failure, and incompleteness warning as separate claims.",
+      "raw_condition": {
+        "view": "redacted source-like event list",
+        "lines": [
+          "run status=interrupted",
+          "source completeness=partial",
+          "event tool.failed stage=execution status=failed Tool failed before the source ended."
+        ]
+      },
+      "panorama_condition": {
+        "view": "evidence-graded Skill Run Panorama",
+        "findings": [
+          {
+            "title": "Resources evidence is missing before later activity",
+            "summary": "No resources event was observed even though later lifecycle activity exists. This is an evidence gap, not proof that the resources step did not occur.",
+            "stage": "resources",
+            "severity": "warning",
+            "evidence_grade": "derived",
+            "basis": [
+              "Adapter capability for resources: partial",
+              "Later observed stages: execution"
+            ],
+            "missing_signals": [
+              "resources lifecycle event"
+            ],
+            "recommended_actions": [
+              "Inspect the adapter capability and source telemetry settings.",
+              "Prefer a native lifecycle event or fail-open hook when available."
+            ]
+          },
+          {
+            "title": "Execution reported a failure",
+            "summary": "The runtime source contains an explicit failure at the earliest observable failed lifecycle stage: execution.",
+            "stage": "execution",
+            "severity": "error",
+            "evidence_grade": "observed",
+            "basis": [
+              "Tool failed before the source ended."
+            ],
+            "missing_signals": [],
+            "recommended_actions": [
+              "Inspect the failed event and its source locator.",
+              "Check parent events before changing the Skill instructions."
+            ]
+          },
+          {
+            "title": "The SkillRun did not reach a complete recorded outcome",
+            "summary": "The source ended, was interrupted, or is partial. Later lifecycle evidence may be missing, so this run should not be treated as a complete success or failure.",
+            "stage": "outcome",
+            "severity": "warning",
+            "evidence_grade": "observed",
+            "basis": [
+              "SkillRun status: interrupted",
+              "Session completeness: partial"
+            ],
+            "missing_signals": [
+              "outcome completion event"
+            ],
+            "recommended_actions": [
+              "Re-index the source after the agent session finishes.",
+              "Inspect whether the source transcript was truncated."
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "gold_labels": [
+    {
+      "case_id": "activation_gap",
+      "first_boundary": "activation"
+    },
+    {
+      "case_id": "instructions_gap",
+      "first_boundary": "instructions"
+    },
+    {
+      "case_id": "execution_failure",
+      "first_boundary": "execution"
+    },
+    {
+      "case_id": "incomplete_run",
+      "first_boundary": "outcome"
+    },
+    {
+      "case_id": "reported_outcome_only",
+      "first_boundary": "outcome"
+    },
+    {
+      "case_id": "resource_failure",
+      "first_boundary": "resources"
+    },
+    {
+      "case_id": "derived_failure_grade",
+      "first_boundary": "execution"
+    },
+    {
+      "case_id": "incomplete_with_report",
+      "first_boundary": "resources"
+    },
+    {
+      "case_id": "earliest_of_multiple_failures",
+      "first_boundary": "resources"
+    },
+    {
+      "case_id": "request_gap_first",
+      "first_boundary": "request"
+    },
+    {
+      "case_id": "failure_and_incomplete",
+      "first_boundary": "resources"
+    }
+  ],
+  "gate": {
+    "name": "study readiness",
+    "passed": true
+  },
+  "created_at": "2026-07-30T05:32:01.282653+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "e3f47b3f3fe261f8e12b27815436c4b945679de7",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

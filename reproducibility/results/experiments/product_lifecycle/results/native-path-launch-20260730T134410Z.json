@@ -1,0 +1,778 @@
+{
+  "schema_version": "sri.experiment.native-path-launch.v1",
+  "experiment": {
+    "name": "native-sender-path-reuse-launch-sensitivity",
+    "evidence_grade": "Experimental",
+    "repetitions_per_cell": 12,
+    "correctness_gate_only": true,
+    "latency_gate": "descriptive_not_predeclared",
+    "limitations": [
+      "A fresh pathname is not a fresh OS cache, security scan, or machine.",
+      "All trials share one macOS host and one scheduling interval.",
+      "The missing-socket prewarm path is measured, not successful delivery.",
+      "Code-sign metadata is observed but not experimentally manipulated.",
+      "Latency differences are associations and do not identify a causal mechanism."
+    ]
+  },
+  "source_identity": {
+    "tag_commit": "28f146c876a7d548cfaa5dd9ceee5c73ba9e163f",
+    "tag_commit_matches": true,
+    "source_sha256": "abb0091b3de08f87c3fad147381110672582f1956144463a3a6311f7a22fdea3",
+    "source_matches": true,
+    "workflow_sha256": "4be3f1566c506b2193e115a714f158771efcfd32c01bb17d816075b964ca2d26",
+    "workflow_matches": true,
+    "passed": true
+  },
+  "published_identity": {
+    "name": "skill-runtime-hook-native-darwin-arm64",
+    "sha256": "db4267ab98cca9cda634ec6aff9865882205e6c0722412fccf5779b1d716497e",
+    "bytes": 50520,
+    "passed": true
+  },
+  "environment": {
+    "host_system": "Darwin",
+    "host_machine": "arm64",
+    "compiler_version": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "trial_order": "four-cell rotation, reversed every four blocks"
+  },
+  "artifacts": {
+    "published": {
+      "sha256": "db4267ab98cca9cda634ec6aff9865882205e6c0722412fccf5779b1d716497e",
+      "codesign": {
+        "display_exit": 0,
+        "signature": "adhoc",
+        "identifier": "hook_sender-arm64.out",
+        "team_identifier": "not set",
+        "flags": "20400 size=398 flags=0x20002(adhoc,linker-signed) hashes=9+0 location=embedded",
+        "verify_exit": 1,
+        "verify_message": "${LOCAL_HOME}/.codex/sri-native-path-launch-p5qcfvg5/stable/published: code object is not signed at all",
+        "extended_attribute_names": [
+          "com.apple.provenance"
+        ]
+      },
+      "structures": [
+        {
+          "architecture": "arm64",
+          "object_format": "macho",
+          "section_count": 5,
+          "section_fingerprint": "1e5021ea913c2bb67cadc9efc26b904d543120d9ccf7be99f9681161dec5f3cc",
+          "symbol_count": 18,
+          "symbol_fingerprint": "b19558101446756f5add2b2e0e0017f345e03de54db4fd2b53ea62c39812cdbf",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": false,
+            "write_all": true
+          }
+        },
+        {
+          "architecture": "x86_64",
+          "object_format": "macho",
+          "section_count": 5,
+          "section_fingerprint": "08ece1da18ede9b48401dedf6855b525b5089e3437027d359102152a8e56c617",
+          "symbol_count": 18,
+          "symbol_fingerprint": "b19558101446756f5add2b2e0e0017f345e03de54db4fd2b53ea62c39812cdbf",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": false,
+            "write_all": true
+          }
+        }
+      ]
+    },
+    "rebuilt": {
+      "sha256": "225358305713191c99b08b9d2267feac67665be8e5c1c2285a8e020cb7adb562",
+      "codesign": {
+        "display_exit": 0,
+        "signature": "adhoc",
+        "identifier": "rebuilt-darwin-universal2",
+        "team_identifier": "not set",
+        "flags": "20400 size=402 flags=0x20002(adhoc,linker-signed) hashes=9+0 location=embedded",
+        "verify_exit": 1,
+        "verify_message": "${LOCAL_HOME}/.codex/sri-native-path-launch-p5qcfvg5/stable/rebuilt: code object is not signed at all",
+        "extended_attribute_names": [
+          "com.apple.provenance"
+        ]
+      },
+      "structures": [
+        {
+          "architecture": "arm64",
+          "object_format": "macho",
+          "section_count": 5,
+          "section_fingerprint": "a605d8cb0b6064659de1d8ceafc51fdd5a1ca030176436b053ee4cb1c601ebe8",
+          "symbol_count": 18,
+          "symbol_fingerprint": "b19558101446756f5add2b2e0e0017f345e03de54db4fd2b53ea62c39812cdbf",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": false,
+            "write_all": true
+          }
+        },
+        {
+          "architecture": "x86_64",
+          "object_format": "macho",
+          "section_count": 5,
+          "section_fingerprint": "a267e41fb5b2142ec5c0adc1f5b55251c1b4de9e46f2e1190bc971fb0908e18b",
+          "symbol_count": 18,
+          "symbol_fingerprint": "b19558101446756f5add2b2e0e0017f345e03de54db4fd2b53ea62c39812cdbf",
+          "required_symbols": {
+            "main": true
+          },
+          "required_symbols_present": true,
+          "diagnostic_internal_symbols": {
+            "argument_value": false,
+            "write_all": true
+          }
+        }
+      ]
+    }
+  },
+  "metrics": {
+    "total_trials": 48,
+    "correct_trials": 48,
+    "silent_trials": 48,
+    "summaries": {
+      "published:stable_path": {
+        "count": 12,
+        "min_ms": 19.455708,
+        "p50_ms": 23.18,
+        "p95_ms": 384.03826454999944,
+        "max_ms": 787.654917
+      },
+      "rebuilt:stable_path": {
+        "count": 12,
+        "min_ms": 18.846625,
+        "p50_ms": 23.3929585,
+        "p95_ms": 315.2634704999995,
+        "max_ms": 632.576208
+      },
+      "published:fresh_path_copy": {
+        "count": 12,
+        "min_ms": 190.038791,
+        "p50_ms": 199.0388125,
+        "p95_ms": 215.81329534999998,
+        "max_ms": 227.677666
+      },
+      "rebuilt:fresh_path_copy": {
+        "count": 12,
+        "min_ms": 189.513667,
+        "p50_ms": 198.5386455,
+        "p95_ms": 246.8680144,
+        "max_ms": 247.417625
+      }
+    },
+    "paired_path_deltas": {
+      "published": {
+        "fresh_minus_stable_ms": {
+          "count": 12,
+          "min_ms": -591.3634169999999,
+          "p50_ms": 173.668646,
+          "p95_ms": 193.86505435,
+          "max_ms": 206.584125
+        },
+        "positive_blocks": 11
+      },
+      "rebuilt": {
+        "fresh_minus_stable_ms": {
+          "count": 12,
+          "min_ms": -386.157875,
+          "p50_ms": 173.0693545,
+          "p95_ms": 211.09115855,
+          "max_ms": 223.99333299999998
+        },
+        "positive_blocks": 11
+      }
+    }
+  },
+  "trials": [
+    {
+      "block": 0,
+      "position": 0,
+      "artifact": "published",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 787.654917,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 0,
+      "position": 1,
+      "artifact": "rebuilt",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 632.576208,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 0,
+      "position": 2,
+      "artifact": "published",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 196.2915,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 0,
+      "position": 3,
+      "artifact": "rebuilt",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 246.418333,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 1,
+      "position": 0,
+      "artifact": "rebuilt",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 25.445,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 1,
+      "position": 1,
+      "artifact": "published",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 194.614834,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 1,
+      "position": 2,
+      "artifact": "rebuilt",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 204.924208,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 1,
+      "position": 3,
+      "artifact": "published",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 28.138917,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 2,
+      "position": 0,
+      "artifact": "published",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 190.038791,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 2,
+      "position": 1,
+      "artifact": "rebuilt",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 189.578958,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 2,
+      "position": 2,
+      "artifact": "published",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 22.290625,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 2,
+      "position": 3,
+      "artifact": "rebuilt",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 22.237792,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 3,
+      "position": 0,
+      "artifact": "rebuilt",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 190.911375,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 3,
+      "position": 1,
+      "artifact": "published",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 53.806458,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 3,
+      "position": 2,
+      "artifact": "rebuilt",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 20.521708,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 3,
+      "position": 3,
+      "artifact": "published",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 205.303292,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 4,
+      "position": 0,
+      "artifact": "rebuilt",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 196.800416,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 4,
+      "position": 1,
+      "artifact": "published",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 206.065458,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 4,
+      "position": 2,
+      "artifact": "rebuilt",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 55.643958,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 4,
+      "position": 3,
+      "artifact": "published",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 22.606916,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 5,
+      "position": 0,
+      "artifact": "published",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 21.093541,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 5,
+      "position": 1,
+      "artifact": "rebuilt",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 224.058667,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 5,
+      "position": 2,
+      "artifact": "published",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 227.677666,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 5,
+      "position": 3,
+      "artifact": "rebuilt",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 23.523833,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 6,
+      "position": 0,
+      "artifact": "rebuilt",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 23.361625,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 6,
+      "position": 1,
+      "artifact": "published",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 23.79675,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 6,
+      "position": 2,
+      "artifact": "rebuilt",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 209.32875,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 6,
+      "position": 3,
+      "artifact": "published",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 192.049667,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 7,
+      "position": 0,
+      "artifact": "published",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 193.095709,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 7,
+      "position": 1,
+      "artifact": "rebuilt",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 19.993917,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 7,
+      "position": 2,
+      "artifact": "published",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 21.954541,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 7,
+      "position": 3,
+      "artifact": "rebuilt",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 195.906542,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 8,
+      "position": 0,
+      "artifact": "published",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 19.455708,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 8,
+      "position": 1,
+      "artifact": "rebuilt",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 18.846625,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 8,
+      "position": 2,
+      "artifact": "published",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 200.759834,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 8,
+      "position": 3,
+      "artifact": "rebuilt",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 194.595667,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 9,
+      "position": 0,
+      "artifact": "rebuilt",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 20.759833,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 9,
+      "position": 1,
+      "artifact": "published",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 198.128417,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 9,
+      "position": 2,
+      "artifact": "rebuilt",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 189.513667,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 9,
+      "position": 3,
+      "artifact": "published",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 21.614458,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 10,
+      "position": 0,
+      "artifact": "published",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 199.949208,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 10,
+      "position": 1,
+      "artifact": "rebuilt",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 200.276875,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 10,
+      "position": 2,
+      "artifact": "published",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 23.753084,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 10,
+      "position": 3,
+      "artifact": "rebuilt",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 45.949375,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 11,
+      "position": 0,
+      "artifact": "rebuilt",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 247.417625,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 11,
+      "position": 1,
+      "artifact": "published",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 24.478584,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 11,
+      "position": 2,
+      "artifact": "rebuilt",
+      "condition": "stable_path",
+      "path_reused": true,
+      "wall_ms": 23.424292,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    },
+    {
+      "block": 11,
+      "position": 3,
+      "artifact": "published",
+      "condition": "fresh_path_copy",
+      "path_reused": false,
+      "wall_ms": 206.106083,
+      "exit_code": 1,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "passed": true
+    }
+  ],
+  "gate": {
+    "name": "path-reuse launch integrity",
+    "passed": true
+  },
+  "created_at": "2026-07-30T13:44:10.665677+00:00"
+}

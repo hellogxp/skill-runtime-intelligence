@@ -1,0 +1,420 @@
+{
+  "schema_version": "sri.experiment.model-agent-usefulness-result.v1",
+  "experiment": {
+    "name": "counterbalanced-model-agent-diagnostic-usefulness",
+    "evidence_grade": "experimental",
+    "dataset_path": "${REPO_ROOT}/experiments/runtime_diagnostics/cases.jsonl",
+    "dataset_sha256": "a7728ebae830fe9fa58b04a5865fa9ea344d1149ab2ea29075e366af194522e5",
+    "seed": 20260731,
+    "model": "opencode/deepseek-v4-flash-free",
+    "model_cli": "opencode",
+    "model_cli_version": "1.18.5",
+    "session_policy": "fresh pure session per trial",
+    "limitations": [
+      "These are model-agent responses, not human participants.",
+      "Repeated sessions from one model are stochastic samples, not independent model families.",
+      "The synthetic cases were built from the deterministic diagnostic corpus.",
+      "Latency is specific to this model/provider/CLI environment.",
+      "A condition difference from this pilot is exploratory and is not a general causal product claim."
+    ]
+  },
+  "metrics": {
+    "planned_trials": 11,
+    "completed_trials": 10,
+    "response_completion_rate": 0.9090909090909091,
+    "unique_session_count": 10,
+    "overall_accuracy": 0.9,
+    "overall_unsupported_causal_claim_rate": 0.1,
+    "by_condition": {
+      "raw": {
+        "completed": 5,
+        "correct": 4,
+        "accuracy": 0.8,
+        "unsupported_causal_claim_rate": 0.0,
+        "mean_confidence_0_100": 88.6,
+        "brier_score": 0.15338,
+        "latency_p50_ms": 12564.821708001546
+      },
+      "panorama": {
+        "completed": 5,
+        "correct": 5,
+        "accuracy": 1.0,
+        "unsupported_causal_claim_rate": 0.2,
+        "mean_confidence_0_100": 84.0,
+        "brier_score": 0.02899999999999999,
+        "latency_p50_ms": 10314.429957987159
+      }
+    },
+    "panorama_minus_raw_accuracy": 0.19999999999999996,
+    "matched_case_count": 0,
+    "matched_case_direction": {
+      "panorama_wins": 0,
+      "raw_wins": 0,
+      "ties": 0
+    }
+  },
+  "trials": [
+    {
+      "model_sample_slot": 1,
+      "order_index": 0,
+      "case_id": "request_gap_first",
+      "condition": "panorama",
+      "gold_stage": "request",
+      "prompt_sha256": "c5b78cb8298b783c29b243344ee7370c493d3bae48b0f2d9ad7d7dc34188affd",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 8234.112542006187,
+      "session_id_sha256": "8345f6673fde388df99b509be8133fb29596a0fd10c4b3443833889c9d810810",
+      "usage": {
+        "total": 15897,
+        "input": 15593,
+        "output": 57,
+        "reasoning": 247,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "request",
+      "correct": true,
+      "confidence_0_100": 85.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "finding: Request evidence is missing before later activity (stage=request, evidence_grade=derived, missing_signals=[request lifecycle event])"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 1,
+      "case_id": "derived_failure_grade",
+      "condition": "raw",
+      "gold_stage": "execution",
+      "prompt_sha256": "5df809aa7e803b86774e46aee04cca9db41853df224363068fe78bc9cd319a11",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 16630.773416007287,
+      "session_id_sha256": "8a3c3bf5432fceb3889c366a5803a0b2dc86a55dd138fca7ddf534f277c20211",
+      "usage": {
+        "total": 16614,
+        "input": 15471,
+        "output": 59,
+        "reasoning": 1084,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "execution",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "lines[2]: event tool.failed stage=execution status=failed \"Failure derived from exported span status.\""
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 2,
+      "case_id": "resource_failure",
+      "condition": "panorama",
+      "gold_stage": "resources",
+      "prompt_sha256": "6b54d45d63014be0b3b0e6586b927415ed7ffd4af953843496199684421d79d0",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 15986.701707995962,
+      "session_id_sha256": "f9b9d8fe577c8cf7c110692af4a7b218d234ec2e9658b3cb8838d39dbf19b090",
+      "usage": {
+        "total": 16337,
+        "input": 15557,
+        "output": 63,
+        "reasoning": 717,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": true,
+      "unsupported_causal_claim": true,
+      "evidence_reference": "Finding 'Resources reported a failure': evidence_grade=observed, severity=error, basis 'Required reference file was not found'; flagged as the earliest observable failed lifecycle stage."
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 3,
+      "case_id": "execution_failure",
+      "condition": "raw",
+      "gold_stage": "execution",
+      "prompt_sha256": "69e4ed7439fe79889e108bdba809833871fc4f7fa97b6fa924b66a23422cfd6b",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 10149.934916989878,
+      "session_id_sha256": "982785be0ca78812c95f82924c7a2fbb7c96cb4c739884cbe607db05e4abd3c1",
+      "usage": {
+        "total": 16017,
+        "input": 15476,
+        "output": 54,
+        "reasoning": 487,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "execution",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "event tool.completed stage=execution status=failed Renderer exited with status 1."
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 4,
+      "case_id": "instructions_gap",
+      "condition": "panorama",
+      "gold_stage": "instructions",
+      "prompt_sha256": "c023b0b9951ce56a129f0b92fd0b0e46387cfba2b030b33a6abbeaef49f90ab0",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 9905.556750003598,
+      "session_id_sha256": "75b4d9fe9b8bc3edf3db8b6af1ece72ebf391f2a98ee009e5e6f1a95e0210b83",
+      "usage": {
+        "total": 16039,
+        "input": 15590,
+        "output": 70,
+        "reasoning": 379,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "instructions",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Instructions evidence is missing before later activity — finding stage: instructions, severity: warning, summary: 'This is an evidence gap, not proof that the instructions step did not occur.'"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 5,
+      "case_id": "incomplete_with_report",
+      "condition": "panorama",
+      "gold_stage": "resources",
+      "prompt_sha256": "7d5d2d2a0ee51647f6b37f13481b498ff5a58f8b2f86bdb64670d467779acd7b",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 10314.429957987159,
+      "session_id_sha256": "4b12c29d28a4b55623c5d90de77ff76962960c46420c24d10ace56399b9bcf78",
+      "usage": {
+        "total": 16275,
+        "input": 15713,
+        "output": 54,
+        "reasoning": 508,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": true,
+      "confidence_0_100": 80.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "Resources evidence is missing before later activity (stage: resources, missing_signal: resources lifecycle event, evidence_grade: derived)"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 6,
+      "case_id": "failure_and_incomplete",
+      "condition": "raw",
+      "gold_stage": "resources",
+      "prompt_sha256": "70323fa1eae97311d37d440bc1f985efafe1e57efca67b4c3afd794ea869791e",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 20239.68720799894,
+      "session_id_sha256": "ec939e5c95a405d2eaa5199bfbe6b565650fb5220dffd67d104f23e6c4378c84",
+      "usage": {
+        "total": 17026,
+        "input": 15467,
+        "output": 44,
+        "reasoning": 1515,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "execution",
+      "correct": false,
+      "confidence_0_100": 85.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "lines[2]: event tool.failed stage=execution status=failed"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 7,
+      "case_id": "earliest_of_multiple_failures",
+      "condition": "raw",
+      "gold_stage": "resources",
+      "prompt_sha256": "bdb6f4b02dabbdb0a4f767c733d5af865d6654be999492358c51ea1b1a5438e2",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 9708.477708991268,
+      "session_id_sha256": "df616ca10a3d69795ad402179ba712799bfd96dafca92decea592b2860e51678",
+      "usage": {
+        "total": 15900,
+        "input": 15510,
+        "output": 48,
+        "reasoning": 342,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "resources",
+      "correct": true,
+      "confidence_0_100": 90.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "resource.load_failed stage=resources status=failed Reference load failed."
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 8,
+      "case_id": "incomplete_run",
+      "condition": "panorama",
+      "gold_stage": "outcome",
+      "prompt_sha256": "cf04433e3971fca43592e3041483999c0e7d9117d23d1927750c5b518a1434e9",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 11712.528666990693,
+      "session_id_sha256": "90248767974ba320dfbee4ecc1dd8f23c2e111dc68e496b8ffe6a9a44fdae5b1",
+      "usage": {
+        "total": 16196,
+        "input": 15586,
+        "output": 52,
+        "reasoning": 558,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "outcome",
+      "correct": true,
+      "confidence_0_100": 75.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "findings[0]: SkillRun status incomplete / session partial, missing outcome completion event"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 9,
+      "case_id": "reported_outcome_only",
+      "condition": "raw",
+      "gold_stage": "outcome",
+      "prompt_sha256": "0475e773073673c4c4349ae5c6bf407d90b092d9a9bf08e8d6e177e673ea8812",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 12564.821708001546,
+      "session_id_sha256": "864cbc522f0696c921c4c5ea78722204c2465d148288a02c63d19b04aed63771",
+      "usage": {
+        "total": 16128,
+        "input": 15453,
+        "output": 46,
+        "reasoning": 629,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "completed",
+      "first_boundary_answer": "outcome",
+      "correct": true,
+      "confidence_0_100": 88.0,
+      "causal_proven": false,
+      "unsupported_causal_claim": false,
+      "evidence_reference": "event outcome.reported stage=outcome status=succeeded"
+    },
+    {
+      "model_sample_slot": 1,
+      "order_index": 10,
+      "case_id": "activation_gap",
+      "condition": "raw",
+      "gold_stage": "activation",
+      "prompt_sha256": "56b065ad827e6b96c3f7c2f85212c9025fa79c714661678fa565373162dc8917",
+      "model_provider": "opencode",
+      "model_id": "opencode/deepseek-v4-flash-free",
+      "model_cli": "opencode",
+      "model_cli_version": "1.18.5",
+      "elapsed_ms": 9533.381999994162,
+      "session_id_sha256": "e0906ebf045a6d8464bbc49493fbc8ba9b76a66f5a62a943b328e176af3a3af4",
+      "usage": {
+        "total": 15857,
+        "input": 15459,
+        "output": 59,
+        "reasoning": 339,
+        "cache": {
+          "write": 0,
+          "read": 0
+        },
+        "reported_cost": 0
+      },
+      "status": "parse_error",
+      "error": "Expecting ',' delimiter: line 1 column 160 (char 159)",
+      "response_sha256": "afc0ab539c859016f42cebc2365828538bfc8741ed0a3aea89cb097f71f48970"
+    }
+  ],
+  "gate": {
+    "name": "model-agent pilot integrity",
+    "passed": false
+  },
+  "created_at": "2026-07-31T02:59:06.847934+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

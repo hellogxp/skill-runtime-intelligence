@@ -1,0 +1,183 @@
+{
+  "schema_version": "sri.experiment.fragility-review-queue.v1",
+  "experiment": {
+    "name": "prospective-fragility-selected-plus-random-shadow",
+    "evidence_grade": "derived",
+    "dataset_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/causal_claim_fragility_holdout.jsonl",
+    "dataset_sha256": "006d8a5011e46f526434f0bcb5ff84d24a6abc942f414a46688201753d4fca0c",
+    "producer_report_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/structured-claim-producer-fragility-holdout-20260731.json",
+    "producer_report_sha256": "a5e4b47422e65f5628bd15de2d77c0cbad7d4db23a7f5c157c7ced8adb9b7866",
+    "fragility_threshold": 1.0,
+    "random_shadow_rate": 0.25,
+    "random_shadow_seed": 20260731,
+    "selection_timing": "selected and random-shadow manifests frozen after producer completion and before any verifier execution",
+    "selected_cases_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/selected-fragility-holdout-20260731.jsonl",
+    "selected_cases_sha256": "fe7be73e43a3617d95fe2702176fc6e6d4d1284b9c636f85b1fbb0e40410a795",
+    "shadow_cases_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/random-shadow-fragility-holdout-20260731.jsonl",
+    "shadow_cases_sha256": "b08f5232e9b8fa1e61f8a00d4ca9735d383a515fc5bc068825a216a276952130"
+  },
+  "metrics": {
+    "case_count": 16,
+    "selected_count": 5,
+    "selection_rate": 0.3125,
+    "unselected_count": 11,
+    "random_shadow_count": 3,
+    "realized_random_shadow_rate": 0.2727272727272727
+  },
+  "selections": [
+    {
+      "case_id": "fragility_none_descriptive_cooccurrence",
+      "producer_completed": true,
+      "producer_claim_kind": "descriptive",
+      "producer_allowed": true,
+      "authorization_fragility": 1.0,
+      "selected": true,
+      "random_shadow_selected": false
+    },
+    {
+      "case_id": "fragility_none_descriptive_assignment",
+      "producer_completed": true,
+      "producer_claim_kind": "descriptive",
+      "producer_allowed": true,
+      "authorization_fragility": 1.0,
+      "selected": true,
+      "random_shadow_selected": false
+    },
+    {
+      "case_id": "fragility_none_descriptive_zh",
+      "producer_completed": true,
+      "producer_claim_kind": "descriptive",
+      "producer_allowed": true,
+      "authorization_fragility": 1.0,
+      "selected": true,
+      "random_shadow_selected": false
+    },
+    {
+      "case_id": "fragility_none_descriptive_es",
+      "producer_completed": true,
+      "producer_claim_kind": "descriptive",
+      "producer_allowed": true,
+      "authorization_fragility": 1.0,
+      "selected": true,
+      "random_shadow_selected": false
+    },
+    {
+      "case_id": "fragility_none_effect_orthogonal",
+      "producer_completed": true,
+      "producer_claim_kind": "skill_outcome_effect",
+      "producer_allowed": false,
+      "authorization_fragility": 0.5,
+      "selected": false,
+      "random_shadow_selected": true
+    },
+    {
+      "case_id": "fragility_none_effect_immaterial",
+      "producer_completed": true,
+      "producer_claim_kind": "skill_outcome_effect",
+      "producer_allowed": false,
+      "authorization_fragility": 0.5,
+      "selected": false,
+      "random_shadow_selected": true
+    },
+    {
+      "case_id": "fragility_none_effect_counterfactual",
+      "producer_completed": true,
+      "producer_claim_kind": "descriptive",
+      "producer_allowed": true,
+      "authorization_fragility": 1.0,
+      "selected": true,
+      "random_shadow_selected": false
+    },
+    {
+      "case_id": "fragility_none_effect_variance",
+      "producer_completed": true,
+      "producer_claim_kind": "skill_outcome_effect",
+      "producer_allowed": false,
+      "authorization_fragility": 0.5,
+      "selected": false,
+      "random_shadow_selected": false
+    },
+    {
+      "case_id": "fragility_source_annotation",
+      "producer_completed": true,
+      "producer_claim_kind": "source_attribution",
+      "producer_allowed": true,
+      "authorization_fragility": 0.5,
+      "selected": false,
+      "random_shadow_selected": false
+    },
+    {
+      "case_id": "fragility_source_zh",
+      "producer_completed": true,
+      "producer_claim_kind": "source_attribution",
+      "producer_allowed": true,
+      "authorization_fragility": 0.5,
+      "selected": false,
+      "random_shadow_selected": false
+    },
+    {
+      "case_id": "fragility_source_es",
+      "producer_completed": true,
+      "producer_claim_kind": "source_attribution",
+      "producer_allowed": true,
+      "authorization_fragility": 0.5,
+      "selected": false,
+      "random_shadow_selected": false
+    },
+    {
+      "case_id": "fragility_source_effect_itself",
+      "producer_completed": true,
+      "producer_claim_kind": "skill_outcome_effect",
+      "producer_allowed": false,
+      "authorization_fragility": 1.0,
+      "selected": false,
+      "random_shadow_selected": false
+    },
+    {
+      "case_id": "fragility_source_effect_independent",
+      "producer_completed": true,
+      "producer_claim_kind": "skill_outcome_effect",
+      "producer_allowed": false,
+      "authorization_fragility": 1.0,
+      "selected": false,
+      "random_shadow_selected": false
+    },
+    {
+      "case_id": "fragility_experimental_zero",
+      "producer_completed": true,
+      "producer_claim_kind": "skill_outcome_effect",
+      "producer_allowed": true,
+      "authorization_fragility": 0.0,
+      "selected": false,
+      "random_shadow_selected": false
+    },
+    {
+      "case_id": "fragility_experimental_zh",
+      "producer_completed": true,
+      "producer_claim_kind": "skill_outcome_effect",
+      "producer_allowed": true,
+      "authorization_fragility": 0.0,
+      "selected": false,
+      "random_shadow_selected": false
+    },
+    {
+      "case_id": "fragility_experimental_descriptive",
+      "producer_completed": true,
+      "producer_claim_kind": "descriptive",
+      "producer_allowed": true,
+      "authorization_fragility": 0.0,
+      "selected": false,
+      "random_shadow_selected": true
+    }
+  ],
+  "created_at": "2026-07-31T07:55:57.966200+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

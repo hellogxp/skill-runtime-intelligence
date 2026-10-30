@@ -1,0 +1,171 @@
+{
+  "schema_version": "sri.experiment.cross-agent-comparability.v1",
+  "experiment": {
+    "name": "equivalent-export-profile-fixtures",
+    "adapter_version": "0.1.0",
+    "profiles": [
+      "otel",
+      "phoenix",
+      "langsmith",
+      "langfuse",
+      "weave",
+      "datadog"
+    ],
+    "limitations": [
+      "Profiles represent export formats, not independent live Agent runs.",
+      "Equivalent fixtures test canonicalization and false equivalence, not model behavior."
+    ]
+  },
+  "metrics": {
+    "profile_count": 6,
+    "exact_matches": 0,
+    "exact_match_rate": 0.0,
+    "comparable_field_coverage": 0.8888888888888888,
+    "dangling_parent_count": 18,
+    "false_equivalence_count": 0
+  },
+  "profiles": [
+    {
+      "profile": "otel",
+      "exact_match": false,
+      "comparable_fields": 8,
+      "field_count": 9,
+      "facts": {
+        "detected_profile": true,
+        "one_skill": true,
+        "one_run": true,
+        "explicit_activation": true,
+        "inherited_tool_start": true,
+        "derived_tool_end": true,
+        "complete_session": true,
+        "raw_span_count": true,
+        "no_dangling_parent": false
+      },
+      "dangling_parent_event_ids": [
+        "evt_a75987e12f87a435ee054592",
+        "evt_99d39b79a70e42257abed5f2",
+        "evt_ab9e4e11b0bd2ff7dd445b9f"
+      ]
+    },
+    {
+      "profile": "phoenix",
+      "exact_match": false,
+      "comparable_fields": 8,
+      "field_count": 9,
+      "facts": {
+        "detected_profile": true,
+        "one_skill": true,
+        "one_run": true,
+        "explicit_activation": true,
+        "inherited_tool_start": true,
+        "derived_tool_end": true,
+        "complete_session": true,
+        "raw_span_count": true,
+        "no_dangling_parent": false
+      },
+      "dangling_parent_event_ids": [
+        "evt_784cd806023cd8908e4291f2",
+        "evt_e3f91a1c8e819a7b2162cc38",
+        "evt_defd9b84daf5a2614b3f6824"
+      ]
+    },
+    {
+      "profile": "langsmith",
+      "exact_match": false,
+      "comparable_fields": 8,
+      "field_count": 9,
+      "facts": {
+        "detected_profile": true,
+        "one_skill": true,
+        "one_run": true,
+        "explicit_activation": true,
+        "inherited_tool_start": true,
+        "derived_tool_end": true,
+        "complete_session": true,
+        "raw_span_count": true,
+        "no_dangling_parent": false
+      },
+      "dangling_parent_event_ids": [
+        "evt_bd0aef3793614bd398418d27",
+        "evt_9608ea2a0999c61271387b58",
+        "evt_8aa6e8667dbe2a4a45bf9b44"
+      ]
+    },
+    {
+      "profile": "langfuse",
+      "exact_match": false,
+      "comparable_fields": 8,
+      "field_count": 9,
+      "facts": {
+        "detected_profile": true,
+        "one_skill": true,
+        "one_run": true,
+        "explicit_activation": true,
+        "inherited_tool_start": true,
+        "derived_tool_end": true,
+        "complete_session": true,
+        "raw_span_count": true,
+        "no_dangling_parent": false
+      },
+      "dangling_parent_event_ids": [
+        "evt_a579c710addc2f5d6c06f34f",
+        "evt_aa0cf3b651c9863938e6e259",
+        "evt_c07bf28f3a4e5a44c0651d27"
+      ]
+    },
+    {
+      "profile": "weave",
+      "exact_match": false,
+      "comparable_fields": 8,
+      "field_count": 9,
+      "facts": {
+        "detected_profile": true,
+        "one_skill": true,
+        "one_run": true,
+        "explicit_activation": true,
+        "inherited_tool_start": true,
+        "derived_tool_end": true,
+        "complete_session": true,
+        "raw_span_count": true,
+        "no_dangling_parent": false
+      },
+      "dangling_parent_event_ids": [
+        "evt_45ea5565f28f5a17149e0f1d",
+        "evt_fd7f2675c07372875e80b429",
+        "evt_c3481d17129c8646fe0d86e2"
+      ]
+    },
+    {
+      "profile": "datadog",
+      "exact_match": false,
+      "comparable_fields": 8,
+      "field_count": 9,
+      "facts": {
+        "detected_profile": true,
+        "one_skill": true,
+        "one_run": true,
+        "explicit_activation": true,
+        "inherited_tool_start": true,
+        "derived_tool_end": true,
+        "complete_session": true,
+        "raw_span_count": true,
+        "no_dangling_parent": false
+      },
+      "dangling_parent_event_ids": [
+        "evt_7c87066fce39ee637c0a27dd",
+        "evt_474b63dfc035686231be2f5c",
+        "evt_26b90efdab789cab52b475e3"
+      ]
+    }
+  ],
+  "created_at": "2026-07-29T05:57:13.801761+00:00",
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "83952ea9a2010cea833d38cac67df4a2c1299165",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}

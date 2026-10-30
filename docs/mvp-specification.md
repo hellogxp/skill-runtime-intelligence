@@ -1,0 +1,208 @@
+# MVP specification
+
+Version target: v0.3
+Theme: **Turn Skill instructions into checkable runtime evidence**
+
+## 1. MVP outcome
+
+Given an existing or live Agent session observed from a developer workstation
+or an explicitly configured self-hosted Collector, extract conservative behavior
+constraints from the Skill definition, compare them with runtime evidence, and
+show what happened, where behavior first diverged, and which evidence supports
+the judgment—without modifying the Agent, workspace, or model traffic.
+
+## 2. Supported environments
+
+Initial adapters:
+
+- Claude Code
+- Codex
+- Qoder
+- OpenCode
+
+The architecture must allow additional adapters without changing the normalized event model.
+
+## 3. Primary workflow
+
+```text
+Choose workstation or self-hosted deployment
+        ↓
+Discover supported agent installations
+        ↓
+Collect or import Skill metadata and supported sessions
+        ↓
+Normalize source events
+        ↓
+Correlate Skill, resource, tool, subagent, and artifact evidence
+        ↓
+Open the deployment's runs UI
+```
+
+No task prompt is required to open the UI. The home page lists all known runs.
+
+## 4. Functional requirements
+
+### F1. Agent and Skill discovery
+
+- Detect supported local agent installations.
+- Scan user, project, and plugin Skill locations.
+- Parse Agent Skills-compatible frontmatter.
+- Record Skill source, path, digest, optional version, and compatibility.
+- Report malformed or missing files without modifying them.
+
+### F2. Session ingestion
+
+- Import historical local sessions.
+- Tail new local sessions when the format supports safe incremental reading.
+- Preserve each physical evidence stream even when multiple sources report the
+  same upstream session ID; correlate them without storage-side merging.
+- Preserve source adapter name and source format version.
+- Avoid ingesting credentials or unrelated files.
+- Tolerate incomplete sessions and partial writes.
+
+### F3. Runtime reconstruction
+
+Reconstruct, when evidence exists:
+
+- session and turn boundaries;
+- explicit Skill invocation;
+- exact UI selection or typed Skill context when the Agent exposes it;
+- direct command or slash invocation;
+- instruction and resource reads;
+- built-in and MCP tool calls;
+- subagent start and completion;
+- success, failure, interruption, and retry;
+- file and artifact creation or modification;
+- duration, token, and cost data exposed by the source.
+
+### F4. Evidence correlation
+
+- Correlate events using source IDs before timestamps.
+- Preserve parent/child tool and subagent relationships.
+- Connect file outcomes to tool calls only when evidence supports the relationship.
+- Record missing telemetry explicitly.
+- Label every relationship with an evidence grade.
+- Label diagnostic Findings with a causal scope independent from evidence
+  grade; deterministic single-Run Findings never authorize Skill outcome
+  effects.
+
+### F5. Runs UI
+
+- List all runs with time, agent, project, Skill, status, and duration.
+- Render a progressively collapsed Skill Run Panorama.
+- Render a chronological event timeline.
+- Show a node inspector with source evidence.
+- Extract conservative, checkable behavior constraints from the current
+  `SKILL.md` and show which are satisfied, need review, or cannot be evaluated.
+- Do not count an unconfigured outcome verifier as a run failure or verification
+  gap; a gap requires a declared verification expectation.
+- Filter by Skill, event type, status, and evidence grade.
+- Display raw records only on demand.
+
+### F6. Privacy
+
+- Operate locally without an account.
+- Keep network export disabled by default and require an explicit OTLP endpoint.
+- Keep loopback-only service binding as the default. Self-hosted remote mode
+  requires explicit enablement, separate read-only viewer and write-only
+  Collector credentials, and either direct TLS or a loopback backend behind an
+  HTTPS proxy.
+- Redact common credential patterns before persistence.
+- Allow users to exclude projects and paths.
+- Allow deletion of indexed run data without touching source transcripts.
+
+### F7. Deployment and interoperability
+
+- Support a developer-workstation deployment and an explicitly enabled,
+  authenticated self-hosted remote deployment.
+- Keep evidence inside the operator-controlled deployment boundary unless an
+  import source or export destination is explicitly configured.
+- Treat deployment placement and observability interoperability as independent
+  choices: remote deployment does not require OTLP export, and local deployment
+  may still import supported traces or export normalized evidence.
+- Allow the product to write its own evidence database and operational
+  checkpoints; “read-only” applies to observed Agent and workspace sources.
+- Keep source-side delivery bounded and fail-open so remote availability cannot
+  block Agent execution.
+
+## 5. Panorama stages
+
+The normalized presentation follows these stages:
+
+1. Request
+2. Discovery
+3. Activation
+4. Instruction loading
+5. Resource loading
+6. Execution
+7. Artifacts
+8. Outcome
+
+Stages with no evidence are shown as “not observed,” not “failed.”
+
+## 6. Status semantics
+
+| Status | Meaning |
+|---|---|
+| Observed | Source evidence exists |
+| Completed | A source completion event exists |
+| Failed | A source failure event exists |
+| Interrupted | The source reports cancellation or interruption |
+| Incomplete | The session ended without a matching completion event |
+| Not observed | The collector lacks evidence |
+| Unsupported | The adapter cannot currently observe this signal |
+
+## 7. Non-functional requirements
+
+- Indexing must not modify source agent files.
+- Collection must be fail-open, bounded, and measured; failures must not block
+  agent execution.
+- Adapter parsing errors must not crash ingestion of other sessions.
+- Raw, normalized, and inferred records must remain separable.
+- UI rendering must remain usable for runs with thousands of events.
+- Sensitive raw payloads must be collapsed and redacted by default.
+- Evidence source must be inspectable for every displayed claim.
+
+## 8. Acceptance scenarios
+
+### A. Explicit Skill run
+
+Given a session with an explicit Skill invocation and tool calls, the UI shows the Skill, resources, tools, duration, and outcome with source links.
+
+### B. No Skill run
+
+Given a session with no observed Skill invocation, the UI says “No Skill activation observed” and still displays agent tool activity separately.
+
+### C. Missing resource
+
+Given a Skill that references a file that is absent, discovery reports the missing file. The runtime view does not claim the file was loaded.
+
+### D. Partial session
+
+Given a truncated session, ingestion succeeds and labels the run incomplete.
+
+### E. Unsupported signal
+
+Given an adapter that cannot observe candidate matching, the UI shows “Unsupported,” not an inferred candidate list.
+
+### F. Privacy
+
+Given a tool payload containing a common secret pattern, the persisted normalized view contains a redacted value.
+
+## 9. Explicitly deferred
+
+- Model-internal why-not-triggered explanations when candidate signals are not
+  emitted by the Agent.
+- With-Skill/without-Skill paired evaluation.
+- Static quality scoring.
+- Security vulnerability scanning.
+- Hosted collaboration and organizational dashboards.
+
+An authenticated, single-deployment self-hosted remote service is supported;
+it does not imply the hosted collaboration, multi-tenancy, or organization
+governance deferred above.
+
+The implemented local product may show evidence-bounded “not observed”
+explanations, inferred description-overlap candidates, and direct static
+definition comparison. None of these are presented as proof of model intent or
+runtime conflict.

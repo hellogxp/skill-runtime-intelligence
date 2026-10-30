@@ -1,0 +1,123 @@
+{
+  "schema_version": "sri.experiment.claim-output-mode-summary.v1",
+  "experiment": {
+    "name": "per-model-claim-output-mode-summary",
+    "evidence_grade": "experimental",
+    "dataset_sha256": "ca863a3f2e6a18ce0fbdcca51a0708cc55fbcc5f6a9a25d48653c2a56b9f46ec",
+    "aggregation_policy": "retain per-model metrics; aggregate only safety event counts",
+    "limitations": [
+      "The same small hand-authored challenge is reused for both models.",
+      "Recorded model IDs do not independently verify underlying model-family identity.",
+      "No pooled effect size or population inference is reported."
+    ]
+  },
+  "metrics": {
+    "study_count": 2,
+    "distinct_recorded_model_count": 2,
+    "structured_kind_advantage_count": 2,
+    "structured_false_allow_count": 1,
+    "free_text_false_deny_count": 18,
+    "model_guard_disagreement_count": 2
+  },
+  "studies": [
+    {
+      "report_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/claim-output-mode-deepseek-20260731.json",
+      "report_sha256": "7d78d95bec2dfe24288d4987bf4e63a2b83f43fa8825e213131ac468b99dceb9",
+      "model": "opencode/deepseek-v4-flash-free",
+      "metrics": {
+        "planned_trials": 32,
+        "unique_completed_session_count": 32,
+        "by_mode": {
+          "structured": {
+            "planned": 16,
+            "completed": 16,
+            "response_completion_rate": 1.0,
+            "claim_kind_correct": 15,
+            "claim_kind_intention_to_treat_accuracy": 0.9375,
+            "guard_decision_correct": 15,
+            "guard_decision_intention_to_treat_accuracy": 0.9375,
+            "false_allows": 1,
+            "false_denies": 0,
+            "unknown_predictions": 0,
+            "model_guard_disagreements": 1,
+            "latency_p50_ms": 5726.904187496984
+          },
+          "free_text": {
+            "planned": 16,
+            "completed": 16,
+            "response_completion_rate": 1.0,
+            "claim_kind_correct": 4,
+            "claim_kind_intention_to_treat_accuracy": 0.25,
+            "guard_decision_correct": 7,
+            "guard_decision_intention_to_treat_accuracy": 0.4375,
+            "false_allows": 0,
+            "false_denies": 9,
+            "unknown_predictions": 9,
+            "model_guard_disagreements": 0,
+            "latency_p50_ms": 6506.339708001178
+          }
+        },
+        "structured_minus_free_text_kind_accuracy": 0.6875,
+        "structured_minus_free_text_guard_accuracy": 0.5
+      },
+      "gate_passed": false
+    },
+    {
+      "report_path": "${REPO_ROOT}/experiments/diagnostic_usefulness/results/claim-output-mode-mimo-20260731.json",
+      "report_sha256": "082002e93d237365983398f9f032e850aabe06516de75cdf82e97af0798fbd52",
+      "model": "opencode/mimo-v2.5-free",
+      "metrics": {
+        "planned_trials": 32,
+        "unique_completed_session_count": 32,
+        "by_mode": {
+          "structured": {
+            "planned": 16,
+            "completed": 16,
+            "response_completion_rate": 1.0,
+            "claim_kind_correct": 16,
+            "claim_kind_intention_to_treat_accuracy": 1.0,
+            "guard_decision_correct": 16,
+            "guard_decision_intention_to_treat_accuracy": 1.0,
+            "false_allows": 0,
+            "false_denies": 0,
+            "unknown_predictions": 0,
+            "model_guard_disagreements": 1,
+            "latency_p50_ms": 11549.400916992454
+          },
+          "free_text": {
+            "planned": 16,
+            "completed": 16,
+            "response_completion_rate": 1.0,
+            "claim_kind_correct": 2,
+            "claim_kind_intention_to_treat_accuracy": 0.125,
+            "guard_decision_correct": 7,
+            "guard_decision_intention_to_treat_accuracy": 0.4375,
+            "false_allows": 0,
+            "false_denies": 9,
+            "unknown_predictions": 13,
+            "model_guard_disagreements": 0,
+            "latency_p50_ms": 11842.796499498945
+          }
+        },
+        "structured_minus_free_text_kind_accuracy": 0.875,
+        "structured_minus_free_text_guard_accuracy": 0.5625
+      },
+      "gate_passed": true
+    }
+  ],
+  "gates": {
+    "same_dataset": true,
+    "structured_kind_advantage_replicated": true,
+    "confirmatory_safety_ready": false
+  },
+  "created_at": "2026-07-31T04:58:57.649848+00:00",
+  "environment": {
+    "python": "3.11.7",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "git_commit": "ebb5365fe2bb36a19151f669db8d0e528be33720",
+    "git_dirty": true,
+    "pai_dsw_instance_id": null,
+    "experiment_root": null
+  }
+}
